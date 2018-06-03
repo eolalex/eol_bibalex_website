@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  page: one
+  node: one
+  is_native: false
+
+two:
+  page: two
+  node: two
+  is_native: false

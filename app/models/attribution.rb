@@ -1,0 +1,2 @@
+class Attribution < ApplicationRecord
+end

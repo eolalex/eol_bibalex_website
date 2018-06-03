@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  primary_title: MyString
+  secondary_title: MyString
+  pages: 1
+  page_start: 1
+  page_end: 1
+  volume: MyString
+  editor: MyString
+  publisher: MyString
+  authors_list: MyString
+  editors_list: MyString
+  date_created: 2018-05-23 13:50:20
+  doi: MyString
+  body: MyText
+  resource_id: 1
+  resource_pk: MyString
+
+two:
+  primary_title: MyString
+  secondary_title: MyString
+  pages: 1
+  page_start: 1
+  page_end: 1
+  volume: MyString
+  editor: MyString
+  publisher: MyString
+  authors_list: MyString
+  editors_list: MyString
+  date_created: 2018-05-23 13:50:20
+  doi: MyString
+  body: MyText
+  resource_id: 1
+  resource_pk: MyString

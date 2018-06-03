@@ -1,0 +1,44 @@
+# PLEASE DON'T PUT YOUR USER / PASS HERE (e.g.: "root"). Modify your own config/secrets.yml
+
+# common settings for all databases
+common: &common
+  adapter: mysql2
+  encoding: utf8
+  reconnect: true
+  wait_timeout: 300
+
+# common settings for any development databases
+development:
+  <<: *common
+  host: localhost
+  # PLEASE DON'T PUT YOUR USER / PASS HERE (e.g.: "root"). Set your environment
+  # variables.
+  username: root
+  password: Luxor&Aswan@2o17
+  database: ba_eol_development
+
+test: &test
+  <<: *common
+  database: eol_test
+  host: localhost
+  # PLEASE DON'T PUT YOUR USER / PASS HERE (e.g.: "root"). Set your environment
+  # variables.
+  username: root
+  password: Luxor&Aswan@2o17
+
+staging:
+  <<: *common
+  host: <%= ENV['EOL_DB_HOST'] %>
+  port: <%= ENV['EOL_DB_PORT'] %>
+  database: <%= ENV['EOL_DB_STAGING_NAME'] %>
+  username: <%= ENV['EOL_DB_STAGING_USERNAME'] %>
+  password: <%= ENV['EOL_DB_STAGING_PASSWORD'] %>
+
+production:
+  <<: *common
+  host: <%= ENV['EOL_DB_HOST'] %>
+  port: <%= ENV['EOL_DB_PORT'] %>
+  database: <%= ENV['EOL_DB_PROD_NAME'] %>
+  username: <%= ENV['EOL_DB_PROD_USERNAME'] %>
+  password: <%= ENV['EOL_DB_PROD_PASSWORD'] %>
+

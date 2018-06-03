@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  node_id: 1
+  page_id: 1
+  resource_id: 1
+  canonical_form: MyString
+  node_resource_pk: MyString
+  italicized: MyString
+  taxonomic_status_id: 1
+  generated_node_id: 1
+
+two:
+  node_id: 1
+  page_id: 1
+  resource_id: 1
+  canonical_form: MyString
+  node_resource_pk: MyString
+  italicized: MyString
+  taxonomic_status_id: 1
+  generated_node_id: 1

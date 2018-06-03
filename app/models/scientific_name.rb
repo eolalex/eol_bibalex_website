@@ -1,0 +1,2 @@
+class ScientificName < ApplicationRecord
+end

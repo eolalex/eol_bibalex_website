@@ -1,0 +1,2 @@
+class Referent < ApplicationRecord
+end

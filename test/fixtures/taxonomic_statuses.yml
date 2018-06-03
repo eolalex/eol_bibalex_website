@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  is_preferred: false
+  is_problematic: false
+  is_alternative_preferred: false
+  can_merge: false
+
+two:
+  name: MyString
+  is_preferred: false
+  is_problematic: false
+  is_alternative_preferred: false
+  can_merge: false

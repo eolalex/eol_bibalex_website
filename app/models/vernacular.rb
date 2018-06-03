@@ -1,0 +1,2 @@
+class Vernacular < ApplicationRecord
+end
