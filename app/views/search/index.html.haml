@@ -20,5 +20,4 @@
                     # %i= result.url 
                 - if result.instance_of? Page
                     %img{:src => result.medium.base_url, :width =>"100", :height =>"100"}
-                    %i= result.scientific_name 
-            
+                    = link_to result.scientific_name, page_path(result.id)            
