@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180603074016) do
+ActiveRecord::Schema.define(version: 20180604102935) do
 
   create_table "attributions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "content_id"
@@ -85,6 +85,10 @@ ActiveRecord::Schema.define(version: 20180603074016) do
   create_table "pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "medium_id"
+    t.bigint "native_node_id"
+    t.index ["medium_id"], name: "index_pages_on_medium_id"
+    t.index ["native_node_id"], name: "index_pages_on_native_node_id"
   end
 
   create_table "pages_nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -205,6 +209,8 @@ ActiveRecord::Schema.define(version: 20180603074016) do
   add_foreign_key "media", "licenses", column: "licenses_id"
   add_foreign_key "nodes", "ranks", column: "ranks_id"
   add_foreign_key "page_contents", "pages", column: "pages_id"
+  add_foreign_key "pages", "media"
+  add_foreign_key "pages", "nodes", column: "native_node_id"
   add_foreign_key "pages_nodes", "nodes"
   add_foreign_key "pages_nodes", "pages"
   add_foreign_key "references", "referents", column: "referents_id"

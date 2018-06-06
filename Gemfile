@@ -29,7 +29,13 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
+gem 'jquery-rails'
+gem 'haml-rails'
+gem 'searchkick'
+gem 'will_paginate'
+gem 'twitter-typeahead-rails'
+gem "js-routes"
+gem 'record_tag_helper'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
