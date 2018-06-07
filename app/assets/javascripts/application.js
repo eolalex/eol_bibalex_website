@@ -15,5 +15,6 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
+//= require bootstrap-sprockets
 //= require twitter/typeahead
 //= require js-routes

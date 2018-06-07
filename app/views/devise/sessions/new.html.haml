@@ -1,0 +1,34 @@
+%div
+  %h2= t(:sign_in)
+  = form_for(resource, as: resource_name, url: session_path(resource_name), :validate => true,
+    html: { class: "eol-userform recaptchad uk-form-stacked" },
+    defaults: { input_html: { class: 'uk-input' },
+    wrapper_html: { class: 'field' },
+    label_html: { class: 'uk-form-label' } }) do |f|
+
+    .field
+      = f.label :email
+      %br
+      = f.text_field :email
+
+    .field
+      = f.label :password
+      %br
+      = f.password_field :password, required: true
+    
+    .field 
+      = f.check_box :remember_me
+      = f.label :remember_me, as: :boolean, checked_value: true,
+      unchecked_value: false, input_html: { class: "uk-checkbox" },
+      wrapper_html: { class: 'field uk-form-controls' }
+     
+    - if @verify_recaptcha
+      .field
+        = recaptcha_tags(callback: 'recaptchaCallback')
+        - if flash.any? { |name, msg| name == "recaptcha_error" }
+          %span.error
+          = I18n.t(:recaptcha_error)
+    .field.actions
+      = f.button :submit
+%p
+= render "devise/shared/links"
