@@ -53,6 +53,13 @@ ActiveRecord::Schema.define(version: 20180607125919) do
     t.datetime "updated_at", null: false
     t.index ["section_id"], name: "index_content_sections_on_section_id"
   end
+  
+  create_table "bibliographic_citations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "resource_id"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "image_info", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "resource_id"
@@ -96,6 +103,17 @@ ActiveRecord::Schema.define(version: 20180607125919) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["languages_id"], name: "index_links_on_languages_id"
+  end
+  
+  create_table "locations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "resource_id"
+    t.string "location"
+    t.decimal "longitude", precision: 10
+    t.decimal "latitude", precision: 10
+    t.decimal "altitude", precision: 10
+    t.text "spatial_location"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -288,6 +306,7 @@ ActiveRecord::Schema.define(version: 20180607125919) do
   add_foreign_key "content_sections", "sections"
   add_foreign_key "image_info", "media"
   add_foreign_key "links", "languages", column: "languages_id"
+  add_foreign_key "image_info", "media"
   add_foreign_key "media", "languages", column: "languages_id"
   add_foreign_key "media", "licenses", column: "licenses_id"
   add_foreign_key "nodes", "ranks", column: "ranks_id"
