@@ -41,11 +41,9 @@ gem 'record_tag_helper'
 
 gem 'devise', '~> 4.1'
 gem 'bootstrap-sass', '~> 3.3' 
-gem 'jquery-rails' 
 gem 'tlsmail' 
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
 gem "recaptcha", require: "recaptcha/rails"
-gem "haml-rails", "~> 1.0" 
 gem 'omniauth-facebook' 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
