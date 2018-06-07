@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180604102935) do
+ActiveRecord::Schema.define(version: 20180607090841) do
 
   create_table "attributions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "content_id"
@@ -53,6 +53,11 @@ ActiveRecord::Schema.define(version: 20180604102935) do
     t.string "base_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "mime_type"
+    t.integer "subclass"
+    t.string "name"
+    t.string "rights_statment"
+    t.string "source_url"
     t.index ["languages_id"], name: "index_media_on_languages_id"
     t.index ["licenses_id"], name: "index_media_on_licenses_id"
     t.index ["locations_id"], name: "index_media_on_locations_id"
@@ -78,6 +83,11 @@ ActiveRecord::Schema.define(version: 20180604102935) do
     t.bigint "pages_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "trust"
+    t.boolean "is_incorrect"
+    t.boolean "is_misidentified"
+    t.boolean "is_hidden"
+    t.boolean "is_duplicate"
     t.index ["content_type"], name: "index_page_contents_on_content_type"
     t.index ["pages_id"], name: "index_page_contents_on_pages_id"
   end
@@ -87,6 +97,7 @@ ActiveRecord::Schema.define(version: 20180604102935) do
     t.datetime "updated_at", null: false
     t.bigint "medium_id"
     t.bigint "native_node_id"
+    t.integer "page_richness"
     t.index ["medium_id"], name: "index_pages_on_medium_id"
     t.index ["native_node_id"], name: "index_pages_on_native_node_id"
   end
@@ -149,6 +160,7 @@ ActiveRecord::Schema.define(version: 20180604102935) do
     t.integer "generated_node_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_preferred"
     t.index ["generated_node_id"], name: "index_scientific_names_on_generated_node_id"
     t.index ["nodes_id"], name: "index_scientific_names_on_nodes_id"
     t.index ["pages_id"], name: "index_scientific_names_on_pages_id"

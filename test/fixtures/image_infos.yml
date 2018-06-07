@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  resource_id: 1
+  original_size: MyString
+  large_size: MyString
+  medium_size: MyString
+  small_size: MyString
+  crop_x: 9.99
+  crop_y: 9.99
+  crop_w: 9.99
+  resource_pk: MyString
+  medium: one
+
+two:
+  resource_id: 1
+  original_size: MyString
+  large_size: MyString
+  medium_size: MyString
+  small_size: MyString
+  crop_x: 9.99
+  crop_y: 9.99
+  crop_w: 9.99
+  resource_pk: MyString
+  medium: two
