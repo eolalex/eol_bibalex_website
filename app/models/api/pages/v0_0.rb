@@ -190,7 +190,7 @@ module Api
             return_hash["synonyms"] =
             page.synonyms.map do |syn_object|
               relation = syn_object.taxonomic_status.try(:name) || ""
-              resource_title = syn_object.node.try(:resource).try(:name) || ""
+              # resource_title = syn_object.node.try(:resource).try(:name) || ""
               { "synonym" => syn_object.italicized, "relationship" => relation, "resource" => resource_title}
             end.sort {|a,b| a["synonym"] <=> b["synonym"] }.uniq
           end
@@ -227,11 +227,11 @@ module Api
               node_hash = {
                 'identifier'      => node.id,
                 'scientificName'  => node.scientific_name ,
-                'nameAccordingTo' => node.resource.name,
+                # 'nameAccordingTo' => node.resource.name,
                 'canonicalForm'   => node.canonical_form
               }
               node_hash['sourceIdentifier'] = node.resource_pk unless node.resource_pk.blank?
-              # node_hash['taxonRank'] = node.rank.name unless node.rank.nil?
+              node_hash['taxonRank'] = node.rank.name unless node.rank.nil?
               node_hash['hierarchyEntry'] = node unless params[:format] == 'json'
               return_hash['taxonConcepts'] << node_hash
             end

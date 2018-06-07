@@ -78,17 +78,17 @@ module Api
         # end
         return return_hash unless params[:details] == true
         debugger
-        # if data_object && (data_object.kind_of? Medium) && data_object.is_image?
-          # if (info = ImageInfo.where("image_id = ?", data_object.id).first)
-            # size = info.original_size.split('x') unless info.original_size.blank?
-            # return_hash['height'] = size.last unless info.original_size.blank?
-            # return_hash['width'] = size.first unless info.original_size.blank?
-            # return_hash['crop_x'] = info.crop_x unless info.crop_x.blank?
-            # return_hash['crop_y'] = info.crop_y unless info.crop_y.blank?
-            # return_hash['crop_width'] = info.crop_w unless info.crop_w.blank?
-            # return_hash['crop_height'] = info.crop_w unless info.crop_w.blank? # We only suppose square crops right now!
-          # end
-        # end
+        if data_object && (data_object.kind_of? Medium) && data_object.is_image?
+          if (info = ImageInfo.where("image_id = ?", data_object.id).first)
+            size = info.original_size.split('x') unless info.original_size.blank?
+            return_hash['height'] = size.last unless info.original_size.blank?
+            return_hash['width'] = size.first unless info.original_size.blank?
+            return_hash['crop_x'] = info.crop_x unless info.crop_x.blank?
+            return_hash['crop_y'] = info.crop_y unless info.crop_y.blank?
+            return_hash['crop_width'] = info.crop_w unless info.crop_w.blank?
+            return_hash['crop_height'] = info.crop_w unless info.crop_w.blank? # We only suppose square crops right now!
+          end
+        end
 
         if (data_object.kind_of? Article) || (data_object.kind_of? Medium)
           return_hash['mimeType'] = data_object.mime_type unless data_object.mime_type.blank?

@@ -10,7 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180607090841) do
+ActiveRecord::Schema.define(version: 20180607125919) do
+
+  create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.text "owner"
+    t.integer "resource_id"
+    t.string "guid"
+    t.string "resource_pk"
+    t.bigint "languages_id"
+    t.bigint "licenses_id"
+    t.bigint "locations_id"
+    t.integer "mime_type"
+    t.string "name"
+    t.string "rights_statement"
+    t.string "source_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["languages_id"], name: "index_articles_on_languages_id"
+    t.index ["licenses_id"], name: "index_articles_on_licenses_id"
+    t.index ["locations_id"], name: "index_articles_on_locations_id"
+  end
 
   create_table "attributions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "content_id"
@@ -26,10 +45,36 @@ ActiveRecord::Schema.define(version: 20180607090841) do
     t.index ["content_type"], name: "index_attributions_on_content_type"
   end
 
+  create_table "content_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.bigint "section_id"
+    t.integer "content_id"
+    t.string "content_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["section_id"], name: "index_content_sections_on_section_id"
+  end
+
+  create_table "image_info", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "resource_id"
+    t.string "original_size"
+    t.string "large_size"
+    t.string "medium_size"
+    t.string "small_size"
+    t.decimal "crop_x", precision: 10
+    t.decimal "crop_y", precision: 10
+    t.decimal "crop_w", precision: 10
+    t.string "resource_pk"
+    t.bigint "medium_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["medium_id"], name: "index_image_info_on_medium_id"
+  end
+
   create_table "languages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "group"
   end
 
   create_table "licenses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -37,6 +82,20 @@ ActiveRecord::Schema.define(version: 20180607090841) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "links", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.text "description"
+    t.integer "resource_id"
+    t.string "guid"
+    t.string "resource_pk"
+    t.bigint "languages_id"
+    t.string "name"
+    t.string "rights_statement"
+    t.string "source_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["languages_id"], name: "index_links_on_languages_id"
   end
 
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -56,7 +115,7 @@ ActiveRecord::Schema.define(version: 20180607090841) do
     t.integer "mime_type"
     t.integer "subclass"
     t.string "name"
-    t.string "rights_statment"
+    t.string "rights_statement"
     t.string "source_url"
     t.index ["languages_id"], name: "index_media_on_languages_id"
     t.index ["licenses_id"], name: "index_media_on_licenses_id"
@@ -167,6 +226,14 @@ ActiveRecord::Schema.define(version: 20180607090841) do
     t.index ["taxonomic_statuses_id"], name: "index_scientific_names_on_taxonomic_statuses_id"
   end
 
+  create_table "sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "parent_id"
+    t.integer "position"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "taxonomic_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "name"
     t.boolean "is_preferred"
@@ -193,7 +260,6 @@ ActiveRecord::Schema.define(version: 20180607090841) do
     t.datetime "confirmation_sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "username"
     t.string "provider"
     t.string "uid"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
@@ -217,6 +283,11 @@ ActiveRecord::Schema.define(version: 20180607090841) do
     t.index ["pages_id"], name: "index_vernaculars_on_pages_id"
   end
 
+  add_foreign_key "articles", "languages", column: "languages_id"
+  add_foreign_key "articles", "licenses", column: "licenses_id"
+  add_foreign_key "content_sections", "sections"
+  add_foreign_key "image_info", "media"
+  add_foreign_key "links", "languages", column: "languages_id"
   add_foreign_key "media", "languages", column: "languages_id"
   add_foreign_key "media", "licenses", column: "licenses_id"
   add_foreign_key "nodes", "ranks", column: "ranks_id"
