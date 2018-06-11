@@ -10,4 +10,6 @@ Rails.application.routes.draw do
     end
   end
   get 'search' => 'search#index'
+  get 'collections/create' => 'collections#new'
+  post 'collections/create' =>"pages#index"
 end

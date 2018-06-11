@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180604102935) do
+ActiveRecord::Schema.define(version: 20180607090317) do
 
   create_table "attributions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "content_id"
@@ -24,6 +24,25 @@ ActiveRecord::Schema.define(version: 20180604102935) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["content_type"], name: "index_attributions_on_content_type"
+  end
+
+  create_table "collections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "collected_pages_count", default: 0
+    t.integer "collection_associations_count", default: 0
+    t.integer "collection_type", default: 0
+    t.integer "default_sort", default: 0
+  end
+
+  create_table "collections_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "user_id", null: false
+    t.integer "collection_id", null: false
+    t.boolean "is_manager", default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "languages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|

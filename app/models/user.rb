@@ -4,14 +4,14 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-  validate :username_format
+  # validate :username_format
   # , :password_complexity
   validates_confirmation_of :password
 
-  def username_format 
-    return unless username =~ /\s/
-    errors.add :username, 'Invalid Username Format: Username should not contain any blank spaces.'
-  end 
+  # def username_format 
+    # return unless username =~ /\s/
+    # errors.add :username, 'Invalid Username Format: Username should not contain any blank spaces.'
+  # end 
   
   # def password_complexity
     # # Regexp extracted from https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a

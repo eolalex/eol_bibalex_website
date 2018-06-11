@@ -1,0 +1,2 @@
+class CollectionsUser < ApplicationRecord
+end
