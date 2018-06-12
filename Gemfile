@@ -39,6 +39,11 @@ gem 'record_tag_helper'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'haml-rails'
+gem 'simple_form'
+gem 'rest-client'
+
+
 gem 'devise', '~> 4.1'
 gem 'bootstrap-sass', '~> 3.3' 
 gem 'tlsmail' 
