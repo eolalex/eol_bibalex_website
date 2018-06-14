@@ -10,6 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20180611115013) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -26,6 +27,8 @@ ActiveRecord::Schema.define(version: 20180611115013) do
     t.string "source_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "bibliographic_citation_id"
+    t.index ["bibliographic_citation_id"], name: "index_articles_on_bibliographic_citation_id"
     t.index ["languages_id"], name: "index_articles_on_languages_id"
     t.index ["licenses_id"], name: "index_articles_on_licenses_id"
     t.index ["locations_id"], name: "index_articles_on_locations_id"
@@ -135,6 +138,8 @@ ActiveRecord::Schema.define(version: 20180611115013) do
     t.string "name"
     t.string "rights_statement"
     t.string "source_url"
+    t.bigint "bibliographic_citation_id"
+    t.index ["bibliographic_citation_id"], name: "index_media_on_bibliographic_citation_id"
     t.index ["languages_id"], name: "index_media_on_languages_id"
     t.index ["licenses_id"], name: "index_media_on_licenses_id"
     t.index ["locations_id"], name: "index_media_on_locations_id"
@@ -302,11 +307,13 @@ ActiveRecord::Schema.define(version: 20180611115013) do
     t.index ["pages_id"], name: "index_vernaculars_on_pages_id"
   end
 
+  add_foreign_key "articles", "bibliographic_citations"
   add_foreign_key "articles", "languages", column: "languages_id"
   add_foreign_key "articles", "licenses", column: "licenses_id"
   add_foreign_key "content_sections", "sections"
   add_foreign_key "image_info", "media"
   add_foreign_key "links", "languages", column: "languages_id"
+  add_foreign_key "media", "bibliographic_citations"
   add_foreign_key "media", "languages", column: "languages_id"
   add_foreign_key "media", "licenses", column: "licenses_id"
   add_foreign_key "nodes", "ranks", column: "ranks_id"
