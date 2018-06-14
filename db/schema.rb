@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180607125919) do
+ActiveRecord::Schema.define(version: 20180611115013) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.text "owner"
@@ -45,6 +45,13 @@ ActiveRecord::Schema.define(version: 20180607125919) do
     t.index ["content_type"], name: "index_attributions_on_content_type"
   end
 
+  create_table "bibliographic_citations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "resource_id"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "content_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "section_id"
     t.integer "content_id"
@@ -52,13 +59,6 @@ ActiveRecord::Schema.define(version: 20180607125919) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["section_id"], name: "index_content_sections_on_section_id"
-  end
-  
-  create_table "bibliographic_citations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.integer "resource_id"
-    t.text "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "image_info", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 20180607125919) do
     t.datetime "updated_at", null: false
     t.index ["languages_id"], name: "index_links_on_languages_id"
   end
-  
+
   create_table "locations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "resource_id"
     t.string "location"
@@ -280,6 +280,7 @@ ActiveRecord::Schema.define(version: 20180607125919) do
     t.datetime "updated_at", null: false
     t.string "provider"
     t.string "uid"
+    t.string "username"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -306,7 +307,6 @@ ActiveRecord::Schema.define(version: 20180607125919) do
   add_foreign_key "content_sections", "sections"
   add_foreign_key "image_info", "media"
   add_foreign_key "links", "languages", column: "languages_id"
-  add_foreign_key "image_info", "media"
   add_foreign_key "media", "languages", column: "languages_id"
   add_foreign_key "media", "licenses", column: "licenses_id"
   add_foreign_key "nodes", "ranks", column: "ranks_id"
