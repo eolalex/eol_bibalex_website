@@ -12,8 +12,8 @@ class ContentPartnersController < ApplicationController
                                abbreviation: params[:content_partner][:abbreviation], url: params[:content_partner][:url], logo: params[:content_partner][:logo] }
     @content_partner = ContentPartner.new(content_partner_params)
     if @content_partner.valid?
-      # result = ContentPartnerApi.add_content_partner?(content_partner_params, current_user.id)
-      result = ContentPartnerApi.add_content_partner?(content_partner_params, nil)
+      result = ContentPartnerApi.add_content_partner?(content_partner_params, current_user.id)
+      # result = ContentPartnerApi.add_content_partner?(content_partner_params, nil)
       
       if !result.nil?
         flash[:notice] = I18n.t(:successfuly_created_content_partner)

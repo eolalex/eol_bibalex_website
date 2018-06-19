@@ -17,7 +17,7 @@ class ContentPartnerApi
       )
       response = request.execute
       content_partner_id = response.body
-      # ContentPartnerUser.create(user_id: current_user_id , content_partner_id: response.body.to_i)
+      ContentPartnerUser.create(user_id: current_user_id , content_partner_id: response.body.to_i)
       content_partner_id 
     rescue => e
       nil

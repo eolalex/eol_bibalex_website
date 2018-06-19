@@ -4,9 +4,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-  validate :username_format
+  # validate :username_format
   # , :password_complexity
   validates_confirmation_of :password
+  has_many :content_partners, through: :content_partner_users
 
   def username_format 
     return unless username =~ /\s/
