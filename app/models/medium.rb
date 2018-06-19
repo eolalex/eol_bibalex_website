@@ -1,4 +1,5 @@
 class Medium < ApplicationRecord
+  
   has_many :pages, inverse_of: :medium
   has_many :attributions, as: :content
   
@@ -9,4 +10,5 @@ class Medium < ApplicationRecord
   scope :images, -> { where(subclass: :image) }
   scope :videos, -> { where(subclass: :video) }
   scope :sounds, -> { where(subclass: :sound) }
+  
 end

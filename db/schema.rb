@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180607125425) do
+ActiveRecord::Schema.define(version: 20180619102743) do
 
   create_table "attributions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "content_id"
@@ -43,10 +43,8 @@ ActiveRecord::Schema.define(version: 20180607125425) do
     t.decimal "crop_y", precision: 10
     t.decimal "crop_w", precision: 10
     t.string "resource_pk"
-    t.bigint "medium_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["medium_id"], name: "index_image_info_on_medium_id"
   end
 
   create_table "languages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -81,9 +79,6 @@ ActiveRecord::Schema.define(version: 20180607125425) do
     t.string "guid"
     t.string "resource_pk"
     t.string "source_page_url"
-    t.bigint "languages_id"
-    t.bigint "licenses_id"
-    t.bigint "locations_id"
     t.string "base_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -92,14 +87,10 @@ ActiveRecord::Schema.define(version: 20180607125425) do
     t.string "name"
     t.string "rights_statment"
     t.string "source_url"
-    t.index ["languages_id"], name: "index_media_on_languages_id"
-    t.index ["licenses_id"], name: "index_media_on_licenses_id"
-    t.index ["locations_id"], name: "index_media_on_locations_id"
   end
 
   create_table "nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "resource_id"
-    t.bigint "ranks_id"
     t.string "scientific_name"
     t.string "canonical_form"
     t.integer "generated_node_id"
@@ -107,14 +98,12 @@ ActiveRecord::Schema.define(version: 20180607125425) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["generated_node_id"], name: "index_nodes_on_generated_node_id"
-    t.index ["ranks_id"], name: "index_nodes_on_ranks_id"
   end
 
   create_table "page_contents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "resource_id"
     t.string "content_type"
     t.integer "content_id"
-    t.bigint "pages_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "trust"
@@ -123,17 +112,12 @@ ActiveRecord::Schema.define(version: 20180607125425) do
     t.boolean "is_hidden"
     t.boolean "is_duplicate"
     t.index ["content_type"], name: "index_page_contents_on_content_type"
-    t.index ["pages_id"], name: "index_page_contents_on_pages_id"
   end
 
   create_table "pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "medium_id"
-    t.bigint "native_node_id"
     t.integer "page_richness"
-    t.index ["medium_id"], name: "index_pages_on_medium_id"
-    t.index ["native_node_id"], name: "index_pages_on_native_node_id"
   end
 
   create_table "pages_nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -155,12 +139,10 @@ ActiveRecord::Schema.define(version: 20180607125425) do
   create_table "references", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "parent_id"
     t.string "parent_type"
-    t.bigint "referents_id"
     t.integer "resource_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["parent_type"], name: "index_references_on_parent_type"
-    t.index ["referents_id"], name: "index_references_on_referents_id"
   end
 
   create_table "referents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -184,9 +166,6 @@ ActiveRecord::Schema.define(version: 20180607125425) do
   end
 
   create_table "scientific_names", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.bigint "nodes_id"
-    t.bigint "pages_id"
-    t.bigint "taxonomic_statuses_id"
     t.integer "resource_id"
     t.string "canonical_form"
     t.string "node_resource_pk"
@@ -196,9 +175,6 @@ ActiveRecord::Schema.define(version: 20180607125425) do
     t.datetime "updated_at", null: false
     t.boolean "is_preferred"
     t.index ["generated_node_id"], name: "index_scientific_names_on_generated_node_id"
-    t.index ["nodes_id"], name: "index_scientific_names_on_nodes_id"
-    t.index ["pages_id"], name: "index_scientific_names_on_pages_id"
-    t.index ["taxonomic_statuses_id"], name: "index_scientific_names_on_taxonomic_statuses_id"
   end
 
   create_table "taxonomic_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -236,34 +212,14 @@ ActiveRecord::Schema.define(version: 20180607125425) do
 
   create_table "vernaculars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "string"
-    t.bigint "languages_id"
-    t.bigint "nodes_id"
-    t.bigint "pages_id"
     t.integer "resource_id"
     t.boolean "is_prefered_by_resource"
     t.integer "generated_node_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["generated_node_id"], name: "index_vernaculars_on_generated_node_id"
-    t.index ["languages_id"], name: "index_vernaculars_on_languages_id"
-    t.index ["nodes_id"], name: "index_vernaculars_on_nodes_id"
-    t.index ["pages_id"], name: "index_vernaculars_on_pages_id"
   end
 
-  add_foreign_key "image_info", "media"
-  add_foreign_key "media", "languages", column: "languages_id"
-  add_foreign_key "media", "licenses", column: "licenses_id"
-  add_foreign_key "nodes", "ranks", column: "ranks_id"
-  add_foreign_key "page_contents", "pages", column: "pages_id"
-  add_foreign_key "pages", "media"
-  add_foreign_key "pages", "nodes", column: "native_node_id"
   add_foreign_key "pages_nodes", "nodes"
   add_foreign_key "pages_nodes", "pages"
-  add_foreign_key "references", "referents", column: "referents_id"
-  add_foreign_key "scientific_names", "nodes", column: "nodes_id"
-  add_foreign_key "scientific_names", "pages", column: "pages_id"
-  add_foreign_key "scientific_names", "taxonomic_statuses", column: "taxonomic_statuses_id"
-  add_foreign_key "vernaculars", "languages", column: "languages_id"
-  add_foreign_key "vernaculars", "nodes", column: "nodes_id"
-  add_foreign_key "vernaculars", "pages", column: "pages_id"
 end
