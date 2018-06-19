@@ -1,6 +1,7 @@
-Refinery::Admin::PagesController.class_eval do
-  def page_params_with_my_params
-     page_params_without_my_params.merge(params.require(:page).permit(:show_date))
+Refinery::Admin::PagesController.prepend(
+  Module.new do
+    def permitted_page_params
+      super << :show_date
+    end
   end
-  alias_method :page_params, :page_params_with_my_params
-end
+)
