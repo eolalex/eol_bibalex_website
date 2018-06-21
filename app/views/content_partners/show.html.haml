@@ -35,10 +35,9 @@
       
   %tr
     %th
-      -# managed_by
+      managed_by
       = @content_partner.user.username
-    %td
-      = link_to(@content_partner.user.username, main_app.user_path(@content_partner.user))
+    
       
   %tr
     %th
