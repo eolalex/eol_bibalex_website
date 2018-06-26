@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180619092855) do
+ActiveRecord::Schema.define(version: 20180619112852) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.text "owner"
@@ -130,13 +130,10 @@ ActiveRecord::Schema.define(version: 20180619092855) do
     t.integer "mime_type"
     t.integer "subclass"
     t.string "name"
-    t.string "rights_statement"
+    t.string "rights_statment"
     t.string "source_url"
     t.bigint "bibliographic_citation_id"
     t.index ["bibliographic_citation_id"], name: "index_media_on_bibliographic_citation_id"
-    t.index ["languages_id"], name: "index_media_on_languages_id"
-    t.index ["licenses_id"], name: "index_media_on_licenses_id"
-    t.index ["locations_id"], name: "index_media_on_locations_id"
   end
 
   create_table "nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -395,15 +392,8 @@ ActiveRecord::Schema.define(version: 20180619092855) do
   add_foreign_key "articles", "languages", column: "languages_id"
   add_foreign_key "articles", "licenses", column: "licenses_id"
   add_foreign_key "content_sections", "sections"
-  add_foreign_key "image_info", "media"
   add_foreign_key "links", "languages", column: "languages_id"
   add_foreign_key "media", "bibliographic_citations"
-  add_foreign_key "media", "languages", column: "languages_id"
-  add_foreign_key "media", "licenses", column: "licenses_id"
-  add_foreign_key "nodes", "ranks", column: "ranks_id"
-  add_foreign_key "page_contents", "pages", column: "pages_id"
-  add_foreign_key "pages", "media"
-  add_foreign_key "pages", "nodes", column: "native_node_id"
   add_foreign_key "pages_nodes", "nodes"
   add_foreign_key "pages_nodes", "pages"
 end
