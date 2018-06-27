@@ -8,6 +8,8 @@ end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
+# This is used to locally have a copy of OpenSans. IF YOU STOP USING OPENSANS, YOU SHOULD REMOVE THIS GEM!
+gem 'font-kit-rails'
 # Use mysql2 as the database for Active Record
 gem 'mysql2'
 # Use Puma as the app server
@@ -39,7 +41,6 @@ gem 'record_tag_helper'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'haml-rails'
 gem 'simple_form'
 gem 'rest-client'
 
@@ -49,7 +50,12 @@ gem 'bootstrap-sass', '~> 3.3'
 gem 'tlsmail' 
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
 gem "recaptcha", require: "recaptcha/rails"
-gem 'omniauth-facebook' 
+gem 'omniauth-facebook'
+gem  'refinerycms' , '~> 4.0.2' 
+# gem  'refinerycms-authentication-devise' 
+gem  'refinerycms-wymeditor'
+gem  'refinerycms-i18n' 
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

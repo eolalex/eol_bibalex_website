@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180612115746) do
+ActiveRecord::Schema.define(version: 20180620131121) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.text "owner"
@@ -127,21 +127,21 @@ ActiveRecord::Schema.define(version: 20180612115746) do
   end
 
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.integer "format"
+    t.integer "format", default: 1, null: false
     t.text "description"
-    t.text "owner"
-    t.integer "resource_id"
-    t.string "guid"
+    t.string "owner", null: false
+    t.integer "resource_id", null: false
+    t.string "guid", null: false
     t.string "resource_pk"
     t.string "source_page_url"
     t.bigint "languages_id"
     t.bigint "licenses_id"
     t.bigint "locations_id"
-    t.string "base_url"
+    t.string "base_url", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "mime_type"
-    t.integer "subclass"
+    t.integer "subclass", default: 1, null: false
     t.string "name"
     t.string "rights_statement"
     t.string "source_url"
@@ -238,6 +238,107 @@ ActiveRecord::Schema.define(version: 20180612115746) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "refinery_image_translations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "refinery_image_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "image_alt"
+    t.string "image_title"
+    t.index ["locale"], name: "index_refinery_image_translations_on_locale"
+    t.index ["refinery_image_id"], name: "index_refinery_image_translations_on_refinery_image_id"
+  end
+
+  create_table "refinery_images", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "image_mime_type"
+    t.string "image_name"
+    t.integer "image_size"
+    t.integer "image_width"
+    t.integer "image_height"
+    t.string "image_uid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "refinery_page_part_translations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "refinery_page_part_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "body"
+    t.index ["locale"], name: "index_refinery_page_part_translations_on_locale"
+    t.index ["refinery_page_part_id"], name: "index_refinery_page_part_translations_on_refinery_page_part_id"
+  end
+
+  create_table "refinery_page_parts", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "refinery_page_id"
+    t.string "slug"
+    t.integer "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string "title"
+    t.index ["id"], name: "index_refinery_page_parts_on_id"
+    t.index ["refinery_page_id"], name: "index_refinery_page_parts_on_refinery_page_id"
+  end
+
+  create_table "refinery_page_translations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "refinery_page_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "title"
+    t.string "custom_slug"
+    t.string "menu_title"
+    t.string "slug"
+    t.index ["locale"], name: "index_refinery_page_translations_on_locale"
+    t.index ["refinery_page_id"], name: "index_refinery_page_translations_on_refinery_page_id"
+  end
+
+  create_table "refinery_pages", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "parent_id"
+    t.string "path"
+    t.boolean "show_in_menu", default: true
+    t.string "link_url"
+    t.string "menu_match"
+    t.boolean "deletable", default: true
+    t.boolean "draft", default: false
+    t.boolean "skip_to_first_child", default: false
+    t.integer "lft"
+    t.integer "rgt"
+    t.integer "depth"
+    t.string "view_template"
+    t.string "layout_template"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer "children_count", default: 0, null: false
+    t.boolean "show_date"
+    t.index ["depth"], name: "index_refinery_pages_on_depth"
+    t.index ["id"], name: "index_refinery_pages_on_id"
+    t.index ["lft"], name: "index_refinery_pages_on_lft"
+    t.index ["parent_id"], name: "index_refinery_pages_on_parent_id"
+    t.index ["rgt"], name: "index_refinery_pages_on_rgt"
+  end
+
+  create_table "refinery_resource_translations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "refinery_resource_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "resource_title"
+    t.index ["locale"], name: "index_refinery_resource_translations_on_locale"
+    t.index ["refinery_resource_id"], name: "index_refinery_resource_translations_on_refinery_resource_id"
+  end
+
+  create_table "refinery_resources", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "file_mime_type"
+    t.string "file_name"
+    t.integer "file_size"
+    t.string "file_uid"
+    t.string "file_ext"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "scientific_names", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "nodes_id"
     t.bigint "pages_id"
@@ -262,6 +363,17 @@ ActiveRecord::Schema.define(version: 20180612115746) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "seo_meta", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "seo_meta_id"
+    t.string "seo_meta_type"
+    t.string "browser_title"
+    t.text "meta_description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["id"], name: "index_seo_meta_on_id"
+    t.index ["seo_meta_id", "seo_meta_type"], name: "id_type_index_on_seo_meta"
   end
 
   create_table "taxonomic_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|

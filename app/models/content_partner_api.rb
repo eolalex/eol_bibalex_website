@@ -80,12 +80,10 @@ class ContentPartnerApi
       logo.open 
     end
     begin
-      request =RestClient::Request.new(
-        :method => :post,
-        :url => "#{@schedular_uri}/contentPartners/#{content_partner_id}",
-        :payload => { name: params[:name], description: params[:description], url: params[:url], abbreviation: params[:abbreviation] , logo: logo ,logoPath: "/eol_workspace/contentPartners/#{content_partner_id}/"}
+      response =RestClient.post(
+        "#{@schedular_uri}/contentPartners/#{content_partner_id}",
+        { name: params[:name], description: params[:description], url: params[:url], abbreviation: params[:abbreviation] ,logoPath: "/eol_workspace/contentPartners/#{content_partner_id}/", :multipart => true}
       )
-      response = request.execute
       content_partner_id
     rescue => e
       nil
