@@ -1,1 +1,60 @@
-%label= t("Title:")
+#page.container.media
+  #page_control
+    .uk-section.uk-section-default.uk-grid-small.uk-padding-small.uk-box-shadow-medium{ uk: { grid: true } }
+      .uk-width-3-4
+        %label= t(:medium_header_title)
+        %h2
+          - if @medium.name.blank?
+            = t(:medium_untitled)
+          -else
+            = @medium.name.html_safe
+            
+      .uk-width-1-4.actions
+        - basic_button("plus", t(:medium_collect_button), '#')
+        -# - basic_button("plus", t(:medium_collect_button), new_collected_page_path(page_id: @medium.associations.first, medium_ids: [@medium.id]))
+    .media-body.uk-margin-large-top
+      %div{ uk: { grid: true } }
+        .media-image.uk-width-2-3
+          = image_tag(@medium.base_url)
+          %br/
+              
+    %p=t(:description)
+    -if @medium.description.blank?
+      =t(:medium_description_blank)
+    -else
+      =@medium.description.html_safe
+      
+              
+    %h3=t(:content_attributions_header)
+    %div{ uk: { grid: true } }
+      .uk-width-1-3
+        %dl.attributions
+          %dt= t("content_attributions_labels.license")
+          %dd= link_to(@license.name.html_safe,@license.source_url)
+          %dt= t("content_attributions_labels.owner")
+          %dd= @medium.owner.html_safe
+          
+  .uk-width-1-3
+    %dl.attributions
+      -# - if content.source_page_url
+        -# %dt= t("content_attributions_labels.view_source_label")
+        -# %dd= link_to(t("content_attributions_labels.view_source_link"), content.source_url)
+        -# %dd= link_to(t("content_attributions_labels.view_source_page_link"), content.source_page_url)
+      %dt= t("content_attributions_labels.resource_label")
+      %dd
+        -content_partner_id=ContentPartnerApi.get_content_partner_resource_id(@medium.resource_id)
+        -result = ResourceApi.get_resource(content_partner_id["id"],@medium.resource_id)
+        -@resource = Resource.new( name: result["name"],origin_url: result["original_url"],uploaded_url: result["uploaded_url"],
+                      type: result["type"],path: result["path"],last_harvested_at: result["last_harvested_at"],harvest_frequency: result["harvest_frequency"],
+                      day_of_month: result["day_of_month"],nodes_count: result["nodes_count"],position: result["position"],is_paused: result["_paused"],
+                      is_approved: result["_approved"],is_trusted: result["_trusted"],is_autopublished: result["_autopublished"],is_forced: result["_forced"],
+                      dataset_license: result["dataset_license"],dataset_rights_statement: result["dataset_rights_statement"],
+                      dataset_rights_holder: result["dataset_rights_holder"],default_license_string: result["default_license_string"],
+                      default_rights_statement: result["default_rights_statement"],default_rights_holder: result["default_rights_holder"],
+                      default_language_id: result["default_language_id"])
+        -if !@resource.nil?
+          = link_to(@resource.name, content_partner_resource_path(content_partner_id["id"], result["id"]))
+        -else
+          = t(:resource_missing)
+      %dt= "ID"
+      %dd.uk-text-meta.uk-overflow-hidden.uk-margin-remove-top= @medium.resource_pk

@@ -3,10 +3,12 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
+
   # attr_accessor :username
   # validate :username_format
   # , :password_complexity
   validates_confirmation_of :password
+  has_many :content_partners, through: :content_partner_users
 
   # def username_format 
     # return unless username =~ /\s/
@@ -18,5 +20,9 @@ class User < ApplicationRecord
     # return if password =~ /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,70}$/ 
     # errors.add :password, 'Complexity requirement not met. Length should be 6-128 character and include: 1 Upper case, 1 lower case, 1 digit and 1 special char'
   # end
+  
+  def can_update?(content_partner)
+    content_partner.user.id == self.id || self.is_admin?
+  end
 
 end

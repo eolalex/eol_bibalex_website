@@ -12,8 +12,8 @@ class ContentPartnersController < ApplicationController
                                abbreviation: params[:content_partner][:abbreviation], url: params[:content_partner][:url], logo: params[:content_partner][:logo] }
     @content_partner = ContentPartner.new(content_partner_params)
     if @content_partner.valid?
-      # result = ContentPartnerApi.add_content_partner?(content_partner_params, current_user.id)
-      result = ContentPartnerApi.add_content_partner?(content_partner_params, nil)
+      result = ContentPartnerApi.add_content_partner?(content_partner_params, current_user.id)
+      # result = ContentPartnerApi.add_content_partner?(content_partner_params, nil)
       
       if !result.nil?
         flash[:notice] = I18n.t(:successfuly_created_content_partner)
@@ -69,8 +69,9 @@ class ContentPartnersController < ApplicationController
                                 harvests: resource["harvests"])
     end
     
-    # content_partner_user = User.find(ContentPartnerUser.find_by_content_partner_id(returned_content_partner["id"].to_i).user_id)
-    content_partner_user = nil
+    #TODO check if user of the content partner is the manager or not
+    content_partner_user = User.find(ContentPartnerUser.find_by_content_partner_id(returned_content_partner["id"].to_i).user_id)
+    # content_partner_user = nil
     @content_partner = ContentPartner.new(id: returned_content_partner["id"].to_i, name: returned_content_partner["name"],
                                           abbreviation: returned_content_partner["abbreviation"],url: returned_content_partner["url"],
                                           description: returned_content_partner["description"],logo: returned_content_partner["logo"],

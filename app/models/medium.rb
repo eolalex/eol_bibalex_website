@@ -1,8 +1,8 @@
 class Medium < ApplicationRecord
   searchkick
-  belongs_to :languages
-  belongs_to :locations
-  belongs_to :licenses
+  belongs_to :languages , class_name: 'Language', foreign_key: 'languages_id'
+  belongs_to :locations , class_name: 'Location', foreign_key: 'locations_id'
+  belongs_to :licenses , class_name: 'License', foreign_key: 'licenses_id'
   belongs_to :bibliographic_citation
   
   has_many :pages, inverse_of: :medium
@@ -48,4 +48,7 @@ class Medium < ApplicationRecord
   def is_js_map?
     subclass == "js_map"
   end
+  
 end
+
+
