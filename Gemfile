@@ -8,6 +8,8 @@ end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
+# This is used to locally have a copy of OpenSans. IF YOU STOP USING OPENSANS, YOU SHOULD REMOVE THIS GEM!
+gem 'font-kit-rails'
 # Use mysql2 as the database for Active Record
 gem 'mysql2'
 # Use Puma as the app server
@@ -19,6 +21,8 @@ gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 gem 'acts_as_list'
+gem 'therubyracer', platforms: :ruby
+
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
@@ -39,12 +43,21 @@ gem 'record_tag_helper'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'simple_form'
+gem 'rest-client'
+
+
 gem 'devise', '~> 4.1'
 gem 'bootstrap-sass', '~> 3.3' 
 gem 'tlsmail' 
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
 gem "recaptcha", require: "recaptcha/rails"
-gem 'omniauth-facebook' 
+gem 'omniauth-facebook'
+gem  'refinerycms' , '~> 4.0.2' 
+# gem  'refinerycms-authentication-devise' 
+gem  'refinerycms-wymeditor'
+gem  'refinerycms-i18n' 
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

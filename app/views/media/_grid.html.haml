@@ -1,0 +1,19 @@
+= javascript_include_tag 'pages'
+%ul.uk-grid-small
+  - media_ids = media.map { |image| "image_modal_#{image.id}" }
+  - media.each_with_index do |image, index|
+    - image_id = image.id
+    %div{:id => "#{image.id}", :onclick=> 'showPopup(this)'}
+      %br
+        %img{ src: image.base_url, :width =>"260", :height =>"190" }
+        %div{ :id => "popup_#{image.id}" , :style=> "display:none;", :class => "popup"}
+          .uk-modal-dialog
+            -# %div{:id => "inner_#{image.id}", :style=> "display:none;", :class => "inner"}
+            = link_to(image.name, medium_path(image))
+            %button{ :id =>"#{image.id}", :class => "btn", :onclick=> 'hidePopup(this, event)'}close
+            -#.ui.label= image.licenses.name
+            %br
+            = image.owner
+            %br
+            %img{ src: image.base_url, :width =>"600", :height =>"600"}
+                

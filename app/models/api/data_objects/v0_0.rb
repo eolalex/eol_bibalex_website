@@ -32,6 +32,8 @@ module Api
         ] }
         
       def self.call(params={})
+        # Medium.reindex
+        debugger
         validate_and_normalize_input_parameters(params)
         I18n.locale = params[:language] unless params[:language].blank?
         params[:details] = true
@@ -39,14 +41,14 @@ module Api
         raise ActiveRecord::RecordNotFound.new("Unknown data_object id \"#{params[:id]}\"") if data_object.blank?
         
         page_content = PageContent.where("content_id = ? and content_type = ? ", data_object.id, "Medium").first || PageContent.where("content_id = ? and content_type = ? ", data_object.id, "Article").first || PageContent.where("content_id = ? and content_type = ? ", data_object.id, "Link").first
-        page_object = Page.search(page_content.page_id, fields:[{id: :exact}]).results.first
+        page_object = Page.search(page_content.pages_id, fields:[{id: :exact}]).results.first
         Api::Pages::V0_0.prepare_hash(page_object, params.merge({ :data_object => data_object, :details => true }))
       end
       
       def self.prepare_hash(data_object, params, page)
         debugger
         return_hash = {}
-        content_object = PageContent.where("page_id = ? and content_id = ? and content_type = ? ", page.id, data_object.id, data_object.class.name).first
+        content_object = PageContent.where("pages_id = ? and content_id = ? and content_type = ? ", page.id, data_object.id, data_object.class.name).first
         
         return_hash['identifier'] = data_object.guid
         return_hash['dataObjectVersionID'] = nil
@@ -60,9 +62,9 @@ module Api
             datatype = data_object.subclass
             datasubtype = ''
           end
-        # elsif data_object.class == Link
-          # datatype = 'Article'
-          # datasubtype = 'Link'
+        elsif data_object.class == Link
+          datatype = 'Article'
+          datasubtype = 'Link'
         else
           datatype = data_object.class
           datasubtype = ''
@@ -73,9 +75,9 @@ module Api
         return_hash['dataRatings'] = ""
         return_hash['dataRating'] = ""
 
-        # if data_object.kind_of? Article
-          # return_hash['subject'] = data_object.sections.first.name
-        # end
+        if data_object.kind_of? Article
+          return_hash['subject'] = data_object.sections.first.name
+        end
         return return_hash unless params[:details] == true
         debugger
         if data_object && (data_object.kind_of? Medium) && data_object.is_image?
@@ -92,15 +94,15 @@ module Api
 
         if (data_object.kind_of? Article) || (data_object.kind_of? Medium)
           return_hash['mimeType'] = data_object.mime_type unless data_object.mime_type.blank?
-          return_hash['license'] = data_object.license.source_url unless data_object.license.blank?
+          return_hash['license'] = data_object.licenses.source_url unless data_object.licenses.blank?
           return_hash['rightsHolder'] = data_object.owner unless data_object.owner.blank?
-          # return_hash['bibliographicCitation'] = data_object.bibliographic_citation.body unless data_object.bibliographic_citation_id.blank?
+          return_hash['bibliographicCitation'] = data_object.bibliographic_citation.body unless data_object.bibliographic_citation_id.blank?
           return_hash['description'] = data_object.description unless data_object.description.blank?
         end
         return_hash['created'] = data_object.created_at unless data_object.created_at.blank?
         return_hash['modified'] = data_object.updated_at unless data_object.updated_at.blank?
         return_hash['title'] = data_object.name unless data_object.name.blank?
-        return_hash['language'] = data_object.language.group unless data_object.language.blank?
+        return_hash['language'] = data_object.languages.group unless data_object.languages.blank?
         return_hash['rights'] = data_object.rights_statement unless data_object.rights_statement.blank?
         
         return_hash['audience'] = []
@@ -112,14 +114,14 @@ module Api
         # return_hash['eolMediaURL'] = data_object. unless data_object.object_cache_url.blank?
         # return_hash['eolThumbnailURL'] = data_object.image_cache_path(data_object.object_cache_url, '98_68', :specified_content_host => Rails.configuration.asset_host) unless data_object.object_cache_url.blank?
 
-        # unless (data_object.kind_of? Link) || (data_object.location_id.nil?)
-          # return_hash['location'] = data_object.location.location
-          # unless data_object.location.latitude == 0 && data_object.location.longitude == 0 && data_object.location.altitude == 0
-            # return_hash['latitude'] = data_object.location.latitude
-            # return_hash['longitude'] = data_object.location.longitude
-            # return_hash['altitude'] = data_object.location.altitude
-          # end
-        # end
+        unless (data_object.kind_of? Link) || (data_object.locations_id.nil?)
+          return_hash['location'] = data_object.location.location
+          unless data_object.locations.latitude == 0 && data_object.locations.longitude == 0 && data_object.locations.altitude == 0
+            return_hash['latitude'] = data_object.locations.latitude
+            return_hash['longitude'] = data_object.locations.longitude
+            return_hash['altitude'] = data_object.locations.altitude
+          end
+        end
         
         return_hash['agents'] = []
         
@@ -141,11 +143,13 @@ module Api
               # 'role'      => (AgentRole.provider.label.downcase rescue nil)
             # }
           # end
-        
+        debugger
         return_hash['references'] = []
-        data_object.referents.each do |r|
-          return_hash['references'] << r.body
-          return_hash['references'].uniq!
+        data_object.references.each do |ref|
+          ref.referents.each do |r|
+            return_hash['references'] << r.body
+            return_hash['references'].uniq!
+          end
         end
         return return_hash
       end
