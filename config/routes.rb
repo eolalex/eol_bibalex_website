@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     collection do
       get :autocomplete
     end
+    get "media"
   end
   
   #search
