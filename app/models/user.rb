@@ -3,10 +3,10 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
-
   # validate :username_format
   # , :password_complexity
   validates_confirmation_of :password
+  has_and_belongs_to_many :collections
 
   # def username_format 
     # return unless username =~ /\s/

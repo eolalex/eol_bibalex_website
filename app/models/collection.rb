@@ -1,5 +1,5 @@
 class Collection < ApplicationRecord
-  searchkick
+  # searchkick
 
   has_many :collected_pages, -> { order("position asc") }, inverse_of: :collection, dependent: :destroy
   has_many :pages, -> { order("collected_pages.created_at desc") }, through: :collected_pages

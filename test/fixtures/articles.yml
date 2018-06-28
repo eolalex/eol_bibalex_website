@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  owner: MyText
+  resource_id: 1
+  guid: MyString
+  resource_pk: MyString
+  langauges: one
+  licenses: one
+  locations: one
+  mime_type: 1
+  name: MyString
+  rights_statment: MyString
+  source_url: MyString
+
+two:
+  owner: MyText
+  resource_id: 1
+  guid: MyString
+  resource_pk: MyString
+  langauges: two
+  licenses: two
+  locations: two
+  mime_type: 1
+  name: MyString
+  rights_statment: MyString
+  source_url: MyString

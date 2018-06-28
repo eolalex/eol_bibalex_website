@@ -1,0 +1,2 @@
+class BibliographicCitation < ApplicationRecord
+end

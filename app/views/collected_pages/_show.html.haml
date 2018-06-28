@@ -1,0 +1,6 @@
+- @collection.collected_pages.each do |collected_page|
+      
+  %h3= collected_page.page_id 
+  %h3= link_to 'Edit', edit_collected_page_path(id: collected_page.id)
+  %h3= link_to 'Remove Page From Collection', collected_page_path(id: collected_page.id), method: :delete, data: { confirm: 'Are you sure?' }
+  %br
