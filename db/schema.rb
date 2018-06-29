@@ -12,7 +12,6 @@
 
 ActiveRecord::Schema.define(version: 20180621142008) do
 
-
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.text "owner"
     t.integer "resource_id"
@@ -107,6 +106,7 @@ ActiveRecord::Schema.define(version: 20180621142008) do
     t.datetime "updated_at", null: false
     t.index ["collection_id"], name: "index_collections_users_on_collection_id"
   end
+
   create_table "content_partner_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.bigint "user_id"
     t.integer "content_partner_id"
@@ -458,7 +458,6 @@ ActiveRecord::Schema.define(version: 20180621142008) do
     t.string "username"
     t.string "provider"
     t.string "uid"
-    t.string "username"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

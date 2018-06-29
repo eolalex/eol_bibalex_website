@@ -1,5 +1,5 @@
 %div
-  %h2= t(:sign_in)
+  %h2= "Sign In"
   = form_for(resource, as: resource_name, url: session_path(resource_name), :validate => true,
     html: { class: "eol-userform recaptchad uk-form-stacked" },
     defaults: { input_html: { class: 'uk-input' },
@@ -29,6 +29,6 @@
           %span.error
           = I18n.t(:recaptcha_error)
     .field.actions
-      = f.button :sign_in
+      = f.button "Sign In"
 %p
 = render "devise/shared/links"
