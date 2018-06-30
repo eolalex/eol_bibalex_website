@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       get :autocomplete
     end
     get "media"
+    get "overview", :to => redirect("/pages/%{page_id}")
   end
   
   #search

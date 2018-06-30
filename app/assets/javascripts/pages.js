@@ -1,4 +1,4 @@
-// $(document).ready(function() {
+$(document).ready(function() {
     // $('#media_icon').click(function() {
     	// alert('#{image_id}');
         // $('#popup').show();
@@ -8,7 +8,7 @@
     	// event.stopPropagation();
         // $('#popup').hide();
     // });
-// });
+});
 
 function showPopup(item){
 	// alert($(item).attr("id"));
@@ -24,4 +24,14 @@ function hidePopup(item, event){
 	event.preventDefault();
 	event.stopPropagation();
 	$('#popup_'+id).hide();
+}
+
+function showOver(item){
+	var id = $(item).attr("id");
+	$('#hover_'+id).show();
+}
+
+function hideOver(item){
+	var id = $(item).attr("id");
+	$('#hover_'+id).hide();
 }

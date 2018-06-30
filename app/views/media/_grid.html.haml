@@ -3,9 +3,13 @@
   - media_ids = media.map { |image| "image_modal_#{image.id}" }
   - media.each_with_index do |image, index|
     - image_id = image.id
-    %div{:id => "#{image.id}", :onclick=> 'showPopup(this)'}
+    %div{:id => "#{image.id}", :onclick=> 'showPopup(this)', :onmouseover =>"showOver(this)", :onmouseout=>"hideOver(this)"}
       %br
-        %img{ src: image.base_url, :width =>"260", :height =>"190" }
+        %div{:class=> "content"}
+          %img{ src: image.base_url, :width =>"260", :height =>"190", :class => "content_image" }
+          %div{:id => "hover_#{image.id}", :style=> "display:none;", :class => "hover"}
+            - content = image.page_contents.find { |c| c.content_id == image.id }
+            = content.trust
         %div{ :id => "popup_#{image.id}" , :style=> "display:none;", :class => "popup"}
           .uk-modal-dialog
             -# %div{:id => "inner_#{image.id}", :style=> "display:none;", :class => "inner"}

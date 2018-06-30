@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180620131121) do
+ActiveRecord::Schema.define(version: 20180629114045) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.text "owner"
@@ -127,21 +127,21 @@ ActiveRecord::Schema.define(version: 20180620131121) do
   end
 
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.integer "format", default: 1, null: false
+    t.integer "format"
     t.text "description"
-    t.string "owner", null: false
-    t.integer "resource_id", null: false
-    t.string "guid", null: false
+    t.text "owner"
+    t.integer "resource_id"
+    t.string "guid"
     t.string "resource_pk"
     t.string "source_page_url"
     t.bigint "languages_id"
     t.bigint "licenses_id"
     t.bigint "locations_id"
-    t.string "base_url", null: false
+    t.string "base_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "mime_type"
-    t.integer "subclass", default: 1, null: false
+    t.integer "subclass"
     t.string "name"
     t.string "rights_statement"
     t.string "source_url"
@@ -161,7 +161,10 @@ ActiveRecord::Schema.define(version: 20180620131121) do
     t.string "resource_pk"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "parent_id"
+    t.bigint "page_id"
     t.index ["generated_node_id"], name: "index_nodes_on_generated_node_id"
+    t.index ["page_id"], name: "index_nodes_on_page_id"
     t.index ["ranks_id"], name: "index_nodes_on_ranks_id"
   end
 
@@ -435,6 +438,7 @@ ActiveRecord::Schema.define(version: 20180620131121) do
   add_foreign_key "media", "bibliographic_citations"
   add_foreign_key "media", "languages", column: "languages_id"
   add_foreign_key "media", "licenses", column: "licenses_id"
+  add_foreign_key "nodes", "pages"
   add_foreign_key "nodes", "ranks", column: "ranks_id"
   add_foreign_key "page_contents", "pages", column: "pages_id"
   add_foreign_key "pages", "media"
