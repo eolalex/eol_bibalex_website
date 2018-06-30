@@ -1,4 +1,6 @@
 class Page < ApplicationRecord
+
+  has_many :collected_pages, inverse_of: :page
   searchkick word_start: [:scientific_name]
   belongs_to :native_node, class_name: "Node"
   belongs_to :medium, inverse_of: :pages

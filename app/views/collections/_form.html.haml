@@ -1,0 +1,8 @@
+= form_with(model: @collection, local: true) do |form|
+
+  .form-group
+    = form.label :name
+    = form.text_field :name, required: true
+    %br
+  .actions
+    = form.submit
