@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180619112852) do
+ActiveRecord::Schema.define(version: 20180620131121) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.text "owner"
@@ -52,6 +52,14 @@ ActiveRecord::Schema.define(version: 20180619112852) do
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "content_partner_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.bigint "user_id"
+    t.integer "content_partner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_content_partner_users_on_user_id"
   end
 
   create_table "content_sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -117,18 +125,18 @@ ActiveRecord::Schema.define(version: 20180619112852) do
   end
 
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.integer "format"
+    t.integer "format", default: 1, null: false
     t.text "description"
-    t.text "owner"
-    t.integer "resource_id"
-    t.string "guid"
+    t.string "owner", null: false
+    t.integer "resource_id", null: false
+    t.string "guid", null: false
     t.string "resource_pk"
     t.string "source_page_url"
-    t.string "base_url"
+    t.string "base_url", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "mime_type"
-    t.integer "subclass"
+    t.integer "subclass", default: 1, null: false
     t.string "name"
     t.string "rights_statment"
     t.string "source_url"

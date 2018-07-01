@@ -1,0 +1,184 @@
+%content#Content1{:contentplaceholderid => "head", :runat => "Server"}
+%content#Content2{:contentplaceholderid => "ContentPlaceHolder1", :runat => "Server"}
+  %section#main-slider.no-margin
+    .carousel.slide
+      %ol.carousel-indicators.hide
+        %li.active{"data-slide-to" => "0", "data-target" => "#main-slider"}
+        %li{"data-slide-to" => "1", "data-target" => "#main-slider"}
+        %li{"data-slide-to" => "2", "data-target" => "#main-slider"}
+      .carousel-inner
+        .item.active
+          =image_tag "banner02.jpg", class: 'img-responsive'
+        .item
+          =image_tag "banner05.jpg", class: 'img-responsive'
+        .item
+          =image_tag "banner01.jpg", class: 'img-responsive'
+    %a.prev.hide{"data-slide" => "prev", :href => "#main-slider"}
+      %i.fa.fa-chevron-left
+    %a.next.hide{"data-slide" => "next", :href => "#main-slider"}
+      %i.fa.fa-chevron-right
+    .container
+      .GlobalSearch
+        .container
+          .row.slide-margin
+            .col-sm-12
+              .carousel-content
+                %h1.animation.text-center.animated-item-1.slogan.hidden-xs Global Access to Knowledge about Life on Earth
+                %h1.animation.text-center.animated-item-1.slogan.hidden-lg.hidden-md.hidden-sm Search Our Network
+                .searchBox
+                  %input#globalSearch.form-control{:placeholder => "What you are looking for?"}
+                  %button.searchButton
+                    %i.fa.fa-search{"aria-hidden" => "true"}
+  :javascript
+    $(document).ready(function () {
+        $('#myCarousel').carousel({
+            interval: 10000
+        })
+    });
+  .container.hidden-lg.hidden-md.hidden-sm
+    .separator
+  %section.smallCarousel
+    .container
+      .center.wow.fadeInDown.animated.hidden-lg.hidden-md.hidden-sm{:style => "visibility: visible; animation-name: fadeInDown; padding-bottom: 0; margin-bottom: -20px"}
+        %h2 Explore Taxons
+      #mixedSlider.carousel_Thumbnails
+        .MS-content
+          .item
+            .imgTitle
+              %a{:href => "#"}
+                %h2.blogTitle People
+                =image_tag "Taxon-1.jpg"
+          .item
+            .imgTitle
+              %a{:href => "#"}
+                %h2.blogTitle People
+                =image_tag "Taxon-2.jpg"
+          .item
+            .imgTitle
+              %a{:href => "#"}
+                %h2.blogTitle People
+                =image_tag "Taxon-3.jpg"
+          .item
+            .imgTitle
+              %a{:href => "#"}
+                %h2.blogTitle People
+                =image_tag "Taxon-4.jpg"
+          .item
+            .imgTitle
+              %a{:href => "#"}
+                %h2.blogTitle People
+                =image_tag "Taxon-1.jpg"
+          .item
+            .imgTitle
+              %a{:href => "#"}
+                %h2.blogTitle People
+                =image_tag "Taxon-2.jpg"
+          .item
+            .imgTitle
+              %a{:href => "#"}
+                %h2.blogTitle People
+                =image_tag "Taxon-3.jpg"
+          .item
+            .imgTitle
+              %a{:href => "#"}
+                %h2.blogTitle People
+                =image_tag "Taxon-4.jpg"
+          .item
+            .imgTitle
+              %a{:href => "#"}
+                %h2.blogTitle People
+                =image_tag "Taxon-1.jpg"
+        .MS-controls
+          %button.MS-left
+            %i.fa.fa-angle-left{"aria-hidden" => "true"}
+          %button.MS-right
+            %i.fa.fa-angle-right{"aria-hidden" => "true"}
+  .container
+    .separator
+  %section#Home_Statistics
+    .container
+      .center.wow.fadeInDown
+        %h2 Currently in the Encyclopedia of Life
+        %p.lead
+          There is more in deep, want to
+          %a{:href => "#"} see more...
+      .row
+        .Home_statistics
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
+            .feature-wrap
+              %a{:href => "#"}
+                %i.fa.fa-user{"aria-hidden" => "true"}
+              .number
+                92,997
+              %span
+                Members like you
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
+            .feature-wrap
+              %a{:href => "#"}
+                %i.fa.fa-files-o{"aria-hidden" => "true"}
+              .number
+                10,971
+              %span
+                Collections
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
+            .feature-wrap
+              %a{:href => "#"}
+                %i.fa.fa-users{"aria-hidden" => "true"}
+              .number
+                265
+              %span
+                Communities
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
+            .feature-wrap
+              %a{:href => "#"}
+                %i.fa.fa-file-image-o{"aria-hidden" => "true"}
+              .number
+                3,824,301
+              %span
+                Images
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
+            .feature-wrap
+              %a{:href => "#"}
+                %i.fa.fa-handshake-o{"aria-hidden" => "true"}
+              .number
+                359
+              %span
+                Content Partners
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
+            .feature-wrap
+              %a{:href => "#"}
+                %i.fa.fa-bar-chart{"aria-hidden" => "true"}
+              .number
+                10,753,384
+              %span
+                Data
+  %section#Sponsors
+    .container
+      .center.wow.fadeInDown
+        %h2 Institutional Sponsors
+      .row
+        .col-md-2.col-sm-2.col-xs-4.logo-item
+          %a{:href => "https://www.ala.org.au/"}
+            =image_tag "ala.jpg", class: 'img-responsive wow fadeInDown'
+        .col-md-2.col-sm-2.col-xs-4.logo-item
+          %a{:href => "https://www.bibalex.org/en/default"}
+            =image_tag "bibalex.jpg", class: 'img-responsive wow fadeInDown'
+        .col-md-2.col-sm-2.col-xs-4.logo-item
+          %a{:href => "https://www.gob.mx/conabio"}
+            =image_tag "conabio.jpg", class: 'img-responsive wow fadeInDown'
+        .col-md-2.col-sm-2.col-xs-4
+          %a{:href => "http://www.mbl.edu/"}
+            =image_tag "mbl.jpg", class: 'img-responsive wow fadeInDown'
+        .col-md-2.col-sm-2.col-xs-4
+          %a{:href => "https://www.harvard.edu/"}
+            =image_tag "mcz.jpg", class: 'img-responsive wow fadeInDown'
+        .col-md-2.col-sm-2.col-xs-4
+          %a{:href => "https://www.si.edu/"}
+            =image_tag "nmnh.jpg", class: 'img-responsive wow fadeInDown'
+  .Donation
+    .container
+      .get-started.center.wow.fadeInDown
+        %h2 Donate online to support the EOL Mission
+        %p.lead To increase awareness and understanding of living nature through an Encyclopedia of Life that gathers, generates, and shares knowledge in an open, freely accessible and trusted digital resource.
+        .Donate_Btn
+          %a{:href => "#"} Donate

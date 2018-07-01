@@ -9,7 +9,7 @@ class ResourceApi
        input_file = params[:path].tempfile
        file_name = params[:path].original_filename
        resource_data_set_file = Tempfile.new("#{file_name}")
-       resource_data_set_file.write(input_file.read)
+       resource_data_set_file.write(input_file.read.force_encoding("UTF-8"))
        params[:path]=""
     end
     # resource_params = params.except!(:resource_data_set).to_json_with_active_support_encoder  
