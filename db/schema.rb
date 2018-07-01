@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180621142008) do
+ActiveRecord::Schema.define(version: 20180629114045) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.text "owner"
@@ -178,21 +178,18 @@ ActiveRecord::Schema.define(version: 20180621142008) do
   end
 
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.integer "format"
+    t.integer "format", default: 1, null: false
     t.text "description"
-    t.text "owner"
-    t.integer "resource_id"
-    t.string "guid"
+    t.string "owner", null: false
+    t.integer "resource_id", null: false
+    t.string "guid", null: false
     t.string "resource_pk"
     t.string "source_page_url"
     t.string "base_url", null: false
-    t.bigint "languages_id"
-    t.bigint "licenses_id"
-    t.bigint "locations_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "mime_type"
-    t.integer "subclass"
+    t.integer "subclass", default: 1, null: false
     t.string "name"
     t.string "rights_statment"
     t.string "source_url"
@@ -212,7 +209,6 @@ ActiveRecord::Schema.define(version: 20180621142008) do
     t.bigint "page_id"
     t.index ["generated_node_id"], name: "index_nodes_on_generated_node_id"
     t.index ["page_id"], name: "index_nodes_on_page_id"
-    t.index ["ranks_id"], name: "index_nodes_on_ranks_id"
   end
 
   create_table "page_contents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -232,10 +228,6 @@ ActiveRecord::Schema.define(version: 20180621142008) do
   create_table "pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.bigint "medium_id"
-    t.bigint "native_node_id"
     t.integer "page_richness"
   end
 
@@ -442,9 +434,9 @@ ActiveRecord::Schema.define(version: 20180621142008) do
     t.datetime "confirmation_sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "username"
     t.string "provider"
     t.string "uid"
+    t.string "username"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -468,6 +460,7 @@ ActiveRecord::Schema.define(version: 20180621142008) do
   add_foreign_key "content_sections", "sections"
   add_foreign_key "links", "languages", column: "languages_id"
   add_foreign_key "media", "bibliographic_citations"
+  add_foreign_key "nodes", "pages"
   add_foreign_key "pages_nodes", "nodes"
   add_foreign_key "pages_nodes", "pages"
 end

@@ -33,7 +33,15 @@
                       %hr.colorgraph
                         .row
                           .col-xs-12
-                            %input.btn.btn-primary.btn-block.btn-lg{:tabindex => "5", :type => "submit", :value => "Sign in"}/
+                            %input.btn.btn-primary.btn-block.btn-lg{:tabindex => "5", :type => "submit", :value => "Sign in"}
+                      - if @verify_recaptcha
+                        .field
+                          = recaptcha_tags(callback: 'recaptchaCallback')
+                          - if flash.any? { |name, msg| name == "recaptcha_error" }
+                            %span.error
+                              = I18n.t(:recaptcha_error)
+                      %p
+                        = render "devise/shared/links"
                     #t_and_c_m.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
                       .modal-dialog.modal-lg
                         .modal-content
@@ -50,38 +58,3 @@
                             %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
                           .modal-footer
                             %button.btn.btn-primary{"data-dismiss" => "modal", :type => "button"} I Agree
-    
-    
-%div
-  = form_for(resource, as: resource_name, url: session_path(resource_name), :validate => true,
-    html: { class: "eol-userform recaptchad uk-form-stacked" },
-    defaults: { input_html: { class: 'uk-input' },
-    wrapper_html: { class: 'field' },
-    label_html: { class: 'uk-form-label' } }) do |f|
-
-    .field
-      = f.label :email
-      %br
-      = f.text_field :email
-
-    .field
-      = f.label :password
-      %br
-      = f.password_field :password, required: true
-    
-    .field 
-      = f.check_box :remember_me
-      = f.label :remember_me, as: :boolean, checked_value: true,
-      unchecked_value: false, input_html: { class: "uk-checkbox" },
-      wrapper_html: { class: 'field uk-form-controls' }
-     
-    - if @verify_recaptcha
-      .field
-        = recaptcha_tags(callback: 'recaptchaCallback')
-        - if flash.any? { |name, msg| name == "recaptcha_error" }
-          %span.error
-          = I18n.t(:recaptcha_error)
-    .field.actions
-      = f.button "Sign In"
-%p
-= render "devise/shared/links"
