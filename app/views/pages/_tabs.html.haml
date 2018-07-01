@@ -1,0 +1,4 @@
+= link_to "overview", page_path(@page)
+- if @page.media.size > 0
+  =link_to "media", page_media_path(@page)
+%br

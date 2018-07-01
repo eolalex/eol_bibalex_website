@@ -1,0 +1,2 @@
+module CollectedPagesHelper
+end

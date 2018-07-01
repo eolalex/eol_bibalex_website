@@ -18,4 +18,5 @@ Rails.application.config.assets.precompile += %w( bootstrap.min.js html5shiv.js 
 Rails.application.config.assets.precompile += %w( respond.min.js slick.js slick.min.js wow.min.js )
 Rails.application.config.assets.precompile += %w( search.js )
 Rails.application.config.assets.precompile += %w( api.js )
+Rails.application.config.assets.precompile += %w( pages.js )
 Rails.application.config.assets.precompile += %w( display.js )

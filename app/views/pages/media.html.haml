@@ -1,0 +1,12 @@
+= render("tabs")
+%ul.dropdown
+  - if @subclasses
+    %a.dropdown-toggle{:href => "#", "role" => "button", "data-toggle" => "dropdown", "data-target" => "#"} subclass
+    %ul.dropdown-menu{"role" => "menu"}
+      %li
+      - @subclasses.each do |sc|
+        = link_to sc, page_media_path(page_id: @page.id, subclass:sc)
+        %br
+%div{ class: "uk-visible@m" }
+  = will_paginate @media, remote: true
+  = render("media/grid", media: @media)
