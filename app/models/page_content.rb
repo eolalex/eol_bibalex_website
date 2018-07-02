@@ -1,5 +1,5 @@
 class PageContent < ApplicationRecord
-  belongs_to :pages,  class_name: 'Page', foreign_key: 'pages_id'
+  belongs_to :page
   belongs_to :content, polymorphic: true, inverse_of: :page_contents
   enum trust: [ :unreviewed, :trusted, :untrusted ]
   

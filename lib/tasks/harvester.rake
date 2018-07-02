@@ -25,15 +25,15 @@ def main_method
           
           unless node["taxon"]["pageEolId"].nil? 
             page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
-            # create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
-                                   # node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] })      
-            # unless node["vernaculars"].nil?
-              # create_vernaculars({vernaculars: node["vernaculars"], node_id: created_node.id, page_id: page_id, resource_id: node["resourceId"] })
-            # end
-#             
-            # unless node["media"].nil?
-              # create_media({media: node["media"],resource_id: node["resourceId"],page_id: page_id, references: node["references"]})
-            # end
+            create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
+                                   node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] })      
+            unless node["vernaculars"].nil?
+              create_vernaculars({vernaculars: node["vernaculars"], node_id: created_node.id, page_id: page_id, resource_id: node["resourceId"] })
+            end
+            
+            unless node["media"].nil?
+              create_media({media: node["media"],resource_id: node["resourceId"],page_id: page_id, references: node["references"]})
+            end
 #             
             # unless node["nodeData"]["ancestors"].nil?
               # build_hierarchy({vernaculars: node["nodeData"]["ancestors"], node_id: created_node.id })
@@ -133,21 +133,23 @@ def create_media(params)
       location_id = medium["locationCreated"].nil? ? nil : create_location(location: medium["locationCreated"],
                     spatial_location: medium["genericLocation"],latitude: medium["latitude"],longitude: medium["longitude"],
                     altitude: medium["altitude"], resource_id: params[:resource_id])
+                    
       #base_url need to have default value
       medium_id = create_medium({ format: medium["format"],description: medium["description"],owner: medium["owner"],
                      resource_id: params[:resource_id],guid: medium["guid"],resource_pk: medium["mediaId"],source_page_url: medium["furtherInformationURI"],
-                     language_id: language_id, license_id: license_id,location_id: location_id, base_url: "#{STORAGE_LAYER_IP}#{medium["storageLayerPath"]}"})
-      # #need to check  value , position
-      # fill_page_contents({resource_id: params[:resource_id],page_id: params[:page_id],source_page_id: params[:page_id],content_type: "Medium", content_id: medium_id})
+                     language_id: language_id, license_id: license_id,location_id: location_id, base_url: "#{STORAGE_LAYER_IP}#{medium["storageLayerPath"]}",
+                     bibliographic_citation_id: nil})
+      #need to check  value , position
+      fill_page_contents({resource_id: params[:resource_id],page_id: params[:page_id],source_page_id: params[:page_id],content_type: "Medium", content_id: medium_id})
 #       
-      # unless medium["agents"].nil?
-        # create_agents({resource_id: params[:resource_id], agents: medium["agents"], content_id: medium_id, content_type: "Medium",content_resource_fk: medium["mediaId"]})
-      # end
+      unless medium["agents"].nil?
+        create_agents({resource_id: params[:resource_id], agents: medium["agents"], content_id: medium_id, content_type: "Medium",content_resource_fk: medium["mediaId"]})
+      end
 #       
-      # #to show literature and references tab need to fill pages_referents table which won't be filled by us 
-      # unless params[:references].nil?
-        # create_referents({references: params[:references],resource_id: params[:resource_id], reference_id: medium["referenceId"],parent_id: medium_id,parent_type: "Medium",page_id: params[:page_id]})
-      # end
+      #to show literature and references tab need to fill pages_referents table which won't be filled by us 
+      unless params[:references].nil?
+        create_referents({references: params[:references],resource_id: params[:resource_id], reference_id: medium["referenceId"],parent_id: medium_id,parent_type: "Medium",page_id: params[:page_id]})
+      end
       
     end
   
@@ -163,9 +165,10 @@ end
 
 def create_agent(params)
   # need role default name
-  role_id = params[:role].nil? ? create_role("roletest") : create_role(params[:role]) 
+  # role_id = params[:role].nil? ? create_role("roletest") : create_role(params[:role]) 
+  role_name = params[:role].nil? ? "roletest" : params[:role]
   create_attribution({resource_id: params[:resource_id],content_id: params[:content_id] ,content_type: params[:content_type],
-                      role_id: role_id,url: params[:url], resource_pk: params[:resource_pk], value: params[:value], content_resource_fk: params[:content_resource_fk]})
+                      role_name: role_name,url: params[:url], resource_pk: params[:resource_pk], value: params[:value], content_resource_fk: params[:content_resource_fk]})
 end
 
 def create_referents(params)
@@ -284,7 +287,7 @@ def create_page(params)
       res.first.id
     else
       # if params[:resource_id] == DYNAMIC_HIERARCHY_RESOURCE_ID
-        page = Page.create(id: params[:id], node_id: params[:node_id])
+        page = Page.create(id: params[:id].to_i, node_id: params[:node_id].to_i)
         page.id
       # end
     end
@@ -299,7 +302,7 @@ def create_attribution(params)
   if res.first
     res.first.id
   else
-    attribution=Attribution.create(content_id: params[:content_id],content_type: params[:content_type],role_id: params[:role_id],
+    attribution=Attribution.create(content_id: params[:content_id],content_type: params[:content_type],role_name: params[:role_name],
                                    value: params[:value], url: params[:url], resource_id: params[:resource_id], resource_pk: params[:resource_pk], 
                                    content_resource_fk: params[:content_resource_fk])
     attribution.id

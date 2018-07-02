@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180629114045) do
+ActiveRecord::Schema.define(version: 20180702115300) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.text "owner"
@@ -214,11 +214,7 @@ ActiveRecord::Schema.define(version: 20180629114045) do
     t.integer "parent_id"
     t.bigint "rank_id"
     t.index ["generated_node_id"], name: "index_nodes_on_generated_node_id"
-<<<<<<< HEAD
     t.index ["rank_id"], name: "index_nodes_on_rank_id"
-=======
-    t.index ["page_id"], name: "index_nodes_on_page_id"
->>>>>>> 7fcce475d0eb8571dc422c4d0a476b0d6487041d
   end
 
   create_table "page_contents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -232,7 +228,10 @@ ActiveRecord::Schema.define(version: 20180629114045) do
     t.boolean "is_misidentified"
     t.boolean "is_hidden"
     t.boolean "is_duplicate"
+    t.bigint "page_id"
+    t.integer "source_page_id", null: false
     t.index ["content_type"], name: "index_page_contents_on_content_type"
+    t.index ["page_id"], name: "index_page_contents_on_page_id"
   end
 
   create_table "pages", id: :integer, default: nil, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -240,7 +239,6 @@ ActiveRecord::Schema.define(version: 20180629114045) do
     t.datetime "updated_at", null: false
     t.integer "page_richness"
     t.bigint "node_id"
-    t.index ["node_id"], name: "index_pages_on_node_id"
   end
 
   create_table "pages_nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -483,10 +481,4 @@ ActiveRecord::Schema.define(version: 20180629114045) do
   add_foreign_key "content_sections", "sections"
   add_foreign_key "links", "languages", column: "languages_id"
   add_foreign_key "media", "bibliographic_citations"
-<<<<<<< HEAD
-=======
-  add_foreign_key "nodes", "pages"
-  add_foreign_key "pages_nodes", "nodes"
-  add_foreign_key "pages_nodes", "pages"
->>>>>>> 7fcce475d0eb8571dc422c4d0a476b0d6487041d
 end
