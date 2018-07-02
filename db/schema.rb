@@ -191,7 +191,7 @@ ActiveRecord::Schema.define(version: 20180629114045) do
     t.integer "mime_type"
     t.integer "subclass", default: 1, null: false
     t.string "name"
-    t.string "rights_statment"
+    t.string "rights_statement"
     t.string "source_url"
     t.bigint "bibliographic_citation_id"
     t.index ["bibliographic_citation_id"], name: "index_media_on_bibliographic_citation_id"
