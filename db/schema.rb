@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180701124449) do
+ActiveRecord::Schema.define(version: 20180629114045) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.text "owner"
@@ -214,7 +214,11 @@ ActiveRecord::Schema.define(version: 20180701124449) do
     t.integer "parent_id"
     t.bigint "rank_id"
     t.index ["generated_node_id"], name: "index_nodes_on_generated_node_id"
+<<<<<<< HEAD
     t.index ["rank_id"], name: "index_nodes_on_rank_id"
+=======
+    t.index ["page_id"], name: "index_nodes_on_page_id"
+>>>>>>> 7fcce475d0eb8571dc422c4d0a476b0d6487041d
   end
 
   create_table "page_contents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -479,4 +483,10 @@ ActiveRecord::Schema.define(version: 20180701124449) do
   add_foreign_key "content_sections", "sections"
   add_foreign_key "links", "languages", column: "languages_id"
   add_foreign_key "media", "bibliographic_citations"
+<<<<<<< HEAD
+=======
+  add_foreign_key "nodes", "pages"
+  add_foreign_key "pages_nodes", "nodes"
+  add_foreign_key "pages_nodes", "pages"
+>>>>>>> 7fcce475d0eb8571dc422c4d0a476b0d6487041d
 end
