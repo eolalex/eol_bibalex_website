@@ -1,9 +1,9 @@
 class Medium < ApplicationRecord
   
   searchkick
-  belongs_to :languages , class_name: 'Language', foreign_key: 'languages_id'
-  belongs_to :locations , class_name: 'Location', foreign_key: 'locations_id'
-  belongs_to :licenses , class_name: 'License', foreign_key: 'licenses_id'
+  belongs_to :language 
+  belongs_to :location 
+  belongs_to :license 
   belongs_to :bibliographic_citation
   
   has_many :pages, inverse_of: :medium
