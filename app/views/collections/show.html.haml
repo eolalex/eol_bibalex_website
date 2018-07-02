@@ -1,8 +1,8 @@
 %h1= @collection.name
 - unless @collection.description.blank?
   %h2= @collection.description
-= link_to(t("collection.actions.edit"), edit_collection_path(@collection), class: "ui button uk-margin-small")
-= link_to(t("collection.actions.delete"), collection_path(@collection), method: "delete", data: { confirm: "Are You Sure You Want to Delete This Collection?"}, class: "ui basic button uk-margin-small")
+= link_to("Edit Collection", edit_collection_path(@collection), class: "btn btn-danger")
+= link_to("Delete Collection", collection_path(@collection), method: "delete", data: { confirm: "Are You Sure You Want to Delete This Collection?"}, class: "btn btn-danger")
 
 = render("collected_pages/show", collected_page: @collection.collected_pages)
 
