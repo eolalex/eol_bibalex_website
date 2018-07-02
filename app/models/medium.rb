@@ -1,4 +1,5 @@
 class Medium < ApplicationRecord
+  
   searchkick
   belongs_to :languages , class_name: 'Language', foreign_key: 'languages_id'
   belongs_to :locations , class_name: 'Location', foreign_key: 'locations_id'

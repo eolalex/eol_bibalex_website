@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   get 'pages/index'
 
   devise_for :users, controllers: {registrations: "registrations" }
-  root to: "pages#index"
+  # root to: "pages#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   
   resources :content_partners do
@@ -11,15 +11,30 @@ Rails.application.routes.draw do
   end
   
   resources :pages do
-    # for autocomplete in search
+  # for autocomplete in search
     collection do
       get :autocomplete
+      get 'overview', :to => redirect('collections#new', :status => 301)
     end
+    get "media"
+    get "overview", :to => redirect("/pages/%{page_id}")
   end
-  
+
+  resources :collections do
+    get "logs"
+    post '/collections/:id/edit(.:format)' => 'collections#edit'
+    resources :collected_pages, only: [:index]
+    post 'add_user'
+    post 'remove_user'
+  end
+  resources :collected_pages
+  delete '/collected_pages/:id'=>'collected_pages#destroy'
+
   #search
   get 'search' => 'search#index'
-  
+
+  get 'overview', :to => redirect("/pages/%{page_id}", :status => 301)
+
   #External API
   get "api/docs/:action" => "api/docs"
   get "api/:action" => "api"
@@ -27,11 +42,14 @@ Rails.application.routes.draw do
   match "api/:action/:version" => "api", :constraints => {version:  /\d\.\d/}, via: [:get, :post]
   match 'api/:action/:version/:id' => 'api', :constraints => {version:  /\d\.\d/}, via: [:get, :post]
 
+  match '/404', :to => 'errors#not_found', :via => :all
+  match '/500', :to => 'errors#internal_server_error', :via => :all
 
   
   #media
   resources :media, only: [:show]
   
+  root 'home_page#index'
   # get 'media' => 'media#show'
   
   

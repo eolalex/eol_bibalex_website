@@ -1,34 +1,58 @@
-%h2 Sign up
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = devise_error_messages!
-  
-  -# .form-group
-    -# = f.label :username
-    -# = f.text_field :username, required: true, class: "form-control"
-      
-  .form-group
-    = f.label :email
-    %br/
-    = f.email_field :email, required: true, autofocus: true, class: "form-control"
-
-  .form-group
-    = f.label :password
-    - if @minimum_password_length
-      %em
-        (#{@minimum_password_length} characters minimum)
-    %br/
-    = f.password_field :password, required: true, autocomplete: "off", class: "form-control"
-  .form-group
-    = f.label :password_confirmation
-    %br/
-    = f.password_field :password_confirmation, required: true, autocomplete: "off", class: "form-control"
-  .form-group
-    = f.label I18n.t(:recaptcha), required: true
-    = recaptcha_tags(theme: 'clean', callback: 'recaptchaCallback')
-    - if flash.any? { |name, msg| name == "recaptcha_error" }
-      %span.error
-        = I18n.t('recaptcha_error')
-    
-  .actions
-    = f.submit "Sign up", class: "btn btn-primary"
-= render "devise/shared/links"
+%asp:Content{:ContentPlaceHolderID => "head", :ID => "Content1", :Runat => "Server"}
+%asp:Content{:ContentPlaceHolderID => "ContentPlaceHolder1", :ID => "Content2", :Runat => "Server"}
+  .MainPath
+    .container
+      .row
+        .col-md-12
+          .names-hier
+            \&#x2026;/
+            %a{:href => "/users"}> Users
+            \/&#x2026;/
+            %a{:href => "#"}> Sign up
+            \/&#x2026;/
+  %script{:src => "//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"}
+  %script{:src => "//code.jquery.com/jquery-1.11.1.min.js"}
+  .container
+    .row
+      .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3
+        %form{:role => "form"}
+          %h2
+            Sign Up
+            %small It's free and always will be.
+          %hr.colorgraph
+            .form-group
+              %input.form-control.input-lg{:name => "user_name", :placeholder => "User Name", :tabindex => "1", :type => "text"}
+              .form-group
+                %input.form-control.input-lg{:name => "email", :placeholder => "Email Address", :tabindex => "2", :type => "email"}
+                .row
+                  .col-xs-12.col-sm-6.col-md-6
+                    .form-group
+                      %input.form-control.input-lg{:name => "password", :placeholder => "Password", :tabindex => "3", :type => "password"}
+                    .col-xs-12.col-sm-6.col-md-6
+                      .form-group
+                        %input#password_confirmation.form-control.input-lg{:name => "password_confirmation", :placeholder => "Confirm Password", :tabindex => "4", :type => "password"}
+                    .input-group
+                      .checkbox
+                        %label
+                          %input#login-remember{:name => "remember", :type => "checkbox", :value => "1"}
+                            Remember me
+                      %hr.colorgraph
+                        .row
+                          .col-xs-12
+                            %input.btn.btn-primary.btn-block.btn-lg{:tabindex => "5", :type => "submit", :value => "Sign up"}/
+                    #t_and_c_m.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+                      .modal-dialog.modal-lg
+                        .modal-content
+                          .modal-header
+                            %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &#xD7;
+                            %h4#myModalLabel.modal-title Terms  Conditions
+                          .modal-body
+                            %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
+                            %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
+                            %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
+                            %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
+                            %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
+                            %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
+                            %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
+                          .modal-footer
+                            %button.btn.btn-primary{"data-dismiss" => "modal", :type => "button"} I Agree

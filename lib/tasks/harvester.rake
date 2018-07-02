@@ -25,16 +25,16 @@ def main_method
           
           unless node["taxon"]["pageEolId"].nil? 
             page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
-            create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
-                                   node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] })      
-            unless node["vernaculars"].nil?
-              create_vernaculars({vernaculars: node["vernaculars"], node_id: created_node.id, page_id: page_id, resource_id: node["resourceId"] })
-            end
-            
-            unless node["media"].nil?
-              create_media({media: node["media"],resource_id: node["resourceId"],page_id: page_id, references: node["references"]})
-            end
-            
+            # create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
+                                   # node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] })      
+            # unless node["vernaculars"].nil?
+              # create_vernaculars({vernaculars: node["vernaculars"], node_id: created_node.id, page_id: page_id, resource_id: node["resourceId"] })
+            # end
+#             
+            # unless node["media"].nil?
+              # create_media({media: node["media"],resource_id: node["resourceId"],page_id: page_id, references: node["references"]})
+            # end
+#             
             # unless node["nodeData"]["ancestors"].nil?
               # build_hierarchy({vernaculars: node["nodeData"]["ancestors"], node_id: created_node.id })
             # end
@@ -137,17 +137,17 @@ def create_media(params)
       medium_id = create_medium({ format: medium["format"],description: medium["description"],owner: medium["owner"],
                      resource_id: params[:resource_id],guid: medium["guid"],resource_pk: medium["mediaId"],source_page_url: medium["furtherInformationURI"],
                      language_id: language_id, license_id: license_id,location_id: location_id, base_url: "#{STORAGE_LAYER_IP}#{medium["storageLayerPath"]}"})
-      #need to check  value , position
-      fill_page_contents({resource_id: params[:resource_id],page_id: params[:page_id],source_page_id: params[:page_id],content_type: "Medium", content_id: medium_id})
-      
-      unless medium["agents"].nil?
-        create_agents({resource_id: params[:resource_id], agents: medium["agents"], content_id: medium_id, content_type: "Medium",content_resource_fk: medium["mediaId"]})
-      end
-      
-      #to show literature and references tab need to fill pages_referents table which won't be filled by us 
-      unless params[:references].nil?
-        create_referents({references: params[:references],resource_id: params[:resource_id], reference_id: medium["referenceId"],parent_id: medium_id,parent_type: "Medium",page_id: params[:page_id]})
-      end
+      # #need to check  value , position
+      # fill_page_contents({resource_id: params[:resource_id],page_id: params[:page_id],source_page_id: params[:page_id],content_type: "Medium", content_id: medium_id})
+#       
+      # unless medium["agents"].nil?
+        # create_agents({resource_id: params[:resource_id], agents: medium["agents"], content_id: medium_id, content_type: "Medium",content_resource_fk: medium["mediaId"]})
+      # end
+#       
+      # #to show literature and references tab need to fill pages_referents table which won't be filled by us 
+      # unless params[:references].nil?
+        # create_referents({references: params[:references],resource_id: params[:resource_id], reference_id: medium["referenceId"],parent_id: medium_id,parent_type: "Medium",page_id: params[:page_id]})
+      # end
       
     end
   
@@ -214,7 +214,7 @@ def create_node(params)
   resource_pk = params[:taxon_id].nil? ? "missed_taxon_id" : params[:taxon_id] 
   node = Node.create(
     resource_id: params[:resource_id],
-    ranks_id: rank_id,
+    rank_id: rank_id,
     scientific_name: params[:scientific_name],
     canonical_form: params[:canonical_form],
     resource_pk: resource_pk,
@@ -284,7 +284,7 @@ def create_page(params)
       res.first.id
     else
       # if params[:resource_id] == DYNAMIC_HIERARCHY_RESOURCE_ID
-        page = Page.create(id: params[:id], native_node_id: params[:node_id])
+        page = Page.create(id: params[:id], node_id: params[:node_id])
         page.id
       # end
     end
@@ -307,12 +307,12 @@ def create_attribution(params)
 end
 
 def create_vernacular(params)
-  res = Vernacular.where(string: params[:string], nodes_id: params[:node_id])
+  res = Vernacular.where(string: params[:string], node_id: params[:node_id])
   if res.count > 0
     res.first.id
   else
-    vernacular_attributes = { string: params[:string] , languages_id: params[:language_id] , nodes_id: params[:node_id], 
-                              pages_id: params[:page_id], resource_id: params[:resource_id] }
+    vernacular_attributes = { string: params[:string] , language_id: params[:language_id] , node_id: params[:node_id], 
+                              page_id: params[:page_id], resource_id: params[:resource_id] }
     unless params[:is_preferred_by_resource].nil?
       vernacular_attributes[:is_preferred_by_resource] = params[:is_preferred_by_resource]
     end
@@ -340,13 +340,13 @@ def create_scientific_name(params)
   # for now, we set italicized by canonical form but we should use global names tool
   # to separate scientific name and authority an surrond canonical form part with <i> </i> tags
   
-  res = ScientificName.where(nodes_id: params[:node_id], canonical_form: params[:canonical_form])
+  res = ScientificName.where(node_id: params[:node_id], canonical_form: params[:canonical_form])
   if res.count > 0
     res.first.id
   else
     canonical_form = params[:canonical_form].nil? ? params[:scientific_name] : params[:canonical_form]
-    scientific_name = ScientificName.create(nodes_id: params[:node_id], pages_id: params[:page_id], resource_id: params[:resource_id],canonical_form: canonical_form,
-                                            node_resource_pk: params[:node_resource_pk], italicized: canonical_form , taxonomic_statuses_id: 1)
+    scientific_name = ScientificName.create(node_id: params[:node_id], page_id: params[:page_id], resource_id: params[:resource_id],canonical_form: canonical_form,
+                                            node_resource_pk: params[:node_resource_pk], italicized: canonical_form , taxonomic_status_id: 1)
     scientific_name.id
   end  
 end

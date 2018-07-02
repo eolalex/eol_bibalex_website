@@ -17,8 +17,9 @@ $link-color: #004a79;
 $link-hover-color: #17874e;
 $link-visited-color: #574177;
 
-@import "main";
+@import "main.scss";
 
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "pages";

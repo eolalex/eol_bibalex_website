@@ -1,4 +1,4 @@
 class Node < ApplicationRecord
-  belongs_to :rank, class_name: 'Rank', primary_key: 'id', foreign_key: 'ranks_id'
-  # belongs_to :ranks
+  belongs_to :rank
+  has_many :children, class_name: 'Node', foreign_key: :parent_id
 end
