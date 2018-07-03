@@ -137,7 +137,7 @@ def create_media(params)
       #base_url need to have default value
       medium_id = create_medium({ format: medium["format"],description: medium["description"],owner: medium["owner"],
                      resource_id: params[:resource_id],guid: medium["guid"],resource_pk: medium["mediaId"],source_page_url: medium["furtherInformationURI"],
-                     language_id: language_id, license_id: license_id,location_id: location_id, base_url: "#{STORAGE_LAYER_IP}#{medium["storageLayerPath"]}",
+                     language_id: language_id, license_id: license_id,location_id: location_id, base_url: "http://#{STORAGE_LAYER_IP}#{medium["storageLayerPath"]}",
                      bibliographic_citation_id: nil})
       #need to check  value , position
       fill_page_contents({resource_id: params[:resource_id],page_id: params[:page_id],source_page_id: params[:page_id],content_type: "Medium", content_id: medium_id})
@@ -290,7 +290,6 @@ def create_page(params)
     else
       # if params[:resource_id] == DYNAMIC_HIERARCHY_RESOURCE_ID
         page = Page.create(id: params[:id].to_i, node_id: params[:node_id].to_i)
-        debugger
         page.id
       # end
     end
