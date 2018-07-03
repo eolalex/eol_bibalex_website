@@ -290,6 +290,7 @@ def create_page(params)
     else
       # if params[:resource_id] == DYNAMIC_HIERARCHY_RESOURCE_ID
         page = Page.create(id: params[:id].to_i, node_id: params[:node_id].to_i)
+        debugger
         page.id
       # end
     end
