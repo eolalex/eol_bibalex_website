@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180703081655) do
+ActiveRecord::Schema.define(version: 20180703083253) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "owner"
@@ -237,10 +237,8 @@ ActiveRecord::Schema.define(version: 20180703081655) do
   create_table "pages", id: :integer, default: nil, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "medium_id"
     t.integer "page_richness"
     t.bigint "node_id"
-    t.index ["medium_id"], name: "index_pages_on_medium_id"
   end
 
   create_table "pages_nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
