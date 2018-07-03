@@ -55,4 +55,11 @@ class PagesController < ApplicationController
     @page = Page.where(id: params[:page_id]).includes(referents: :parent).first
   end
 
+  def names
+    @page = Page.find(params[:id])
+    respond_to do |format|
+      format.html {}
+    end
+  end
+  
 end
