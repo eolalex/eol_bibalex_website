@@ -11,6 +11,6 @@
         = f.text_field :description, class: "uk-input"
     -# - if policy(@collection).update?
     .uk-width-1-4.actions
-      = f.submit(class: "ui button")
+      = f.submit(class: "btn btn-danger")
       %br/
-      = link_to t(:cancel), collection_path(@collection), class: "ui basic button"
+      = link_to t(:cancel), collection_path(@collection), class: "btn btn-danger"

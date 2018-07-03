@@ -93,7 +93,38 @@
     .mainMenu .navbar-toggle {
         float: left;
     }
+.navbar-toggle {
 
+    background-color: transparent!important;
+
+    background-image: none!important;
+
+    border: 1px solid !important;
+
+    border-radius: 4px!important;
+
+    float: right;
+
+    margin-bottom: 8px!important;
+
+    margin-right: 15px!important;
+
+    margin-top: 8px!important;
+
+    padding: 9px 10px!important;
+
+    position: relative!important;
+    
+
+}
+.navbar-toggle:hover,
+.navbar-toggle:focus{
+	background-color:#333!important;
+}
+
+button{
+	box-shadow:none;
+}
 .menuText {
     color: #d7d7d7;
     display: inline-block;
@@ -238,7 +269,7 @@ select {
 }
 
 .NetworksLink {
-    background: rgba(0, 0, 0, 0) url("../images/NetworkIcon.png") no-repeat scroll left center;
+    background: rgba(0, 0, 0, 0) url("NetworkIcon.png") no-repeat scroll left center;
     padding-left: 30px !important;
 }
 
@@ -415,7 +446,7 @@ body > form {
 
 /*====== Sponsers ======*/
 #Sponsors {
-    background: rgba(0, 0, 0, 0) url("../images/partners/partner_bg.png") no-repeat scroll 50% 50% / cover;
+    background: rgba(0, 0, 0, 0) url("partner_bg.png") no-repeat scroll 50% 50% / cover;
     padding: 70px 0;
     color: white;
     margin-top: 70px;
@@ -442,11 +473,17 @@ body > form {
 }
 
 .Donation .get-started {
-    margin-bottom: 80px;
+    margin-bottom: 60px;
+    margin-top: 50px;
+}
+.Donation .lead{
+	font-size:16px;
 }
 
 
-
+ul.social-share li a{
+	padding-top:6px!important;
+}
 
 
 

@@ -5,16 +5,24 @@ class CollectionsController < ApplicationController
 
   def new
     @collection = Collection.new
+    respond_to do |format|
+      format.html {}
+      format.js {}
+    end
   end
 
   def create
     @collection = Collection.new(collection_params)
-    @collection.users << current_user
     if @collection.save
+      @collection.users << current_user
       flash[:notice] = "Collection Created"
-      render 'new'
+      redirect_to @collection
+      respond_to do |format|
+        format.html {}
+        format.js {}
+      end
     else
-      render "new"
+      redirect_to root_path
     end
   end
 
@@ -47,7 +55,7 @@ class CollectionsController < ApplicationController
   end
 
   def collection_params
-    params.require(:collection).permit(:name, :description, :collection_type, :default_sort,
+    params.require(:collection).permit(:id, :name, :description, :collection_type, :default_sort, :user_id,
       collected_pages_attributes: [:id, :page_id, :annotation,
         collected_pages_media_attributes: [:medium_id, :collected_page_id, :_destroy]])
   end

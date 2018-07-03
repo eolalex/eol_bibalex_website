@@ -15,46 +15,50 @@
   .container
     .row
       .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3
-        %form{:role => "form"}
+        = form_for(resource, as: resource_name, url: session_path(resource_name), :validate => true,
+          html: { class: "eol-userform recaptchad uk-form-stacked" },
+          defaults: { input_html: { class: 'uk-input' },
+          wrapper_html: { class: 'field' },
+          label_html: { class: 'uk-form-label' } }) do |f|
           %h2
             Sign In
           %hr.colorgraph
             .form-group
-              %input.form-control.input-lg{:name => "email", :placeholder => "Email Address", :tabindex => "1", :type => "text"}
-              .form-group
-                %input.form-control.input-lg{:name => "password", :placeholder => "Password", :tabindex => "2", :type => "email"}
-                .row
-                  .col-xs-12.col-sm-6.col-md-6
-                    .input-group
-                      .checkbox
-                        %label
-                          %input#login-remember{:name => "remember", :type => "checkbox", :value => "1"}
-                            Remember me
-                      %hr.colorgraph
-                        .row
-                          .col-xs-12
-                            %input.btn.btn-primary.btn-block.btn-lg{:tabindex => "5", :type => "submit", :value => "Sign in"}
-                      - if @verify_recaptcha
-                        .field
-                          = recaptcha_tags(callback: 'recaptchaCallback')
-                          - if flash.any? { |name, msg| name == "recaptcha_error" }
-                            %span.error
-                              = I18n.t(:recaptcha_error)
-                      %p
-                        = render "devise/shared/links"
-                    #t_and_c_m.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-                      .modal-dialog.modal-lg
-                        .modal-content
-                          .modal-header
-                            %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &#xD7;
-                            %h4#myModalLabel.modal-title Terms  Conditions
-                          .modal-body
-                            %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
-                            %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
-                            %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
-                            %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
-                            %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
-                            %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
-                            %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
-                          .modal-footer
-                            %button.btn.btn-primary{"data-dismiss" => "modal", :type => "button"} I Agree
+              %input.form-control.input-lg{:name => "user[email]", :placeholder => "Email Address", :tabindex => "1", :type => "email"}
+            .form-group
+              %input.form-control.input-lg{:name => "user[password]", :placeholder => "Password", :tabindex => "2", :type => "password"}
+              .row
+                .col-xs-12.col-sm-6.col-md-6
+                  .input-group
+                    .checkbox
+                      %label
+                        %input#login-remember{:name => "user[remember]", :type => "checkbox", :value => "1"}
+                          Remember me
+                    %hr.colorgraph
+                      .row
+                        .col-xs-12
+                          %input.btn.btn-primary.btn-block.btn-lg{:tabindex => "5", :type => "submit", :value => "Sign in"}
+                    - if @verify_recaptcha
+                      .field
+                        = recaptcha_tags(callback: 'recaptchaCallback')
+                        - if flash.any? { |name, msg| name == "recaptcha_error" }
+                          %span.error
+                            = I18n.t(:recaptcha_error)
+                    %p
+                      = render "devise/shared/links"
+                  #t_and_c_m.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+                    .modal-dialog.modal-lg
+                      .modal-content
+                        .modal-header
+                          %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &#xD7;
+                          %h4#myModalLabel.modal-title Terms  Conditions
+                        .modal-body
+                          %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
+                          %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
+                          %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
+                          %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
+                          %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
+                          %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
+                          %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
+                        .modal-footer
+                          %button.btn.btn-primary{"data-dismiss" => "modal", :type => "button"} I Agree
