@@ -64,7 +64,7 @@
             .col-lg-5.col-md-6.col-sm-6.col-xs-12.coloredMenu
               %ul.topMenu
                 %li
-                  %a.signIn{:href => "#"}
+                  %a.signIn{:href => "/users/sign_in"}
                     %i.fa.fa-user-circle{"aria-hidden" => "true"}
                     Sign in
                 %li.dropdown
@@ -74,12 +74,6 @@
                   %ul.dropdown-menu
                     %li
                       %a{:href => "https://education.eol.org/", :target => "_blank"} Learning + Education
-                    %li
-                      %a{:href => "pricing.html"} Pricing
-                    %li
-                      %a{:href => "404.html"} 404
-                    %li
-                      %a{:href => "shortcodes.html"} Shortcodes
                 %li
                   %button.btn-search.globalSearchBtn.hidden-xs{"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"}
                     %i.fa.fa-search{"aria-hidden" => "true"}
@@ -102,7 +96,7 @@
                     %button.btn.btn-primary{:type => "button"} Search
     
   %body
-    .container-fluid
+    .container-fluidd
       = yield
     %script{:src => "assets/js/jquery.js"}
     %script{:src => "assets/js/bootstrap.min.js"}
@@ -111,3 +105,26 @@
     %script{:src => "assets/js/main.js"}
     %script{:src => "assets/js/wow.min.js"}
     %script{:src => "assets/js/multislider.js"}
+    %footer#footer.midnight-blue
+      .container
+        .row
+          .col-sm-6.col-xs-12
+            %ul
+              %li
+                %a{:href => "#"} Terms
+              %li
+                %a{:href => "#"} Glossary
+              %li
+                %a{:href => "#"} Donate
+              %li
+                %a{:href => "#"} Contact Us
+          .col-sm-6.col-xs-12
+            .social
+              %ul.social-share
+                %li Follow us on:
+                %li
+                  %a{:href => "#"}
+                    %i.fa.fa-facebook
+                %li
+                  %a{:href => "#"}
+                    %i.fa.fa-twitter
