@@ -1,6 +1,6 @@
 class Page < ActiveRecord::Base
 
-  # has_many :collected_pages, inverse_of: :page
+  has_many :collected_pages
   searchkick word_start: [:scientific_name]
   belongs_to :node
   belongs_to :medium
