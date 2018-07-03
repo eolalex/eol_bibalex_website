@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     end
     get "media"
     get "overview", :to => redirect("/pages/%{page_id}")
+    get "literature_and_references"
   end
 
   resources :collections do

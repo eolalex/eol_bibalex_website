@@ -52,7 +52,7 @@ class PagesController < ApplicationController
   end
   
   def literature_and_references
-    @page = Page.where(id: params[:page_id]).includes(referents: :parent).first
+    @page = Page.where(id: params[:page_id]).first
   end
 
 end
