@@ -172,15 +172,17 @@ def create_agent(params)
 end
 
 def create_referents(params)
-  reference_ids=params[:reference_id].split(';')
-  reference_ids.each do|reference_id|
-    params[:references].each do |reference|
-      if reference["referenceId"] == reference_id
-        body = "#{reference["primaryTitle"]} #{reference["secondaryTitle"]} #{reference["pages"]} #{reference["pageStart"]} "+
-              "#{reference["pageEnd"]} #{reference["volume"]} #{reference["editor"]} #{reference["publisher"]} "+
-              "#{reference["authorsList"]} #{reference["editorsList"]} #{reference["dataCreated"]} #{reference["doi"]}"
-        referent_id = create_referent(body: body ,resource_id: params[:resource_id])
-        create_references({referent_id: referent_id,parent_id: params[:parent_id],parent_type: params[:parent_type], resource_id: params[:resource_id]})
+  unless params[:reference_id].nil?
+    reference_ids=params[:reference_id].split(';')
+    reference_ids.each do|reference_id|
+      params[:references].each do |reference|
+        if reference["referenceId"] == reference_id
+          body = "#{reference["primaryTitle"]} #{reference["secondaryTitle"]} #{reference["pages"]} #{reference["pageStart"]} "+
+                "#{reference["pageEnd"]} #{reference["volume"]} #{reference["editor"]} #{reference["publisher"]} "+
+                "#{reference["authorsList"]} #{reference["editorsList"]} #{reference["dataCreated"]} #{reference["doi"]}"
+          referent_id = create_referent(body: body ,resource_id: params[:resource_id])
+          create_references({referent_id: referent_id,parent_id: params[:parent_id],parent_type: params[:parent_type], resource_id: params[:resource_id]})
+        end
       end
     end
   end

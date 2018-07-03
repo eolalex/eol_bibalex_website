@@ -50,5 +50,9 @@ class PagesController < ApplicationController
       format.js {}
     end
   end
+  
+  def literature_and_references
+    @page = Page.where(id: params[:page_id]).includes(referents: :parent).first
+  end
 
 end

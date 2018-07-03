@@ -4,7 +4,7 @@ class MediaController < ApplicationController
     
     def show
     @medium = Medium.where(id: params[:id]).first
-    @license = @medium.licenses
+    @license = @medium.license
   end
 
 end

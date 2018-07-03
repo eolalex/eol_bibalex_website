@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180702115300) do
+ActiveRecord::Schema.define(version: 20180702125112) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.text "owner"
@@ -251,6 +251,14 @@ ActiveRecord::Schema.define(version: 20180702115300) do
     t.index ["page_id"], name: "index_pages_nodes_on_page_id"
   end
 
+  create_table "pages_referents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "page_id"
+    t.integer "referent_id"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "ranks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -263,6 +271,7 @@ ActiveRecord::Schema.define(version: 20180702115300) do
     t.integer "resource_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "referent_id"
     t.index ["parent_type"], name: "index_references_on_parent_type"
   end
 
