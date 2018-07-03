@@ -1,10 +1,10 @@
 class Medium < ApplicationRecord
   
   searchkick
-  belongs_to :language 
-  belongs_to :location 
-  belongs_to :license 
-  belongs_to :bibliographic_citation
+  belongs_to :language
+  belongs_to :location, optional: true
+  belongs_to :license
+  belongs_to :bibliographic_citation, optional: true
   
   has_many :pages, inverse_of: :medium
   has_many :attributions, as: :content
@@ -27,7 +27,7 @@ class Medium < ApplicationRecord
   end
   
   def ancestry_ids
-      page_contents.pluck(:pages_id)
+      page_contents.pluck(:page_id)
   end
   
   def is_image?

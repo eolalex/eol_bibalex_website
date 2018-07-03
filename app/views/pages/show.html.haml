@@ -1,14 +1,14 @@
 = render("overview")
 = render("tabs")
-- if @page.medium
+- if @page.media.first
   = @page.scientific_name
   %br
   %div{:class => "medium"}
-    %img{src: @page.medium.base_url}
+    %img{src: @page.media.first.base_url}
     %br
-    = @page.medium.owner
+    = @page.media.first.owner
   - limit ||= 20
-  - node ||= @page.native_node || @page.nodes.first
+  - node ||= @page.node || @page.nodes.first
   - if node.children.any?
     %h4= @page.scientific_name+" includes"
     - node.children[0..limit-1].each do |child|

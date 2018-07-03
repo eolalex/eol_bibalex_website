@@ -2,7 +2,7 @@ module Api
   module Collections
     class V0_0 < Api::Methods
       VERSION = '0.0'
-      BRIEF_DESCRIPTION= Proc.new {"brife description" }
+      BRIEF_DESCRIPTION= Proc.new {"brief description" }
       DESCRIPTION= Proc.new {"API Collections" }
       PARAMETERS = Proc.new {
         [
@@ -47,6 +47,7 @@ module Api
         
         
       def self.call(params={})
+        debugger
         validate_and_normalize_input_parameters(params)
           I18n.locale = params[:language] unless params[:language].blank?
         if params[:sort_by].class != String
@@ -63,6 +64,7 @@ module Api
       
       
       def self.prepare_hash(collection, params)
+        debugger
         return_hash = {}
         return_hash['name'] = collection["_source"]["name"]
         return_hash['description'] = collection["_source"]["description"]
@@ -185,7 +187,6 @@ module Api
         end
         
         return sort_items(params, @items)
-        
       end
       
       def self.sort_items(params, items)
