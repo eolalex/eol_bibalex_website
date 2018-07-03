@@ -6,9 +6,11 @@ class Page < ActiveRecord::Base
   has_many :scientific_names, class_name: 'ScientificName', primary_key: 'id', foreign_key: 'page'
   has_many :page_contents, class_name: 'PageContent', primary_key: 'id', foreign_key: 'page'
   has_many :media, through: :page_contents, source: :content, source_type: "Medium"
-  has_and_belongs_to_many :referents
-  # has_many :nodes, inverse_of: :page
-  # belongs_to :medium, inverse_of: :pages
+  has_and_belongs_to_many :referents  
+  has_many :vernaculars,  class_name: "Vernacular", foreign_key: 'page_id'
+  has_many :pages_node
+  has_many :nodes, through: :pages_node
+  
   def search_data
       {
         id: id,
