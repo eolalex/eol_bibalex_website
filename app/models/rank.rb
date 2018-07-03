@@ -1,5 +1,5 @@
 class Rank < ActiveRecord::Base
-  
+  has_many :nodes, class_name: 'Node', foreign_key: 'ranks_id'
     # enum treat_as: [
     # :r_domain,
     # :r_subdomain,
@@ -76,5 +76,5 @@ class Rank < ActiveRecord::Base
   # end
 #   
 # end
-  
+    
 end
