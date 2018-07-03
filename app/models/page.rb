@@ -2,9 +2,12 @@ class Page < ApplicationRecord
   searchkick word_start: [:scientific_name]
   belongs_to :native_node, class_name: "Node"
   belongs_to :medium, inverse_of: :pages
-  has_many :scientific_names, class_name: 'ScientificName', primary_key: 'id', foreign_key: 'pages'
+  has_many :scientific_names, class_name: 'ScientificName',  foreign_key: 'pages_id'
+  has_many :vernaculars,  class_name: "Vernacular", foreign_key: 'pages_id'
   has_many :page_contents, class_name: 'PageContent', primary_key: 'id', foreign_key: 'pages'
   has_many :media, through: :page_contents, source: :content, source_type: "Medium"
+  has_many :pages_node
+  has_many :nodes, through: :pages_node
   
   def search_data
       {

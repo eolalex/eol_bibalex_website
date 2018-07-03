@@ -17,4 +17,11 @@ class PagesController < ApplicationController
     })
   end
   
+  def names
+    @page = Page.find(params[:id])
+    respond_to do |format|
+      format.html {}
+    end
+  end
+  
 end

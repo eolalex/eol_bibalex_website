@@ -15,6 +15,9 @@ Rails.application.routes.draw do
     collection do
       get :autocomplete
     end
+    member do
+      get 'names'
+    end
   end
   
   #search
