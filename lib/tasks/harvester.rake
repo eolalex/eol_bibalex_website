@@ -43,7 +43,7 @@ def main_method
         end    
       end
       
-      # build_hierarchy(nodes_ids)
+      build_hierarchy(nodes_ids)
       
       
     end
@@ -215,6 +215,7 @@ end
   
 
 def create_node(params)
+  # fill parent id with generated node id as place holder and this value will be changed after calling build hierarchy
   rank_id = params[:rank].nil? ? nil : create_rank(params[:rank])
   resource_pk = params[:taxon_id].nil? ? "missed_taxon_id" : params[:taxon_id] 
   node = Node.create(
