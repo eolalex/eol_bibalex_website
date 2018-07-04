@@ -191,7 +191,7 @@ ActiveRecord::Schema.define(version: 20180702125112) do
     t.integer "mime_type"
     t.integer "subclass", default: 1, null: false
     t.string "name"
-    t.string "rights_statement"
+    t.string "rights_statment"
     t.string "source_url"
     t.bigint "bibliographic_citation_id"
     t.bigint "language_id"
@@ -228,9 +228,7 @@ ActiveRecord::Schema.define(version: 20180702125112) do
     t.boolean "is_misidentified"
     t.boolean "is_hidden"
     t.boolean "is_duplicate"
-    t.bigint "page_id"
     t.index ["content_type"], name: "index_page_contents_on_content_type"
-    t.index ["page_id"], name: "index_page_contents_on_page_id"
   end
 
   create_table "pages", id: :integer, default: nil, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
