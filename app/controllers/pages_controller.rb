@@ -52,7 +52,14 @@ class PagesController < ApplicationController
   end
   
   def literature_and_references
-    @page = Page.where(id: params[:page_id]).includes(referents: :parent).first
+    @page = Page.where(id: params[:page_id]).first
   end
 
+  def names
+    @page = Page.find(params[:id])
+    respond_to do |format|
+      format.html {}
+    end
+  end
+  
 end
