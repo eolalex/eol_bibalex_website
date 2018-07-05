@@ -3,4 +3,6 @@
   =link_to "media", page_media_path(@page)
 -if @page.referents.size > 0
   =link_to "literature and references", page_literature_and_references_path(@page)
+- if @page.data.size> 0
+  =link_to "data", page_data_path(@page)
 %br
