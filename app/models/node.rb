@@ -5,8 +5,8 @@ class Node < ApplicationRecord
   has_many :references, as: :parent
   has_many :pages_node
   has_many :pages, through: :pages_node  
-  has_many :scientific_names, class_name: "ScientificName", primary_key: 'id', foreign_key: 'nodes'
-  has_many :vernaculars, class_name: "Vernacular",primary_key: 'id', foreign_key: 'nodes' 
+  has_many :scientific_names
+  has_many :vernaculars
   has_many :node_ancestors, class_name: "NodeAncestor", foreign_key: 'node_id'
   belongs_to :parent, class_name: 'Node', optional: true
 

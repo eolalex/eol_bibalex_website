@@ -6,6 +6,7 @@ class Page < ActiveRecord::Base
   has_many :scientific_names, class_name: 'ScientificName', primary_key: 'id', foreign_key: 'page'
   has_many :page_contents, class_name: 'PageContent', primary_key: 'id', foreign_key: 'page'
   has_many :media, through: :page_contents, source: :content, source_type: "Medium"
+  has_many :articles, through: :page_contents, source: :content, source_type: "Article"
   has_and_belongs_to_many :referents  
   has_many :vernaculars,  class_name: "Vernacular", foreign_key: 'page_id'
   has_many :pages_node
