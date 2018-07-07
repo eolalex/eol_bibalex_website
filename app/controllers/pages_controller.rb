@@ -30,7 +30,7 @@ class PagesController < ApplicationController
   def media
     @page = Page.where(id: params[:page_id]).first
     media = @page.media
-    @subclasses = @page.media.pluck(:subclass).uniq
+    @subclasses = @page.media.pluck(:subclass).uniq.compact!
     @subclasses << "any type"
     if params[:subclass] && params[:subclass] != "any type"
       @subclass = params[:subclass]
