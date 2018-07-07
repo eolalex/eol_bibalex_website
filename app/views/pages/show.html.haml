@@ -9,24 +9,23 @@
 
         .col-md-8
           .blog-item
-            %img.img-responsive{:alt => "", :src => @page.media.first, :width => "100%"}/
+            - image = @page.media.first
+            %img.img-responsive{:alt => "", :src => image.base_url, :width => "100%"}/
             .row.ImgMetaData
               .col-xs-12
                 .entry-meta
                   %span#publish_date
-                    Taxon Name
-                    %span.btn.btn-success.btn-xs Trusted
-                  %span.TaxonMentaData Photographed at Finca Jorge Serrano, Costa Rica
+                    = @page.scientific_name
+                    %span.btn.btn-success.btn-xs
+                      - content = image.page_contents.find { |c| c.content_id == image.id }
+                      = content.trust
                   %span.TaxonMentaData
-                    %b Source:
-                    %a{:href => "#"} EOL Response Team
+                    %b Photographed by:
+                    = image.owner
               .col-xs-12.blog-content
                 %br/
                 %h5 Comprehensive Description
-                %p Curabitur quis libero leo, pharetra mattis eros. Praesent consequat libero eget dolor convallis vel rhoncus magna scelerisque. Donec nisl ante, elementum eget posuere a, consectetur a metus. Proin a adipiscing sapien. Suspendisse vehicula porta lectus vel semper. Nullam sapien elit, lacinia eu tristique non.posuere at mi. Morbi at turpis id urna ullamcorper ullamcorper.
-                %p Curabitur quis libero leo, pharetra mattis eros. Praesent consequat libero eget dolor convallis vel rhoncus magna scelerisque. Donec nisl ante, elementum eget posuere a, consectetur a metus. Proin a adipiscing sapien. Suspendisse vehicula porta lectus vel semper.
-                .post-tags
-                  %a{:href => "#"} Continue reading...
+                = @page.articles.first
         .col-md-4
           %aside
             .widget.categories
@@ -85,16 +84,13 @@
               .row
                 .col-sm-12
                   .single_comments
-                    %b Taxon Name
-                    %a{:href => "#"}
-                      %i.fa.fa-download{"aria-hidden" => "true"}
-                    %img{:alt => "", :src => "../images/blog/avatar3.png"}/
-                    %p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                    %b= @page.scientific_name
+                    =image_tag "avatar3.png", :alt => ""
 
             .widget.blog_gallery
               %h3 Refresh your memory
               %ul.sidebar-gallery
                 %li
-                  %a{:href => "#"}
-                    %img.img-responsive{:alt => "", :src => "../images/memory-game-icon.png"}/
+                  %a{:href => "https://education.eol.org/memory/"}
+                    =image_tag "memory-game-icon.png", :alt => ""
 

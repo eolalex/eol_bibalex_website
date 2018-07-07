@@ -1,5 +1,7 @@
 def main_method
   
+  # nodes_ids = [1976]
+  
   is_updates = check_for_upadtes
   nodes_ids = []
   if is_updates == "true"    
@@ -42,10 +44,10 @@ def main_method
           end      
         end    
       end
+#       
+      build_hierarchy(nodes_ids)
       
-      # build_hierarchy(nodes_ids)
-      
-      
+      # add_neo4j
     end
   end    
 end
@@ -84,6 +86,11 @@ def get_latest_updates_from_hbase
 end
 
 def build_hierarchy(nodes_ids)
+  set_parents(nodes_ids)
+  set_ancestors(nodes_ids)
+end
+
+def set_parents(nodes_ids)
   
   nodes_ids_parents = nil
   
@@ -114,6 +121,46 @@ def build_hierarchy(nodes_ids)
       end
     end
   end
+end
+
+
+def set_ancestors(nodes_ids)
+  # get nodes_parents from neo4j  
+  neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_ANCESTORS_OF_NODES_ACTION}"
+  begin    
+    request =RestClient::Request.new(
+        :method => :post,
+        :timeout => -1,
+        :url => "#{neo4j_uri}",
+        headers: { content_type: 'application/json', accept: 'application/json'},
+        :payload =>  nodes_ids.to_json
+      )
+      response = request.execute
+      nodes_ids_ancestors = JSON.parse(response.body)
+  rescue => e
+    false
+  end
+  
+  unless nodes_ids_ancestors.nil?
+    nodes_ids_ancestors.each do |group|
+      current_node = nil
+      ancestor_node = nil
+      group.each do |key,value|
+        res = Node.where(generated_node_id: value["generatedNodeId"].to_i)
+        if key.to_i == 0          
+          if res.count > 0
+            current_node = res.first
+          end
+        else
+          if res.count > 0
+            ancestor_node = res.first
+            NodeAncestor.create(node: current_node, ancestor: ancestor_node, depth: key.to_i, resource_id: current_node.resource_id)
+          end
+        end
+      end      
+    end
+  end  
+  
 end
 
 
@@ -215,6 +262,7 @@ end
   
 
 def create_node(params)
+  # fill parent id with generated node id as place holder and this value will be changed after calling build hierarchy
   rank_id = params[:rank].nil? ? nil : create_rank(params[:rank])
   resource_pk = params[:taxon_id].nil? ? "missed_taxon_id" : params[:taxon_id] 
   node = Node.create(
