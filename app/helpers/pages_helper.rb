@@ -1,10 +1,7 @@
 module PagesHelper
-  def classification(nodes)
+  def classification(node)
     ancestors = {}
-    nodes.each do |node|
       ancestors[node.id] =  node.node_ancestors.order('depth DESC')
-    end
-    ancestors
   end
 end
 
