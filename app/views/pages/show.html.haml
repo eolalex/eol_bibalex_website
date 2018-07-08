@@ -1,15 +1,96 @@
-= render("overview")
 = render("tabs")
-- if @page.media.first
-  = @page.scientific_name
-  %br
-  %div{:class => "medium"}
-    %img{src: @page.media.first.base_url}
-    %br
-    = @page.media.first.owner
-  - limit ||= 20
-  - node ||= @page.node || @page.nodes.first
-  - if node.children.any?
-    %h4= @page.scientific_name+" includes"
-    - node.children[0..limit-1].each do |child|
-      =link_to child.scientific_name, page_path(child.page)
+.container
+  .row
+    .col-md-12.blog
+      .row
+        .col-lg-12
+          %h2.TaxonName
+            = @page.scientific_name
+
+        .col-md-8
+          .blog-item
+            - image = @page.media.first
+            %img.img-responsive{:alt => "", :src => image.base_url, :width => "100%"}/
+            .row.ImgMetaData
+              .col-xs-12
+                .entry-meta
+                  %span#publish_date
+                    = @page.scientific_name
+                    %span.btn.btn-success.btn-xs
+                      - content = image.page_contents.find { |c| c.content_id == image.id }
+                      = content.trust
+                  %span.TaxonMentaData
+                    %b Photographed by:
+                    = image.owner
+              .col-xs-12.blog-content
+                %br/
+                %h5 Comprehensive Description
+                = @page.articles.first
+        .col-md-4
+          %aside
+            .widget.categories
+              .well
+                %h3 Classification
+                %hr/
+                %a{:href => "#"} Life
+                \/
+                %a{:href => "#"} Eukaryota
+                \/
+                %a{:href => "#"} Opisthokonta
+                \/
+                %a{:href => "#"} Metazoa
+                \/
+                %a{:href => "#"} Deuterostomia
+                \/
+                %a{:href => "#"} Vertebrata
+                \/
+                %a{:href => "#"} Tetrapoda
+                \/
+                %a{:href => "#"} Dinosauria
+                \/
+                %a{:href => "#"} Theropoda
+                \/
+                %a{:href => "#"} Aves
+            .widget.categories
+              %h3
+                Selective Traits
+                %small.pull-right
+                  (
+                  %a{:href => "#"}> 62
+                  ) traits
+              %table.table.table-striped
+                %tr
+                  %td.text-right
+                    %b Trait 1
+                  %td
+                    %p Trait1 Description
+                %tr
+                  %td.text-right
+                    %b Trait 2
+                  %td
+                    %p Trait2 Description
+                %tr
+                  %td.text-right
+                    %b Trait 3
+                  %td
+                    %p Trait3 Description
+                %tr
+                  %td.text-right
+                    %b Trait 4
+                  %td
+                    %p Trait4 Description
+            .widget.categories
+              %h3 Taxon Card
+              .row
+                .col-sm-12
+                  .single_comments
+                    %b= @page.scientific_name
+                    =image_tag "avatar3.png", :alt => ""
+
+            .widget.blog_gallery
+              %h3 Refresh your memory
+              %ul.sidebar-gallery
+                %li
+                  %a{:href => "https://education.eol.org/memory/"}
+                    =image_tag "memory-game-icon.png", :alt => ""
+

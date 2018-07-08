@@ -1,7 +1,6 @@
 function bindMetaArrow($row) {
   $row.find('.js-meta-arw').click(function() {
     var $metaList = $(this).siblings('.js-meta-items');
-
     if ($(this).hasClass('fa-angle-down')) {
       $(this).removeClass('fa-angle-down');
       $(this).addClass('fa-angle-up');

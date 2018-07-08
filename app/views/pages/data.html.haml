@@ -6,6 +6,5 @@
       - if predicate.nil?
         - Rails.logger.error("** ERROR: missing predicate #{uri}")
         - next
-      - previous_predicate = nil
       - @page.grouped_data[uri].each do |trait|
         = render :partial => "terms/data_row", :locals => { :page => @page, :trait => trait, :show_taxon => false }
