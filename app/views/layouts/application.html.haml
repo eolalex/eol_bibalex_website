@@ -64,12 +64,12 @@
             .col-lg-5.col-md-6.col-sm-6.col-xs-12.coloredMenu
               %ul.topMenu
                 %li
-                  - if user_signed_in?
+                  - unless user_signed_in?
                     %a.signIn{:href => "/users/sign_in"}
                       %i.fa.fa-user-circle{"aria-hidden" => "true"}
                       Sign in
                   - else
-                    %a.signIn{:href => "/users/sign_out"}
+                    %a.signIn{:href => "/users/sign_out",:method => :delete}
                       %i.fa.fa-user-circle{"aria-hidden" => "true"}
                       Sign out
                 %li.dropdown

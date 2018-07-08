@@ -23,7 +23,8 @@ class ApplicationController < ActionController::Base
       if current_user
         request.referrer
       else
-        root_path
+        # root_path
+        new_user_session_url
       end
     end
 
