@@ -24,6 +24,7 @@ gem 'acts_as_list'
 gem 'therubyracer', platforms: :ruby
 
 
+
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
@@ -53,7 +54,13 @@ gem 'bootstrap-sass', '~> 3.3'
 gem 'tlsmail' 
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
 gem "recaptcha", require: "recaptcha/rails"
+gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'omniauth-google-oauth2' 
+gem 'omniauth-google' 
+gem 'twitter'
+# gem 'fb_graph'
 gem  'refinerycms' , '~> 4.0.2' 
 # gem  'refinerycms-authentication-devise' 
 gem  'refinerycms-wymeditor'

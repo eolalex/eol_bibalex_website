@@ -41,19 +41,9 @@
                   .row
                     .col-xs-12
                       %input.btn.btn-primary.btn-block.btn-lg{:tabindex => "5", :type => "submit", :value => "Sign up"}/
-                #t_and_c_m.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-                  .modal-dialog.modal-lg
-                    .modal-content
-                      .modal-header
-                        %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &#xD7;
-                        %h4#myModalLabel.modal-title Terms  Conditions
-                      .modal-body
-                        %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
-                        %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
-                        %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
-                        %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
-                        %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
-                        %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
-                        %p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.
-                      .modal-footer
-                        %button.btn.btn-primary{"data-dismiss" => "modal", :type => "button"} I Agree
+                  - if devise_mapping.omniauthable?
+                    - action = "sign_up"
+                    - action_name = "Sign Up"
+                  - resource_class.omniauth_providers.each do |provider|
+                    = link_to t("sign_in_up_with_#{provider}", action: action_name), send("user_#{provider}_omniauth_authorize_path", intent: action)
+                    %br

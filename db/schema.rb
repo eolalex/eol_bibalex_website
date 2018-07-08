@@ -10,9 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-
-ActiveRecord::Schema.define(version: 20180703085010) do
+ActiveRecord::Schema.define(version: 20180707111931) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "owner"
@@ -205,6 +203,20 @@ ActiveRecord::Schema.define(version: 20180703085010) do
     t.index ["location_id"], name: "index_media_on_location_id"
   end
 
+  create_table "node_ancestors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "resource_id", null: false
+    t.integer "node_id", comment: "the id of the descendant node"
+    t.integer "ancestor_id", comment: "the id of the node which is an ancestor"
+    t.string "node_resource_pk"
+    t.string "ancestor_resource_pk"
+    t.integer "depth"
+    t.index ["ancestor_id"], name: "index_node_ancestors_on_ancestor_id"
+    t.index ["ancestor_resource_pk"], name: "index_node_ancestors_on_ancestor_resource_pk"
+    t.index ["node_id"], name: "index_node_ancestors_on_node_id"
+    t.index ["node_resource_pk"], name: "index_node_ancestors_on_node_resource_pk"
+    t.index ["resource_id"], name: "index_node_ancestors_on_resource_id"
+  end
+
   create_table "nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "resource_id"
     t.string "scientific_name"
@@ -230,12 +242,10 @@ ActiveRecord::Schema.define(version: 20180703085010) do
     t.boolean "is_misidentified"
     t.boolean "is_hidden"
     t.boolean "is_duplicate"
-<<<<<<< HEAD
-=======
     t.bigint "page_id"
     t.integer "source_page_id", null: false
->>>>>>> 84af52d168f5a876ee329a1a438ecf05aaebf3b6
     t.index ["content_type"], name: "index_page_contents_on_content_type"
+    t.index ["page_id"], name: "index_page_contents_on_page_id"
   end
 
   create_table "pages", id: :integer, default: nil, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -447,6 +457,15 @@ ActiveRecord::Schema.define(version: 20180703085010) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_providers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.string "provider"
+    t.string "uid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_providers_on_user_id"
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -465,6 +484,7 @@ ActiveRecord::Schema.define(version: 20180703085010) do
     t.datetime "updated_at", null: false
     t.string "provider"
     t.string "uid"
+    t.string "username"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
