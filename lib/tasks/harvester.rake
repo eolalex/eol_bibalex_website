@@ -2,54 +2,54 @@ def main_method
   
   # nodes_ids = [1976]
   
-  # is_updates = check_for_upadtes
-  # nodes_ids = []
-  # if is_updates == "true"    
-    # json_content = get_latest_updates_from_hbase
-     # # nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'nodes4.json')
-     # # json_content = File.read(nodes_file_path)
-     # unless json_content == false
-       # nodes = JSON.parse(json_content)
-       # # add_neo4j
-      # nodes.each do |node|
-        # nodes_ids << node["generatedNodeId"]
-        # res = Node.where(generated_node_id: node["generatedNodeId"])
-        # if res.count > 0
-          # current_node = res.first
-        # else
-          # params = { resource_id: node["resourceId"],
-                     # scientific_name: node["taxon"]["scientificName"], canonical_form: node["taxon"]["canonicalName"],
-                     # rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
-                     # page_id: node["taxon"]["pageEolId"] }
-          # created_node = create_node(params)
-#           
-#           
-#           
-          # unless node["taxon"]["pageEolId"].nil? 
-            # page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
-            # create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
-                                   # node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] })      
-            # unless node["vernaculars"].nil?
-              # create_vernaculars({vernaculars: node["vernaculars"], node_id: created_node.id, page_id: page_id, resource_id: node["resourceId"] })
-            # end
+  is_updates = check_for_upadtes
+  nodes_ids = []
+  if is_updates == "true"    
+    json_content = get_latest_updates_from_hbase
+     # nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'nodes4.json')
+     # json_content = File.read(nodes_file_path)
+     unless json_content == false
+       nodes = JSON.parse(json_content)
+       # add_neo4j
+      nodes.each do |node|
+        nodes_ids << node["generatedNodeId"]
+        res = Node.where(generated_node_id: node["generatedNodeId"])
+        if res.count > 0
+          current_node = res.first
+        else
+          params = { resource_id: node["resourceId"],
+                     scientific_name: node["taxon"]["scientificName"], canonical_form: node["taxon"]["canonicalName"],
+                     rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
+                     page_id: node["taxon"]["pageEolId"] }
+          created_node = create_node(params)
+          
+          
+          
+          unless node["taxon"]["pageEolId"].nil? 
+            page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
+            create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
+                                   node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] })      
+            unless node["vernaculars"].nil?
+              create_vernaculars({vernaculars: node["vernaculars"], node_id: created_node.id, page_id: page_id, resource_id: node["resourceId"] })
+            end
+            
+            unless node["media"].nil?
+              create_media({media: node["media"],resource_id: node["resourceId"],page_id: page_id, references: node["references"]})
+            end
 #             
-            # unless node["media"].nil?
-              # create_media({media: node["media"],resource_id: node["resourceId"],page_id: page_id, references: node["references"]})
+            # unless node["nodeData"]["ancestors"].nil?
+              # build_hierarchy({vernaculars: node["nodeData"]["ancestors"], node_id: created_node.id })
             # end
-# #             
-            # # unless node["nodeData"]["ancestors"].nil?
-              # # build_hierarchy({vernaculars: node["nodeData"]["ancestors"], node_id: created_node.id })
-            # # end
-#              
-          # end      
-        # end    
-      # end
+             
+          end      
+        end    
+      end
 #       
-      # build_hierarchy(nodes_ids)
+      build_hierarchy(nodes_ids)
       
       add_neo4j
-    # end
-  # end    
+    end
+  end    
 end
 
 
