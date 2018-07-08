@@ -73,12 +73,14 @@ class PagesController < ApplicationController
       
     end
     
-    @vernaculars.each do |name|
-      resource_id = name.resource_id
-      resource = ResourceApi.get_resource_using_id(resource_id)
-      resource_info =  Resource.new(id: resource["id"].to_i, name: resource["name"], origin_url: resource["origin_url"], type: resource["type"], path: resource["path"])
-      @vernaculars_resources[name] = resource_info
-      #here I want to check if the name exists in hash already then append to it otherwise just add new element
+    if !@vernaculars.nil? && !@vernaculars.empty?
+      @vernaculars.each do |name|
+        resource_id = name.resource_id
+        resource = ResourceApi.get_resource_using_id(resource_id)
+        resource_info =  Resource.new(id: resource["id"].to_i, name: resource["name"], origin_url: resource["origin_url"], type: resource["type"], path: resource["path"])
+        @vernaculars_resources[name] = resource_info
+        #here I want to check if the name exists in hash already then append to it otherwise just add new element
+      end
     end
     
     respond_to do |format|
@@ -96,4 +98,4 @@ class PagesController < ApplicationController
     end
   end
   
-end
+
