@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20180707111931) do
+=======
+ActiveRecord::Schema.define(version: 20180703085010) do
+>>>>>>> 6f7f869566801e224cc6d3d099a82625c8a9136e
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "owner"

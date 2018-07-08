@@ -1,0 +1,28 @@
+= javascript_include_tag 'terms'
+%li.trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => show_taxon), :id => trait[:id] } }
+  - predicate = trait[:predicate]
+
+  .trait-source= show_source_segment(trait)
+  .trait-data
+    %div
+      .trait-pred.term-info-a.a= predicate[:name]
+      = render :partial => "terms/desc_meta", :locals => { :term => predicate, :search_link => true }
+    .trait-val
+      - show_data_value(trait)
+      - if trait[:object_term]
+        = render :partial => "terms/desc_meta", :locals => { :term => trait[:object_term], :search_link => true, :pred_uri => trait[:predicate][:uri] }
+  - if trait[:metadata] && trait[:metadata].any?
+    %ul.meta-items.js-meta-items
+      - trait[:metadata].each do |datum|
+        %li.meta-item
+          %div
+            .meta-pred.a= datum[:predicate][:name]
+            = render :partial => "terms/desc_meta", :locals => { :term => datum[:predicate], :search_link => false }
+          .meta-val
+            - show_data_value(datum)
+            - if datum[:object_term]
+              = render :partial => "terms/desc_meta", :locals => { :term => datum[:object_term], :search_link => false }
+
+    %i.fa.fa-angle-up.fa-2x.meta-items-arw.js-meta-arw
+  - else
+    %i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw

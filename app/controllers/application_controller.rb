@@ -18,12 +18,13 @@ class ApplicationController < ActionController::Base
   end
 
   private
-
-  def after_sign_out_path_for(resource_or_scope)
-    if current_user
-      request.referrer
-    else
-      root_path
+  
+    def after_sign_out_path_for(resource_or_scope)
+      if current_user
+        request.referrer
+      else
+        root_path
+      end
     end
-  end
+
 end

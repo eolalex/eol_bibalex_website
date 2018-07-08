@@ -26,7 +26,7 @@
                 %h1.animation.text-center.animated-item-1.slogan.hidden-xs Global Access to Knowledge about Life on Earth
                 %h1.animation.text-center.animated-item-1.slogan.hidden-lg.hidden-md.hidden-sm Search Our Network
                 .searchBox
-                  %input#globalSearch.form-control{:placeholder => "What you are looking for?"}
+                  = render :partial => "search_bar"
                   %button.searchButton
                     %i.fa.fa-search{"aria-hidden" => "true"}
   :javascript
@@ -45,49 +45,58 @@
         .MS-content
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-1.jpg"
+              %a{:href => "/pages/1]"}
+                %h2.blogTitle
+                  = Page.first.scientific_name
+                =image_tag Page.first.media.first.source_url
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-2.jpg"
+              %a{:href => "/pages/2"}
+                %h2.blogTitle
+                  = Page.find_by_id(2).try(:scientific_name)
+                = image_tag Page.find_by_id(2).try(:media).nil? ? "download.png" : Page.find_by_id(2).try(:media).first.try(:source_url)
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-3.jpg"
+              %a{:href => "/pages/3"}
+                %h2.blogTitle
+                  = Page.find_by_id(3).try(:scientific_name)
+                = image_tag Page.find_by_id(3).try(:media).nil? ? "download.png" : Page.find_by_id(3).try(:media).first.try(:source_url)
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-4.jpg"
+              %a{:href => "/pages/4"}
+                %h2.blogTitle 
+                  = Page.find_by_id(4).try(:scientific_name)
+                = image_tag Page.find_by_id(4).try(:media).nil? ? "download.png" : Page.find_by_id(4).try(:media).first.try(:source_url)
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-1.jpg"
+              %a{:href => "/pages/5"}
+                %h2.blogTitle
+                  = Page.find_by_id(5).try(:scientific_name)
+                = image_tag Page.find_by_id(5).try(:media).nil? ? "download.png" : Page.find_by_id(5).try(:media).first.try(:source_url)
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-2.jpg"
+              %a{:href => "/pages/2"}
+                %h2.blogTitle
+                  = Page.find_by_id(2).try(:scientific_name)
+                = image_tag Page.find_by_id(2).try(:media).nil? ? "download.png" : Page.find_by_id(2).try(:media).first.try(:source_url)
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-3.jpg"
+              %a{:href => "/pages/3"}
+                %h2.blogTitle
+                  = Page.find_by_id(3).try(:scientific_name)
+                = image_tag Page.find_by_id(3).try(:media).nil? ? "download.png" : Page.find_by_id(3).try(:media).first.try(:source_url)
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-4.jpg"
+              %a{:href => "/pages/4"}
+                %h2.blogTitle
+                  = Page.find_by_id(4).try(:scientific_name)
+                = image_tag Page.find_by_id(4).try(:media).nil? ? "download.png" : Page.find_by_id(4).try(:media).first.try(:source_url)
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-1.jpg"
+              %a{:href => "/pages/1"}
+                %h2.blogTitle
+                  = Page.find_by_id(1).try(:scientific_name)
+                = image_tag Page.find_by_id(1).try(:media).nil? ? "download.png" : Page.find_by_id(1).try(:media).first.try(:source_url)
         .MS-controls
           %button.MS-left
             %i.fa.fa-angle-left{"aria-hidden" => "true"}
@@ -101,7 +110,7 @@
         %h2 Currently in the Encyclopedia of Life
         %p.lead
           There is more in deep, want to
-          %a{:href => "#"} see more...
+          %a{:href => "/pages/1"} see more...
       .row
         .Home_statistics
           .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}

@@ -1,3 +1,24 @@
-= link_to "overview", page_path(@page)
-- if @page.media.size > 0
-  =link_to "media", page_media_path(@page)
+%header#header
+  %nav.navbar.navbar-inverse{:role => "banner"}
+    .row
+      .col-lg-7.col-md-6.col-sm-6.col-xs-12
+        %span.dropdown.pull-right
+          %a.dropdown-toggle.btn.btn-primary{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+            Explore this taxon
+            %span.caret
+          %ul#menu1.dropdown-menu{"aria-labelledby" => "drop4"}
+            %li
+              %a{:href => page_path(@page)} Overview
+            - if @page.media.size > 0
+              %li
+                %a{:href => page_media_path(@page)} Media
+            -if @page.referents.size > 0
+              %li
+                %a{:href => page_literature_and_references_path(@page)} Literature and references
+            -if @page.data.size > 0
+              %li
+                %a{:href => page_data_path(@page)} Data
+       
+      .col-lg-5.col-md-4.col-sm-4.col-xs-10
+        =link_to "Collect", new_collected_page_path(page_id: @page.id), class: "btn btn-danger"
+        .page_topics{ data: { id: @page.id } }

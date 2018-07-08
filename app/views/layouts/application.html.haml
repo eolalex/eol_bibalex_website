@@ -64,9 +64,14 @@
             .col-lg-5.col-md-6.col-sm-6.col-xs-12.coloredMenu
               %ul.topMenu
                 %li
-                  %a.signIn{:href => "/users/sign_in"}
-                    %i.fa.fa-user-circle{"aria-hidden" => "true"}
-                    Sign in
+                  - if user_signed_in?
+                    %a.signIn{:href => "/users/sign_in"}
+                      %i.fa.fa-user-circle{"aria-hidden" => "true"}
+                      Sign in
+                  - else
+                    %a.signIn{:href => "/users/sign_out"}
+                      %i.fa.fa-user-circle{"aria-hidden" => "true"}
+                      Sign out
                 %li.dropdown
                   %a.dropdown-toggle.NetworksLink{"data-toggle" => "dropdown", :href => "#"}
                     Our Networks

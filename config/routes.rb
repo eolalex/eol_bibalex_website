@@ -19,10 +19,16 @@ Rails.application.routes.draw do
     end
     get "media"
     get "overview", :to => redirect("/pages/%{page_id}")
+    get "literature_and_references"
+    get "data"
+
     member do
       get 'names'
     end
+
   end
+  
+  resources :data, only: [:show]
 
   resources :collections do
     get "logs"
