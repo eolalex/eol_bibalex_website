@@ -47,7 +47,7 @@ def main_method
 #       
       build_hierarchy(nodes_ids)
       
-      # add_neo4j
+      add_neo4j
     end
   end    
 end
@@ -419,7 +419,20 @@ end
 def add_neo4j
   tb_page = TraitBank.create_page(1)
   resource = TraitBank.create_resource(147)
-  options = {supplier:{"data"=>{"resource_id"=>147}}, resource_pk:"123" , page: 1}
+  # options = {supplier:{"data"=>{"resource_id"=>147}}, resource_pk:"123" , page: 1}
+  
+  options = {supplier:{"data"=>{"resource_id"=>147}},
+             resource_pk:123 , page:1, eol_pk:" 124", scientific_name: "scientific_name",
+             predicate:{"name"=>"event date","uri"=>"test/event",section_ids:[1,2,3],definition:"test predicate definition"},
+             object_term:{"name"=>"5/2/15","uri"=>"test/date",section_ids:[1,2,3],definition:"test object_term definition"},
+             units: {"name"=>"cm","uri"=>"http://purl.obolibrary.org/obo/UO_0000008",section_ids:[1,2,3],definition:"test units"},
+             literal:"10",
+             metadata:[{predicate:{"name"=>"md_event","uri"=>"test/md_event",section_ids:[1,2,3],definition:"test predicate definition"},
+                        object_term:{"name"=>"md_length1","uri"=>"test/md_length1",section_ids:[1,2,3],definition:"test object_term definition"},
+                        units: {"name"=>"cm","uri"=>"http://eol.org/schema/terms/squarekilometer",section_ids:[1,2,3],definition:"test units"},
+                        literal:"15"}] } 
+
+  
   # options = {supplier:{"data"=>{"resource_id"=>147}}, resource_pk:"123" , page: 1,
              # predicate:{"name"=>"lengthp","uri"=>"test/lengthp",section_ids:[1,2,3],definition:"test predicate definition"},
              # object_term:{"name"=>"lengtho","uri"=>"test/lengtho",section_ids:[1,2,3],definition:"test object_term definition"},
