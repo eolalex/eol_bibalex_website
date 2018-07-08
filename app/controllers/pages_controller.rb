@@ -57,6 +57,30 @@ class PagesController < ApplicationController
 
   def names
     @page = Page.find(params[:id])
+    @scientific_names = @page.scientific_names
+    @vernaculars = @page.vernaculars
+    @scientific_names_resources = {}
+    @vernaculars_resources = {}
+    
+    @scientific_names.each do |name|
+      resource_id = name.resource_id
+      @key = name.canonical_form
+      resource = ResourceApi.get_resource_using_id(resource_id)
+      resource_info =  Resource.new(id: resource["id"].to_i, name: resource["name"], origin_url: resource["origin_url"], type: resource["type"], path: resource["path"])
+      @scientific_names_resources[@key] = resource_info 
+      #here I want to check if the name exists in hash already then append to it otherwise just add new element
+      end
+      
+    end
+    
+    @vernaculars.each do |name|
+      resource_id = name.resource_id
+      resource = ResourceApi.get_resource_using_id(resource_id)
+      resource_info =  Resource.new(id: resource["id"].to_i, name: resource["name"], origin_url: resource["origin_url"], type: resource["type"], path: resource["path"])
+      @vernaculars_resources[name] = resource_info
+      #here I want to check if the name exists in hash already then append to it otherwise just add new element
+    end
+    
     respond_to do |format|
       format.html {}
     end
@@ -65,7 +89,6 @@ class PagesController < ApplicationController
   def data
     @page = Page.where(id: params[:page_id]).first
     @resources = TraitBank.resources(@page.data)
-    debugger
     return render(status: :not_found) unless @page # 404
     respond_to do |format|
       format.html {}

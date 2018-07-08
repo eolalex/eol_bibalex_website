@@ -59,6 +59,14 @@ en:
     view_source_label: "original"
     view_source_link: "view original image"
     view_source_page_link: "view source material"
+  terms:
+    attribution_field_html: "<strong>Attribution:</strong> "
+    comment_field_html: "<strong>Comment:</strong> "
+    definition_field_html: "<strong>Definition:</strong> "
+    record_url: "record URL"
+    show_all_records: "show all records"
+    source: "source"
+    uri_field_html: "<strong>URI:</strong> "
   description: "Description"
   hello: "Hello world"
   literature_and_references_header: "Literature and References"
@@ -72,4 +80,5 @@ en:
   successfuly_created_resource: "Successfully created resource."
   Successfully_updated_content_partner: "Successfully updated content partner."
   successfuly_updated_resource: "Successfully updated resource."
+
 
