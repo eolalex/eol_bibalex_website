@@ -27,61 +27,31 @@
                       = image.owner
               .col-xs-12.blog-content
                 %br/
-                %h5 Comprehensive Description
-                = @page.articles.first
+                - if @page.articles.size > 0
+                  %h5 Comprehensive Description
+                  = @page.articles.first
+                - else
+                  %h5 No Articles Associated
         .col-md-4
           %aside
             .widget.categories
-              .well
-                %h3 Classification
-                %hr/
-                %a{:href => "#"} Life
-                \/
-                %a{:href => "#"} Eukaryota
-                \/
-                %a{:href => "#"} Opisthokonta
-                \/
-                %a{:href => "#"} Metazoa
-                \/
-                %a{:href => "#"} Deuterostomia
-                \/
-                %a{:href => "#"} Vertebrata
-                \/
-                %a{:href => "#"} Tetrapoda
-                \/
-                %a{:href => "#"} Dinosauria
-                \/
-                %a{:href => "#"} Theropoda
-                \/
-                %a{:href => "#"} Aves
-            .widget.categories
-              %h3
-                Selective Traits
-                %small.pull-right
-                  (
-                  %a{:href => "#"}> 62
-                  ) traits
-              %table.table.table-striped
-                %tr
-                  %td.text-right
-                    %b Trait 1
-                  %td
-                    %p Trait1 Description
-                %tr
-                  %td.text-right
-                    %b Trait 2
-                  %td
-                    %p Trait2 Description
-                %tr
-                  %td.text-right
-                    %b Trait 3
-                  %td
-                    %p Trait3 Description
-                %tr
-                  %td.text-right
-                    %b Trait 4
-                  %td
-                    %p Trait4 Description
+              -if @page.data.size > 0
+                %h3
+                  Selective Traits
+                  %small.pull-right traits
+                %table.table.table-striped
+                  - @page.data.each do |trait|  
+                    %tr
+                      %td.text-right
+                        %b trait[:predicate]
+              -else
+                %h3
+                  Selective Traits
+                  %small.pull-right traits
+                %table.table.table-striped
+                  %tr
+                    %td.text-center
+                      %b No Traits associated to this page
             .widget.categories
               %h3 Taxon Card
               .row
