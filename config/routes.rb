@@ -28,7 +28,7 @@ Rails.application.routes.draw do
 
   end
   
-  resources :data, only: [:show]
+  # resources :data, only: [:show]
 
   resources :collections do
     get "logs"

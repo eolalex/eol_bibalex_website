@@ -7,7 +7,6 @@
             Explore this taxon
             %span.caret
           %ul#menu1.dropdown-menu{"aria-labelledby" => "drop4"}
-            - page = Page.where(id: params[:page_id]).first
             %li
               %a{:href => page_path(@page)} Overview
             %li
@@ -18,9 +17,9 @@
             -if @page.referents.size > 0
               %li
                 %a{:href => page_literature_and_references_path(@page)} Literature and references
-            -if page.data.size > 0
+            -if @page.data.size > 0
               %li
-                %a{:href => page_data_path(page)} Data
+                %a{:href => page_data_path(@page)} Data
        
       .col-lg-5.col-md-4.col-sm-4.col-xs-10
         =link_to "Collect", new_collected_page_path(page_id: @page.id), class: "btn btn-danger"
