@@ -47,8 +47,8 @@
             .imgTitle
               %a{:href => "/pages/1]"}
                 %h2.blogTitle
-                  = Page.first.scientific_name
-                =image_tag Page.first.media.first.source_url
+                  = Page.find_by_id(1).try(:scientific_name)
+                = image_tag Page.find_by_id(1).try(:media).nil? ? "download.png" : Page.find_by_id(1).try(:media).first.try(:source_url)
           .item
             .imgTitle
               %a{:href => "/pages/2"}
