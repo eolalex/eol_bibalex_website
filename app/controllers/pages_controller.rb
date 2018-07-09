@@ -73,7 +73,7 @@ class PagesController < ApplicationController
       #here I want to check if the name exists in hash already then append to it otherwise just add new element
       end
       
-    end
+    
     
     if !@vernaculars.nil? && !@vernaculars.empty?
       @vernaculars.each do |name|
@@ -91,11 +91,12 @@ class PagesController < ApplicationController
       format.html {}
     end
   end
+  end
   
   def data
     @page = Page.where(id: params[:page_id]).first
-    # @resources = TraitBank.resources(@page.data)
-    # return render(status: :not_found) unless @page # 404
+    @resources = TraitBank.resources(@page.data)
+    return render(status: :not_found) unless @page # 404
     respond_to do |format|
       format.html {}
       format.js {}
