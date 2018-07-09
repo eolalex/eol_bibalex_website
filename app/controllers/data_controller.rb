@@ -3,6 +3,7 @@ class DataController < ApplicationController
   protect_from_forgery
 
   def show
+    debugger
     @data = TraitBank.by_trait(params[:id]).first
     @resources = TraitBank.resources([@data])
     @page = Page.find(@data[:page_id])
