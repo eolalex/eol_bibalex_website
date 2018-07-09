@@ -9,9 +9,10 @@
           %ul#menu1.dropdown-menu{"aria-labelledby" => "drop4"}
             %li
               %a{:href => page_path(@page)} Overview
+            %li
+              %a{:href => names_page_path(@page)} Names
             - if @page.media.size > 0
               %li
-                -debugger
                 %a{:href => page_media_path(@page)} Media
             -if @page.referents.size > 0
               %li
