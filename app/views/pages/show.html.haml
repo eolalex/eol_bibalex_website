@@ -44,7 +44,8 @@
                     %tr
                       %td.text-right
                         %b 
-                          =trait[:predicate]
+                          =trait[:predicate][:name]
+                          =trait[:predicate][:definition]
               -else
                 %h3
                   Selective Traits
