@@ -7,7 +7,7 @@
 -tree.push(page_node)
 -tree.each do |node|
   %div
-    - unless node.pages.nil?
+    - if node.pages.size > 0
       %h2=link_to node.canonical_form, page_path(node.pages.first.id)
  
 
