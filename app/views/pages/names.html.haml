@@ -7,7 +7,7 @@
       -names.each do |name|
         =name.canonical_form
         %br
-        -unless @scientific_names_resources.empty?
+        -unless @scientific_names_resources.nil?
           %p= 'Recognized by ' + @scientific_names_resources[name].name + ','
     %br
     = "_________________________"  
