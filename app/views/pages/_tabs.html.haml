@@ -7,9 +7,18 @@
             Explore this taxon
             %span.caret
           %ul#menu1.dropdown-menu{"aria-labelledby" => "drop4"}
+            %li
+              %a{:href => page_path(@page)} Overview
+            %li
+              %a{:href => names_page_path(@page)} Names
+            - if @page.media.size > 0
+              %li
+                %a{:href => page_media_path(@page)} Media
+            -if @page.referents.size > 0
+              %li
+                %a{:href => page_literature_and_references_path(@page)} Literature and references
             -if @page.data.size > 0
               %li
-                - debugger
                 %a{:href => page_data_path(@page)} Data
        
       .col-lg-5.col-md-4.col-sm-4.col-xs-10
