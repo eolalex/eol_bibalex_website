@@ -478,8 +478,8 @@ DEPENDENCIES
   js-routes
   listen (>= 3.0.5, < 3.2)
   mysql2
-  omniauth
   neography
+  omniauth
   omniauth-facebook
   omniauth-google
   omniauth-google-oauth2
