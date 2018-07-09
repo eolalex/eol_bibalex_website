@@ -23,7 +23,8 @@
         -names.each do |name|
           = name.string
           %br
-          %p= 'Recognized by '+ @vernaculars_resources[name].name unless @vernaculars_resources[name].nil? + ','
+          - unless @vernaculars_resources[name].nil?
+            %p= 'Recognized by '+ @vernaculars_resources[name].name + ','
       %br
       = '_______________________'  
   = render('pages/classification')
