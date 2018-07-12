@@ -48,6 +48,16 @@ class CollectedPagesController < ApplicationController
     end
     redirect_to @collected_page.collection
   end
+  
+  def index
+    @collection_id = params[:collection_id]
+    @collected_pages = CollectedPage.where(collection_id: @collection_id)
+    @canonical_form = params[:canonical_form]
+    # @scientific_names= if params[:canonical_form]
+      # ScientificName.where('canonical_form LIKE ?', "#{params[:canonical_form]}%")
+    # end
+  end
+
 
   private
 

@@ -6,6 +6,7 @@ class SearchController < ApplicationController
   end
   
   def search
+    Page.reindex
     regex = ".*"+params[:query]+".*"
     # scientific_names_result = ScientificName.search params[:query] do |body|
       # body[:query] = {

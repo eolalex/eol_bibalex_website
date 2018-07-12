@@ -3,7 +3,7 @@ class Page < ActiveRecord::Base
   has_many :collected_pages
   searchkick word_start: [:scientific_name]
   belongs_to :node
-  has_many :scientific_names, class_name: 'ScientificName', primary_key: 'id', foreign_key: 'page'
+  has_many :scientific_names
   has_many :page_contents, class_name: 'PageContent', primary_key: 'id', foreign_key: 'page'
   has_many :media, through: :page_contents, source: :content, source_type: "Medium"
   has_many :articles, through: :page_contents, source: :content, source_type: "Article"

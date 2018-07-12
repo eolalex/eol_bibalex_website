@@ -1,9 +1,11 @@
-%h1= @collection.name
-- unless @collection.description.blank?
-  %h2= @collection.description
-= link_to("Edit Collection", edit_collection_path(@collection), class: "btn btn-danger")
-= link_to("Delete Collection", collection_path(@collection), method: "delete", data: { confirm: "Are You Sure You Want to Delete This Collection?"}, class: "btn btn-danger")
-
-= render("collected_pages/show", collected_page: @collection.collected_pages)
-
+= render("collected_pages/show")
+-collected_page = @collection.collected_pages
+- @collection.collected_pages.each do |collected_page|
+  -unless collected_page.page.media.first.nil?
+    %img{:src => collected_page.page.media.first.base_url, :width =>"100", :height =>"100"}  
+  -unless collected_page.page.scientific_name.nil?         
+    %h3= link_to collected_page.page.scientific_name , page_path(collected_page.page_id) 
+  %h3= link_to 'Edit', edit_collected_page_path(id: collected_page.id)
+  %h3= link_to 'Remove Page From Collection', collected_page_path(id: collected_page.id), method: :delete, data: { confirm: 'Are you sure?' }
+  %br
 %br/
