@@ -50,23 +50,28 @@
               .collapse.navbar-collapse.navbar-left
                 %ul.nav.navbar-nav
                   %li
-                    %a{:href => "#"}
+                    %a{:href => "http://eol.org/about"}
                       %i.fa.fa-info-circle{"aria-hidden" => "true"}
                       About EOL
                   %li
-                    %a{:href => "#"}
+                    %a{:href => "http://eol.org/news"}
                       %i.fa.fa-newspaper-o{"aria-hidden" => "true"}
                       News
                   %li
-                    %a{:href => "#"}
+                    %a{:href => "http://eol.org/help"}
                       %i.fa.fa-question-circle{"aria-hidden" => "true"}
                       Help
             .col-lg-5.col-md-6.col-sm-6.col-xs-12.coloredMenu
               %ul.topMenu
                 %li
-                  %a.signIn{:href => "/users/sign_in"}
-                    %i.fa.fa-user-circle{"aria-hidden" => "true"}
-                    Sign in
+                  - unless user_signed_in?
+                    %a.signIn{:href => "/users/sign_in"}
+                      %i.fa.fa-user-circle{"aria-hidden" => "true"}
+                      Sign in
+                  - else
+                    %a.signIn{:href => "/users/sign_out",:method => :delete}
+                      %i.fa.fa-user-circle{"aria-hidden" => "true"}
+                      Sign out
                 %li.dropdown
                   %a.dropdown-toggle.NetworksLink{"data-toggle" => "dropdown", :href => "#"}
                     Our Networks
@@ -78,7 +83,7 @@
                   %button.btn-search.globalSearchBtn.hidden-xs{"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"}
                     %i.fa.fa-search{"aria-hidden" => "true"}
                 %li
-                  %a.DonateBtn{:href => "#"} Donate
+                  %a.DonateBtn{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} Donate
             #myModal.searchbox.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
               .modal-dialog{:role => "document"}
                 .modal-content
@@ -111,20 +116,20 @@
           .col-sm-6.col-xs-12
             %ul
               %li
-                %a{:href => "#"} Terms
+                %a{:href => "http://eol.org/terms_of_use"} Terms of Use
               %li
-                %a{:href => "#"} Glossary
+                %a{:href => "http://eol.org/info/glossary"} Glossary
               %li
-                %a{:href => "#"} Donate
+                %a{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} Donate
               %li
-                %a{:href => "#"} Contact Us
+                %a{:href => "http://eol.org/contact_us"} Contact Us
           .col-sm-6.col-xs-12
             .social
               %ul.social-share
                 %li Follow us on:
                 %li
-                  %a{:href => "#"}
+                  %a{:href => "https://www.facebook.com/encyclopediaoflife/"}
                     %i.fa.fa-facebook
                 %li
-                  %a{:href => "#"}
+                  %a{:href => "https://twitter.com/eol"}
                     %i.fa.fa-twitter

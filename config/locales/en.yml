@@ -80,5 +80,8 @@ en:
   successfuly_created_resource: "Successfully created resource."
   Successfully_updated_content_partner: "Successfully updated content partner."
   successfuly_updated_resource: "Successfully updated resource."
+  sign_in_up_with_facebook: "%{action} with Facebook"
+  sign_in_up_with_google_oauth2: "%{action} with Google"
+  sign_in_up_with_twitter: "%{action} with Twitter"
 
 

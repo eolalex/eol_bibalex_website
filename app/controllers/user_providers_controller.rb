@@ -1,0 +1,3 @@
+class UserProvidersController < ApplicationController
+  
+end

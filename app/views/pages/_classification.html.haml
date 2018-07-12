@@ -1,4 +1,13 @@
 %h3.ui.header= "Classification"
--page_node = @page.native_node || @page.nodes.first
--nodes = @page.nodes
--ancestory = classification(nodes)
+-page_node = @page.node || @page.nodes.first
+-ancestory = classification(page_node)
+-tree = []
+-ancestory.each do |node_ancestor|
+  -tree.push(node_ancestor.ancestor)
+-tree.push(page_node)
+-tree.each do |node|
+  %div
+    - if node.pages.size > 0
+      %h2=link_to node.canonical_form, page_path(node.pages.first.id)
+ 
+

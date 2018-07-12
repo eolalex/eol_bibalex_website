@@ -26,7 +26,7 @@
                 %h1.animation.text-center.animated-item-1.slogan.hidden-xs Global Access to Knowledge about Life on Earth
                 %h1.animation.text-center.animated-item-1.slogan.hidden-lg.hidden-md.hidden-sm Search Our Network
                 .searchBox
-                  %input#globalSearch.form-control{:placeholder => "What you are looking for?"}
+                  = render :partial => "search_bar"
                   %button.searchButton
                     %i.fa.fa-search{"aria-hidden" => "true"}
   :javascript
@@ -45,49 +45,58 @@
         .MS-content
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-1.jpg"
+              %a{:href => "/pages/1"}
+                %h2.blogTitle
+                  = Page.find_by_id(1).try(:scientific_name)
+                = image_tag Page.find_by_id(1).try(:media).size > 0 && !Page.find_by_id(1).try(:media).first.base_url.nil? ? Page.find_by_id(1).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-2.jpg"
+              %a{:href => "/pages/2"}
+                %h2.blogTitle
+                  = Page.find_by_id(2).try(:scientific_name)
+                = image_tag Page.find_by_id(2).media.size > 0 && !Page.find_by_id(2).try(:media).first.base_url.nil? ? Page.find_by_id(2).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-3.jpg"
+              %a{:href => "/pages/3"}
+                %h2.blogTitle
+                  = Page.find_by_id(3).try(:scientific_name)
+                = image_tag Page.find_by_id(3).media.size > 0 && !Page.find_by_id(3).try(:media).first.base_url.nil? ? Page.find_by_id(3).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-4.jpg"
+              %a{:href => "/pages/4"}
+                %h2.blogTitle 
+                  = Page.find_by_id(4).try(:scientific_name)
+                = image_tag Page.find_by_id(4).media.size > 0 && !Page.find_by_id(4).try(:media).first.base_url.nil? ? Page.find_by_id(4).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-1.jpg"
+              %a{:href => "/pages/5"}
+                %h2.blogTitle
+                  = Page.find_by_id(5).try(:scientific_name)
+                = image_tag Page.find_by_id(5).media.size > 0 && !Page.find_by_id(5).try(:media).first.base_url.nil? ? Page.find_by_id(5).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-2.jpg"
+              %a{:href => "/pages/2"}
+                %h2.blogTitle
+                  = Page.find_by_id(2).try(:scientific_name)
+                = image_tag Page.find_by_id(2).media.size > 0 && !Page.find_by_id(2).try(:media).first.base_url.nil? ? Page.find_by_id(2).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-3.jpg"
+              %a{:href => "/pages/3"}
+                %h2.blogTitle
+                  = Page.find_by_id(3).try(:scientific_name)
+                = image_tag Page.find_by_id(3).media.size > 0 && !Page.find_by_id(3).try(:media).first.base_url.nil? ? Page.find_by_id(3).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-4.jpg"
+              %a{:href => "/pages/4"}
+                %h2.blogTitle
+                  = Page.find_by_id(4).try(:scientific_name)
+                = image_tag Page.find_by_id(4).media.size > 0 && !Page.find_by_id(4).try(:media).first.base_url.nil? ? Page.find_by_id(4).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
           .item
             .imgTitle
-              %a{:href => "#"}
-                %h2.blogTitle People
-                =image_tag "Taxon-1.jpg"
+              %a{:href => "/pages/1"}
+                %h2.blogTitle
+                  = Page.find_by_id(1).try(:scientific_name)
+                = image_tag Page.find_by_id(1).media.size > 0 && !Page.find_by_id(1).try(:media).first.base_url.nil? ? Page.find_by_id(1).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
         .MS-controls
           %button.MS-left
             %i.fa.fa-angle-left{"aria-hidden" => "true"}
@@ -101,7 +110,7 @@
         %h2 Currently in the Encyclopedia of Life
         %p.lead
           There is more in deep, want to
-          %a{:href => "#"} see more...
+          %a{:href => "/pages/1"} see more...
       .row
         .Home_statistics
           .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
@@ -109,7 +118,7 @@
               %a{:href => "#"}
                 %i.fa.fa-user{"aria-hidden" => "true"}
               .number
-                92,997
+                = User.count
               %span
                 Members like you
           .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
@@ -117,31 +126,23 @@
               %a{:href => "#"}
                 %i.fa.fa-files-o{"aria-hidden" => "true"}
               .number
-                10,971
+                = Collection.count
               %span
                 Collections
           .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
             .feature-wrap
               %a{:href => "#"}
-                %i.fa.fa-users{"aria-hidden" => "true"}
-              .number
-                265
-              %span
-                Communities
-          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
-            .feature-wrap
-              %a{:href => "#"}
                 %i.fa.fa-file-image-o{"aria-hidden" => "true"}
               .number
-                3,824,301
+                = Medium.count
               %span
-                Images
+                Media
           .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
             .feature-wrap
               %a{:href => "#"}
                 %i.fa.fa-handshake-o{"aria-hidden" => "true"}
               .number
-                359
+                3
               %span
                 Content Partners
           .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
@@ -149,7 +150,7 @@
               %a{:href => "#"}
                 %i.fa.fa-bar-chart{"aria-hidden" => "true"}
               .number
-                10,753,384
+                5
               %span
                 Data
   %section#Sponsors
