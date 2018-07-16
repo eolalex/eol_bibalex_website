@@ -47,15 +47,15 @@ module Api
         
         
       def self.call(params={})
-        debugger
+        # Collection.reindex
         validate_and_normalize_input_parameters(params)
           I18n.locale = params[:language] unless params[:language].blank?
         if params[:sort_by].class != String
           params[:sort_by] = nil
         end
           begin
-            collection= Collection.search(params[:id], fields:[{id: :exact}], select: [:default_sort, :name, :description, :created_at, :updated_at]).response["hits"]["hits"][0]  
-            params[:sort_by] ||= collection["_source"]["default_sort"]
+            collection= Collection.search(params[:id], fields:[{id: :exact}]).results.first 
+            params[:sort_by] ||= collection.default_sort
           rescue
             raise ActiveRecord::RecordNotFound.new("Unknown collection id \"#{params[:id]}\"")
           end
@@ -64,19 +64,17 @@ module Api
       
       
       def self.prepare_hash(collection, params)
-        debugger
         return_hash = {}
-        return_hash['name'] = collection["_source"]["name"]
-        return_hash['description'] = collection["_source"]["description"]
+        return_hash['name'] = collection.name
+        return_hash['description'] = collection.description
         return_hash['logo_url'] = ""
-        return_hash['created'] = collection["_source"]["created_at"]
-        return_hash['modified'] = collection["_source"]["updated_at"]
+        return_hash['created'] = collection.created_at
+        return_hash['modified'] = collection.updated_at
           
-        collection_object=Collection.find_by_id(collection["_id"])
           
         counts ={}
         @articles, @video, @images, @sounds, @taxa, @users, @collections, @total_items = [], [], [], [], [], [], [], [] 
-        collected_pages = collection_object.collected_pages
+        collected_pages = collection.collected_pages
         
         if params[:sort_by].eql? "richness"
           collected_pages = collected_pages.sort_by(&:page_richness).reverse!
@@ -110,13 +108,13 @@ module Api
           @total_items += @collected_page_items
           
         end
-        counts['taxa'] =  collection_object.collected_pages.count
-        counts['users'] =  collection_object.users.count
-        counts['collections'] =  collection_object.collections.count
+        counts['taxa'] =  collection.collected_pages.count
+        counts['users'] =  collection.users.count
+        # counts['collections'] =  collection.collections.count
         
-        @taxa += collection_object.pages
-        @users += collection_object.users
-        @collections += collection_object.collections
+        @taxa += collection.pages
+        @users += collection.users
+        # @collections += collection.collections
         
           
         return_hash['total_items'] =  adjust_total_items_count(params, counts)
@@ -129,13 +127,12 @@ module Api
         return_hash['item_types'] << { 'item_type' => "Sound", 'item_count' => counts['sounds'] }
         return_hash['item_types'] << { 'item_type' => "User", 'item_count' => counts['users'] }
         return_hash['item_types'] << { 'item_type' => "Collection", 'item_count' => counts['collections'] }
-        
         @items = adjust_requseted_items(params, @articles, @video, @images, @sounds, @taxa, @users, @collections, @total_items)
-        
+        @items = @items.uniq
         return_hash['collection_items'] = []
         @items.each do |item|
           item_hash = {
-            'name' => item.name,
+            'name' => item.try(:name) || item.scientific_name,
             'object_type' => item.class.name,
             'object_id' => item.id,
             # 'title' => collected_page.name,
@@ -146,7 +143,7 @@ module Api
           }
           
           if item.kind_of? Page
-            item_hash['richness_score'] = sprintf("%.5f", item.page_richness * 100.00).to_f
+            item_hash['richness_score'] = sprintf("%.5f", item.page_richness * 100.00).to_f unless item.page_richness.nil?
           elsif (item.kind_of? Article) || (item.kind_of? Medium)
             item_hash['data_rating'] = ""
             item_hash['object_guid'] = item.guid
@@ -180,8 +177,8 @@ module Api
           @items = sounds
         elsif params[:filter].eql? "users"
           @items = users
-        elsif params[:filter].eql? "collections"
-          @items = collections
+        # elsif params[:filter].eql? "collections"
+          # @items = collections
         else
           @items = total_items+taxa+users+collections
         end

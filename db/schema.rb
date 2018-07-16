@@ -10,16 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180707111931) do
+ActiveRecord::Schema.define(version: 20180715135230) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.text "owner"
     t.integer "resource_id"
     t.string "guid"
     t.string "resource_pk"
-    t.bigint "languages_id"
-    t.bigint "licenses_id"
-    t.bigint "locations_id"
     t.integer "mime_type"
     t.string "name"
     t.string "rights_statement"
@@ -27,10 +24,13 @@ ActiveRecord::Schema.define(version: 20180707111931) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "bibliographic_citation_id"
+    t.bigint "language_id"
+    t.bigint "license_id"
+    t.bigint "location_id"
     t.index ["bibliographic_citation_id"], name: "index_articles_on_bibliographic_citation_id"
-    t.index ["languages_id"], name: "index_articles_on_languages_id"
-    t.index ["licenses_id"], name: "index_articles_on_licenses_id"
-    t.index ["locations_id"], name: "index_articles_on_locations_id"
+    t.index ["language_id"], name: "index_articles_on_language_id"
+    t.index ["license_id"], name: "index_articles_on_license_id"
+    t.index ["location_id"], name: "index_articles_on_location_id"
   end
 
   create_table "articles_collected_pages", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -178,20 +178,20 @@ ActiveRecord::Schema.define(version: 20180707111931) do
   end
 
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.integer "format", default: 1, null: false
+    t.integer "format"
     t.text "description"
-    t.string "owner", null: false
-    t.integer "resource_id", null: false
-    t.string "guid", null: false
+    t.text "owner"
+    t.integer "resource_id"
+    t.string "guid"
     t.string "resource_pk"
     t.string "source_page_url"
-    t.string "base_url", null: false
+    t.string "base_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "mime_type"
-    t.integer "subclass", default: 1, null: false
+    t.integer "subclass"
     t.string "name"
-    t.string "rights_statment"
+    t.string "rights_statement"
     t.string "source_url"
     t.bigint "bibliographic_citation_id"
     t.bigint "language_id"
@@ -227,9 +227,7 @@ ActiveRecord::Schema.define(version: 20180707111931) do
     t.datetime "updated_at", null: false
     t.integer "parent_id"
     t.bigint "rank_id"
-    t.bigint "page_id"
     t.index ["generated_node_id"], name: "index_nodes_on_generated_node_id"
-    t.index ["page_id"], name: "index_nodes_on_page_id"
     t.index ["rank_id"], name: "index_nodes_on_rank_id"
   end
 
@@ -253,8 +251,10 @@ ActiveRecord::Schema.define(version: 20180707111931) do
   create_table "pages", id: :integer, default: nil, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "medium_id"
     t.integer "page_richness"
     t.bigint "node_id"
+    t.index ["medium_id"], name: "index_pages_on_medium_id"
   end
 
   create_table "pages_nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -509,10 +509,12 @@ ActiveRecord::Schema.define(version: 20180707111931) do
   end
 
   add_foreign_key "articles", "bibliographic_citations"
-  add_foreign_key "articles", "languages", column: "languages_id"
-  add_foreign_key "articles", "licenses", column: "licenses_id"
+  add_foreign_key "articles", "languages"
+  add_foreign_key "articles", "licenses"
+  add_foreign_key "articles", "locations"
   add_foreign_key "collected_pages", "collections"
   add_foreign_key "content_sections", "sections"
   add_foreign_key "links", "languages", column: "languages_id"
   add_foreign_key "media", "bibliographic_citations"
+  add_foreign_key "pages", "media"
 end

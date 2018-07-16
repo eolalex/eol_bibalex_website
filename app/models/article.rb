@@ -1,8 +1,8 @@
 class Article < ApplicationRecord
   searchkick
-  belongs_to :langauges
-  belongs_to :licenses
-  belongs_to :locations
+  belongs_to :langauge
+  belongs_to :license
+  belongs_to :location
   belongs_to :bibliographic_citation
   
   has_many :attributions, as: :content
