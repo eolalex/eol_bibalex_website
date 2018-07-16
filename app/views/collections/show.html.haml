@@ -1,6 +1,5 @@
 = render("collected_pages/show")
--collected_page = @collection.collected_pages
-- @collection.collected_pages.each do |collected_page|
+- @collected_pages.each do |collected_page|
   -unless collected_page.page.media.first.nil?
     %img{:src => collected_page.page.media.first.base_url, :width =>"100", :height =>"100"}  
   -unless collected_page.page.scientific_name.nil?         
@@ -9,3 +8,4 @@
   %h3= link_to 'Remove Page From Collection', collected_page_path(id: collected_page.id), method: :delete, data: { confirm: 'Are you sure?' }
   %br
 %br/
+= will_paginate @collected_pages

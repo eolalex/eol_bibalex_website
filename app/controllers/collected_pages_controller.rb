@@ -53,6 +53,20 @@ class CollectedPagesController < ApplicationController
     @collection_id = params[:collection_id]
     @collected_pages = CollectedPage.where(collection_id: @collection_id)
     @canonical_form = params[:canonical_form]
+    @collected_pages.each do |collected_page|
+  # assumtion scientific name has only one page
+      @scientific_names = collected_page.page.scientific_names
+      @scientific_names.each do|scientific_name| 
+        if scientific_name[:canonical_form].downcase.start_with?(@canonical_form.downcase)
+          if @result.nil?
+             @result= Array.new 
+           end
+          @result << scientific_name
+        end
+      end
+    end
+    @result = @result.sort_by{|collected_page| collected_page.page.scientific_name.downcase} 
+    @result = @result.paginate(:page => params[:page], :per_page => ENV['per_page'])
     # @scientific_names= if params[:canonical_form]
       # ScientificName.where('canonical_form LIKE ?', "#{params[:canonical_form]}%")
     # end
