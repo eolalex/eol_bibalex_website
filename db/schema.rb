@@ -178,20 +178,20 @@ ActiveRecord::Schema.define(version: 20180707111931) do
   end
 
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.integer "format", default: 1, null: false
+    t.integer "format"
     t.text "description"
-    t.string "owner", null: false
-    t.integer "resource_id", null: false
-    t.string "guid", null: false
+    t.text "owner"
+    t.integer "resource_id"
+    t.string "guid"
     t.string "resource_pk"
     t.string "source_page_url"
-    t.string "base_url", null: false
+    t.string "base_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "mime_type"
-    t.integer "subclass", default: 1, null: false
+    t.integer "subclass"
     t.string "name"
-    t.string "rights_statment"
+    t.string "rights_statement"
     t.string "source_url"
     t.bigint "bibliographic_citation_id"
     t.bigint "language_id"
@@ -219,7 +219,7 @@ ActiveRecord::Schema.define(version: 20180707111931) do
 
   create_table "nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "resource_id"
-    t.string "scientific_name"
+    t.string "scientific_name", null: false, collation: "utf8_general_ci"
     t.string "canonical_form"
     t.integer "generated_node_id"
     t.string "resource_pk"
@@ -227,9 +227,7 @@ ActiveRecord::Schema.define(version: 20180707111931) do
     t.datetime "updated_at", null: false
     t.integer "parent_id"
     t.bigint "rank_id"
-    t.bigint "page_id"
     t.index ["generated_node_id"], name: "index_nodes_on_generated_node_id"
-    t.index ["page_id"], name: "index_nodes_on_page_id"
     t.index ["rank_id"], name: "index_nodes_on_rank_id"
   end
 

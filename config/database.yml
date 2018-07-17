@@ -14,7 +14,7 @@ development:
   # PLEASE DON'T PUT YOUR USER / PASS HERE (e.g.: "root"). Set your environment
   # variables.
   username: root
-  password: Luxor&Aswan@2o17
+  password: pDy013UEjn7vU9zul
   # password: root
   database: ba_eol_development
 
@@ -25,7 +25,7 @@ test: &test
   # PLEASE DON'T PUT YOUR USER / PASS HERE (e.g.: "root"). Set your environment
   # variables.
   username: root
-  password: Luxor&Aswan@2o17
+  password: pDy013UEjn7vU9zul
 
 
 staging:

@@ -7,6 +7,8 @@ ENV["GOOGLE_CLIENT_ID"]="594909260794-0h3auanun7gi6igvu7646nb8stv2t4hm.apps.goog
 ENV["GOOGLE_CLIENT_SECRET"] = "IzX97jLNyqEapO5k3dttIWhE"
 ENV["TWITTER_API_KEY"]= "nEfe27C3l8zIEovBQsyBpw67O"
 ENV["TWITTER_API_SECRET"] = "4KOIPSxUgj5aC5eVVWT3Y2nAGEUwWO074MG4Q4zfaOr2AyYaTB"
+ENV['schedular_ip'] = 'http://172.16.0.161:80/scheduler'
+ENV['storage_ip'] = 'http://172.16.0.99:80/eol/archiver'
 # Initialize the Rails application.
 Rails.application.initialize!
 

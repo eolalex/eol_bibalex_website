@@ -112,7 +112,7 @@ def set_parents(nodes_ids)
   
   unless nodes_ids_parents.nil?
     nodes_ids_parents.each do |key,value|
-      child_res = Node.where(generated_node_id: key.to_i)
+      child_res = Node.where(generated_node_id: key)
       parent_res = Node.where(generated_node_id: value)
       if child_res.count > 0 && parent_res.count > 0
         child_node = child_res.first
@@ -146,7 +146,8 @@ def set_ancestors(nodes_ids)
       current_node = nil
       ancestor_node = nil
       group.each do |key,value|
-        res = Node.where(generated_node_id: value["generatedNodeId"].to_i)
+
+        res = Node.where(generated_node_id: value)
         if key.to_i == 0          
           if res.count > 0
             current_node = res.first
@@ -154,7 +155,7 @@ def set_ancestors(nodes_ids)
         else
           if res.count > 0
             ancestor_node = res.first
-            NodeAncestor.create(node: current_node, ancestor: ancestor_node, depth: key.to_i, resource_id: current_node.resource_id)
+            NodeAncestor.create(node: current_node, ancestor: ancestor_node, depth: key, resource_id: current_node.resource_id)
           end
         end
       end      
@@ -417,19 +418,19 @@ def fill_page_contents(params)
 end
 
 def add_neo4j
-  tb_page = TraitBank.create_page(1)
+  tb_page = TraitBank.create_page(181)
   resource = TraitBank.create_resource(147)
   # options = {supplier:{"data"=>{"resource_id"=>147}}, resource_pk:"123" , page: 1}
   
   options = {supplier:{"data"=>{"resource_id"=>147}},
-             resource_pk:123 , page:1, eol_pk:" 124", scientific_name: "scientific_name",
-             predicate:{"name"=>"event date","uri"=>"test/event",section_ids:[1,2,3],definition:"test predicate definition"},
-             object_term:{"name"=>"5/2/15","uri"=>"test/date",section_ids:[1,2,3],definition:"test object_term definition"},
-             units: {"name"=>"cm","uri"=>"http://purl.obolibrary.org/obo/UO_0000008",section_ids:[1,2,3],definition:"test units"},
+             resource_pk:456 , page:181, eol_pk:"456", scientific_name: "scientific_name_2",
+             predicate:{"name"=>"event date","uri"=>"test/event/2",section_ids:[1,2,3],definition:"test predicate definition"},
+             object_term:{"name"=>"5/2/15","uri"=>"test/date/2",section_ids:[1,2,3],definition:"test object_term definition"},
+             units: {"name"=>"cm","uri"=>"http://purl.obolibrary.org/obo/UO_0000022",section_ids:[1,2,3],definition:"test units"},
              literal:"10",
-             metadata:[{predicate:{"name"=>"md_event","uri"=>"test/md_event",section_ids:[1,2,3],definition:"test predicate definition"},
-                        object_term:{"name"=>"md_length1","uri"=>"test/md_length1",section_ids:[1,2,3],definition:"test object_term definition"},
-                        units: {"name"=>"cm","uri"=>"http://eol.org/schema/terms/squarekilometer",section_ids:[1,2,3],definition:"test units"},
+             metadata:[{predicate:{"name"=>"md_event","uri"=>"test/md_event/2",section_ids:[1,2,3],definition:"test predicate definition"},
+                        object_term:{"name"=>"md_length1","uri"=>"test/md_length1/2",section_ids:[1,2,3],definition:"test object_term definition"},
+                        units: {"name"=>"cm","uri"=>"http://purl.obolibrary.org/obo/UO_0000081",section_ids:[1,2,3],definition:"test units"},
                         literal:"15"}] } 
 
   
