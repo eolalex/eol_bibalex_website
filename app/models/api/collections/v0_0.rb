@@ -132,7 +132,7 @@ module Api
         return_hash['collection_items'] = []
         @items.each do |item|
           item_hash = {
-            'name' => item.try(:name) || item.scientific_name,
+            'name' => item.try(:name) || item.try(:scientific_name) || item.try(:username),
             'object_type' => item.class.name,
             'object_id' => item.id,
             # 'title' => collected_page.name,

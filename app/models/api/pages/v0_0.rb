@@ -426,7 +426,7 @@ module Api
       
       def self.promote_exemplar!(exemplar_object, existing_objects_of_same_type, options={}, license_ids, page, type)
           return unless exemplar_object
-          return unless license_ids.include?(exemplar_object.licenses_id)
+          return unless license_ids.include?(exemplar_object.license_id)
          
           content_object= PageContent.where("page_id = ? and content_id = ? and content_type = ? and is_incorrect = ? and is_misidentified = ? and is_hidden = ? and is_duplicate = ?", page.id, exemplar_object.id, type, false, false, false, false).first
           best_vetted_label = content_object.trust
