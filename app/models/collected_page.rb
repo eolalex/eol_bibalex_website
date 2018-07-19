@@ -6,10 +6,10 @@ class CollectedPage < ActiveRecord::Base
   validates_presence_of :page
   validates_uniqueness_of :page_id, :scope => :collection_id
 
-  # has_many :collected_pages_media, -> { order(position: :asc) }, inverse_of: :collected_page
-  # has_many :media, through: :collected_pages_media
-  # has_and_belongs_to_many :articles, -> { order(position: :asc) }
-  has_and_belongs_to_many :links, -> { order(position: :asc) }
+  has_many :collected_pages_media, inverse_of: :collected_page
+  has_many :media, through: :collected_pages_media
+  has_and_belongs_to_many :articles
+  has_and_belongs_to_many :links
 
 
   acts_as_list scope: :collection
