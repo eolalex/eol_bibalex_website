@@ -2,7 +2,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def facebook
     
     @user = UserProvider.find_for_facebook_oauth(request.env["omniauth.auth"])
-    # @user = User.from_omniauth(request.env["omniauth.auth"])
     if @user.persisted?
        sign_in_and_redirect @user, :event => :authentication
     else
@@ -13,7 +12,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def twitter
     auth = request.env["omniauth.auth"]
-
     @user = UserProvider.find_for_twitter_oauth(request.env["omniauth.auth"])
     if @user.persisted?
       sign_in_and_redirect @user, :event => :authentication
@@ -33,6 +31,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       # redirect_to new_user_registration_url
     # end
   # end
+  
   def google_oauth2
     @user = UserProvider.find_for_google_oauth2_oauth(request.env["omniauth.auth"])
     if @user.persisted?
