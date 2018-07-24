@@ -1,12 +1,81 @@
+= javascript_include_tag 'pages'
 = render("tabs")
-%ul.dropdown
-  - if @subclasses
-    %a.dropdown-toggle{:href => "#", "role" => "button", "data-toggle" => "dropdown", "data-target" => "#"} subclass
-    %ul.dropdown-menu{"role" => "menu"}
-      %li
-      - @subclasses.each do |sc|
-        = link_to sc, page_media_path(page_id: @page.id, subclass:sc)
-        %br
-%div{ class: "uk-visible@m" }
-  = will_paginate @media, remote: true
-  = render("media/grid", media: @media)
+.container
+  .row
+    .col-md-12.blog
+      .row
+        .col-lg-12
+          %h2.TaxonName
+            = @page.scientific_name
+        .col-md-8
+          %h3.smallTitle Images
+          .row
+            - @media.each do |medium|
+              %div{:id => "#{medium.id}", :onclick=> 'showPopup(this)', :onmouseover =>"showOver(this)", :onmouseout=>"hideOver(this)"}
+                .col-md-4.col-sm-3.col-xs-12
+                  .imageThumbnail
+                    %img.img-responsive{:alt => "", :src => medium.base_url}
+                    %span.btn.btn-success.btn-xs.btn-trusted.btn-trusted
+                      = medium.page_contents.find { |c| c.content_id == medium.id }.trust
+                  .Taxon_Name
+                    .commonName
+                      = medium.name
+                .modal{ :id => "popup_#{medium.id}", :tabindex => "-1", :role => "dialog", "aria-labelledby" => "popup_#{medium.id}Label"}
+                  .modal-dialog.modal-lg.extra_large{:role => "document"}
+                    .modal-content
+                      .viewerModal.modal-header
+                        %button{ :id =>"#{medium.id}", :class => "btn", :onclick=> 'hidePopup(this, event)'}x
+                      .modal-body
+                        .row
+                          .col-md-8
+                            %img.img-responsive{:alt => "", :src => medium.base_url, :width => "100%"}/
+                          .col-md-4
+                            %aside
+                              .widget.categories
+                                %h3.Thumbnail_Title
+                                  = medium.name
+                                  %span.btn.btn-success.btn-xs.btn-trusted.btn-trusted Trusted
+                                  %br/
+                                  %small
+                                    In this image:
+                                    %a{:href => page_path(@page)}
+                                      = @page.scientific_name
+                                .small_title
+                                  Source
+                                .greyBox
+                                  %p
+                                    %img{:src => "../images/creative_common.png"}/
+                                    %small
+                                      %br/
+                                      - unless medium.source_url.nil?
+                                        %b 
+                                          Source URL:
+                                          = medium.source_url |
+                                      %br/
+                                      - unless medium.owner.nil?
+                                        %b 
+                                          Owner:
+                                          = medium.owner
+                                - unless medium.description.nil?
+                                  .small_title
+                                    Description
+                                  .greyBox
+                                    %p
+                                      = medium.description
+          = will_paginate @media
+        .col-md-4
+          %aside
+            .widget.categories
+              %h3 Taxon Card
+              .row
+                .col-sm-12
+                  .single_comments
+                    %b= @page.scientific_name
+                    =image_tag "avatar3.png", :alt => ""
+
+            .widget.blog_gallery
+              %h3 Refresh your memory
+              %ul.sidebar-gallery
+                %li
+                  %a{:href => "https://education.eol.org/memory/"}
+                    =image_tag "memory-game-icon.png", :alt => ""
