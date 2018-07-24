@@ -1,12 +1,19 @@
 %h3.ui.header= "Classification"
--page_node = @page.node || @page.nodes.first
--ancestory = classification(page_node)
--tree = []
--ancestory.each do |node_ancestor|
-  -tree.push(node_ancestor.ancestor)
--tree.push(page_node)
--tree.each do |node|
-  %div
-    %h2=link_to node.canonical_form, page_path(node.pages.first.id)
- 
+-nodes = @page.nodes.to_a.sort_by{|n| n.resource_id}
+-nodes.each do |page_node|
+  -ancestory, children = classification(page_node)
+  -tree = []
+  -ancestory.each do |node_ancestor|
+    -tree.push(node_ancestor.ancestor)
+  -tree.push(page_node)
+  -children.each do |child|
+    - tree.push(child.node)
+  -resource_info = get_resource_info(page_node.resource_id)
+  - if !resource_info.nil?
+    %h2= resource_info.name
+  - else
+    %h2= "Unknown Resource" 
+  -tree.each do |node|
+    %div
+      %p=link_to node.canonical_form, page_path(node.pages.first.id)
 
