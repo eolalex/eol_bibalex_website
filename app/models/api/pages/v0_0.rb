@@ -138,11 +138,9 @@ module Api
         ] }
 
       def self.call(params)
-        debugger
         validate_and_normalize_input_parameters(params)
         adjust_sounds_images_videos_texts(params)
         page_requests = params[:id].split(",").map do |page_id|
-          debugger
           page_request=Page.search(page_id, fields:[{id: :exact}]).results.first
           {id: page_id, page: page_request}
         end.compact
@@ -178,11 +176,9 @@ module Api
       end
 
       def self.prepare_hash (page, params={})
-        debugger
         return_hash = {}
 
         unless page.nil?
-          debugger
           return_hash['identifier'] = page.id
           return_hash['scientificName'] = page.scientific_name
           return_hash['richness_score'] = page.page_richness
@@ -197,9 +193,8 @@ module Api
           end
 # 
           if params[:common_names]
-            debugger
             return_hash['vernacularNames'] = []
-            Vernacular.where("pages_id = ? ", page.id).each do |ver|
+            Vernacular.where("page_id = ? ", page.id).each do |ver|
               lang = ver.language.group
               common_name_hash = {
                 'vernacularName' => ver.string,
@@ -212,7 +207,6 @@ module Api
           end
 
           if params[:references]
-            debugger
             return_hash['references'] = []
             Referent.where('pages', page.id).each do |r|
               return_hash['references'] << r.body
@@ -221,7 +215,6 @@ module Api
           end
 
           if params[:taxonomy]
-            debugger
             return_hash['taxonConcepts'] = []
             PagesNode.where("page_id = ?", page.id).each do |page_node|
               node=Node.find(page_node.node_id)
@@ -264,7 +257,6 @@ module Api
       end
       
       def self.get_data_objects(page, params)
-        debugger
         params[:licenses] = nil if params[:licenses] && params[:licenses].include?('all')
         process_license_options!(params)
         process_subject_options!(params)
@@ -286,7 +278,7 @@ module Api
       
       def self.load_media(media, params, page)
         media_ids=media.results.map(&:id)
-        content_ids = PageContent.where("pages_id = ? and content_id in (?) and content_type = ? and trust in (?) and is_incorrect = ? and is_misidentified = ? and is_hidden = ? and is_duplicate = ?", page.id, media_ids, "Medium", params[:vetted_types], false, false, false, false).map(&:content_id)
+        content_ids = PageContent.where("page_id = ? and content_id in (?) and content_type = ? and trust in (?) and is_incorrect = ? and is_misidentified = ? and is_hidden = ? and is_duplicate = ?", page.id, media_ids, "Medium", params[:vetted_types], false, false, false, false).map(&:content_id)
         media_ids = media_ids & content_ids
         
         image_objects = load_images(media_ids, params[:licenses], params, page)   
@@ -301,11 +293,10 @@ module Api
       
       
       def self.load_images(media_ids, license_ids, params, page)
-        debugger
         if params_found_and_greater_than_zero(params[:images_page], params[:images_per_page])  
           offset = (params[:images_page]-1)*params[:images_per_page]
-          image_objects= PageContent.images.where("id in (?) and licenses_id in (?)", media_ids, license_ids) 
-          exemplar_image= page.medium
+          image_objects= PageContent.images.where("id in (?) and license_id in (?)", media_ids, license_ids) 
+          exemplar_image= page.media.first
           promote_exemplar!(exemplar_image, image_objects, params, license_ids, page, "Medium")
           return image_objects[offset..offset+params[:images_per_page]-1]
           
@@ -318,7 +309,7 @@ module Api
           
           offset = (params[:videos_page]-1)*params[:videos_per_page]
         
-          video_objects= PageContent.videos.where("id in (?) and licenses_id in (?)", media_ids, license_ids)
+          video_objects= PageContent.videos.where("id in (?) and license_id in (?)", media_ids, license_ids)
           
           return video_objects[offset..offset+params[:videos_per_page]-1]
           
@@ -331,7 +322,7 @@ module Api
           
           offset = (params[:sounds_page]-1)*params[:sounds_per_page]
         
-          sound_objects= PageContent.sounds.where("id in (?) and licenses_id in (?)", media_ids, license_ids)
+          sound_objects= PageContent.sounds.where("id in (?) and license_id in (?)", media_ids, license_ids)
           
           return sound_objects[offset..offset+params[:sounds_per_page]-1]
           
@@ -346,7 +337,7 @@ module Api
           
           page_object= Page.find_by_id(page.id)
         
-          map_objects= page_object.maps.where("licenses_id in (?)", license_ids)
+          map_objects= page_object.maps.where("license_id in (?)", license_ids)
           
           return map_objects[offset..offset+params[:maps_per_page]-1]
           
@@ -357,16 +348,16 @@ module Api
       def self.load_articles(articles, params, page)
         if params_found_and_greater_than_zero(params[:texts_page], params[:texts_per_page])
           articles_ids=articles.results.map(&:id)
-          content_ids = PageContent.where("pages_id = ? and content_id in (?) and content_type = ? and trust in (?) and is_incorrect = ? and is_misidentified = ? and is_hidden = ? and is_duplicate = ?", page.id, articles_ids, "Article", params[:vetted_types], false, false, false, false).map(&:content_id)
+          content_ids = PageContent.where("page_id = ? and content_id in (?) and content_type = ? and trust in (?) and is_incorrect = ? and is_misidentified = ? and is_hidden = ? and is_duplicate = ?", page.id, articles_ids, "Article", params[:vetted_types], false, false, false, false).map(&:content_id)
           articles_ids = articles_ids & content_ids
           
           offset = (params[:texts_page]-1)*params[:texts_per_page]
           
           if params[:toc_items].nil? 
-            article_objects= Article.where("id in (?) and licenses_id in (?)", articles_ids, params[:licenses]) 
+            article_objects= Article.where("id in (?) and license_id in (?)", articles_ids, params[:licenses]) 
           else
             content_sections= ContentSection.where("section_id in (?) and content_id in (?) and content_type = ?", params[:toc_items], articles_ids, "Article").map(&:content_id)
-            article_objects= Article.where("id in (?) and licenses_id in (?)", content_sections, params[:licenses])  
+            article_objects= Article.where("id in (?) and license_id in (?)", content_sections, params[:licenses])  
           end 
           
           return article_objects[offset..offset+params[:texts_per_page]-1]   
@@ -377,7 +368,7 @@ module Api
       def self.load_links(links, params, page)
         if params_found_and_greater_than_zero(params[:texts_page], params[:texts_per_page])
           links_ids=links.results.map(&:id)
-          content_ids = PageContent.where("pages_id = ? and content_id in (?) and content_type = ? and trust in (?) and is_incorrect = ? and is_misidentified = ? and is_hidden = ? and is_duplicate = ?", page.id, links_ids, "Link", params[:vetted_types], false, false, false, false).map(&:content_id)
+          content_ids = PageContent.where("page_id = ? and content_id in (?) and content_type = ? and trust in (?) and is_incorrect = ? and is_misidentified = ? and is_hidden = ? and is_duplicate = ?", page.id, links_ids, "Link", params[:vetted_types], false, false, false, false).map(&:content_id)
           links_ids = links_ids & content_ids
           
           offset = (params[:texts_page]-1)*params[:texts_per_page]
@@ -435,9 +426,9 @@ module Api
       
       def self.promote_exemplar!(exemplar_object, existing_objects_of_same_type, options={}, license_ids, page, type)
           return unless exemplar_object
-          return unless license_ids.include?(exemplar_object.licenses_id)
+          return unless license_ids.include?(exemplar_object.license_id)
          
-          content_object= PageContent.where("pages_id = ? and content_id = ? and content_type = ? and is_incorrect = ? and is_misidentified = ? and is_hidden = ? and is_duplicate = ?", page.id, exemplar_object.id, type, false, false, false, false).first
+          content_object= PageContent.where("page_id = ? and content_id = ? and content_type = ? and is_incorrect = ? and is_misidentified = ? and is_hidden = ? and is_duplicate = ?", page.id, exemplar_object.id, type, false, false, false, false).first
           best_vetted_label = content_object.trust
           return if options[:vetted_types] && ! options[:vetted_types].include?(best_vetted_label)
 

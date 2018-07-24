@@ -7,6 +7,7 @@ class Page < ActiveRecord::Base
   has_and_belongs_to_many :referents
   belongs_to :node
   has_many :scientific_names
+  has_many :page_contents, class_name: 'PageContent', primary_key: 'id', foreign_key: 'page'
   has_many :vernaculars
   has_many :page_contents
   has_many :media, through: :page_contents, source: :content, source_type: "Medium"
