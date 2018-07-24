@@ -43,7 +43,9 @@
                   - @page.data.each do |trait|  
                     %tr
                       %td.text-right
-                        %b trait[:predicate]
+                        %b 
+                          =trait[:predicate][:name]
+                        =trait[:predicate][:definition]
               -else
                 %h3
                   Selective Traits

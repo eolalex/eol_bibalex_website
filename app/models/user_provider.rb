@@ -15,11 +15,17 @@ class UserProvider < ApplicationRecord
                               )
                 registered_user
             else
-                user = User.create!(
-                    name: auth.info.name,
+                user = User.new(
+                    username: auth.info.name,
                             email: auth.info.email,
                             password: Devise.friendly_token[0,20],
+                            provider:auth.provider,
+                            uid:auth.uid
+                            # confirmed_at: Time.now
                             )
+               user.skip_confirmation!
+               user.save
+               user
                 user_provider = UserProvider.create!(
                     provider:auth.provider,
                             uid:auth.uid,
@@ -45,14 +51,18 @@ class UserProvider < ApplicationRecord
                 registered_user
             else
                 user = User.create!(
-                    name: auth.info.name,
+                    username: auth.info.name,
                               email: auth.info.email,
                               password: Devise.friendly_token[0,20],
+                              provider:auth.provider,
+                              uid:auth.uid,
+                              confirmed_at: Time.now
                             )
                 user_provider = UserProvider.create!(
                     provider:auth.provider,
                             uid:auth.uid,
                             user_id: user.id
+                            
                     )
                 user
             end
@@ -74,9 +84,13 @@ class UserProvider < ApplicationRecord
                    registered_user
               else
                 user = User.create!(
-                        name: auth.extra.raw_info.name,
-                        username: auth.info.nickname,                      
+                        # name: auth.extra.raw_info.name,
+                          username: auth.info.nickname,                      
                           password: Devise.friendly_token[0,20],
+                          email:"aaa@yahoo.com",
+                          provider:auth.provider,
+                          uid:auth.uid,
+                          confirmed_at: Time.now
                           )
 
                     user_provider = UserProvider.create!(

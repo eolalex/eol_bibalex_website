@@ -36,7 +36,8 @@ class PagesController < ApplicationController
       @subclass = params[:subclass]
       media = media.where(subclass: params[:subclass])
     end
-    @media = media.page(params[:page]).per_page(30)
+    @media = media.paginate(:page => params[:page], :per_page => ENV['per_page'])
+
     respond_to do |format|
       format.html {}
       format.js {}
@@ -59,7 +60,6 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
     @scientific_names = @page.scientific_names
     @vernaculars = @page.vernaculars
-   
     respond_to do |format|
       format.html {}
     end
@@ -75,5 +75,7 @@ class PagesController < ApplicationController
     end
   end
   
- end
+
+end
+  
 

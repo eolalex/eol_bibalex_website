@@ -42,7 +42,9 @@ class CollectionsController < ApplicationController
   
   def show
     @collection = Collection.find(params[:id])
-    @pages = @collection.collected_pages
+    @collected_pages = @collection.collected_pages
+    @collected_pages = @collected_pages.sort_by{|collected_page| collected_page.page.scientific_name.downcase} 
+    @collected_pages = @collected_pages.paginate(:page => params[:page], :per_page => ENV['per_page'])
   end
 
   def destroy
