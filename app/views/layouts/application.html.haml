@@ -100,36 +100,37 @@
                     %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
                     %button.btn.btn-primary{:type => "button"} Search
     
-  %body
-    .container-fluidd
-      = yield
-    %script{:src => "assets/js/jquery.js"}
-    %script{:src => "assets/js/bootstrap.min.js"}
-    %script{:src => "assets/js/jquery.prettyPhoto.js"}
-    %script{:src => "assets/js/jquery.isotope.min.js"}
-    %script{:src => "assets/js/main.js"}
-    %script{:src => "assets/js/wow.min.js"}
-    %script{:src => "assets/js/multislider.js"}
-    %footer#footer.midnight-blue
-      .container
-        .row
-          .col-sm-6.col-xs-12
-            %ul
+    %body
+      .container-fluidd
+        .content
+          = yield
+      %script{:src => "assets/js/jquery.js"}
+      %script{:src => "assets/js/bootstrap.min.js"}
+      %script{:src => "assets/js/jquery.prettyPhoto.js"}
+      %script{:src => "assets/js/jquery.isotope.min.js"}
+      %script{:src => "assets/js/main.js"}
+      %script{:src => "assets/js/wow.min.js"}
+      %script{:src => "assets/js/multislider.js"}
+  %footer#footer.midnight-blue
+    .container
+      .row
+        .col-sm-6.col-xs-12
+          %ul
+            %li
+              %a{:href => "http://eol.org/terms_of_use"} Terms of Use
+            %li
+              %a{:href => "http://eol.org/info/glossary"} Glossary
+            %li
+              %a{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} Donate
+            %li
+              %a{:href => "http://eol.org/contact_us"} Contact Us
+        .col-sm-6.col-xs-12
+          .social
+            %ul.social-share
+              %li Follow us on:
               %li
-                %a{:href => "http://eol.org/terms_of_use"} Terms of Use
+                %a{:href => "https://www.facebook.com/encyclopediaoflife/"}
+                  %i.fa.fa-facebook
               %li
-                %a{:href => "http://eol.org/info/glossary"} Glossary
-              %li
-                %a{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} Donate
-              %li
-                %a{:href => "http://eol.org/contact_us"} Contact Us
-          .col-sm-6.col-xs-12
-            .social
-              %ul.social-share
-                %li Follow us on:
-                %li
-                  %a{:href => "https://www.facebook.com/encyclopediaoflife/"}
-                    %i.fa.fa-facebook
-                %li
-                  %a{:href => "https://twitter.com/eol"}
-                    %i.fa.fa-twitter
+                %a{:href => "https://twitter.com/eol"}
+                  %i.fa.fa-twitter

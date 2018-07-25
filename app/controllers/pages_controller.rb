@@ -7,7 +7,7 @@ class PagesController < ApplicationController
   end
 
   def show
-    @page = Page.find(params[:id])
+    @page = Page.where(params[:page_id])
     # @page_title = @page.name
     respond_to do |format|
       format.html {}
@@ -36,20 +36,21 @@ class PagesController < ApplicationController
       @subclass = params[:subclass]
       media = media.where(subclass: params[:subclass])
     end
-    @media = media.page(params[:page]).per_page(30)
+    @media = media.paginate(:page => params[:page], :per_page => ENV['per_page'])
+
     respond_to do |format|
       format.html {}
       format.js {}
     end
   end
   
-  def show
-    @page = Page.find_by_id(params[:id])
-    respond_to do |format|
-      format.html {}
-      format.js {}
-    end
-  end
+  # def show
+    # @page = Page.find_by_id(params[:id])
+    # respond_to do |format|
+      # format.html {}
+      # format.js {}
+    # end
+  # end
   
   def literature_and_references
     @page = Page.where(id: params[:page_id]).first
@@ -59,33 +60,6 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
     @scientific_names = @page.scientific_names
     @vernaculars = @page.vernaculars
-    @scientific_names_resources = {}
-    @vernaculars_resources = {}
-    
-    @scientific_names.each do |name|
-      resource_id = name.resource_id
-      @key = name.canonical_form
-      resource = ResourceApi.get_resource_using_id(resource_id)
-      if !resource.nil?
-        resource_info =  Resource.new(id: resource["id"].to_i, name: resource["name"], origin_url: resource["origin_url"], type: resource["type"], path: resource["path"])
-        @scientific_names_resources[@key] = resource_info
-      end   
-      #here I want to check if the name exists in hash already then append to it otherwise just add new element
-    end
-      
-    
-    if !@vernaculars.nil? && !@vernaculars.empty?
-      @vernaculars.each do |name|
-        resource_id = name.resource_id
-        resource = ResourceApi.get_resource_using_id(resource_id)
-        if !resource.nil?
-          resource_info =  Resource.new(id: resource["id"].to_i, name: resource["name"], origin_url: resource["origin_url"], type: resource["type"], path: resource["path"])
-          @vernaculars_resources[name] = resource_info
-        end
-      #here I want to check if the name exists in hash already then append to it otherwise just add new element
-      end
-    end
-    
     respond_to do |format|
       format.html {}
     end
@@ -101,6 +75,7 @@ class PagesController < ApplicationController
     end
   end
   
+
 end
   
 

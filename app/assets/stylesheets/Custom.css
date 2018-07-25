@@ -1,4 +1,208 @@
-﻿/*===== Header =====*/
+﻿
+body{
+    background-color: #2E2E2E!important;
+}
+
+.content{
+    background-color:white!important;
+    padding-bottom: 30px;
+    min-height:500px;
+    max-width: 100% !important;
+	width: 100% !important;
+}
+
+.smallTitle {
+    font-weight: bold;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.imageThumb {
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+    .imageThumb img {
+        width: 100%;
+    }
+
+    .imageThumb .btn {
+        border: 0 none;
+        bottom: 4px;
+        left: 4px;
+        position: absolute;
+        z-index: 1;
+    }
+
+.Taxon_Name {
+    background-color: #f5f5f5;
+    padding: 5px;
+    line-height: 20px;
+}
+
+    .Taxon_Name .latinName {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .Taxon_Name .commonName {
+        font-size: 12px;
+    }
+
+.imageThumbnail {
+    margin-bottom: 15px;
+}
+
+.btn-success,
+.btn-trusted {
+    -webkit-transition: background-color 300ms;
+    -moz-transition: background-color 300ms;
+    -o-transition: background-color 300ms;
+    transition: background-color 300ms;
+    background-color: rgba(106,164,47,1) !important;
+}
+
+    .btn-success:hover {
+        background-color: rgba(106,164,47,0.85) !important;
+    }
+
+.btn-unreviewed,
+.btn-unreviewed:hover {
+    background-color: indianred !important;
+    color: white !important;
+}
+
+.btn-trusted:hover {
+    background-color: rgba(106,164,47,1) !important;
+}
+
+.btn-trusted,
+.btn-unreviewed {
+    cursor: default !important;
+}
+
+.viewerModal.modal-header {
+    position: absolute;
+    right: 0;
+    z-index: 1000;
+    border-bottom: medium none;
+    padding: 8px 10px 0;
+}
+
+.extra_large .modal-body {
+    padding: 30px !important;
+}
+
+h3.Thumbnail_Title {
+    /*border-bottom: 1px dashed #d1d1d1;*/
+    padding-bottom: 10px;
+    margin-bottom: 10px !important;
+}
+
+.Thumbnail_Title span {
+    margin: 0 5px;
+}
+
+.greyBox {
+    background-color: #f5f5f5;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.modal-body .widget.categories .small_title {
+    background-color: #f5f5f5;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 1px;
+    margin-top: 10px;
+    padding: 5px 8px;
+}
+
+.shadedBox {
+    background-color: #e7e7e7;
+    display: inline-block;
+    margin-top: 5px;
+    padding: 0 4px;
+}
+
+.pagination {
+    width: 100%;
+    text-align: center;
+    margin: 40px 0 !important;
+}
+
+    .pagination li {
+        display: inline-block;
+    }
+
+    .pagination > li > a, .pagination > li > span {
+        float: none !important;
+    }
+
+.nav.navbar-nav {
+    margin: 10px 0 !important;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    display: block;
+}
+
+    .navbar-inverse .navbar-nav > li > a:hover,
+    .topMenu li a:hover {
+        background-color: transparent !important;
+        color: #C1D72C !important;
+        opacity: 1 !important;
+    }
+
+        .topMenu li a:hover .fa {
+            color: #d7d7d7;
+        }
+
+.topMenu .dropdown-menu {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+    .topMenu .dropdown-menu li a {
+        color: #f5f5f5;
+    }
+
+    .topMenu .dropdown-menu li:hover .topMenu .dropdown-menu li a:hover {
+        background-color: transparent;
+        color: #C1D72C;
+    }
+
+
+
+
+.no-TopPadding {
+    padding-top: 0 !important;
+}
+
+.chooseFile {
+    padding-top: 7px;
+}
+
+.formStyle .control-label {
+    font-weight: normal;
+}
+
+.radio-inline, .checkbox-inline {
+    padding-left: 17px !important;
+}
+
+.formStyle {
+    margin-bottom: 30px;
+}
+
+    .formStyle .separator {
+        margin: 30px 0;
+    }
+
+/*===== Header =====*/
 #header {
     border-bottom: 2px solid #c1d72c !important;
 }
@@ -26,12 +230,15 @@
         margin: 0;
         padding: 0;
     }
+
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-submenu:hover > a, .dropdown-submenu:focus > a,
-.dropdown-menu > li:hover, .dropdown-menu > li:focus{
-    background-color:#A9BF15!important;
-    opacity:1!important;
-    background-image:none!important;
+.dropdown-menu > li:hover, .dropdown-menu > li:focus {
+    background-color: transparent !important;
+    opacity: 1 !important;
+    background-image: none !important;
+    color: #C1D72C !important;
 }
+
 .navbar-header {
     position: relative;
 }
@@ -93,38 +300,29 @@
     .mainMenu .navbar-toggle {
         float: left;
     }
+
 .navbar-toggle {
-
-    background-color: transparent!important;
-
-    background-image: none!important;
-
+    background-color: transparent !important;
+    background-image: none !important;
     border: 1px solid !important;
-
-    border-radius: 4px!important;
-
+    border-radius: 4px !important;
     float: right;
-
-    margin-bottom: 8px!important;
-
-    margin-right: 15px!important;
-
-    margin-top: 8px!important;
-
-    padding: 9px 10px!important;
-
-    position: relative!important;
-    
-
-}
-.navbar-toggle:hover,
-.navbar-toggle:focus{
-	background-color:#333!important;
+    margin-bottom: 8px !important;
+    margin-right: 15px !important;
+    margin-top: 8px !important;
+    padding: 9px 10px !important;
+    position: relative !important;
 }
 
-button{
-	box-shadow:none;
+    .navbar-toggle:hover,
+    .navbar-toggle:focus {
+        background-color: #333 !important;
+    }
+
+button {
+    box-shadow: none;
 }
+
 .menuText {
     color: #d7d7d7;
     display: inline-block;
@@ -141,7 +339,7 @@ button{
 
 .navbar-collapse.navbar-left.collapsing,
 .navbar-collapse.navbar-left.in {
-    background-color: rgba(21, 21, 21, 0.8);
+    background-color: rgba(21, 21, 21, 0.95);
     position: absolute;
     z-index: 100;
 }
@@ -269,7 +467,7 @@ select {
 }
 
 .NetworksLink {
-    background: rgba(0, 0, 0, 0) url("NetworkIcon.png") no-repeat scroll left center;
+    background: rgba(0, 0, 0, 0) url("../images/NetworkIcon.png") no-repeat scroll left center;
     padding-left: 30px !important;
 }
 
@@ -327,25 +525,28 @@ body > form {
     }
 
 .modal-body .searchButton {
-    background-color:#c52d2f!important;
-    color:#fff!important;
-    opacity: 1!important;
-    right: 1px!important;
+    background-color: #c52d2f !important;
+    color: #fff !important;
+    opacity: 1 !important;
+    right: 1px !important;
     border-bottom-left-radius: 0 !important;
     border-top-left-radius: 0 !important;
-    -webkit-transition: color 300ms, background-color 300ms!important;
-    -moz-transition: color 300ms, background-color 300ms!important;
-    -o-transition: color 300ms, background-color 300ms!important;
-    transition: color 300ms, background-color 300ms!important;
+    -webkit-transition: color 300ms, background-color 300ms !important;
+    -moz-transition: color 300ms, background-color 300ms !important;
+    -o-transition: color 300ms, background-color 300ms !important;
+    transition: color 300ms, background-color 300ms !important;
 }
-.modal-body .searchButton:hover{
-    background-color: #e9e9e9!important;
-    color:#333!important;
+
+    .modal-body .searchButton:hover {
+        background-color: #e9e9e9 !important;
+        color: #333 !important;
+    }
+
+.searchbox .modal-title {
+    text-align: center;
+    font-size: 22px;
 }
-.searchbox .modal-title{
-    text-align:center;
-    font-size:22px;
-}
+
 .searchBox {
     position: relative;
 }
@@ -446,7 +647,7 @@ body > form {
 
 /*====== Sponsers ======*/
 #Sponsors {
-    background: rgba(0, 0, 0, 0) url("partner_bg.png") no-repeat scroll 50% 50% / cover;
+    background: rgba(0, 0, 0, 0) url("../images/partners/partner_bg.png") no-repeat scroll 50% 50% / cover;
     padding: 70px 0;
     color: white;
     margin-top: 70px;
@@ -476,14 +677,15 @@ body > form {
     margin-bottom: 60px;
     margin-top: 50px;
 }
-.Donation .lead{
-	font-size:16px;
+
+.Donation .lead {
+    font-size: 16px;
 }
 
-
-ul.social-share li a{
-	padding-top:6px!important;
+ul.social-share li a {
+    padding-top: 6px !important;
 }
+
 
 
 
@@ -593,8 +795,16 @@ ul.thumbnails {
 
 
 
+
+/*==== Table Style ====*/
+
 /* Mobile only
 ------------------------------------------------ */
+@media (max-width: 992px){
+    aside {
+        margin-top: 30px;
+    }
+}
 @media (max-width: 767px) {
     .page-header {
         text-align: center;
@@ -609,4 +819,97 @@ ul.thumbnails {
     ul.thumbnails li {
         margin-bottom: 30px;
     }
+}
+
+/*body {
+    font-family: "Open Sans", sans-serif;
+    line-height: 1.25;
+}*/
+
+table.customTable {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+}
+
+   table.customTable caption {
+        font-size: 1.5em;
+        margin: .5em 0 .75em;
+    }
+
+    table.customTable tr {
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        padding: .35em;
+    }
+
+    table.customTable th,
+    table.customTable td {
+        padding: .625em;
+        text-align: center;
+    }
+
+    table.customTable th {
+        font-size: .85em;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        background-color: slategray;
+        color: white;
+    }
+
+    table.customTable tr:nth-child(2n) {
+        background-color: #fefefe;
+    }
+
+@media screen and (max-width: 600px) {
+    table.customTable {
+        border: 0;
+    }
+
+        table.customTable caption {
+            font-size: 1.3em;
+        }
+
+        table.customTable thead {
+            border: none;
+            clip: rect(0 0 0 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+
+        table.customTable tr {
+            border-bottom: 3px solid #ddd;
+            display: block;
+            margin-bottom: .625em;
+        }
+
+        table.customTable td {
+            border-bottom: 1px solid #ddd;
+            display: block;
+            font-size: .9em;
+            text-align: left;
+        }
+
+            table.customTable td::before {
+                /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+                content: attr(data-label);
+                padding-right: 10px;
+                float: left;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            table.customTable td:last-child {
+                border-bottom: 0;
+            }
 }
