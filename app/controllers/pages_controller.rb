@@ -7,7 +7,7 @@ class PagesController < ApplicationController
   end
 
   def show
-    @page = Page.where(params[:page_id])
+    @page = Page.where(params[:page_id]).first
     # @page_title = @page.name
     respond_to do |format|
       format.html {}
