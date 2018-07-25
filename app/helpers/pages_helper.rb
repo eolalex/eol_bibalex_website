@@ -4,7 +4,15 @@ module PagesHelper
     children = []
     ancestors=  node.node_ancestors.order('depth DESC')
     children = node.children.order('depth ASC')
-   return  ancestors,children  
+    tree = []
+    ancestors.each do |node_ancestor|
+     tree.push(node_ancestor.ancestor)
+    end 
+    tree.push(node)
+    children.each do |child|
+      tree.push(child.node)
+    end
+    tree    
   end
   
   def get_resources(names)

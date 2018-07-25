@@ -1,13 +1,7 @@
 %h3.ui.header= "Classification"
 -nodes = @page.nodes.to_a.sort_by{|n| n.resource_id}
 -nodes.each do |page_node|
-  -ancestory, children = classification(page_node)
-  -tree = []
-  -ancestory.each do |node_ancestor|
-    -tree.push(node_ancestor.ancestor)
-  -tree.push(page_node)
-  -children.each do |child|
-    - tree.push(child.node)
+  -tree = classification(page_node)
   -resource_info = get_resource_info(page_node.resource_id)
   - if !resource_info.nil?
     %h2= resource_info.name
