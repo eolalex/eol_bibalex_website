@@ -2,17 +2,17 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable, omniauth_providers: [:facebook, :twitter,
-                                             :google_oauth2]
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
   validate :username_format, :password_complexity
   validates_confirmation_of :password
   has_and_belongs_to_many :collections
   has_many :open_authentications, dependent: :delete_all
   has_many :content_partners, through: :content_partner_users
   has_many :user_providers, :dependent => :destroy
+  
   def username_format
-    return unless username =~ /\s/
-    errors.add :username, 'Invalid Username Format: Username should not contain any blank spaces.'
+    # return unless username =~ /\s/
+    # errors.add :username, 'Invalid Username Format: Username should not contain any blank spaces.'
   end
 
   def password_complexity

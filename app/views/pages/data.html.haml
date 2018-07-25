@@ -56,12 +56,12 @@
                     =image_tag "memory-game-icon.png", :alt => ""
 
 
-- cache(page_data_path(@page), expires_in: 1.day) do 
-  %ul.traits
-    - @page.predicates.each_with_index do |uri, index|
-      - predicate = @page.glossary[uri]
-      - if predicate.nil?
-        - Rails.logger.error("** ERROR: missing predicate #{uri}")
-        - next
-      - @page.grouped_data[uri].each do |trait|
-        = render :partial => "terms/data_row", :locals => { :page => @page, :trait => trait, :show_taxon => false }
+-# - cache(page_data_path(@page), expires_in: 1.day) do 
+  -# %ul.traits
+    -# - @page.predicates.each_with_index do |uri, index|
+      -# - predicate = @page.glossary[uri]
+      -# - if predicate.nil?
+        -# - Rails.logger.error("** ERROR: missing predicate #{uri}")
+        -# - next
+      -# - @page.grouped_data[uri].each do |trait|
+        -# = render :partial => "terms/data_row", :locals => { :page => @page, :trait => trait, :show_taxon => false }
