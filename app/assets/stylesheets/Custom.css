@@ -646,7 +646,7 @@ body > form {
 
 /*====== Sponsers ======*/
 #Sponsors {
-    background: rgba(0, 0, 0, 0) url("../images/partners/partner_bg.png") no-repeat scroll 50% 50% / cover;
+    background: rgba(0, 0, 0, 0) url("partner_bg.png") no-repeat scroll 50% 50% / cover;
     padding: 70px 0;
     color: white;
     margin-top: 70px;
