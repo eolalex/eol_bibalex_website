@@ -36,12 +36,10 @@ class ContentPartnersController < ApplicationController
   
   def update
     logo = params[:content_partner][:logo].nil? ? nil : params[:content_partner][:logo]
-    debugger
     content_partner_params = { name: params[:content_partner][:name], description: params[:content_partner][:description],
                                abbreviation: params[:content_partner][:abbreviation], url: params[:content_partner][:url], logo: logo }
     @content_partner = ContentPartner.new(content_partner_params)
     if @content_partner.valid?
-      debugger
       result = ContentPartnerApi.update_content_partner?(params[:id], content_partner_params)
       if result
         flash[:notice] = I18n.t(:Successfully_updated_content_partner)
