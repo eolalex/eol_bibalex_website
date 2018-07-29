@@ -23,6 +23,7 @@
   }
 
   function buildTypeahead(selector, options, datumField, selectFn) {
+  	alert("here");
     $(selector).typeahead({}, options).bind('typeahead:selected', function(evt, datum, name) {
       var $target = $(evt.target);
 

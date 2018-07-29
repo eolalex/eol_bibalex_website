@@ -5,12 +5,15 @@
     - @scientific_names.group_by {|n| n.taxonomic_status.name }.each do |status, names|
       = status
       %br
-      -names.each do |name|
-        =name.canonical_form
+      -scientific_names_resources = get_resources(names)
+      -scientific_names_resources.each do |name, resource|
+        = name
         %br
-        -unless @scientific_names_resources[name].nil?
-          %p= 'Recognized by ' + @scientific_names_resources[name].name + ','
-    %br
+        = 'Recognized by '
+        -if !scientific_names_resources[name].nil?
+          - scientific_names_resources[name].each do |resource| 
+            = resource.name
+        %br
     = "_________________________"  
   %h2= 'Vernaculars'
   %div
@@ -20,11 +23,14 @@
       - @vernaculars.group_by { |n| n.language.code }.each do |language, names|
         = language
         %br
-        -names.each do |name|
-          = name.string
-          %br
-          - unless @vernaculars_resources[name].nil?
-            %p= 'Recognized by '+ @vernaculars_resources[name].name + ','
-      %br
-      = '_______________________'  
-  = render('pages/classification')
+        -vernaculars_resources = get_resources(names)
+        -vernaculars_resources.each do |name, resource|
+          = name
+        %br
+        = 'Recognized by '
+        -if !vernaculars_resources[name].nil?
+          - vernaculars_resources[name].each do |resource| 
+            = resource.name
+        %br
+    = "_________________________"
+= render('pages/classification')
