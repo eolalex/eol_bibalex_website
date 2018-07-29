@@ -1,0 +1,15 @@
+= javascript_include_tag 'email'
+= form_tag(omniauth_path(),method: :get) do
+  = label "email", "email"
+  %input{:name => "value", :type => "email", :id => "value_id"}
+  = submit_tag "enter", :id => "enter" , onclick: "myFunction()" 
+  = hidden_field_tag('auth', request.env["omniauth.auth"])
+-# = hash_to_hidden_fields(request.env["omniauth.auth"])
+-# = hidden_field_tag 'auth', :id="auth_id", request.env["omniauth.auth"]
+-# -auth = "#{request.env["omniauth.auth"]}"
+-# - content_tag :div, class: "temp_information",data: {temp: request.env["omniauth.auth"]} 
+-# - content_tag :div, id: "products",class: "temp_information",data: {temp: request.env["omniauth.auth"]}
+-# %input{:value => request.env["omniauth.auth"], :type => "hidden", :id => "hidden_id", data: {temp: request.env["omniauth.auth"]}}
+-# = label "email", "email"
+-# %input{:name => "value", :type => "email", :id => "value_id"}
+-# = submit_tag "enter", :id => "enter" , onclick: "myFunction()"

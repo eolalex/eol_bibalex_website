@@ -1,5 +1,5 @@
 require 'devise'
-class OpenAuthenticationsController < ApplicationController
+class UserProvidersController < ApplicationController
   def new
     password = Devise.friendly_token[0,16]
     @user = User.new(email: params[:info][:email], password: password, password_confirmation: password, 
