@@ -1,42 +1,40 @@
-%h3
-  = "parameters"
+.Parameters
 - unless @api_method.parameters.blank?
-  %table
-    %col.name
-    %col.values
-    %col.default
-    %col.notes
+  %h3.Special Parameters
+  %table.customTable
     %thead
       %tr
-        %th= "name"
-        %th= "values"
-        %th= "default"
-        %th= "notes"
+        %th{:scope => "col"} Name
+        %th{:scope => "col"} Values
+        %th{:scope => "col"} Default
+        %th{:scope => "col"} Notes
     %tbody
       - @api_method.parameters.each do |p|
         %tr
-          %td= p.name
-          %td
-            - if p.array?
-              = p.values.join(", ")
-            - elsif p.range?
+          %td{"data-label" => "Name"} 
+            = p.name
+          %td{"data-label" => "Values"} 
+            -if p.array?
+              = p.values.join(",")
+            -elsif p.range?
               = "#{p.values.min} - #{p.values.max}"
-            - elsif p.values
+            -elsif p.values
               = p.values
-            - elsif p.integer?
-              %em= "any_integer"
-            - elsif p.string?
-              %em= "any_string"
-            - elsif p.boolean?
+            -elsif p.integer?
+              %em= "any integer" 
+            -elsif p.string?
+              %em= "any string"
+            -elsif p.boolean?
               = "true, false"
-          %td
-            - if p.default
+          %td{"data-label" => "Default"} 
+            -if p.default
               = p.default.to_s
-            - elsif p.default == false
-              = 'false'
-            - else
+            -elsif p.default == false
+              = "false"
+            -else
               %em= "---"
-          %td= raw(p.notes)
-- else
+          %td{"data-label" => "Notes"} 
+            = raw(p.notes)
+-else
   %p
-  %em= "none"
+    %em= "None"  
