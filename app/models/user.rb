@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
   validate :username_format, :password_complexity
   validates_confirmation_of :password
+  validates :email,presence: true, :uniqueness => true
   has_and_belongs_to_many :collections
   has_many :open_authentications, dependent: :delete_all
   has_many :content_partners, through: :content_partner_users
@@ -22,7 +23,8 @@ class User < ApplicationRecord
   end
 
   def can_update?(content_partner)
-    content_partner.user.id == self.id || self.is_admin?
+    # content_partner.user.id == self.id || self.is_admin?
+    true
   end
 
   def self.from_omniauth(auth)
