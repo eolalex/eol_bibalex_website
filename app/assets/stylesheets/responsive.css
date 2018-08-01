@@ -139,13 +139,20 @@
     .extra_large {
         width: 1170px !important;
     }
-    .imageThumb{
-        height:190px;
+
+    .imageThumb {
+        height: 190px;
+    }
+    .content{
+        min-height:700px;
     }
 }
 
 /* md */
 @media (min-width: 992px) and (max-width: 1199px) {
+    .content{
+        min-height:600px;
+    }
     /*===== Edited by Shaimaa =======*/
     .topMenu {
         float: right;
@@ -598,8 +605,9 @@
         margin-top: -50px;
         box-shadow: 0 -30px 24px rgba(0, 0, 0, 0.25) !important;
     }
-    .imageThumb{
-        height:150px;
+
+    .imageThumb {
+        height: 150px;
     }
 }
 
@@ -610,6 +618,7 @@
         float: none !important;
         margin-top: 10px;
     }
+
     .row {
         margin: 0 !important;
     }
@@ -999,8 +1008,24 @@
     .form-group {
         margin-bottom: 15px !important;
     }
-    .imageThumb{
-        height:auto!important;
+
+    .imageThumb {
+        height: auto !important;
+    }
+
+    .resurceTitle img {
+        margin-right: 0;
+        margin-bottom: 10px;
+        display: block;
+        width: 64px;
+    }
+
+    .userInfo img {
+        margin: 0 -15px 25px;
+        width: 100px;
+    }
+    .form-text{
+        padding-top:0;
     }
 }
 
