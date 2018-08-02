@@ -93,8 +93,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
         set_flash_message :error,  :failure, kind: provider,
             reason: I18n.t(:account_not_linked)
       else
-        sign_in_and_redirect user, event: :authentication
-        flash[:notice] =  I18n.t(:signed_in, scope: 'devise.sessions')
+        sign_in_and_redirect user,event: :authentication
+        flash_msg = I18n.t(:signed_in, scope: 'devise.sessions')
+        flash[:notice] = flash_msg
       end
     end
   end
