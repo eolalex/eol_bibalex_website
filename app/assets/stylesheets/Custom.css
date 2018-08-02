@@ -795,23 +795,23 @@ ul.thumbnails {
 
 /*==== flash msg Style ====*/
 
-.alert {
-   font-weight: bold;
-   -moz-border-radius: 4px 4px 4px 4px;
-   -webkit-border-radius: 4px 4px 4px 4px;
-   border-radius: 4px 4px 4px 4px;
-   margin-bottom: 18px;
-   padding: 12px 25px 12px 24px;
-   -moz-box-shadow: 3px 3px 1px 1px #CCCCCC;
-   -webkit-box-shadow: 3px 3px 1px 1px #CCCCCC;
-   box-shadow: 3px 3px 1px 1px #CCCCCC;
-}
-.alert-success {
-   background-color: #66E167;
-   border-color: #D6E9C6;
-   width: 280px;
-   color: black;
-   padding-top: 20px;
+.alert , .notice{ 
+	margin-left: auto;
+margin-right: auto;
+border-radius: 4px;
+margin-bottom: 18px;
+border-color: #D6E9C6;
+width: 350px;
+color: rgb(0, 0, 0);
+z-index: 2000;
+position: absolute !important;
+left: 40%;
+top: 15%;
+background-color: #FFF;
+box-shadow: 3px 3px 1px 1px rgba(0, 0, 0, 0.2);
+padding: 30px 20px;
+text-align: center;
+font-size: 16px
 }
 
 
@@ -828,7 +828,6 @@ ul.thumbnails {
 }
 @media (max-width: 767px) {
     .page-header {
-        text-align: center;
     }
 }
 

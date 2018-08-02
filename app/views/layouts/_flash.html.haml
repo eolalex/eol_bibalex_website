@@ -1,0 +1,10 @@
+= javascript_include_tag 'flash'
+- unless flash.empty?
+  .modal-backdrop.fade.in
+  - flash.each do |name, msg|
+    - next if name == "recaptcha_error"
+    %p.eol-flash{ class: name, data: { text: Array(msg).join("; ") }, hidden: false }
+      = Array(msg).join("; ")
+-# - unless session[:beta_views] && session[:beta_views] == Date.today.to_s
+  -# %p.eol-flash{ class: "beta", data: { text: t("nags.beta") }, hidden: true }
+-# - session[:beta_views] = Date.today.to_s

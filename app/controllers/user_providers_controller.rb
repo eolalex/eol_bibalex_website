@@ -1,6 +1,6 @@
 require 'devise'
 class UserProvidersController < ApplicationController
-    def new
+  def new
     password = Devise.friendly_token[0,16]
     @user = User.new(email: params[:info][:email], password: password, 
                      username:  params[:info][:name], provider: params[:provider], uid: params[:uid])
