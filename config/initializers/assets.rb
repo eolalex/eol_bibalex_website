@@ -23,4 +23,5 @@ Rails.application.config.assets.precompile += %w( display.js )
 Rails.application.config.assets.precompile += %w( terms.js )
 Rails.application.config.assets.precompile += %w( email.js )
 Rails.application.config.assets.precompile += %w( data.js )
+Rails.application.config.assets.precompile += %w( collection.js )
 

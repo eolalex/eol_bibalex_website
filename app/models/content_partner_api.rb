@@ -1,7 +1,8 @@
 class ContentPartnerApi
-   # @schedular_uri = 'http://172.16.0.161:80/scheduler'
-  @schedular_uri = 'http://localhost:8084/scheduler'
-  @storage_uri = 'http://localhost:8010/eol/archiver'
+   @schedular_uri = 'http://172.16.0.161:80/scheduler'
+  # @schedular_uri = 'http://localhost:8084/scheduler'
+  @storage_uri = 'http://172.16.0.99:80/eol/archiver'
+  # @storage_uri = 'http://localhost:8010/eol/archiver'
   
   def self.add_content_partner?(params, current_user_id)
     input_logo = params[:logo].nil? ? File.new(DEFAULT_CONTENT_PARTNER_LOGO, 'rb') : params[:logo].tempfile

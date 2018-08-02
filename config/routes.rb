@@ -64,6 +64,7 @@ Rails.application.routes.draw do
    
   #media
   resources :media, only: [:show]
+  resources :users, only: [:show]
   
   root 'home_page#index'
   # get 'media' => 'media#show'

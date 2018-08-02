@@ -8,6 +8,7 @@ class PagesController < ApplicationController
 
   def show
     @page = Page.find(params[:id])
+    # @collection = Collection.new(id: 1)
     # @page_title = @page.name
     respond_to do |format|
       format.html {}

@@ -1,36 +1,74 @@
 = render("tabs")
-.desc
-  %h2= 'Scientific Names'
-  %div.uk-grid-small.uk-child-width-1-3{ uk: { grid: true }, class: "uk-child-width-expand@s" }
-    - @scientific_names.group_by {|n| n.taxonomic_status.name }.each do |status, names|
-      = status
-      %br
-      -scientific_names_resources = get_resources(names)
-      -scientific_names_resources.each do |name, resource|
-        = name
-        %br
-        = 'Recognized by '
-        -if !scientific_names_resources[name].nil?
-          - scientific_names_resources[name].each do |resource| 
-            = resource.name
-        %br
-    = "_________________________"  
-  %h2= 'Vernaculars'
-  %div
-    - if @vernaculars.empty?
-      = 'No vercaulars for this page'
-    - else  
-      - @vernaculars.group_by { |n| n.language.code }.each do |language, names|
-        = language
-        %br
-        -vernaculars_resources = get_resources(names)
-        -vernaculars_resources.each do |name, resource|
-          = name
-        %br
-        = 'Recognized by '
-        -if !vernaculars_resources[name].nil?
-          - vernaculars_resources[name].each do |resource| 
-            = resource.name
-        %br
-    = "_________________________"
-= render('pages/classification')
+%content#Content1{:contentplaceholderid => "head", :runat => "Server"}
+%content#Content2{:contentplaceholderid => "ContentPlaceHolder1", :runat => "Server"}
+  .MainPath
+    .container
+  .container
+    .row
+      .col-lg-12
+        %h2.mainTitle
+          Vernaculars
+      .col-md-12
+        .Description
+          %p.alert.alert-secondary{:role => "alert"}
+            %i.fa.fa-info-circle{"aria-hidden" => "true"}>
+            Many people know organisms only by the vernaculars, or common names. Unlike scientific names, vernaculars are almost always different for speakers of different languages. They may also vary regionally within a language. 
+            This tab shows all the vernaculars provided to EOL for this organism from a variety of providers, including EOL curators. Currently we can only set one preferred vernacular per language on a given EOL page,
+            but all the names should be searchable.
+        %hr/
+        .row.filter
+          .col-md-9
+            .row
+              .col-md-5
+                .form-group.row
+                  %span.col-lg-3.col-md-3.col-sm-4.col-xs-12
+                    Language:
+                  .col-lg-9.col-md-9.col-sm-8.col-xs-12
+                    %select.form-control{:name => "lang"}
+                      %option{:value => ""} -Select-
+                      %option{:value => "192"} Afghanistan
+                      %option{:value => "193"} Albania
+                      %option{:value => "194"} Algeria
+                      %option{:value => "3"} Algeria
+                      %option{:value => "195"} American Samoa
+                      %option{:value => "196"} Andorra
+                      %option{:value => "197"} Angola
+                      %option{:value => "198"} Anguilla
+              .col-md-7
+                .form-group.row
+                  %span.col-lg-2.col-md-3.col-sm-4.col-xs-12
+                    Name:
+                  .col-lg-10.col-md-9.col-sm-8.col-xs-12
+                    %input.form-control{:name => "ctl00$MainContent$tbxAddress", :type => "text"}/
+          .col-md-1
+            .btn.btn-danger add name
+        .row
+          .col-md-12
+            - if @vernaculars.empty?
+              %h3.Special No vernaculars for this page
+            - else  
+              -@vernaculars.group_by { |n| n.language.code }.each do |language, names|
+                %h3.Special 
+                  =language
+                %table.customTable
+                  %thead
+                    %tr
+                      %th{:scope => "col"} Preferred
+                      %th{:scope => "col"} Name
+                      %th{:scope => "col"} Sources
+                  %tbody
+                    -vernaculars_resources = get_resources(names)
+                    -vernaculars_resources.each do |name, resource|
+                      %tr
+                        - preferred = Vernacular.where(string: name).pluck(:is_prefered_by_resource).include? true
+                        %td{"data-label" => "Preferred"}
+                          %input.form-check-input{:checked => preferred, :name => "exampleRadios", :type => "radio"}/
+                        %td{"data-label" => "Name"} 
+                          = name
+                        %td{"data-label" => "Sources"} 
+                          -if !vernaculars_resources[name].nil?
+                            - vernaculars_resources[name].each do |resource|
+                              - if !resource.nil?
+                                = resource.name 
+                              - else
+                                = "Unknown Resource "
