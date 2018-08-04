@@ -15,8 +15,10 @@
                 .col-md-4.col-sm-3.col-xs-12
                   .imageThumbnail
                     %img.img-responsive{:alt => "", :src => medium.base_url}
-                    %span.btn.btn-success.btn-xs.btn-trusted.btn-trusted
-                      = medium.page_contents.find { |c| c.content_id == medium.id }.trust
+                    - content = medium.page_contents.find { |c| c.content_id == medium.id }
+                    - unless content.trust.nil?
+                      %span.btn.btn-success.btn-xs.btn-trusted.btn-trusted
+                        = content.trust
                   .Taxon_Name
                     .commonName
                       = medium.name
