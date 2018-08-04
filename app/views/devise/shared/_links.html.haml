@@ -21,7 +21,13 @@
   -else 
     - action = "sign_in"
     - action_name = "Sign In"
-  - resource_class.omniauth_providers.each do |provider|
-    = link_to t("sign_in_up_with_#{provider}", action: action_name),
-                  send("user_#{provider}_omniauth_authorize_path", intent: action) 
+  .col-sm-4.form-group   
+    %a.btn.btn-primary.btn-block{ href: "/users/auth/facebook?intent=#{action}&locale=en" }
+      %i.fa.fa-facebook
+  .col-sm-4.form-group
+    %a.btn.btn-primary.btn-block{ href: "/users/auth/twitter?intent=#{action}&locale=en" }
+      %i.fa.fa-twitter
+  .col-sm-4.form-group
+    %a.btn.btn-primary.btn-block{ href: "/users/auth/google_oauth2?intent=#{action}&locale=en" }
+      %i.fa.fa-google-plus   
   %br
