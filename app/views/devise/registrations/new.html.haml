@@ -42,8 +42,14 @@
                     .col-xs-12
                       %input.btn.btn-primary.btn-block.btn-lg{:tabindex => "5", :type => "submit", :value => "Sign up"}/
                   - if devise_mapping.omniauthable?
-                    - action = "sign_up"
-                    - action_name = "Sign Up"
-                  - resource_class.omniauth_providers.each do |provider|
-                    = link_to t("sign_in_up_with_#{provider}", action: action_name), send("user_#{provider}_omniauth_authorize_path", intent: action)
+                    - action = controller_name == 'registrations' ? "sign_up" : "sign_in"
+                    - if controller_name == 'registrations'
+                      - action = "sign_up"
+                      - action_name = "Sign Up"
+                    -else 
+                      - action = "sign_in"
+                      - action_name = "Sign In"
+                    - resource_class.omniauth_providers.each do |provider|
+                      = link_to t("sign_in_up_with_#{provider}", action: action_name),
+                                    send("user_#{provider}_omniauth_authorize_path", intent: action) 
                     %br

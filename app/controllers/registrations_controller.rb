@@ -71,4 +71,8 @@ class RegistrationsController < Devise::RegistrationsController
       new_session_path(resource_name)
     end
   end
+  
+  def email
+    
+  end
 end

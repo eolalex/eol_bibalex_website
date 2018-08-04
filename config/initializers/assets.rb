@@ -22,3 +22,6 @@ Rails.application.config.assets.precompile += %w( pages.js )
 Rails.application.config.assets.precompile += %w( display.js )
 Rails.application.config.assets.precompile += %w( terms.js )
 Rails.application.config.assets.precompile += %w( data.js )
+Rails.application.config.assets.precompile += %w( flash.js )
+
+

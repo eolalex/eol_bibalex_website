@@ -33,18 +33,18 @@
                 - else
                   %h5 No Articles Associated
         .col-md-4
-          %aside
-            .widget.categories
-              .well
-                %h3
-                  Classification
-                %hr/
-                -page_node = @page.nodes.first
-                -tree = classification(page_node)
-                -tree.each do |node|
-                  %a{href:  "/pages/#{node.pages.first.id}"}
-                    =node.canonical_form
-                  \/
+          -# %aside
+            -# .widget.categories
+              -# .well
+                -# %h3
+                  -# Classification
+                -# %hr/
+                -# -page_node = @page.nodes.first
+                -# -tree = classification(page_node)
+                -# -tree.each do |node|
+                  -# %a{href:  "/pages/#{node.pages.first.id}"}
+                    -# =node.canonical_form
+                  -# \/
             .widget.categories
               -if @page.data.size > 0
                 %h3

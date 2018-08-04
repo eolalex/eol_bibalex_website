@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
   validate :username_format, :password_complexity
   validates_confirmation_of :password
+  validates :email,presence: true, :uniqueness => true
   has_and_belongs_to_many :collections
   has_many :open_authentications, dependent: :delete_all
   has_many :content_partners, through: :content_partner_users

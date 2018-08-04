@@ -1,13 +1,14 @@
-body{
-    background-color: #2E2E2E!important;
+﻿
+body {
+    background-color: #2E2E2E !important;
 }
 
-.content{
-    background-color:white!important;
+.content {
+    background-color: white !important;
     padding-bottom: 30px;
-    min-height:500px;
+    min-height: 500px;
     max-width: 100% !important;
-	width: 100% !important;
+    width: 100% !important;
 }
 
 .smallTitle {
@@ -110,6 +111,7 @@ h3.Thumbnail_Title {
     background-color: #f5f5f5;
     padding: 10px;
     margin-bottom: 15px;
+    border-bottom: 1px solid #d1d1d1;
 }
 
 .modal-body .widget.categories .small_title {
@@ -646,7 +648,7 @@ body > form {
 
 /*====== Sponsers ======*/
 #Sponsors {
-    background: rgba(0, 0, 0, 0) url("partner_bg.png") no-repeat scroll 50% 50% / cover;
+    background: rgba(0, 0, 0, 0) url("../images/partners/partner_bg.png") no-repeat scroll 50% 50% / cover;
     padding: 70px 0;
     color: white;
     margin-top: 70px;
@@ -792,21 +794,275 @@ ul.thumbnails {
     width: 30px;
 }
 
+/*===== Agrement and collectionBox Style =====*/
+.agrementIcon,
+.collectionIcon {
+    /*background: rgba(0, 0, 0, 0) url("../images/agrementIcon.png") no-repeat left center;*/
+    /*padding: 0 0 3px 50px;*/
+    line-height: 18px !important;
+    padding: 0 0 0 0;
+}
+
+    .agrementIcon a small,
+    .collectionBox a small {
+        display: block;
+        color: #ac2224 !important;
+    }
 
 
+/*==== flash msg Style ====*/
 
+.alert , .notice{ 
+	margin-left: auto;
+margin-right: auto;
+border-radius: 4px;
+margin-bottom: 18px;
+border-color: #D6E9C6;
+width: 350px;
+color: rgb(0, 0, 0);
+z-index: 2000;
+position: absolute !important;
+left: 40%;
+top: 15%;
+background-color: #FFF;
+box-shadow: 3px 3px 1px 1px rgba(0, 0, 0, 0.2);
+padding: 30px 20px;
+text-align: center;
+font-size: 16px
+.AgrementBox,
+.collectionBox {
+    margin-bottom: 30px !important;
+}
+
+    .AgrementBox p,
+    .collectionBox p {
+        margin-bottom: 5px;
+    }
+
+    .AgrementBox .greyBox,
+    .collectionBox .greyBox {
+        padding: 15px;
+    }
+
+    .collectionBox .single_comments {
+        border-bottom: 1px dotted #d1d1d1;
+        box-shadow: 1px 1px 0 white;
+        padding-bottom: 20px;
+    }
+
+        .collectionBox .single_comments:last-child {
+            border: medium none;
+            box-shadow: none;
+            padding: 0;
+        }
+
+.part {
+    border-bottom: 1px dotted #d1d1d1;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+}
+
+    .part:last-child {
+        border-bottom: none;
+    }
+
+    .part:first-child {
+        margin-top: 10px;
+    }
+
+.collectionBox .single_comments img {
+    width: 65px;
+}
+
+/*===== User Info ====*/
+.userInfo {
+    padding: 15px;
+    margin-top: 0 !important;
+}
+
+    .userInfo img {
+        width: 100%;
+    }
+
+.form-text {
+    padding-top: 7px;
+}
+
+.userInfo .form-group {
+    margin-bottom: 7px;
+}
+
+.greyBox h3 {
+    margin-top: 0 !important;
+    color: #000;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+.greyBox h3 span a {
+    cursor: pointer;
+    margin-left: 10px;
+    text-transform: none !important;
+}
+/*===== content manager ====*/
+.contentManger {
+    background-color: #f5f5f5;
+    margin-bottom: 30px !important;
+    padding: 10px 15px !important;
+}
+
+    .contentManger span {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+.subtitle {
+    color: #333;
+    font-family: open sans;
+    font-size: 18px;
+    font-weight: normal;
+    margin-bottom: 15px;
+}
+
+.contentManger img {
+    width: 40px;
+}
+
+.contentManger p {
+    padding-top: 11px;
+}
+
+.resurceTitle img {
+    margin-right: 10px;
+    width: 64px;
+}
+/*==== resources =====*/
+.ResourcesIcon {
+    /*background: rgba(0, 0, 0, 0) url("../images/resources.png") no-repeat scroll 6px center;*/
+    /*padding: 10px 0 8px 55px;*/
+    padding: 10px 0 0 10px;
+    margin-bottom: 0 !important;
+}
+
+.Resources hr {
+    margin: 15px;
+}
+
+/*===== Collection Style ======*/
+.modal_subtitle {
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 0 15px;
+}
+
+.btn-add {
+    margin-right: 3px;
+    padding: 5px 10px !important;
+}
+
+.existing_Collection {
+    margin: 10px 15px;
+}
+
+.collectionInfo,
+.collectionItem {
+    background-color: #f5f5f5;
+    padding: 10px;
+    position: relative;
+}
+
+    .collectionItem .deleteItem {
+        text-align: center;
+    }
+
+        .collectionItem .deleteItem a {
+            background-color: #c52d2f;
+            color: #fff !important;
+            display: inline-block;
+            font-size: 12px;
+            font-weight: bold;
+            height: 22px;
+            line-height: normal;
+            padding: 1px 6px 0;
+            position: absolute;
+            right: 0;
+            text-align: center;
+            top: -13px;
+        }
+
+.collectionItem {
+    margin-bottom: 30px;
+}
+
+    .collectionInfo .collectionImage,
+    .collectionItem .collectionImage {
+        text-align: center;
+    }
+
+        .collectionInfo .collectionImage img,
+        .collectionItem .collectionImage img {
+            padding: 0 0 15px;
+        }
+
+.collectionInfo .collectionName {
+    border-bottom: 1px solid #d1d1d1;
+    font-weight: bold;
+    padding: 0 10px 10px;
+    text-align: center;
+}
+
+.collectionItem .collectionName {
+    height: 65px;
+    line-height: normal;
+    overflow: hidden;
+    padding: 0;
+    text-align: center;
+}
+
+    .collectionItem .collectionName a:hover,
+    .collectionItem .collectionName a:visited {
+        color: #333 !important;
+        opacity: 1 !important;
+    }
+
+.collectionInfo .description {
+    padding: 10px 0;
+}
+
+.collectionInfo .Edit_Delete {
+    padding: 10px 0;
+}
+
+    .collectionInfo .Edit_Delete a {
+        width: 49%;
+        text-align: center;
+    }
+
+.SearchCollection {
+    margin-bottom: 30px;
+    position: relative;
+}
+
+    .SearchCollection.searchBox .searchButton {
+        bottom: 1px;
+        right: 1px;
+        top: auto;
+    }
+
+.editCollection .form-control {
+    width: 100% !important;
+}
 /*==== Table Style ====*/
 
 /* Mobile only
 ------------------------------------------------ */
-@media (max-width: 992px){
+@media (max-width: 992px) {
     aside {
         margin-top: 30px;
     }
 }
+
 @media (max-width: 767px) {
     .page-header {
-        text-align: center;
     }
 }
 
@@ -834,7 +1090,7 @@ table.customTable {
     table-layout: fixed;
 }
 
-   table.customTable caption {
+    table.customTable caption {
         font-size: 1.5em;
         margin: .5em 0 .75em;
     }
