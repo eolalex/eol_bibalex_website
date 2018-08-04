@@ -15,12 +15,11 @@ class CollectionsController < ApplicationController
     @collection = Collection.new(collection_params)
     if @collection.save
       @collection.users << current_user
-      flash[:notice] = "Collection Created"
-      redirect_to @collection
       respond_to do |format|
         format.html {}
         format.js {}
       end
+    redirect_to @collection
     else
       redirect_to root_path
     end
