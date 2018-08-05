@@ -18,7 +18,7 @@
               %a.btn.btn-primary{:id => "#{@collection.id}", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
                 Edit
               %nbsp
-                =link_to 'Delete',collection_path(id: @collection.id), method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-danger"
+                =link_to 'Delete',collection_path(id: @collection.id), method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-primary"
     .modal{:id => "popup_#{@collection.id}", "aria-labelledby" => "popup_#{@collection.id}Label", :role => "dialog", :tabindex => "-1"}
       .modal-dialog.modal-lg.extra_large{:role => "document"}
         .modal-content
@@ -52,9 +52,9 @@
           .col-lg-3.col-md-4.col-sm-4.col-xs-12
             .collectionItem
               .deleteItem
-                =link_to 'x',collected_page_path(id: collected_page.id), method: :delete, data: { confirm: 'Are you sure?'} 
+                =link_to 'x',collected_page_path(id: collected_page.id), method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-primary" 
               .collectionImage
-                %img{:src => "/assets/cat.jpg"}  
+                = image_tag Page.find_by_id(collected_page.page_id).try(:media).size > 0 && !Page.find_by_id(collected_page.page_id).try(:media).first.base_url.nil? ? Page.find_by_id(collected_page.page_id).try(:media).first.base_url : "download.png", style: 'height:auto;width:auto;'
             -unless collected_page.page.scientific_name.nil?         
               .collectionName
                 %a{:href => page_path(collected_page.page_id)} #{collected_page.page.scientific_name}

@@ -20,6 +20,7 @@
     = stylesheet_link_tag 'prettyPhoto'
     = stylesheet_link_tag 'Suzan'
     = stylesheet_link_tag 'slider'
+    = stylesheet_link_tag 'haml'
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
     %header#header
@@ -79,9 +80,6 @@
                   %ul.dropdown-menu
                     %li
                       %a{:href => "https://education.eol.org/", :target => "_blank"} Learning + Education
-                %li
-                  %button.btn-search.globalSearchBtn.hidden-xs{"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"}
-                    %i.fa.fa-search{"aria-hidden" => "true"}
                 %li
                   %a.DonateBtn{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} Donate
             #myModal.searchbox.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}

@@ -22,7 +22,7 @@ class CollectedPagesController < ApplicationController
     @collection = Collection.new(collected_pages: [@collected_page])
     respond_to do |format|
       format.html {}
-      format.js {render :partial => 'add_to_collection.js.haml'}
+      format.js {}
     end
   end
 

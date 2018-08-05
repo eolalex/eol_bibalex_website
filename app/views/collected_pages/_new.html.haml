@@ -1,27 +1,32 @@
-.uk-grid{ uk: { grid: true } }
-  .uk-width-1-2
-    %h3= "Create New Collection"
-    = form_for(@collection, html: { class: "uk-form-stacked" }) do |f|
-      %div
-        = f.text_field(:name, class: "uk-input", placeholder: "Create New Collection")
-      %div
-        = f.fields_for :collected_pages do |page_f|
-          - @collection.collected_pages.each do |collected_page|
-            = page_f.hidden_field(:page_id, page_id: collected_page.page_id)
-      .uk-text-center.uk-margin-medium
-        = f.submit("Create Collection", class: "ui button")
-  .uk-width-1-2
-    %h3= "Add to Existing Collection"
+.container
+  = form_for(@collection) do |f|
+    = f.fields_for :collected_pages do |page_f|
+      - @collection.collected_pages.each do |collected_page|
+        = page_f.hidden_field(:page_id, page_id: collected_page.page_id)
+    .col-md-3.col-sm-12.col-xs-12
+      %h2
+        Add to a New Collection
+        %br
+        %input.form-control.input-lg{:name => "collection[name]", :placeholder =>"New Collection Name", :tabindex => "1", :type => "text", :required => true}
+        %br
+        %textarea.form-control.input-lg{:name => "collection[description]", :placeholder => "New Collection Description (Optional)", :rows => "3", :tabindex => "1", :type => "text"}
+        %br
+      = f.submit(class: "btn btn-primary")
+.container
+  .col-md-30.col-sm-12.col-xs-12
+    %h2
+      Add to an Existing Collection
     - if current_user.collections.empty?
-      %p= "No Existing Collections"
+      %p
+        No Existing Collections
     - else
       = form_for(@collected_page, html: { class: "form" }) do |f|
         = f.hidden_field(:page_id, page_id: @collected_page.page_id)
         - now = Time.now
         - current_user.collections.sort_by { |c| [now - (c.updated_at || 10.years.ago), c.name] }.each do |collection|
-          .uk-fieldset{ }
-            = f.radio_button(:collection_id, collection.id, class: "uk-radio")
-            = f.label(:collection_id, link_to(collection.name, collection))
-
+          .row
+            .col-md-10.col-sm-9.col-xs-12
+              = f.radio_button(:collection_id, collection.id, class: "uk-radio", :checked => "checked")
+              = f.label(:collection_id, collection.name)
         .uk-text-center.uk-margin-medium
-          = f.submit("Add", class: "ui button")
+          = f.submit("Add", class: "btn btn-primary")
