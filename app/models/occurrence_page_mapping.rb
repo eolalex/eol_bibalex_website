@@ -1,0 +1,2 @@
+class OccurrencePageMapping < ApplicationRecord
+end

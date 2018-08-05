@@ -757,6 +757,12 @@ class TraitBank
       supplier = find_resource(resource_id)
       meta = options.delete(:metadata)
       predicate = parse_term(options.delete(:predicate))
+      
+      # occurrence metadata
+      lifestage = parse_term(options.delete(:lifestage_term))
+      sex = parse_term(options.delete(:sex_term))
+      statistical_method = parse_term(options.delete(:statistical_method_term))
+      
       units = parse_term(options.delete(:units))
       object_term = parse_term(options.delete(:object_term))
       convert_measurement(options, units)
@@ -767,6 +773,12 @@ class TraitBank
       relate("predicate", trait, predicate)
       relate("units_term", trait, units) if units
       relate("object_term", trait, object_term) if object_term
+      
+      # relate occurrence metadata
+      relate("lifestage_term", trait, lifestage) if lifestage
+      relate("sex_term", trait, sex) if sex
+      relate("statistical_method_term", trait, statistical_method) if statistical_method
+      
       meta.each { |md| add_metadata_to_trait(trait, md) } unless meta.blank?
       trait
     end
@@ -979,5 +991,12 @@ class TraitBank
         nil
       end
     end
+    
+    def find_trait(eol_pk)
+      res = query("MATCH (trait:Trait) WHERE trait.resource_pk = #{eol_pk} RETURN trait")
+      res["data"] ? res["data"].first : false
+    end
+    
+    
   end
 end

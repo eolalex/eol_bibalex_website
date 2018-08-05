@@ -1,5 +1,6 @@
 = render("tabs")
-- cache(page_data_path(@page), expires_in: 1.day) do 
+- cache(page_data_path(@page), expires_in: 1.day) do
+  - build_associations(@page) 
   %ul.traits
     - @page.predicates.each_with_index do |uri, index|
       - predicate = @page.glossary[uri]

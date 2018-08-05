@@ -25,10 +25,7 @@
               .carousel-content
                 %h1.animation.text-center.animated-item-1.slogan.hidden-xs Global Access to Knowledge about Life on Earth
                 %h1.animation.text-center.animated-item-1.slogan.hidden-lg.hidden-md.hidden-sm Search Our Network
-                .searchBox
-                  %input#globalSearch.form-control{:placeholder => "What you are looking for?"}
-                  %button.searchButton
-                    %i.fa.fa-search{"aria-hidden" => "true"}
+                = render :partial => "search/search_bar"
   :javascript
     $(document).ready(function () {
         $('#myCarousel').carousel({
