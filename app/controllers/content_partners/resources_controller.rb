@@ -49,19 +49,22 @@ class ContentPartners::ResourcesController < ContentPartnersController
   end
   
   def update
+    result= ResourceApi.get_resource(params[:content_partner_id], params[:id])
     resource_params = { name: params[:resource][:name], origin_url: params[:resource][:origin_url],uploaded_url: params[:resource][:uploaded_url],
                         path: params[:resource][:path],type: params[:resource][:type],harvest_frequency: params[:resource][:harvest_frequency],
                         dataset_license: params[:resource][:dataset_license],
                         dataset_rights_holder: params[:resource][:dataset_rights_holder],dataset_rights_statement: params[:resource][:dataset_rights_statement], 
                         default_rights_holder: params[:resource][:default_rights_holder], default_rights_statement: params[:resource][:default_rights_statement],
-                        default_license_string: params[:resource][:default_license_string], default_language_id: params[:resource][:default_language_id]}
+                        default_license_string: params[:resource][:default_license_string], default_language_id: params[:resource][:default_language_id],
+                        last_harvested_at: result["lastHarvestedAt"],default_rights_holder: result["datasetRightsStatement"],default_rights_statement:result["defaultRightsStatement"]}
     @resource = Resource.new(resource_params)
     resource_params = { name: params[:resource][:name], originUrl: params[:resource][:origin_url],uploadedUrl: params[:resource][:uploaded_url],
                         path: params[:resource][:path],type: params[:resource][:type],harvestFrequency: params[:resource][:harvest_frequency],
                         datasetLicense: params[:resource][:dataset_license],
                         datasetRightsHolder: params[:resource][:dataset_rights_holder],datasetRightsStatement: params[:resource][:dataset_rights_statement], 
                         defaultRightsHolder: params[:resource][:default_rights_holder], defaultRightsStatement: params[:resource][:default_rights_statement],
-                        defaultLicenseString: params[:resource][:default_license_string], defaultLanguageId: params[:resource][:default_language_id]}
+                        defaultLicenseString: params[:resource][:default_license_string], defaultLanguageId: params[:resource][:default_language_id],
+                        lastHarvestedAt: result["lastHarvestedAt"],defaultRightsHolder: result["datasetRightsStatement"],defaultRightsStatement:result["defaultRightsStatement"]}
     @resource.flag = false
     if @resource.valid?
       result = ResourceApi.update_resource?(resource_params, params[:content_partner_id],params[:id])
