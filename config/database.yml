@@ -19,7 +19,6 @@ development:
   database: ba_eol_development
   username: root
   #password: Luxor&Aswan@2o17
-  #password: admin
 
 
 test: &test
@@ -31,9 +30,6 @@ test: &test
   username: root
   password: pDy013UEjn7vU9zul
   #password: root
-  #password: Luxor&Aswan@2o17
-  #password: admin
-
 
 staging:
   <<: *common

@@ -1,48 +1,48 @@
 .TestItOut
   %h3.Special Test It Out
   %form#api_test_form{ action: url_for(controller: '/api', action: @api_method.method_name, version: @api_method::VERSION, only_path: false) }
-  %table.customTable
-    %thead
-      %tr
-        %th{:scope => "col"} Name
-        %th{:scope => "col"} Required
-        %th{:scope => "col"} Values
-    %tbody
-      - required_label = "yes"
-      - unless @api_method.parameters.blank? 
-        - @api_method.parameters.each do |p|
-          %tr
-            %td{"data-label" => "Name"} 
-              = p.name
-            %td{"data-label" => "Required"} 
-              = p.required ? required_label : '' 
-            %td{"data-label" => "Values"}
-              - test_default = p.test_value || p.default
-              -# when there is an array of possible values, use a drop-down list
-              - if p.array?
-                %select.form-control{ name: p.name }
-                  - if test_default.blank?
-                    %option{ value: '', selected: true }= "none"
-                  - p.values.each do |value|
-                    %option{ value: value, selected: (value == test_default) }= value
-              - elsif p.boolean?
-                %select.form-control{ name: p.name }
-                  %option{ value: 'false' }= "false"
-                  %option{ value: 'true', selected: (test_default == true) }= "true"
-              - else
-                - size = (p.integer?) ? 15 : 50
-                %input.form-control{:placeholder => test_default}
-              
-      %tr
-        %td{"data-label" => "Name"}
-          = 'format'
-        %td{"data-label" => "Required"} 
-          = required_label
-        %td{"data-label" => "Values"}
-          %select.form-control{ name: 'format' }
-            %option{ value: 'json' }= 'JSON'
-            %option{ value: 'xml' }= 'XML'
-      %tr
-        %td{ colspan: 3 }
-        %fieldset.actions
-  %input{ type: 'submit', value: "Call API" }
+    %table.customTable
+      %thead
+        %tr
+          %th{:scope => "col"} Name
+          %th{:scope => "col"} Required
+          %th{:scope => "col"} Values
+      %tbody
+        - required_label = "yes"
+        - unless @api_method.parameters.blank? 
+          - @api_method.parameters.each do |p|
+            %tr
+              %td{"data-label" => "Name"} 
+                = p.name
+              %td{"data-label" => "Required"} 
+                = p.required ? required_label : '' 
+              %td{"data-label" => "Values"}
+                - test_default = p.test_value || p.default
+                -# when there is an array of possible values, use a drop-down list
+                - if p.array?
+                  %select.form-control{ name: p.name }
+                    - if test_default.blank?
+                      %option{ value: '', selected: true }= "none"
+                    - p.values.each do |value|
+                      %option{ value: value, selected: (value == test_default) }= value
+                - elsif p.boolean?
+                  %select.form-control{ name: p.name }
+                    %option{ value: 'false' }= "false"
+                    %option{ value: 'true', selected: (test_default == true) }= "true"
+                - else
+                  - size = (p.integer?) ? 15 : 50
+                  %input.form-control{:placeholder => test_default}
+                
+        %tr
+          %td{"data-label" => "Name"}
+            = 'format'
+          %td{"data-label" => "Required"} 
+            = required_label
+          %td{"data-label" => "Values"}
+            %select.form-control{ name: 'format' }
+              %option{ value: 'json' }= 'JSON'
+              %option{ value: 'xml' }= 'XML'
+        %tr
+          %td{ colspan: 3 }
+          %fieldset.actions
+    %input{ type: 'submit', value: "Call API" }

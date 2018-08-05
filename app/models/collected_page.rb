@@ -13,6 +13,7 @@ class CollectedPage < ActiveRecord::Base
 
 
   acts_as_list scope: :collection
+  counter_culture :collection, column_name: :collected_pages_count, touch: true
 
   # accepts_nested_attributes_for :collected_pages_media, allow_destroy: true
 
