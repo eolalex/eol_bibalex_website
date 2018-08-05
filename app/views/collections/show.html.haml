@@ -1,9 +1,82 @@
-%h1= @collection.name
-- unless @collection.description.blank?
-  %h2= @collection.description
-= link_to("Edit Collection", edit_collection_path(@collection), class: "btn btn-danger")
-= link_to("Delete Collection", collection_path(@collection), method: "delete", data: { confirm: "Are You Sure You Want to Delete This Collection?"}, class: "btn btn-danger")
-
-= render("collected_pages/show", collected_page: @collection.collected_pages)
-
-%br/
+= javascript_include_tag 'pages'
+-collected_page = @collection.collected_pages
+= form_with(model: @collection, local: true) do |f|
+  = f.hidden_field :user_id
+  = hidden_field_tag 'user_id', '0'  
+  .container
+    .col-md-3.col-sm-12.col-xs-12
+      .collectionInfo
+        .row
+          .col-md-12.col-sm-3.col-xs-12.collectionImage
+            %img{:src => "/assets/download.png", :width =>"200", :height =>"200"}/
+          .col-md-12.col-sm-9.col-xs-12
+            .collectionName
+              #{@collection.name}
+            .description
+              #{@collection.description}
+            .Edit_Delete
+              %a.btn.btn-primary{:id => "#{@collection.id}", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
+                Edit
+              %nbsp
+                =link_to 'Delete',collection_path(id: @collection.id), method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-primary"
+    .modal{:id => "popup_#{@collection.id}", "aria-labelledby" => "popup_#{@collection.id}Label", :role => "dialog", :tabindex => "-1"}
+      .modal-dialog.modal-lg.extra_large{:role => "document"}
+        .modal-content
+          .modal-header
+            %button{ :id =>"#{@collection.id}", :class => "btn", :onclick=> 'hidePopup(this, event)'}x
+            %h4#editLabel.modal-title Edit Collection
+          .modal-body.editCollection
+            .form-group.row.form-inline
+              %label.col-md-2.col-sm-3.col-xs-12.control-label
+                Name:
+              .col-md-10.col-sm-9.col-xs-12
+                %input.form-control.input-lg{:name => "collection[name]", :placeholder => @collection.name, :tabindex => "1", :type => "text"}
+            .form-group.row.form-inline
+              %label.col-md-2.col-sm-3.col-xs-12.control-label
+                Description:
+              .col-md-10.col-sm-9.col-xs-12
+                %textarea.form-control.input-lg{:name => "collection[description]", :placeholder => @collection.description, :rows => "3", :tabindex => "1", :type => "text"}
+          .modal-footer
+            = f.submit(class: "btn btn-primary")
+    .col-md-9.col-sm-12.col-xs-12
+      .row
+        .col-xs-12
+          .SearchCollection.searchBox
+            %h2
+              Search collection
+            %input#globalSearch.form-control{:placeholder => "What you are looking for?"}/
+            %button.searchButton
+              %i.fa.fa-search{"aria-hidden" => "true"}
+      - @collection.collected_pages.each do |collected_page|
+        .row
+          .col-lg-3.col-md-4.col-sm-4.col-xs-12
+            .collectionItem
+              .deleteItem
+                =link_to 'x',collected_page_path(id: collected_page.id), method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-primary" 
+              .collectionImage
+                = image_tag Page.find_by_id(collected_page.page_id).try(:media).size > 0 && !Page.find_by_id(collected_page.page_id).try(:media).first.base_url.nil? ? Page.find_by_id(collected_page.page_id).try(:media).first.base_url : "download.png", style: 'height:auto;width:auto;'
+            -unless collected_page.page.scientific_name.nil?         
+              .collectionName
+                %a{:href => page_path(collected_page.page_id)} #{collected_page.page.scientific_name}
+      .col-xs-12
+      %br
+      %br
+        -# %ul.pagination.pagination-lg
+          -# %li
+            -# %a{:href => "#"}
+              -# %i.fa.fa-long-arrow-left>
+              -# Previous Page
+          -# %li.active
+            -# %a{:href => "#"} 1
+          -# %li
+            -# %a{:href => "#"} 2
+          -# %li
+            -# %a{:href => "#"} 3
+          -# %li
+            -# %a{:href => "#"} 4
+          -# %li
+            -# %a{:href => "#"} 5
+          -# %li
+            -# %a{:href => "#"}
+              -# Next Page
+              -# %i.fa.fa-long-arrow-right

@@ -13,10 +13,12 @@ development:
   host: localhost
   # PLEASE DON'T PUT YOUR USER / PASS HERE (e.g.: "root"). Set your environment
   # variables.
-  username: root
-  password: Luxor&Aswan@2o17
-  # password: root
   database: ba_eol_development
+  username: root
+  #password: Luxor&Aswan@2o17
+  # password: root
+  password: admin
+
 
 test: &test
   <<: *common
@@ -25,7 +27,9 @@ test: &test
   # PLEASE DON'T PUT YOUR USER / PASS HERE (e.g.: "root"). Set your environment
   # variables.
   username: root
-  password: Luxor&Aswan@2o17
+  #password: root
+  # password: Luxor&Aswan@2o17
+  password: admin
 
 
 staging:

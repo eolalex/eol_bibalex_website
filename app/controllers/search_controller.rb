@@ -6,7 +6,7 @@ class SearchController < ApplicationController
   end
   
   def search
-    Page.reindex
+    # Page.reindex
     regex = ".*"+params[:query]+".*"
     # scientific_names_result = ScientificName.search params[:query] do |body|
       # body[:query] = {
@@ -36,5 +36,6 @@ class SearchController < ApplicationController
       @results = @pages
     end
     @results = @results.paginate(:page => params[:page], :per_page => ENV['per_page'])
+    # @results =@results.uniq!
   end
 end

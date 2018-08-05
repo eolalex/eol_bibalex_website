@@ -1,7 +1,14 @@
 # Load the Rails application.
 require_relative 'application'
 ENV['per_page']='30'
-
+ENV['FACEBOOK_APP_ID']="1070956589720890"
+ENV['FACEBBOK_APP_SECRET']="4e880b866b921c067d9f0838e50b548f"
+ENV["GOOGLE_CLIENT_ID"]="691815144799-je0m66k9c6enar9l986ms04phbft5e10.apps.googleusercontent.com"
+ENV["GOOGLE_CLIENT_SECRET"] = "ELxgyVOD8wDq5-eXDEglALfN"
+# ENV["GOOGLE_CLIENT_ID"] = "691815144799-je0m66k9c6enar9l986ms04phbft5e10.apps.googleusercontent.com"
+# ENV["GOOGLE_CLIENT_SECRET"] = "ELxgyVOD8wDq5-eXDEglALfN"
+ENV["TWITTER_API_KEY"]= "nEfe27C3l8zIEovBQsyBpw67O"
+ENV["TWITTER_API_SECRET"] = "4KOIPSxUgj5aC5eVVWT3Y2nAGEUwWO074MG4Q4zfaOr2AyYaTB"
 # Initialize the Rails application.
 Rails.application.initialize!
 

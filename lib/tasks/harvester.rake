@@ -78,6 +78,7 @@ def main_method
        
       build_hierarchy(nodes_ids)
        
+
     end
   end    
 end

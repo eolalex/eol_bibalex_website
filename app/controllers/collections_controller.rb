@@ -15,12 +15,11 @@ class CollectionsController < ApplicationController
     @collection = Collection.new(collection_params)
     if @collection.save
       @collection.users << current_user
-      flash[:notice] = "Collection Created"
-      redirect_to @collection
       respond_to do |format|
         format.html {}
         format.js {}
       end
+    redirect_to @collection
     else
       redirect_to root_path
     end
@@ -42,7 +41,9 @@ class CollectionsController < ApplicationController
   
   def show
     @collection = Collection.find(params[:id])
-    @pages = @collection.collected_pages
+    @collected_pages = @collection.collected_pages
+    @collected_pages = @collected_pages.sort_by{|collected_page| collected_page.page.scientific_name.downcase} 
+    @collected_pages = @collected_pages.paginate(:page => params[:page], :per_page => ENV['per_page'])
   end
 
   def destroy
@@ -55,7 +56,7 @@ class CollectionsController < ApplicationController
   end
 
   def collection_params
-    params.require(:collection).permit(:id, :name, :description, :collection_type, :default_sort, :user_id,
+    params.require(:collection).permit(:id, :name, :description, :collection_type, :default_sort,
       collected_pages_attributes: [:id, :page_id, :annotation,
         collected_pages_media_attributes: [:medium_id, :collected_page_id, :_destroy]])
   end

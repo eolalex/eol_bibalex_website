@@ -8,6 +8,7 @@ class PagesController < ApplicationController
 
   def show
     @page = Page.find(params[:id])
+    # @collection = Collection.new(id: 1)
     # @page_title = @page.name
     respond_to do |format|
       format.html {}
@@ -30,26 +31,27 @@ class PagesController < ApplicationController
   def media
     @page = Page.where(id: params[:page_id]).first
     media = @page.media
-    @subclasses = @page.media.pluck(:subclass).uniq.compact!
+    @subclasses = @page.media.pluck(:subclass).uniq.compact
     @subclasses << "any type"
     if params[:subclass] && params[:subclass] != "any type"
       @subclass = params[:subclass]
       media = media.where(subclass: params[:subclass])
     end
-    @media = media.page(params[:page]).per_page(30)
+    @media = media.paginate(:page => params[:page], :per_page => ENV['per_page'])
+
     respond_to do |format|
       format.html {}
       format.js {}
     end
   end
   
-  def show
-    @page = Page.find_by_id(params[:id])
-    respond_to do |format|
-      format.html {}
-      format.js {}
-    end
-  end
+  # def show
+    # @page = Page.find_by_id(params[:id])
+    # respond_to do |format|
+      # format.html {}
+      # format.js {}
+    # end
+  # end
   
   def literature_and_references
     @page = Page.where(id: params[:page_id]).first
@@ -57,6 +59,8 @@ class PagesController < ApplicationController
 
   def names
     @page = Page.find(params[:id])
+    @scientific_names = @page.scientific_names
+    @vernaculars = @page.vernaculars
     respond_to do |format|
       format.html {}
     end
@@ -72,4 +76,7 @@ class PagesController < ApplicationController
     end
   end
   
+
 end
+  
+

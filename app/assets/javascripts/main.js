@@ -37,7 +37,7 @@ jQuery(function($) {'use strict',
 			return false;
 		});
 	});
-
+	
 	// Contact form
 	var form = $('#main-contact-form');
 	form.submit(function(event){
@@ -53,6 +53,18 @@ jQuery(function($) {'use strict',
 			form_status.html('<p class="text-success">' + data.message + '</p>').delay(3000).fadeOut();
 		});
 	});
+	
+	EOL.ready = function() {
+    var $flashes = $('.eol-flash');
+    if ($flashes.length) {
+      $flashes.each(function() {
+        UIkit.notification($(this).data("text"), {
+            status: 'primary',
+            pos: 'top-center',
+            offset: '100px'
+        });
+      });
+    }
 
 	
 	//goto top

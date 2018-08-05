@@ -1,10 +1,20 @@
-= javascript_include_tag 'api'
-%h3= "Description"
-%p= raw @api_method.description
-
-= render 'api/docs/parameters'
-
-%h3= "Test it Out"
-= render 'api/docs/api_test_form'
+%content#Content1{:contentplaceholderid => "head", :runat => "Server"}
+%content#Content2{:contentplaceholderid => "ContentPlaceHolder1", :runat => "Server"}
+  .MainPath
+    .container
+  .container
+    .row
+      .col-lg-12
+        %h2.mainTitle
+          API Pages
+      .col-md-12
+        .Description
+          = javascript_include_tag 'api'
+          %h3.marginTop0.Special Description
+          %p 
+            =raw @api_method.description
+        = render 'api/docs/parameters'
+        = render 'api/docs/api_test_form'
 #api_test_url{ :style => 'display:none' }
 %xmp#api_test_result{ :style => 'display:none' }
+      

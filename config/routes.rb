@@ -2,9 +2,13 @@ Rails.application.routes.draw do
   
   get 'pages/index'
 
-  devise_for :users, controllers: {registrations: "registrations" }
+  devise_for :users, controllers: {registrations: "registrations",
+    omniauth_callbacks: "omniauth_callbacks" }
+    
+  resources :user_providers, only: [:new, :create]
   # root to: "pages#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+ 
   
   resources :content_partners do
     resources :resources, :controller => 'content_partners/resources'
@@ -54,9 +58,13 @@ Rails.application.routes.draw do
   match '/404', :to => 'errors#not_found', :via => :all
   match '/500', :to => 'errors#internal_server_error', :via => :all
 
-  
+  devise_scope :user do
+    get '/omniauth' => 'omniauth_callbacks#twitter_add_data', :as =>"omniauth"
+  end
+   
   #media
   resources :media, only: [:show]
+  resources :users, only: [:show]
   
   root 'home_page#index'
   # get 'media' => 'media#show'

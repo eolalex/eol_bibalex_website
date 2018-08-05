@@ -30,7 +30,11 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  account_already_linked: "your account is already linked to EOL"
+  account_destroyed_successfully: "You have deleted your account. Thanks!"
+  account_not_linked: "your account is not linked to EOL"
   cancel: "cancel"
+  complete_registration: "Please continue your registration"
   content_appears_on: "Included On The Following Pages:"
   content_associations: "Taxa Shown"
   content_attributions_header: "Source Information"
@@ -67,7 +71,9 @@ en:
     show_all_records: "show all records"
     source: "source"
     uri_field_html: "<strong>URI:</strong> "
+  create_account: "Create account"
   description: "Description"
+  email: "Email"
   hello: "Hello world"
   literature_and_references_header: "Literature and References"
   medium_collect_button: "collect media"
@@ -80,5 +86,8 @@ en:
   successfuly_created_resource: "Successfully created resource."
   Successfully_updated_content_partner: "Successfully updated content partner."
   successfuly_updated_resource: "Successfully updated resource."
+  sign_in_up_with_facebook: "%{action} with Facebook"
+  sign_in_up_with_google_oauth2: "%{action} with Google"
+  sign_in_up_with_twitter: "%{action} with Twitter"
 
 

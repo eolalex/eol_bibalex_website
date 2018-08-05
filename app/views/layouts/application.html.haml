@@ -20,6 +20,7 @@
     = stylesheet_link_tag 'prettyPhoto'
     = stylesheet_link_tag 'Suzan'
     = stylesheet_link_tag 'slider'
+    = stylesheet_link_tag 'haml'
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
     %header#header
@@ -50,23 +51,28 @@
               .collapse.navbar-collapse.navbar-left
                 %ul.nav.navbar-nav
                   %li
-                    %a{:href => "#"}
+                    %a{:href => "http://eol.org/about"}
                       %i.fa.fa-info-circle{"aria-hidden" => "true"}
                       About EOL
                   %li
-                    %a{:href => "#"}
+                    %a{:href => "http://eol.org/news"}
                       %i.fa.fa-newspaper-o{"aria-hidden" => "true"}
                       News
                   %li
-                    %a{:href => "#"}
+                    %a{:href => "http://eol.org/help"}
                       %i.fa.fa-question-circle{"aria-hidden" => "true"}
                       Help
             .col-lg-5.col-md-6.col-sm-6.col-xs-12.coloredMenu
               %ul.topMenu
                 %li
-                  %a.signIn{:href => "/users/sign_in"}
-                    %i.fa.fa-user-circle{"aria-hidden" => "true"}
-                    Sign in
+                  - unless user_signed_in?
+                    %a.signIn{:href => "/users/sign_in"}
+                      %i.fa.fa-user-circle{"aria-hidden" => "true"}
+                      Sign in
+                  - else
+                    %a.signIn{:href => "/users/sign_out",:method => :delete}
+                      %i.fa.fa-user-circle{"aria-hidden" => "true"}
+                      Sign out
                 %li.dropdown
                   %a.dropdown-toggle.NetworksLink{"data-toggle" => "dropdown", :href => "#"}
                     Our Networks
@@ -75,10 +81,7 @@
                     %li
                       %a{:href => "https://education.eol.org/", :target => "_blank"} Learning + Education
                 %li
-                  %button.btn-search.globalSearchBtn.hidden-xs{"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"}
-                    %i.fa.fa-search{"aria-hidden" => "true"}
-                %li
-                  %a.DonateBtn{:href => "#"} Donate
+                  %a.DonateBtn{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} Donate
             #myModal.searchbox.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
               .modal-dialog{:role => "document"}
                 .modal-content
@@ -95,36 +98,38 @@
                     %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
                     %button.btn.btn-primary{:type => "button"} Search
     
-  %body
-    .container-fluidd
-      = yield
-    %script{:src => "assets/js/jquery.js"}
-    %script{:src => "assets/js/bootstrap.min.js"}
-    %script{:src => "assets/js/jquery.prettyPhoto.js"}
-    %script{:src => "assets/js/jquery.isotope.min.js"}
-    %script{:src => "assets/js/main.js"}
-    %script{:src => "assets/js/wow.min.js"}
-    %script{:src => "assets/js/multislider.js"}
-    %footer#footer.midnight-blue
-      .container
-        .row
-          .col-sm-6.col-xs-12
-            %ul
+    %body
+      = render("layouts/flash")
+      .container-fluidd
+        .content
+          = yield
+      %script{:src => "assets/js/jquery.js"}
+      %script{:src => "assets/js/bootstrap.min.js"}
+      %script{:src => "assets/js/jquery.prettyPhoto.js"}
+      %script{:src => "assets/js/jquery.isotope.min.js"}
+      %script{:src => "assets/js/main.js"}
+      %script{:src => "assets/js/wow.min.js"}
+      %script{:src => "assets/js/multislider.js"}
+  %footer#footer.midnight-blue
+    .container
+      .row
+        .col-sm-6.col-xs-12
+          %ul
+            %li
+              %a{:href => "http://eol.org/terms_of_use"} Terms of Use
+            %li
+              %a{:href => "http://eol.org/info/glossary"} Glossary
+            %li
+              %a{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} Donate
+            %li
+              %a{:href => "http://eol.org/contact_us"} Contact Us
+        .col-sm-6.col-xs-12
+          .social
+            %ul.social-share
+              %li Follow us on:
               %li
-                %a{:href => "#"} Terms
+                %a{:href => "https://www.facebook.com/encyclopediaoflife/"}
+                  %i.fa.fa-facebook
               %li
-                %a{:href => "#"} Glossary
-              %li
-                %a{:href => "#"} Donate
-              %li
-                %a{:href => "#"} Contact Us
-          .col-sm-6.col-xs-12
-            .social
-              %ul.social-share
-                %li Follow us on:
-                %li
-                  %a{:href => "#"}
-                    %i.fa.fa-facebook
-                %li
-                  %a{:href => "#"}
-                    %i.fa.fa-twitter
+                %a{:href => "https://twitter.com/eol"}
+                  %i.fa.fa-twitter

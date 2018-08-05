@@ -17,9 +17,6 @@ ActiveRecord::Schema.define(version: 20180730092727) do
     t.integer "resource_id"
     t.string "guid"
     t.string "resource_pk"
-    t.bigint "languages_id"
-    t.bigint "licenses_id"
-    t.bigint "locations_id"
     t.integer "mime_type"
     t.string "name"
     t.string "rights_statement"
@@ -27,10 +24,13 @@ ActiveRecord::Schema.define(version: 20180730092727) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "bibliographic_citation_id"
+    t.bigint "language_id"
+    t.bigint "license_id"
+    t.bigint "location_id"
     t.index ["bibliographic_citation_id"], name: "index_articles_on_bibliographic_citation_id"
-    t.index ["languages_id"], name: "index_articles_on_languages_id"
-    t.index ["licenses_id"], name: "index_articles_on_licenses_id"
-    t.index ["locations_id"], name: "index_articles_on_locations_id"
+    t.index ["language_id"], name: "index_articles_on_language_id"
+    t.index ["license_id"], name: "index_articles_on_license_id"
+    t.index ["location_id"], name: "index_articles_on_location_id"
   end
 
   create_table "articles_collected_pages", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -465,6 +465,15 @@ ActiveRecord::Schema.define(version: 20180730092727) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_providers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.string "provider"
+    t.string "uid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_providers_on_user_id"
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -506,8 +515,9 @@ ActiveRecord::Schema.define(version: 20180730092727) do
   end
 
   add_foreign_key "articles", "bibliographic_citations"
-  add_foreign_key "articles", "languages", column: "languages_id"
-  add_foreign_key "articles", "licenses", column: "licenses_id"
+  add_foreign_key "articles", "languages"
+  add_foreign_key "articles", "licenses"
+  add_foreign_key "articles", "locations"
   add_foreign_key "collected_pages", "collections"
   add_foreign_key "content_sections", "sections"
   add_foreign_key "links", "languages", column: "languages_id"

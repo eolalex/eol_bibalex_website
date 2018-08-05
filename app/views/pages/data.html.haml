@@ -1,11 +1,67 @@
+= javascript_include_tag 'data'
 = render("tabs")
-- cache(page_data_path(@page), expires_in: 1.day) do
-  - build_associations(@page) 
-  %ul.traits
-    - @page.predicates.each_with_index do |uri, index|
-      - predicate = @page.glossary[uri]
-      - if predicate.nil?
-        - Rails.logger.error("** ERROR: missing predicate #{uri}")
-        - next
-      - @page.grouped_data[uri].each do |trait|
-        = render :partial => "terms/data_row", :locals => { :page => @page, :trait => trait, :show_taxon => false }
+.container
+  .row
+    .col-md-12.blog
+      .row
+        .col-md-8
+          %h2.TaxonName
+            Data Table 
+          %table.customTable
+            %tbody
+              - @page.predicates.each_with_index do |uri, index|
+                - predicate = @page.glossary[uri]
+                - if predicate.nil?
+                  - Rails.logger.error("** ERROR: missing predicate #{uri}")
+                  - next
+                - @page.grouped_data[uri].each do |trait|
+                  %trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => false), :id => trait[:id] } }
+                    - predicate = trait[:predicate]
+                    - uri = predicate[:uri].dup
+                    - uri.sub! '/', '_'
+                    %tr
+                      %td{"data-label" => "Name", :id => "#{uri}", :onmouseover =>"showOver(this)", :onmouseout=>"hideOver(this)"} 
+                        %div
+                          = predicate[:name]
+                        %div{:id => "hover_#{uri}", :style=> "display:none;"}
+                          uri:  #{predicate[:uri]}
+                          %br
+                          definition: #{predicate[:definition]}
+                        -#%div{:id => "#{uri}", :onclick=> 'showPopup(this)'}
+                          -#%i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
+                      %td{"data-label" => "Object Term"} #{trait[:object_term][:name]}
+                      %td{"data-label" => "Units"} #{trait[:units][:name]}
+                      %td{"data-label" => "Source"} #{show_source_segment(trait)}
+                    %div{ :id => "popup_#{uri}", :style=> "display:none;", :class => "popup"}
+                      - if trait[:metadata] && trait[:metadata].any?
+                        -debugger
+                        %ul.meta-items.js-meta-items
+                        - trait[:metadata].each do |datum|
+                          -debugger
+        .col-md-4
+          %aside
+            .widget.categories
+              %h3 Taxon Card
+              .row
+                .col-sm-12
+                  .single_comments
+                    %b= @page.scientific_name
+                    =image_tag "avatar3.png", :alt => ""
+
+            .widget.blog_gallery
+              %h3 Refresh your memory
+              %ul.sidebar-gallery
+                %li
+                  %a{:href => "https://education.eol.org/memory/"}
+                    =image_tag "memory-game-icon.png", :alt => ""
+
+
+-# - cache(page_data_path(@page), expires_in: 1.day) do 
+  -# %ul.traits
+    -# - @page.predicates.each_with_index do |uri, index|
+      -# - predicate = @page.glossary[uri]
+      -# - if predicate.nil?
+        -# - Rails.logger.error("** ERROR: missing predicate #{uri}")
+        -# - next
+      -# - @page.grouped_data[uri].each do |trait|
+        -# = render :partial => "terms/data_row", :locals => { :page => @page, :trait => trait, :show_taxon => false }

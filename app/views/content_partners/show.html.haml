@@ -1,49 +1,42 @@
-%table
-  %tr
-    %th
-      name
-    %td
-      = @content_partner.name
-  %tr
-    %th
-      abbreviation
-    %td
-      = @content_partner.abbreviation
-  %tr
-    %th
-      url
-    %td
-      = @content_partner.url
-  %tr
-    %th
-      description
-    %td
-      = @content_partner.description
-  %tr
-    %th
-      created at
-    %td
-      = @content_partner.created_at
-  -if !@content_partner.resources.nil?
-    %tr
-      %th
-        resources
-        %ul
-          - @content_partner.resources.each do |resource|
-            %li
-              = link_to(resource.name, content_partner_resource_path(@content_partner.id, resource.id))
-      
-  %tr
-    %th
-      managed_by
-      = @content_partner.user.username
-    
-      
-  %tr
-    %th
-      - if current_user && current_user.can_update?(@content_partner)
-        = link_to("edit content partner", edit_content_partner_path(@content_partner.id), class: "button")
-  %tr
-    %th
-      = link_to("add resource ", new_content_partner_resource_path(@content_partner.id), class: "button")
-
+%content#Content1{:contentplaceholderid => "head", :runat => "Server"}
+%content#Content2{:contentplaceholderid => "ContentPlaceHolder1", :runat => "Server"}
+  .MainPath
+  .container
+    .row
+      .col-lg-12
+        %h2.mainTitle
+          = @content_partner.name
+      .col-md-8
+        .part
+          .subtitle
+            Description
+          %p
+            = @content_partner.description
+            %hr/
+            -if !@content_partner.url.nil?
+              %strong web:
+              %a{:href => "#{@content_partner.url}"} 
+                = @content_partner.url
+      .col-md-4
+        %aside
+          .widget.categories.contentManger
+            %span
+              %b Managed by
+            .row
+              .col-sm-12
+                .single_comments
+                  %img{:alt => "", :src => "../images/blog/avatar3.png"}/
+                  %p{:style => ""}
+                    %a{:href => "#"}
+                      = @content_partner.user.username
+          .widget.categories.Resources
+            .greyBox
+              %h3.ResourcesIcon
+                Resources
+              %hr/
+              %ul
+                - @content_partner.resources.each do |resource|
+                  %li
+                    %a{:href => "#{content_partner_resource_path(@content_partner.id, resource.id)}"} 
+                      = resource.name
+                  

@@ -19,11 +19,16 @@
               = f.radio_button :type, "url",id: "radio1",onClick: "url_show();"
               = label_tag "Load Resource from Url"
               #display1{:style => "display:none;"}
-                .form-group.row.form-inline
-                  %label.col-md-2.col-sm-3.col-xs-12.control-label
-                    Harvest Frequency
-                  .col-md-10.col-sm-9.col-xs-12
-                    = f.select :harvest_frequency, ['once','weekly','monthly','bimonthly','quarterly']
+                .form-group
+                  %div.row.form-inline
+                    .col-md-10.col-sm-9.col-xs-12
+                      %input.form-control.input-lg{:name => "resource[uploaded_url]", :placeholder => "uploaded_url", :tabindex => "1", :type => "text"}
+                  %br
+                  %div.row.form-inline
+                    %label.col-md-2.col-sm-3.col-xs-12.control-label
+                      Harvest Frequency
+                    .col-md-10.col-sm-9.col-xs-12
+                      = f.select :harvest_frequency, ['once','weekly','monthly','bimonthly','quarterly']
             .resource_file
               = f.radio_button :type, "file",id: "radio2" ,onClick: "file_show();"
               = label_tag "Load Resource from file"

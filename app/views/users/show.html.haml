@@ -1,0 +1,68 @@
+.container
+  .row
+    .col-lg-12
+      %h2.mainTitle.resurceTitle
+        User Profile
+    .col-md-8
+      .greyBox.userInfo.part
+        %h3
+          User Information
+          %span.pull-right
+            -if @user.id == current_user.id
+              %a{href: edit_user_registration_path} Edit
+        %hr/
+        .row
+          .col-lg-2.col-md-2.col-sm-2
+            %img.img-responsive{:alt => "", :src => "../images/blog/avatar3.png"}/
+          .col-lg-10.col-md-10.col-sm-10.col-xs-12
+            .form-horizontal
+              .form-group
+                .form-group
+                  %label.col-lg-2.col-md-3.col-sm-2.col-xs-12.control-label{:for => "inputPassword3"} User Name
+                  .col-lg-10.col-md-9.col-sm-10.col-xs-12
+                    .form-text
+                      = @user.username
+                .form-group
+                  %label.col-lg-2.col-md-3.col-sm-2.col-xs-12.control-label{:for => "inputEmail3"} Email
+                  .col-lg-10.col-md-9.col-sm-10.col-xs-12
+                    .form-text
+                      %a{:href => "#"} #{@user.email}
+      .widget.categories.collectionBox
+        .greyBox
+          %h3.collectionIcon
+            Collections
+          %hr/
+          .row
+            .col-sm-12
+              -unless @collections.nil?
+                -@collections.each do |collection|
+                  %span.pull-right
+                    -if @user.id == current_user.id
+                      %a{href: edit_collection_path(id: collection.id)} Edit
+                  .single_comments
+                    %img{:alt => "", :src => "../images/collection.png"}/
+                    .collectionName
+                      %a{href: collection_path(id: collection.id)} #{collection.name}
+                      %div
+                        %small
+                          #{collection.collected_pages_count} items; Last updated over #{time_ago_in_words(collection.updated_at)} ago
+                    .clearfix
+    .col-md-4
+      %aside
+        .widget.categories.collectionBox
+          .greyBox
+            %h3.collectionIcon
+              Content Partners
+            %hr/
+            .row
+              .col-sm-12
+                -unless @content_partner_ids.nil?
+                  - @content_partner_ids.each do |content_partner_id|
+                    -result = ContentPartnerApi.get_content_partner_without_resources(content_partner_id)
+                    %span.pull-right
+                      -if @user.id == current_user.id
+                        %a{href: edit_content_partner_path(id: result["id"])} Edit
+                    .single_comments
+                      %img{:alt => "", :src => "../images/blog/avatar3.png"}/
+                      %a{href: content_partner_path(id: content_partner_id)}
+                        =result["name"]
