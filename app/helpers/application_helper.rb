@@ -22,8 +22,8 @@ module ApplicationHelper
                       resource: resource.class.model_name.human.downcase)
 
     html = <<-HTML
-    <div id="error_explanation">
-      <h2>#{sentence}</h2>
+    <div id="error_explanation" class="bg-danger errorMsg">
+      <b>#{sentence}</b>
       <ul>#{messages}</ul>
     </div>
     HTML

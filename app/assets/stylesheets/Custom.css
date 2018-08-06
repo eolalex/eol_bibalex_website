@@ -6,6 +6,7 @@ body {
 .content {
     background-color: white !important;
     padding-bottom: 30px;
+    padding-top:30px;
     min-height: 500px;
     max-width: 100% !important;
     width: 100% !important;
@@ -555,7 +556,24 @@ body > form {
     .searchBox .form-control {
         height: 45px;
     }
-
+.topSpaceSeparator{
+	margin-top:10px;
+}
+.selectStyle select{
+	background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    color: #555;
+    display: block;
+    font-size: 14px;
+    height: 34px;
+    line-height: 1.42857;
+    padding: 6px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;
+}
     .searchBox .searchButton {
         background-color: transparent;
         border: medium none;
@@ -1961,9 +1979,17 @@ ul.thumbnails {
     }
 
 
+/*===== Error Message Style ===*/
+.bg-danger.errorMsg{
+	padding:10px 15px;
+	font-size:14px;
+	color:#AE2435;
+	margin-bottom:20px;
+}
+
 /*==== flash msg Style ====*/
 
-.alert , .notice{ 
+.alert , .notice,.success,.error{ 
 	margin-left: auto;
 margin-right: auto;
 border-radius: 4px;
