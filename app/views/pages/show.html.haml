@@ -17,10 +17,11 @@
                 .entry-meta
                   %span#publish_date
                     = @page.scientific_name
-                    %span.btn.btn-success.btn-xs
-                      - unless image.nil?
-                        - content = image.page_contents.find { |c| c.content_id == image.id }
-                        = content.trust
+                    - unless image.nil?
+                      - content = image.page_contents.find { |c| c.content_id == image.id }
+                    - unless content.trust.nil?   
+                      %span.btn.btn-success.btn-xs
+                        = content.trust 
                   %span.TaxonMentaData
                     - unless image.nil?
                       %b Photographed by:

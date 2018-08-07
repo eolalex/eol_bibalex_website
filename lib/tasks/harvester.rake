@@ -4,53 +4,86 @@ def main_method
   
   is_updates = check_for_upadtes
   nodes_ids = []
-  if is_updates == "true"    
+  if is_updates == "true"
     json_content = get_latest_updates_from_hbase
      # nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'nodes4.json')
      # json_content = File.read(nodes_file_path)
      unless json_content == false
-       # nodes = JSON.parse(json_content)
-       # # add_neo4j
-      # nodes.each do |node|
-        # nodes_ids << node["generatedNodeId"]
-        # res = Node.where(generated_node_id: node["generatedNodeId"])
-        # if res.count > 0
-          # current_node = res.first
-        # else
-          # params = { resource_id: node["resourceId"],
-                     # scientific_name: node["taxon"]["scientificName"], canonical_form: node["taxon"]["canonicalName"],
-                     # rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
-                     # page_id: node["taxon"]["pageEolId"] }
-          # created_node = create_node(params)
-#           
-#           
-#           
-          # unless node["taxon"]["pageEolId"].nil? 
-            # page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
-            # create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
-                                   # node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] })      
-            # unless node["vernaculars"].nil?
-              # create_vernaculars({vernaculars: node["vernaculars"], node_id: created_node.id, page_id: page_id, resource_id: node["resourceId"] })
-            # end
-#             
-            # unless node["media"].nil?
-              # create_media({media: node["media"],resource_id: node["resourceId"],page_id: page_id, references: node["references"]})
-            # end
-# #             
-            # # unless node["nodeData"]["ancestors"].nil?
-              # # build_hierarchy({vernaculars: node["nodeData"]["ancestors"], node_id: created_node.id })
-            # # end
-#              
-          # end      
-        # end    
-      # end
-# #       
-      # build_hierarchy(nodes_ids)
-#       
-      add_neo4j
+       nodes = JSON.parse(json_content)
+       
+       # load_occurrences
+       nodes.each do |node|
+         unless node["occurrences"].nil?
+           node["occurrences"].each do |occurrence|
+             
+             if occurrence["deltaStatus"] == "I"
+               OccurrencePageMapping.create(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"], page_id: node["taxon"]["pageEolId"])
+               
+             else               
+               res = OccurrencePageMapping.where(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"])
+               unless res.nil?
+                 old_occurrence_mapping = res.first
+                 unless old_occurrence_mapping.nil?
+                   if occurrence["deltaStatus"] == "U"
+                     old_occurrence_mapping.update_attributes(page_id: node["taxon"]["pageEolId"])
+                   else
+                     old_occurrence_mapping.destroy
+                   end
+                 end
+               end               
+             end
+           end
+         end
+       end
+       
+       
+       
+      nodes.each do |node|
+        
+        # if node["resourceId"] == 442
+        
+        
+        nodes_ids << node["generatedNodeId"]
+        
+        res = Node.where(generated_node_id: node["generatedNodeId"])        
+        if res.count > 0
+          created_node = res.first
+        else
+          params = { resource_id: node["resourceId"],
+                     scientific_name: node["taxon"]["scientificName"], canonical_form: node["taxon"]["canonicalName"],
+                     rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
+                     page_id: node["taxon"]["pageEolId"] }
+          created_node = create_node(params)
+        end          
+          
+           
+        unless node["taxon"]["pageEolId"].nil? 
+          page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
+          create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
+                                 node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] })      
+          unless node["vernaculars"].nil?
+            create_vernaculars({vernaculars: node["vernaculars"], node_id: created_node.id, page_id: page_id, resource_id: node["resourceId"] })
+          end
+          
+          unless node["media"].nil?
+            create_media({media: node["media"],resource_id: node["resourceId"],page_id: page_id, references: node["references"]})
+          end
+          
+          node_params = { page_id: node["taxon"]["pageEolId"], resource_id: node["resourceId"],
+                          scientific_name: node["taxon"]["scientificName"] }
+          add_neo4j(node_params, node["occurrences"], node["measurementOrFacts"], node["associations"])           
+        end      
+         # end
+      end # end of nodes loop
+       
+      build_hierarchy(nodes_ids)
+       
+
     end
   end    
 end
+
+  
 
 
 def check_for_upadtes
@@ -85,6 +118,24 @@ def get_latest_updates_from_hbase
   end
 end
 
+
+def get_nodes_of_resource_from_hbase(resource_id)
+  hbase_uri = "#{HBASE_ADDRESS}#{HBASE_GET_NODES_OF_RESOURCE_ACTION}"
+  begin    
+    request =RestClient::Request.new(
+        :method => :get,
+        :timeout => -1,
+        :url => "#{hbase_uri}/#{resource_id}"
+      )
+      response = request.execute
+      response.body
+  rescue => e
+    debugger
+    c=:l
+    false
+  end
+end
+
 def build_hierarchy(nodes_ids)
   set_parents(nodes_ids)
   set_ancestors(nodes_ids)
@@ -96,28 +147,30 @@ def set_parents(nodes_ids)
   
   # get nodes_parents from neo4j  
   neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_PARENTS_OF_NODES_ACTION}"
-  begin    
-    request =RestClient::Request.new(
-        :method => :get,
-        :timeout => -1,
-        :url => "#{neo4j_uri}",
-        headers: { content_type: 'application/json', accept: 'application/json'},
-        :payload =>  nodes_ids.to_json
-      )
-      response = request.execute
-      nodes_ids_parents = JSON.parse(response.body)
-  rescue => e
-    false
-  end
+  nodes_ids.each_slice(1000) do |sub_arr|
+    begin    
+      request =RestClient::Request.new(
+          :method => :get,
+          :timeout => -1,
+          :url => "#{neo4j_uri}",
+          headers: { content_type: 'application/json', accept: 'application/json'},
+          :payload =>  sub_arr.to_json
+        )
+        response = request.execute
+        nodes_ids_parents = JSON.parse(response.body)
+    rescue => e
+      false
+    end
   
-  unless nodes_ids_parents.nil?
-    nodes_ids_parents.each do |key,value|
-      child_res = Node.where(generated_node_id: key.to_i)
-      parent_res = Node.where(generated_node_id: value)
-      if child_res.count > 0 && parent_res.count > 0
-        child_node = child_res.first
-        parent_node = parent_res.first
-        child_node.update_attributes(parent_id: parent_node.id)
+    unless nodes_ids_parents.nil?
+      nodes_ids_parents.each do |key,value|
+        child_res = Node.where(generated_node_id: key.to_i)
+        parent_res = Node.where(generated_node_id: value)
+        if child_res.count > 0 && parent_res.count > 0
+          child_node = child_res.first
+          parent_node = parent_res.first
+          child_node.update_attributes(parent_id: parent_node.id)
+        end
       end
     end
   end
@@ -127,39 +180,41 @@ end
 def set_ancestors(nodes_ids)
   # get nodes_parents from neo4j  
   neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_ANCESTORS_OF_NODES_ACTION}"
-  begin    
-    request =RestClient::Request.new(
-        :method => :post,
-        :timeout => -1,
-        :url => "#{neo4j_uri}",
-        headers: { content_type: 'application/json', accept: 'application/json'},
-        :payload =>  nodes_ids.to_json
-      )
-      response = request.execute
-      nodes_ids_ancestors = JSON.parse(response.body)
-  rescue => e
-    false
-  end
-  
-  unless nodes_ids_ancestors.nil?
-    nodes_ids_ancestors.each do |group|
-      current_node = nil
-      ancestor_node = nil
-      group.each do |key,value|
-        res = Node.where(generated_node_id: value["generatedNodeId"].to_i)
-        if key.to_i == 0          
-          if res.count > 0
-            current_node = res.first
-          end
-        else
-          if res.count > 0
-            ancestor_node = res.first
-            NodeAncestor.create(node: current_node, ancestor: ancestor_node, depth: key.to_i, resource_id: current_node.resource_id)
-          end
-        end
-      end      
+  nodes_ids.each_slice(1000) do |sub_arr|
+    begin    
+      request =RestClient::Request.new(
+          :method => :post,
+          :timeout => -1,
+          :url => "#{neo4j_uri}",
+          headers: { content_type: 'application/json', accept: 'application/json'},
+          :payload =>  sub_arr.to_json
+        )
+        response = request.execute
+        nodes_ids_ancestors = JSON.parse(response.body)
+    rescue => e
+      false
     end
-  end  
+    
+    unless nodes_ids_ancestors.nil?
+      nodes_ids_ancestors.each do |group|
+        current_node = nil
+        ancestor_node = nil
+        group.each do |key,value|
+          res = Node.where(generated_node_id: value["generatedNodeId"].to_i)
+          if key.to_i == 0          
+            if res.count > 0
+              current_node = res.first
+            end
+          else
+            if res.count > 0
+              ancestor_node = res.first
+              NodeAncestor.create(node: current_node, ancestor: ancestor_node, depth: key.to_i, resource_id: current_node.resource_id)
+            end
+          end
+        end      
+      end
+    end
+  end
   
 end
 
@@ -416,33 +471,119 @@ def fill_page_contents(params)
       
 end
 
-def add_neo4j
-  tb_page = TraitBank.create_page(1)
-  resource = TraitBank.create_resource(147)
-  # options = {supplier:{"data"=>{"resource_id"=>147}}, resource_pk:"123" , page: 1}
+def add_neo4j(node_params, occurrences, measurements, associations)
   
-  options = {supplier:{"data"=>{"resource_id"=>147}},
-             resource_pk:123 , page:1, eol_pk:" 124", scientific_name: "scientific_name",
-             predicate:{"name"=>"event date","uri"=>"test/event",section_ids:[1,2,3],definition:"test predicate definition"},
-             object_term:{"name"=>"5/2/15","uri"=>"test/date",section_ids:[1,2,3],definition:"test object_term definition"},
-             units: {"name"=>"cm","uri"=>"http://purl.obolibrary.org/obo/UO_0000008",section_ids:[1,2,3],definition:"test units"},
-             literal:"10",
-             metadata:[{predicate:{"name"=>"md_event","uri"=>"test/md_event",section_ids:[1,2,3],definition:"test predicate definition"},
-                        object_term:{"name"=>"md_length1","uri"=>"test/md_length1",section_ids:[1,2,3],definition:"test object_term definition"},
-                        units: {"name"=>"cm","uri"=>"http://eol.org/schema/terms/squarekilometer",section_ids:[1,2,3],definition:"test units"},
-                        literal:"15"}] } 
-
+  unless occurrences.nil?
+    
+    # load occurrences
+    occurrences_hash = {}    
+    occurrences.each do |occurrence|
+      occurrences_hash[occurrence["occurrenceId"]] = occurrence
+    end
+    
+    
+    
+    page = TraitBank.create_page(node_params[:page_id].to_i)
+    resource = TraitBank.create_resource(node_params[:resource_id].to_i)
   
-  # options = {supplier:{"data"=>{"resource_id"=>147}}, resource_pk:"123" , page: 1,
-             # predicate:{"name"=>"lengthp","uri"=>"test/lengthp",section_ids:[1,2,3],definition:"test predicate definition"},
-             # object_term:{"name"=>"lengtho","uri"=>"test/lengtho",section_ids:[1,2,3],definition:"test object_term definition"},
+    unless measurements.nil?
+      measurements.each do |measurement|
+        if measurement["measurementOfTaxon"] == "true"
+          occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
+          options = { supplier: { "data" => { "resource_id" =>node_params[:resource_id] } },
+                      resource_pk: measurement["measurementId"], page: node_params[:page_id] ,
+                      eol_pk: "eol_pk_#{measurement["measurementId"]}", scientific_name: node_params[:scientific_name],
+                      predicate: { "name" => "predicate_name_#{measurement["measurementId"]}", uri: measurement["measurementType"],
+                                    section_ids:[1,2,3],definition:"predicate definition"},
+                      object_term:{ "name" => "temp object term_#{measurement["measurementId"]}",
+                                     uri: measurement["measurementValue"], section_ids:[1,2,3],definition:"object_term definition"}
+                       }
+          if measurement["unit"]
+            options[:units_term] = {"name"=>"unit #{measurement["measurementId"]}","uri"=> measurement["unit"],
+                               section_ids:[1,2,3],definition:"test units"}            
+          end
+          
+          
+          if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
+            options[:lifestage_term] = { "name" => "lifeStage_#{measurement["measurementId"]}",
+                                   uri: occurrence_of_measurement["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
+          end
+          
+          if occurrence_of_measurement && occurrence_of_measurement["sex"]
+            options[:sex_term] = { "name" => "sex_#{measurement["measurementId"]}",
+                                   uri: occurrence_of_measurement["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
+          end
+          
+          if occurrence_of_measurement && occurrence_of_measurement["statisticalMethod"]
+            options[:statistical_method_term] = { "name" => "statisticalMethod_#{measurement["measurementId"]}",
+                                   uri: occurrence_of_measurement["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
+          end
+          
+          
+          trait=TraitBank.create_trait(options)
+        end
+      end
+    end
+  
+    unless associations.nil?
+      associations.each do |association|
+        res = OccurrencePageMapping.where(resource_id: node_params[:resource_id], occurrence_id: association["targetOccurrenceId"])
+        unless res.nil?
+          occurrence_mapping = res.first
+          object_page_id = occurrence_mapping.page_id
+        end
+        options = { supplier: { "data" => { "resource_id" =>node_params[:resource_id] } },
+                      resource_pk: association["associationId"].to_i, page: node_params[:page_id] ,
+                      eol_pk: "eol_pk_#{association["associationId"]}", scientific_name: node_params[:scientific_name], object_page_id: object_page_id,
+                      predicate: { "name" => "predicate_name_#{association["associationId"]}", uri: association["associationType"], section_ids:[1,2,3],definition:"predicate definition"},
+                       }
+                       
+          occurrence_of_association = occurrences_hash[association["occurrenceId"]]
+          if occurrence_of_association && occurrence_of_association["sex"]
+            options[:sex_term] = { "name" => "sex_#{association["associationId"]}",
+                                   uri: occurrence_of_association["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
+          end
+          
+          if occurrence_of_association && occurrence_of_association["lifeStage"]
+            options[:lifestage_term] = { "name" => "lifeStage_#{association["associationId"]}",
+                                   uri: occurrence_of_association["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
+          end
+          
+          if occurrence_of_association && occurrence_of_association["statisticalMethod"]
+            options[:statistical_method_term] = { "name" => "statisticalMethod_#{association["associationId"]}",
+                                   uri: occurrence_of_association["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
+          end
+          trait=TraitBank.create_trait(options)
+      end
+    end    
+  end
+  
+  
+  
+  
+  
+  # tb_page = TraitBank.create_page(1)
+  # # tbb_page = TraitBank.create_page(2)
+  # resource = TraitBank.create_resource(147)
+#   
+  # # options = {supplier:{"data"=>{"resource_id"=>147}},
+             # # resource_pk:123 , page:1, eol_pk:" 124", scientific_name: "scientific_name", object_page_id: 2,
+             # # predicate:{"name"=>"event date","uri"=>"test/event",section_ids:[1,2,3],definition:"test predicate definition"}}
+#   
+# #   
+  # options = {supplier:{"data"=>{"resource_id"=>147}},
+             # resource_pk:123 , page:1, eol_pk:" 124", scientific_name: "scientific_name",
+             # predicate:{"name"=>"event date","uri"=>"test/event",section_ids:[1,2,3],definition:"test predicate definition"},
+             # object_term:{"name"=>"5/2/15","uri"=>"test/date",section_ids:[1,2,3],definition:"test object_term definition"},
              # units: {"name"=>"cm","uri"=>"http://purl.obolibrary.org/obo/UO_0000008",section_ids:[1,2,3],definition:"test units"},
              # literal:"10",
-             # metadata:[{predicate:{"name"=>"md_lengthp","uri"=>"test/md_lengthp",section_ids:[1,2,3],definition:"test predicate definition"},
-                       # object_term:{"name"=>"md_lengtho","uri"=>"test/md_lengtho",section_ids:[1,2,3],definition:"test object_term definition"},
-                       # units: {"name"=>"cm","uri"=>"http://eol.org/schema/terms/squarekilometer",section_ids:[1,2,3],definition:"test units"},
-                       # literal:"15"}] }
-  trait=TraitBank.create_trait(options)
+             # metadata:[{predicate:{"name"=>"md_event","uri"=>"test/md_event",section_ids:[1,2,3],definition:"test predicate definition"},
+                        # object_term:{"name"=>"md_length1","uri"=>"test/md_length1",section_ids:[1,2,3],definition:"test object_term definition"},
+                        # units: {"name"=>"cm","uri"=>"http://eol.org/schema/terms/squarekilometer",section_ids:[1,2,3],definition:"test units"},
+                        # literal:"15"}] } 
+# 
+#   
+  # trait=TraitBank.create_trait(options)
 end
 
 
@@ -450,6 +591,16 @@ namespace :harvester do
   desc "TODO"  
   task get_latest_updates: :environment do
     main_method
+    # meta = [{predicate:{"name"=>"new_md_event","uri"=>"new_test/md_event",section_ids:[1,2,3],definition:"new test predicate definition"},
+                        # object_term:{"name"=>"new_md_length1","uri"=>"new_test/md_length1",section_ids:[1,2,3],definition:"new test object_term definition"},
+                        # units: {"name"=>"new_cm","uri"=>"http://eol.org/schema/terms/squarekilometer_new",section_ids:[1,2,3],definition:"new test units"},
+                        # literal:"100"}]
+    # res = TraitBank.find_trait(123)
+    # meta.each { |md| TraitBank.add_metadata_to_trait(res, md) } 
+    # # TraitBank.add_metadata_to_trait(res,meta)
+    # debugger
+    # c="l"
+    # add_neo4j(nil,nil,nil,nil)
   end
 end
   

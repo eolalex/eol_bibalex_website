@@ -21,7 +21,7 @@ $(document).ready(function() {
         $('#api_test_result').fadeTo(100, 0.3);
       },
       error: function(xhr, stat, err) { 
-      	$('#api_test_result').html('Sorry, there was an error: '+stat +' '+err+' '+xhr); 
+      	$('#api_test_result').html('Sorry, there was an error: '+stat); 
       },
       complete: function() {
         $('#api_test_result').fadeTo(100, 1);

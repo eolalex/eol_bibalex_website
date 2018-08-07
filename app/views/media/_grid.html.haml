@@ -9,13 +9,11 @@
           %img{ src: image.base_url, :width =>"260", :height =>"190", :class => "content_image" }
           %div{:id => "hover_#{image.id}", :style=> "display:none;", :class => "hover"}
             - content = image.page_contents.find { |c| c.content_id == image.id }
-            = content.trust
+            = content.trust unless content.trust.nil?
         %div{ :id => "popup_#{image.id}" , :style=> "display:none;", :class => "popup"}
           .uk-modal-dialog
-            -# %div{:id => "inner_#{image.id}", :style=> "display:none;", :class => "inner"}
             = link_to(image.name, medium_path(image))
             %button{ :id =>"#{image.id}", :class => "btn", :onclick=> 'hidePopup(this, event)'}close
-            -#.ui.label= image.licenses.name
             %br
             = image.owner
             %br
