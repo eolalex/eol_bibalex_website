@@ -1,55 +1,64 @@
-%asp:Content{:ContentPlaceHolderID => "head", :ID => "Content1", :Runat => "Server"}
-%asp:Content{:ContentPlaceHolderID => "ContentPlaceHolder1", :ID => "Content2", :Runat => "Server"}
+%content#Content1{:contentplaceholderid => "head", :runat => "Server"}
+%content#Content2{:contentplaceholderid => "ContentPlaceHolder1", :runat => "Server"}
   .MainPath
-    .container
-      .row
-        .col-md-12
-          .names-hier
-            \&#x2026;/
-            %a{:href => "/users"}> Users
-            \/&#x2026;/
-            %a{:href => "#"}> Sign up
-            \/&#x2026;/
-  %script{:src => "//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"}
-  %script{:src => "//code.jquery.com/jquery-1.11.1.min.js"}
   .container
     .row
-      .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3
+      .col-xs-12.col-sm-8.col-md-6
         = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
           = devise_error_messages!
           %h2
             Sign Up
             %small It's free and always will be.
-          %hr.colorgraph
-            .form-group
-              %input.form-control.input-lg{:name => "user[username]", :placeholder => "User Name", :tabindex => "1", :type => "text"}
-            .form-group
-              %input.form-control.input-lg{:name => "user[email]", :placeholder => "Email Address", :tabindex => "2", :type => "email"}
-            .row
-              .col-xs-12.col-sm-6.col-md-6
-                .form-group
-                  %input.form-control.input-lg{:name => "user[password]", :placeholder => "Password", :tabindex => "3", :type => "password"}
-              .col-xs-12.col-sm-6.col-md-6
-                .form-group
-                  %input#password_confirmation.form-control.input-lg{:name => "user[password_confirmation]", :placeholder => "Confirm Password", :tabindex => "4", :type => "password"}
-              .input-group
+          %hr.colorgraph/
+          .row
+            .col-xs-12
+              .form-group
+                %input.form-control.input-lg{:name => "user[username]", :placeholder => "User Name", :tabindex => "1", :type => "text"}/
+          .row
+            .col-xs-12
+              .form-group
+                %input.form-control.input-lg{:name => "user[email]", :placeholder => "Email Address", :tabindex => "2", :type => "email"}/
+          .row
+            .col-xs-12.col-sm-6.col-md-6
+              .form-group
+                %input.form-control.input-lg{:name => "user[password]", :placeholder => "Password", :tabindex => "3", :type => "password"}/
+            .col-xs-12.col-sm-6.col-md-6
+              .form-group
+                %input#password_confirmation.form-control.input-lg{:name => "user[password_confirmation]", :placeholder => "Confirm Password", :tabindex => "4", :type => "password"}/
+          .row
+            .col-xs-12.col-sm-6.col-md-6
+              .form-group
                 .checkbox
                   %label
-                    %input#login-remember{:name => "user[remember]", :type => "checkbox", :value => "1"}
-                      Remember me
-                %hr.colorgraph
-                  .row
-                    .col-xs-12
-                      %input.btn.btn-primary.btn-block.btn-lg{:tabindex => "5", :type => "submit", :value => "Sign up"}/
-                  - if devise_mapping.omniauthable?
-                    - action = controller_name == 'registrations' ? "sign_up" : "sign_in"
-                    - if controller_name == 'registrations'
-                      - action = "sign_up"
-                      - action_name = "Sign Up"
-                    -else 
-                      - action = "sign_in"
-                      - action_name = "Sign In"
-                    - resource_class.omniauth_providers.each do |provider|
-                      = link_to t("sign_in_up_with_#{provider}", action: action_name),
-                                    send("user_#{provider}_omniauth_authorize_path", intent: action) 
-                    %br
+                    %input#login-remember{:name => "remember", :type => "checkbox", :value => "1"}/
+                    Remember me
+          .row
+            .col-xs-12
+              %input.btn.btn-success.btn-lg.btn-block{:type => "submit", :value => "Sign up"}/
+          .row
+            .col-md-12
+              .login-or
+                %hr.hr-or/
+                %span.span-or.BGwhite or
+          .row
+            .col-md-12.text-center
+              %p
+                Sign up with your social network
+            - if devise_mapping.omniauthable?
+              - action = controller_name == 'registrations' ? "sign_up" : "sign_in"
+              - if controller_name == 'registrations'
+                - action = "sign_up"
+                - action_name = "Sign Up"
+              -else 
+                - action = "sign_in"
+                - action_name = "Sign In"
+              .col-sm-4.form-group   
+                %a.btn.btn-primary.btn-block{ href: "/users/auth/facebook?intent=#{action}&locale=en" }
+                  %i.fa.fa-facebook
+              .col-sm-4.form-group
+                %a.btn.btn-primary.btn-block{ href: "/users/auth/twitter?intent=#{action}&locale=en" }
+                  %i.fa.fa-twitter
+              .col-sm-4.form-group
+                %a.btn.btn-primary.btn-block{ href: "/users/auth/google_oauth2?intent=#{action}&locale=en" }
+                  %i.fa.fa-google-plus
+                

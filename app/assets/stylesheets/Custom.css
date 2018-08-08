@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿
 body {
     background-color: #2E2E2E !important;
@@ -809,28 +810,6 @@ ul.thumbnails {
         color: #ac2224 !important;
     }
 
-
-/*==== flash msg Style ====*/
-
-.alert , .notice{ 
-	margin-left: auto;
-margin-right: auto;
-border-radius: 4px;
-margin-bottom: 18px;
-border-color: #D6E9C6;
-width: 350px;
-color: rgb(0, 0, 0);
-z-index: 2000;
-position: absolute !important;
-left: 40%;
-top: 15%;
-background-color: #FFF;
-box-shadow: 3px 3px 1px 1px rgba(0, 0, 0, 0.2);
-padding: 30px 20px;
-text-align: center;
-font-size: 16px
-}
-
 .AgrementBox,
 .collectionBox {
     margin-bottom: 30px !important;
@@ -1065,6 +1044,7 @@ font-size: 16px
 
 @media (max-width: 767px) {
     .page-header {
+        text-align: center;
     }
 }
 

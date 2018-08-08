@@ -1,112 +1,106 @@
-%table
-  %tr
-    %th
-      name
-    %td
-      = @resource.name
-      
-  %tr
-    %th - Dataset
-    %td
-      %tr
-        %th
-          type
-        %td
-          = @resource.type
-          -if @resource.type.eql?("url")
-            %tr
-              %th
-                uploaded url
-              %td
-                = @resource.uploaded_url
-          -if @resource.type.eql?("file")
-            %tr
-              %th
-                file path
-              %td
-                = @resource.path
-          %tr
-            %th
-              default language
-            %td
-              =Language.find(@resource.default_language_id).code
-    
-  %tr
-    %th - Rights & attribution
-    %td
-      %tr
-        %th
-          dataset license 
-        %td
-          = License.find(@resource.dataset_license).name
-      %tr
-        %th
-          dataset rights holder
-        %td
-          = @resource.dataset_rights_holder
-      %tr
-        %th
-          dataset rights statement
-        %td
-          = @resource.dataset_rights_statement
-      %tr
-        %th
-          default rights holder
-        %td
-          = @resource.default_rights_holder
-      %tr
-        %th
-          default rights statement
-        %td
-          = @resource.default_rights_statement
-      %tr
-        %th
-          description
-        %td
+.container
+  .row
+    .col-lg-12
+      %h2.mainTitle.resurceTitle
+        %img{:alt => "", :src => "../images/collection.png"}/
+        = @resource.name
+    .col-md-8
+      .part
+        .subtitle
+          About Resource
+        %p
           = @resource.description
-      %tr
-        %th
-          default license string
-        %td
+        %p
+          %strong web:
+          %a{:href => content_partner_resource_path(@content_partner.id, params["id"]), :target => "_blank"} #{@resource.name}
+      .part
+        .subtitle
+          Dataset
+        %p
+          %strong
+            type
+          %a #{ @resource.type }
+        -if @resource.type.eql?("url")
+          %p
+            %strong
+              Uploaded url
+            %a #{ @resource.uploaded_url }
+        -if @resource.type.eql?("file")
+          %p
+            %strong
+              File path
+            %a #{ @resource.path}
+        %p
+          %strong
+            Default language
+          =Language.find(@resource.default_language_id).code
+      .part
+        .subtitle
+          Rights  attribution
+        %strong
+          dataset license
+        %p
+          = License.find(@resource.dataset_license).name
+        %strong
+          Dataset rights holder
+        %p
+          = @resource.dataset_rights_holder
+        %strong
+          Dataset rights statement
+        %p
+          = @resource.dataset_rights_statement
+        %strong
+          Default rights holder
+        %p
+          = @resource.default_rights_holder
+        %strong
+          Default rights statement
+        %p
+          = @resource.default_rights_statement
+        %strong
+          Default license string
+        %p
           = License.find(@resource.default_license_string).name
- 
-  %tr
-    %th - Processing status &settings
-    %td
-      %tr
-        %th
-          harvest_frequency
-        %td
+      .part
+        .subtitle
+          Processing status & settings   
+        %strong
+          Harvest frequency
+        %p
           = @resource.harvest_frequency
-          
-      %tr
-        %th
+        %strong
           Auto-published
-        %td
-          =@resource.is_autopublished
-        
-  %tr
-    %th - Harvest events
-    %td
-      %tr
-        %th
-          last harvest
-      %td
-        = @resource.last_harvested_at
-      
-  %tr
-    %th
-      content partner name
-    %td
-      = @content_partner.name
-  %tr
-    %th 
-      managed by
-    %td
-      -# = link_to(@content_partner.user.username, main_app.user_path(@content_partner.user))
-   
+        %p
+          = @resource.is_autopublished
+      .part
+        .subtitle
+          Harvest events   
+        %strong
+          Last harvest
+        %p
+          = Time.at(@resource.last_harvested_at)
+    .col-md-4
+      %aside
+        .widget.categories.contentManger
+          %span
+            %b Managed by
+          .row
+            .col-sm-12
+              .single_comments
+                %img{:alt => "", :src => "../images/blog/avatar3.png"}/
+                %p{:style => ""}
+                  %a{:href => main_app.user_path(@content_partner.user)}
+                    = @content_partner.user.username
+    .col-md-4
+      %aside
+        .widget.categories.contentManger
+          %span
+            %b Content partner name
+          .row
+            .col-sm-12
+              .single_comments
+                %img{:alt => "", :src => "../images/blog/avatar3.png"}/
+                %p{:style => ""}
+                  %a{:href => content_partner_path(id: @content_partner.id)}
+                    = @content_partner.name
 
-
-
-
-   
