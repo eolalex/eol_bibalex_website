@@ -12,9 +12,11 @@
             = resource_info.name
         -else
           %h3.Special Unknown Resource 
+        - x = 0  
         -tree.each do |node|
-          %span{:title => "Verkleinern"} 
-            %a{:href => "#{page_path(node.pages.first.id)}"}
-              %div.paddingLeft20
+          - x = x + 10
+          %div{ style: "padding-left: #{x}px;"}
+            %span{:title => "Verkleinern"} 
+              %a{:href => "#{page_path(node.pages.first.id)}"}
                 =node.canonical_form
           %ul

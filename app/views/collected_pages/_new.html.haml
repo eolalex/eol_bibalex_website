@@ -3,9 +3,9 @@
     = f.fields_for :collected_pages do |page_f|
       - @collection.collected_pages.each do |collected_page|
         = page_f.hidden_field(:page_id, page_id: collected_page.page_id)
-    .col-md-3.col-sm-12.col-xs-12
       %h2
         Add to a New Collection
+        %br
         %br
         %input.form-control.input-lg{:name => "collection[name]", :placeholder =>"New Collection Name", :tabindex => "1", :type => "text", :required => true}
         %br
