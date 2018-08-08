@@ -6,6 +6,9 @@
       .col-lg-12
         %h2.mainTitle
           = @content_partner.name
+          %span.pull-right
+            %a.btn.btn-primary{:href => "#{edit_content_partner_path(id: @content_partner.id)}", :role => "button"}
+              Edit
       .col-md-8
         .part
           .subtitle
@@ -33,6 +36,8 @@
             .greyBox
               %h3.ResourcesIcon
                 Resources
+                %a.btn-addResource{href: "#{ new_content_partner_resource_path(content_partner_id: @content_partner.id)}"}
+                  %span.pull-right  +
               %hr/
               %ul
                 - @content_partner.resources.each do |resource|

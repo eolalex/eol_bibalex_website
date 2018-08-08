@@ -1,6 +1,7 @@
 .container
   .row
     .col-lg-12
+      %br
       %h2.mainTitle.resurceTitle
         User Profile
     .col-md-8
@@ -43,7 +44,7 @@
                     %img{:alt => "", :src => "../images/collection.png"}/
                     .collectionName
                       %a{href: collection_path(id: collection.id)} #{collection.name}
-                      %div
+                      %div    
                         %small
                           #{collection.collected_pages_count} items; Last updated over #{time_ago_in_words(collection.updated_at)} ago
                     .clearfix
@@ -53,6 +54,8 @@
           .greyBox
             %h3.collectionIcon
               Content Partners
+              %a.btn-addResource{href: "#{ new_content_partner_path}"}
+                %span.pull-right  +
             %hr/
             .row
               .col-sm-12
