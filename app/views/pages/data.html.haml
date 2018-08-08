@@ -1,5 +1,7 @@
 = javascript_include_tag 'data'
 = render("tabs")
+
+- build_associations(@page)
 .container
   .row
     .col-md-12.blog
@@ -29,8 +31,10 @@
                           definition: #{predicate[:definition]}
                         -#%div{:id => "#{uri}", :onclick=> 'showPopup(this)'}
                           -#%i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
-                      %td{"data-label" => "Object Term"} #{trait[:object_term][:name]}
-                      %td{"data-label" => "Units"} #{trait[:units][:name]}
+                      %td{"data-label" => "Object Term"}
+                        - show_data_value(trait)
+                      - if trait[:units]
+                        %td{"data-label" => "Units"} #{trait[:units][:name]}
                       %td{"data-label" => "Source"} #{show_source_segment(trait)}
                     %div{ :id => "popup_#{uri}", :style=> "display:none;", :class => "popup"}
                       - if trait[:metadata] && trait[:metadata].any?

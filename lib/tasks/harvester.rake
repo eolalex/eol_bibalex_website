@@ -5,78 +5,78 @@ def main_method
   is_updates = check_for_upadtes
   nodes_ids = []
   if is_updates == "true"
-    json_content = get_latest_updates_from_hbase
+    json_content = get_nodes_of_resource_from_hbase(442)
      # nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'nodes4.json')
      # json_content = File.read(nodes_file_path)
      unless json_content == false
        nodes = JSON.parse(json_content)
        
-       # load_occurrences
-       nodes.each do |node|
-         unless node["occurrences"].nil?
-           node["occurrences"].each do |occurrence|
-             
-             if occurrence["deltaStatus"] == "I"
-               OccurrencePageMapping.create(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"], page_id: node["taxon"]["pageEolId"])
-               
-             else               
-               res = OccurrencePageMapping.where(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"])
-               unless res.nil?
-                 old_occurrence_mapping = res.first
-                 unless old_occurrence_mapping.nil?
-                   if occurrence["deltaStatus"] == "U"
-                     old_occurrence_mapping.update_attributes(page_id: node["taxon"]["pageEolId"])
-                   else
-                     old_occurrence_mapping.destroy
-                   end
-                 end
-               end               
-             end
-           end
-         end
-       end
+       # # load_occurrences
+       # nodes.each do |node|
+         # unless node["occurrences"].nil?
+           # node["occurrences"].each do |occurrence|
+#              
+             # if occurrence["deltaStatus"] == "I"
+               # OccurrencePageMapping.create(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"], page_id: node["taxon"]["pageEolId"])
+#                
+             # else               
+               # res = OccurrencePageMapping.where(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"])
+               # unless res.nil?
+                 # old_occurrence_mapping = res.first
+                 # unless old_occurrence_mapping.nil?
+                   # if occurrence["deltaStatus"] == "U"
+                     # old_occurrence_mapping.update_attributes(page_id: node["taxon"]["pageEolId"])
+                   # else
+                     # old_occurrence_mapping.destroy
+                   # end
+                 # end
+               # end               
+             # end
+           # end
+         # end
+       # end
        
        
        
       nodes.each do |node|
         
-        # if node["resourceId"] == 442
+        if node["resourceId"] == 442
         
         
-        nodes_ids << node["generatedNodeId"]
+        # nodes_ids << node["generatedNodeId"]
         
-        res = Node.where(generated_node_id: node["generatedNodeId"])        
-        if res.count > 0
-          created_node = res.first
-        else
-          params = { resource_id: node["resourceId"],
-                     scientific_name: node["taxon"]["scientificName"], canonical_form: node["taxon"]["canonicalName"],
-                     rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
-                     page_id: node["taxon"]["pageEolId"] }
-          created_node = create_node(params)
-        end          
-          
-           
-        unless node["taxon"]["pageEolId"].nil? 
-          page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
-          create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
-                                 node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] })      
-          unless node["vernaculars"].nil?
-            create_vernaculars({vernaculars: node["vernaculars"], node_id: created_node.id, page_id: page_id, resource_id: node["resourceId"] })
-          end
-          
-          unless node["media"].nil?
-            create_media({media: node["media"],resource_id: node["resourceId"],page_id: page_id, references: node["references"]})
-          end
+        # res = Node.where(generated_node_id: node["generatedNodeId"])        
+        # if res.count > 0
+          # created_node = res.first
+        # else
+          # params = { resource_id: node["resourceId"],
+                     # scientific_name: node["taxon"]["scientificName"], canonical_form: node["taxon"]["canonicalName"],
+                     # rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
+                     # page_id: node["taxon"]["pageEolId"] }
+          # created_node = create_node(params)
+        # end          
+#           
+#            
+        # unless node["taxon"]["pageEolId"].nil? 
+          # page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
+          # create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
+                                 # node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] })      
+          # unless node["vernaculars"].nil?
+            # create_vernaculars({vernaculars: node["vernaculars"], node_id: created_node.id, page_id: page_id, resource_id: node["resourceId"] })
+          # end
+#           
+          # unless node["media"].nil?
+            # create_media({media: node["media"],resource_id: node["resourceId"],page_id: page_id, references: node["references"]})
+          # end
           
           node_params = { page_id: node["taxon"]["pageEolId"], resource_id: node["resourceId"],
                           scientific_name: node["taxon"]["scientificName"] }
           add_neo4j(node_params, node["occurrences"], node["measurementOrFacts"], node["associations"])           
-        end      
-         # end
+        # end      
+         end
       end # end of nodes loop
        
-      build_hierarchy(nodes_ids)
+      # build_hierarchy(nodes_ids)
        
 
     end
@@ -130,8 +130,6 @@ def get_nodes_of_resource_from_hbase(resource_id)
       response = request.execute
       response.body
   rescue => e
-    debugger
-    c=:l
     false
   end
 end
@@ -498,6 +496,14 @@ def add_neo4j(node_params, occurrences, measurements, associations)
                       object_term:{ "name" => "temp object term_#{measurement["measurementId"]}",
                                      uri: measurement["measurementValue"], section_ids:[1,2,3],definition:"object_term definition"}
                        }
+          if numeric?(measurement["measurementValue"])
+            options[:measurement] = measurement["measurementValue"]
+          elsif uri?(measurement["measurementValue"])
+            options[:object_term] = { "name" => "temp object term_#{measurement["measurementId"]}",
+                                     uri: measurement["measurementValue"], section_ids:[1,2,3],definition:"object_term definition"}
+          else
+            options[:literal] = measurement["measurementValue"]            
+          end
           if measurement["unit"]
             options[:units_term] = {"name"=>"unit #{measurement["measurementId"]}","uri"=> measurement["unit"],
                                section_ids:[1,2,3],definition:"test units"}            
@@ -587,10 +593,41 @@ def add_neo4j(node_params, occurrences, measurements, associations)
 end
 
 
+def numeric?(str)
+  Float(str) != nil rescue false
+end
+
+def uri?(str)
+  
+end
+
+
 namespace :harvester do
   desc "TODO"  
   task get_latest_updates: :environment do
-    main_method
+    
+    tb_page = TraitBank.create_page(9893)
+   tbb_page = TraitBank.create_page(2117)
+  resource = TraitBank.create_resource(147)
+  
+  options = {supplier:{"data"=>{"resource_id"=>147}},
+             resource_pk:123 , page:9893, eol_pk:" 124", scientific_name: "scientific_name", object_page_id: 2117,
+             predicate:{"name"=>"event date","uri"=>"test/event",section_ids:[1,2,3],definition:"test predicate definition"}}
+  
+#   
+  # options = {supplier:{"data"=>{"resource_id"=>147}},
+             # resource_pk:123 , page:9893, eol_pk:" 124", scientific_name: "scientific_name", measurement: 12,
+             # predicate:{"name"=>"event date","uri"=>"test/event",section_ids:[1,2,3],definition:"test predicate definition"},
+             # metadata:[{predicate:{"name"=>"md_event","uri"=>"test/md_event",section_ids:[1,2,3],definition:"test predicate definition"},
+                        # object_term:{"name"=>"md_length1","uri"=>"test/md_length1",section_ids:[1,2,3],definition:"test object_term definition"},
+                        # units: {"name"=>"cm","uri"=>"http://eol.org/schema/terms/squarekilometer",section_ids:[1,2,3],definition:"test units"},
+                        # literal:"15"}] } 
+
+  
+  trait=TraitBank.create_trait(options)
+    
+    
+    # main_method
     # meta = [{predicate:{"name"=>"new_md_event","uri"=>"new_test/md_event",section_ids:[1,2,3],definition:"new test predicate definition"},
                         # object_term:{"name"=>"new_md_length1","uri"=>"new_test/md_length1",section_ids:[1,2,3],definition:"new test object_term definition"},
                         # units: {"name"=>"new_cm","uri"=>"http://eol.org/schema/terms/squarekilometer_new",section_ids:[1,2,3],definition:"new test units"},
