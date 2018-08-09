@@ -1,4 +1,4 @@
-body {
+﻿body {
 
     background-color: #2E2E2E !important;
 
@@ -1135,7 +1135,7 @@ body > form {
 
  
 
->>>>>>> 7089ba0bf1d1119d93d2888855e161d25f8baec4
+/*>>>>>>> 7089ba0bf1d1119d93d2888855e161d25f8baec4*/
     .searchBox .searchButton {
 
         background-color: transparent;
@@ -1212,6 +1212,9 @@ ul.treeNode ul {
 }
 table tr td{
 	word-wrap: break-word;
+}
+.no-padding{
+    padding:0!important;
 }
 /*====== small Carousel ========*/
 
@@ -1424,22 +1427,6 @@ ul.social-share li a {
     padding-top: 6px !important;
 
 }
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
 
  
 
@@ -1723,7 +1710,9 @@ ul.thumbnails {
 
         }
 
- 
+ .widget.categories.collectionBox .row{
+     margin:0;
+ }
 
 .part {
 
@@ -3298,16 +3287,20 @@ font-size: 16px
         padding: 15px;
     }
 
-    .collectionBox .single_comments {
+    .collectionBox .single_comments,
+    .widget.categories.collectionBox .row {
         border-bottom: 1px dotted #d1d1d1;
         box-shadow: 1px 1px 0 white;
         padding-bottom: 20px;
+        margin-bottom:15px!important;
     }
 
-        .collectionBox .single_comments:last-child {
+        .collectionBox .single_comments:last-child,
+        .widget.categories.collectionBox .row:last-child {
             border: medium none;
             box-shadow: none;
             padding: 0;
+            margin-bottom:0!important;
         }
 
 .part {

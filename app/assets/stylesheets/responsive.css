@@ -139,6 +139,7 @@
     .extra_large {
         width: 1170px !important;
     }
+
     .imageThumb {
         height: 190px;
     }
@@ -348,7 +349,11 @@
     }
 
     .mainMenu {
-        width: 70px;
+        /*width: 70px;*/
+        padding-left:0;
+        width:0;
+        padding-top:15px;
+        border:none;
     }
 
     h1.slogan {
@@ -372,6 +377,10 @@
     .navbar-collapse.navbar-left.in {
         left: 230px;
         top: 69px;
+        width: 150px;
+    }
+    #header .nav.navbar-nav a, .topMenu li a{
+        font-size:14px;
     }
 
     /*===== Edited by Shaimaa =======*/
@@ -469,7 +478,7 @@
 
     .navbar-brand > img {
         padding: 10px;
-        width: 110px;
+        width: 100px;
     }
 
     .btn-search.globalSearchBtn {
@@ -1025,6 +1034,15 @@
     }
     .form-text{
         padding-top:0;
+    }
+    .row.single_comments{
+        margin:0 -15px!important;
+    }
+    .widget.categories{
+        padding:0;
+    }
+    .collectionImage{
+        max-width:70px;
     }
 }
 
