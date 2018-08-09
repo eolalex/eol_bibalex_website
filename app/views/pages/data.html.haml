@@ -20,15 +20,17 @@
                     - uri = predicate[:uri].dup
                     - uri.sub! '/', '_'
                     %tr
-                      %td{"data-label" => "Name", :id => "#{uri}", :onmouseover =>"showOver(this)", :onmouseout=>"hideOver(this)"} 
+                      %td 
                         %div
                           = predicate[:name]
+                          %span.glyphicon.glyphicon-info-sign{"data-label" => "Name", :id => "#{uri}", :onmouseover =>"showOver(this)", :onmouseout=>"hideOver(this)"}
                         %div{:id => "hover_#{uri}", :style=> "display:none;"}
                           uri:  #{predicate[:uri]}
                           %br
                           definition: #{predicate[:definition]}
-                        -#%div{:id => "#{uri}", :onclick=> 'showPopup(this)'}
-                          -#%i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
+                        -# %div{:id => "#{uri}", :onclick=> 'showPopup(this)'}
+                        %div{:id => "#{uri}"}
+                          %i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
                       %td{"data-label" => "Object Term"} #{trait[:object_term][:name]}
                       %td{"data-label" => "Units"} #{trait[:units][:name]}
                       %td{"data-label" => "Source"} #{show_source_segment(trait)}
