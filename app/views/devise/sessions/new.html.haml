@@ -24,15 +24,25 @@
                   Remember me
                 .pull-right.text-right
                   %a{:href => "/users/password/new?locale=en"} Forgot your password?
+            -# = form_with(model: @user, local: true) do |f|
+            -unless params[:user].nil?
+              -user = User.where("email = ? ", params[:user][:email]).first
+              - if (!user.nil?) && (user.failed_attempts>=2)
+                .row
+                  .col-md-12.form-group
+                    = f.label I18n.t(:recaptcha), required: true
+                    = recaptcha_tags(theme: 'clean', callback: 'recaptchaCallback')
+                    - if flash.any? { |name, msg| name == "recaptcha_error" }
+                      %span.error
+                        = I18n.t('recaptcha_error')
           .row
             .col-xs-12
               %input.btn.btn-success.btn-lg.btn-block{:type => "submit", :value => "Sign in"}/
-          - if @verify_recaptcha
-            .field
-              = recaptcha_tags(callback: 'recaptchaCallback')
-              - if flash.any? { |name, msg| name == "recaptcha_error" }
-                %span.error
-                  = I18n.t(:recaptcha_error)
+          -# - if @verify_recaptcha
+            -# =@user = User.find_by(:email => params[:email])
+            -# = form_with(model: @user, local: true) do |form|
+              -# = form.hidden_field :failed_attempts
+              
           .row
             .col-md-12
               .login-or
@@ -63,5 +73,5 @@
           %div
           .col-xs-12.col-sm-8
             %p
-              Dont have an EOL or social network account?
+              Don't have an EOL or social network account?
               %a{:href => "#{new_user_registration_path}"} Sign up
