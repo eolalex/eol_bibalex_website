@@ -515,7 +515,9 @@ h3.Thumbnail_Title {
 
 }
 
- 
+ #main-slider {
+    margin-top: -30px!important;
+}
 
 .searchbox .modal-dialog {
 
@@ -1180,8 +1182,37 @@ body > form {
 
         }
 
- 
-
+ .exploreTaxonBtn{
+ 	padding:8px 20px!important;
+ 	margin-left:15px;
+ }
+.alert-secondary{
+	padding:10px!important;
+}
+.alert-secondary .fa{
+	margin-right:5px;
+}
+.nav-tabs > li{
+	margin-right:1px;
+}
+.nav > li > a:hover, .nav > li > a:focus{
+	opacity:1!important;
+	border: none!important;
+}
+ul.treeNode{
+	padding-left:0;
+	margin-bottom:0;
+}
+ul.treeNode:last-child{
+	margin-bottom:30px!important;
+}
+ul.treeNode ul {
+    margin: 0 !important;
+    padding-top: 0;
+}
+table tr td{
+	word-wrap: break-word;
+}
 /*====== small Carousel ========*/
 
  
@@ -2285,6 +2316,7 @@ table.customTable {
         padding: .625em;
 
         text-align: center;
+        min-height:30px;
 
     }
 
