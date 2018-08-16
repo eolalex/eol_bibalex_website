@@ -146,13 +146,12 @@
 
     .content {
         min-height: 700px;
-    }
 }
 
 /* md */
 @media (min-width: 992px) and (max-width: 1199px) {
-    .content {
-        min-height: 600px;
+    .content{
+        min-height:600px;
     }
     /*===== Edited by Shaimaa =======*/
     .topMenu {
@@ -383,6 +382,7 @@
 
     #header .nav.navbar-nav a, .topMenu li a {
         font-size: 14px;
+
     }
 
     /*===== Edited by Shaimaa =======*/
@@ -1068,6 +1068,7 @@
         margin: 0 -15px 25px;
         width: 100px;
     }
+<<<<<<< HEAD
 
     .form-text {
         padding-top: 0;
@@ -1089,6 +1090,18 @@
         display: block;
         text-align: center;
         width: 100%;
+
+    .form-text{
+        padding-top:0;
+    }
+    .row.single_comments{
+        margin:0 -15px!important;
+    }
+    .widget.categories{
+        padding:0;
+    }
+    .collectionImage{
+        max-width:70px;
     }
 }
 
