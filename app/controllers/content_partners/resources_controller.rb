@@ -1,5 +1,5 @@
 class ContentPartners::ResourcesController < ContentPartnersController
-  
+  before_action :authenticate_user!
   def new
     @resource = Resource.new
   end

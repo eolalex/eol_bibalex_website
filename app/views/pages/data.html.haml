@@ -1,12 +1,13 @@
 = javascript_include_tag 'data'
-= render("tabs")
 .container
   .row
     .col-md-12.blog
       .row
         .col-md-8
+          %br
           %h2.TaxonName
-            Data Table 
+            = @page.scientific_name
+            = render("tabs") 
           %table.customTable
             %tbody
               - @page.predicates.each_with_index do |uri, index|

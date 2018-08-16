@@ -38,11 +38,6 @@
           .row
             .col-xs-12
               %input.btn.btn-success.btn-lg.btn-block{:type => "submit", :value => "Sign in"}/
-          -# - if @verify_recaptcha
-            -# =@user = User.find_by(:email => params[:email])
-            -# = form_with(model: @user, local: true) do |form|
-              -# = form.hidden_field :failed_attempts
-              
           .row
             .col-md-12
               .login-or
