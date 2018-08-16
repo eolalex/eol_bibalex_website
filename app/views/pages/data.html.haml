@@ -31,8 +31,10 @@
                         -# %div{:id => "#{uri}", :onclick=> 'showPopup(this)'}
                         %div{:id => "#{uri}"}
                           %i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
-                      %td{"data-label" => "Object Term"} #{trait[:object_term][:name]}
-                      %td{"data-label" => "Units"} #{trait[:units][:name]}
+                      -if trait[:object_term]
+                        %td{"data-label" => "Object Term"} #{trait[:object_term][:name]}
+                      -if trait[:units]
+                        %td{"data-label" => "Units"} #{trait[:units][:name]}
                       %td{"data-label" => "Source"} #{show_source_segment(trait)}
                     %div{ :id => "popup_#{uri}", :style=> "display:none;", :class => "popup"}
                       - if trait[:metadata] && trait[:metadata].any?

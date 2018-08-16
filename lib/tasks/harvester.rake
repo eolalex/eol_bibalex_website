@@ -5,9 +5,9 @@ def main_method
   is_updates = check_for_upadtes
   nodes_ids = []
   if is_updates == "true"
-    json_content = get_latest_updates_from_hbase
-     # nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'nodes4.json')
-     # json_content = File.read(nodes_file_path)
+    # json_content = get_latest_updates_from_hbase
+     nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'node.json')
+     json_content = File.read(nodes_file_path)
      unless json_content == false
        nodes = JSON.parse(json_content)
        
@@ -17,7 +17,11 @@ def main_method
            node["occurrences"].each do |occurrence|
              
              if occurrence["deltaStatus"] == "I"
-               OccurrencePageMapping.create(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"], page_id: node["taxon"]["pageEolId"])
+               #case resource is deleted (it rarely happens)
+               res = OccurrencePageMapping.where(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"])
+               if res.count < 1
+                  OccurrencePageMapping.create(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"], page_id: node["taxon"]["pageEolId"]) 
+               end     
                
              else               
                res = OccurrencePageMapping.where(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"])

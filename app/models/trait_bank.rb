@@ -554,6 +554,7 @@ class TraitBank
     end
 
     def page_exists?(page_id)
+      debugger
       res = query("MATCH (page:Page { page_id: #{page_id} }) RETURN page")
       res["data"] && res["data"].first ? res["data"].first.first : false
     end
