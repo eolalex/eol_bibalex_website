@@ -35,13 +35,16 @@
           %hr/
           .row
             .col-sm-12
-              -unless @collections.nil?
+              -if @user.collections.empty?
+                %p
+                  No Collections Yet
+              -else
                 -@collections.each do |collection|
                   %span.pull-right
                     -if @user.id == current_user.id
                       %a{href: edit_collection_path(id: collection.id)} Edit
                   .single_comments
-                    %img{:alt => "", :src => "../images/collection.png"}/
+                    %img{:alt => "", :src => "/assets/download.png"}/
                     .collectionName
                       %a{href: collection_path(id: collection.id)} #{collection.name}
                       %div    
@@ -59,7 +62,11 @@
             %hr/
             .row
               .col-sm-12
-                -unless @content_partner_ids.nil?
+                -content_partner = ContentPartnerUser.where("user_id = ? ", params[:id]).first
+                -if content_partner.nil?
+                  %p
+                    No Content Partners Yet
+                -else
                   - @content_partner_ids.each do |content_partner_id|
                     -result = ContentPartnerApi.get_content_partner_without_resources(content_partner_id)
                     %span.pull-right

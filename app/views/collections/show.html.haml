@@ -14,30 +14,31 @@
               #{@collection.name}
             .description
               #{@collection.description}
-            .Edit_Delete
-              %a.btn.btn-primary{:id => "#{@collection.id}", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
-                Edit
-              %nbsp
-                =link_to 'Delete',collection_path(id: @collection.id), method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-primary"
-    .modal{:id => "popup_#{@collection.id}", "aria-labelledby" => "popup_#{@collection.id}Label", :role => "dialog", :tabindex => "-1"}
-      .modal-dialog.modal-lg.extra_large{:role => "document"}
-        .modal-content
-          .modal-header
-            %button{ :id =>"#{@collection.id}", :class => "btn", :onclick=> 'hidePopup(this, event)'}x
-            %h4#editLabel.modal-title Edit Collection
-          .modal-body.editCollection
-            .form-group.row.form-inline
-              %label.col-md-2.col-sm-3.col-xs-12.control-label
-                Name:
-              .col-md-10.col-sm-9.col-xs-12
-                %input.form-control.input-lg{:name => "collection[name]", :placeholder => @collection.name, :tabindex => "1", :type => "text"}
-            .form-group.row.form-inline
-              %label.col-md-2.col-sm-3.col-xs-12.control-label
-                Description:
-              .col-md-10.col-sm-9.col-xs-12
-                %textarea.form-control.input-lg{:name => "collection[description]", :placeholder => @collection.description, :rows => "3", :tabindex => "1", :type => "text"}
-          .modal-footer
-            = f.submit(class: "btn btn-primary")
+            -if (@collection.users.ids.first == current_user.id)
+              .Edit_Delete
+                %a.btn.btn-primary{:id => "#{@collection.id}", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
+                  Edit
+                %nbsp
+                  =link_to 'Delete',collection_path(id: @collection.id), method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-primary"
+      .modal{:id => "popup_#{@collection.id}", "aria-labelledby" => "popup_#{@collection.id}Label", :role => "dialog", :tabindex => "-1"}
+        .modal-dialog.modal-lg.extra_large{:role => "document"}
+          .modal-content
+            .modal-header
+              %button{ :id =>"#{@collection.id}", :class => "btn", :onclick=> 'hidePopup(this, event)'}x
+              %h4#editLabel.modal-title Edit Collection
+            .modal-body.editCollection
+              .form-group.row.form-inline
+                %label.col-md-2.col-sm-3.col-xs-12.control-label
+                  Name:
+                .col-md-10.col-sm-9.col-xs-12
+                  %input.form-control.input-lg{:name => "collection[name]", :placeholder => @collection.name, :tabindex => "1", :type => "text"}
+              .form-group.row.form-inline
+                %label.col-md-2.col-sm-3.col-xs-12.control-label
+                  Description:
+                .col-md-10.col-sm-9.col-xs-12
+                  %textarea.form-control.input-lg{:name => "collection[description]", :placeholder => @collection.description, :rows => "3", :tabindex => "1", :type => "text"}
+            .modal-footer
+              = f.submit(class: "btn btn-primary")
     .col-md-9.col-sm-12.col-xs-12
       .row
         .col-xs-12
