@@ -41,8 +41,8 @@
               -else
                 -@collections.each do |collection|
                   %span.pull-right
-                    -if @user.id == current_user.id
-                      %a{href: edit_collection_path(id: collection.id)} Edit
+                    -# -if @user.id == current_user.id
+                      -# %a{href: edit_collection_path(id: collection.id)} Edit
                   .single_comments
                     %img{:alt => "", :src => "/assets/download.png"}/
                     .collectionName
@@ -57,8 +57,9 @@
           .greyBox
             %h3.collectionIcon
               Content Partners
-              %a.btn-addResource{href: "#{ new_content_partner_path}"}
-                %span.pull-right  +
+              -if @user.id == current_user.id
+                %a.btn-addResource{href: "#{ new_content_partner_path}"}
+                  %span.pull-right  +
             %hr/
             .row
               .col-sm-12

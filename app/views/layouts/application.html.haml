@@ -92,22 +92,19 @@
                 %li
                   %a.DonateBtn{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} Donate
           -#myModal.searchbox.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-          -# .modal{:id => "popup_#{current_user.id}","aria-labelledby" => "popup_#{current_user.id}Label", :role => "dialog", :tabindex => "-1"}
-            -# .modal-dialog{:role => "document"}
-              -# .modal-content
-                -# .modal-header
-                  -# %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                    -# %span{"aria-hidden" => "true"} ×
-                  -# %h4.modal-title Search Our Network
-                -# .modal-body
-                  -# .searchBox
-                    -# %input#globalSearch.form-control{:placeholder => "What you are looking for?"}/
-                    -# %button.searchButton
-                      -# %i.fa.fa-search{"aria-hidden" => "true"}
-                -# .modal-footer.hide
-                  -# %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
-                  -# %button.btn.btn-primary{:type => "button"} Search
-    
+          .modal{:id => "popup_#{current_user.id}","aria-labelledby" => "popup_#{current_user.id}Label", :role => "dialog", :tabindex => "-1"}
+            .modal-dialog{:role => "document"}
+              .modal-content
+                .modal-header
+                  %button{ :id =>"#{current_user.id}", :class => "btn", :onclick=> 'hidePopup(this, event)'}x
+                  %h4.modal-title Search Our Network
+                .modal-body
+                  .searchBox
+                    = form_tag(search_path, method: :get) do 
+                      = text_field_tag(:query, params[:query], class: "form-control", id: "globalSearch", :placeholder => "What you are looking for?")
+                      %button.searchButton
+                        %i.fa.fa-search{"aria-hidden" => "true"}
+
     %body
       = render("layouts/flash")
       .container-fluidd
