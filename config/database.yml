@@ -15,8 +15,8 @@ development:
   # variables.
   database: ba_eol_development
   username: root
-  password: Luxor&Aswan@2o17
-  # password: root
+  #password: Luxor&Aswan@2o17
+  password: root
   # password: admin
 
 
