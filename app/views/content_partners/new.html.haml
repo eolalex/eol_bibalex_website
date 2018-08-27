@@ -1,38 +1,43 @@
-.MainPath
-  .container
-    .row
-      .col-md-12
-        .names-hier
-          \&#x2026;/
-          %a{:href => "/content_partners"}> Content Partners
-          \/&#x2026;/
-          %a{:href => "/content_partners/new"}> New
-          \/&#x2026;/
-  %script{:src => "//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"}
-  %script{:src => "//code.jquery.com/jquery-1.11.1.min.js"}
-  .container
-    .row
-      .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3
-        = simple_form_for @content_partner, url: content_partners_path , html: { class: "eol-userform recaptchad uk-form-stacked" }, 
-          defaults: { input_html: { class: 'uk-input' }, wrapper_html: { class: 'field' }, label_html: { class: 'uk-form-label' } } do |f|
-          %h2
-            New Content Partner
-          %hr.colorgraph
-            .form-group
-              %input.form-control.input-lg{:name => "content_partner[name]", :placeholder => "Name", :tabindex => "1", :type => "text"}
-            .form-group
-              %input.form-control.input-lg{:name => "content_partner[abbreviation]", :placeholder => "Abbreviation", :tabindex => "2", :type => "text"}
-            .form-group
-              %input.form-control.input-lg{:name => "content_partner[url]", :placeholder => "URL", :tabindex => "3", :type => "text"}
-            .form-group
-              %input.form-control.input-lg{:name => "content_partner[description]", :placeholder => "Description", :tabindex => "3", :type => "text"}
-            .form-group.row.form-inline
-              %label.col-md-2.col-sm-3.col-xs-12.control-label
-                Logo:
-                .col-md-10.col-sm-9.col-xs-12
-                  = f.file_field :logo
-            .input-group
-              %hr.colorgraph
-                .row
-                  .col-xs-12
-                    %input.btn.btn-primary.btn-block.btn-lg{:tabindex => "5", :type => "submit", :value => "Create"}/
+%script{:src => "//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"}
+%script{:src => "//code.jquery.com/jquery-1.11.1.min.js"}
+.container
+  .row
+    .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3
+      = simple_form_for @content_partner, url: content_partners_path , html: { class: "" }, 
+        defaults: { input_html: { class: 'uk-input' }, wrapper_html: { class: 'field' }, label_html: { class: 'uk-form-label' } } do |f|
+        %h2
+          New Content Partner
+        %div.form-horizontal.formStyle
+          .form-group.row.form-inline
+            %label.col-md-2.col-sm-3.col-xs-12.control-label
+              %span{:style => "color: red"}> *
+              Name:
+            .col-md-10.col-sm-9.col-xs-12
+              %input.form-control{:name => "content_partner[name]", :tabindex => "1", :type => "text"}
+          .form-group.row.form-inline
+            %label.col-md-2.col-sm-3.col-xs-12.control-label
+              Abbreviation:
+            .col-md-10.col-sm-9.col-xs-12
+              %input.form-control{:name => "content_partner[abbreviation]", :tabindex => "2", :type => "text"}
+          .form-group.row.form-inline
+            %label.col-md-2.col-sm-3.col-xs-12.control-label
+              URL:
+            .col-md-10.col-sm-9.col-xs-12
+              %input.form-control{:name => "content_partner[url]", :tabindex => "3", :type => "text"}
+          .form-group.row.form-inline
+            %label.col-md-2.col-sm-3.col-xs-12.control-label
+              %span{:style => "color: red"}> *
+              Description:
+            .col-md-10.col-sm-9.col-xs-12
+              %input.form-control{:name => "content_partner[description]", :tabindex => "3", :type => "text"}
+          .form-group.row.form-inline
+            %label.col-md-2.col-sm-3.col-xs-12.control-label
+              Logo:
+            .col-md-10.col-sm-9.col-xs-12
+              = f.file_field :logo
+          .input-group
+            %hr.colorgraph
+              .row
+                .col-xs-12
+                  = resource_error_messages(@content_partner)
+                  %input.btn.btn-primary.btn-lg{:tabindex => "5", :type => "submit", :value => "Create"}/

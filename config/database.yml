@@ -18,7 +18,6 @@ development:
   # password: root
   database: ba_eol_development
   username: root
-  #password: Luxor&Aswan@2o17
 
 
 test: &test

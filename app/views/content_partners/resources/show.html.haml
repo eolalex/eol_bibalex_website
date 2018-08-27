@@ -78,7 +78,8 @@
         %strong
           Last harvest
         %p
-          = Time.at(@resource.last_harvested_at)
+          -if @resource.last_harvested_at
+            = Time.at(@resource.last_harvested_at)
     .col-md-4
       %aside
         .widget.categories.contentManger

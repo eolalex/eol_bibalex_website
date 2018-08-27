@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180715135230) do
+ActiveRecord::Schema.define(version: 20180808075324) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.text "owner"
@@ -229,6 +229,14 @@ ActiveRecord::Schema.define(version: 20180715135230) do
     t.bigint "rank_id"
     t.index ["generated_node_id"], name: "index_nodes_on_generated_node_id"
     t.index ["rank_id"], name: "index_nodes_on_rank_id"
+  end
+
+  create_table "occurrence_page_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "resource_id"
+    t.string "occurrence_id"
+    t.integer "page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "page_contents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -485,9 +493,13 @@ ActiveRecord::Schema.define(version: 20180715135230) do
     t.string "provider"
     t.string "uid"
     t.string "username"
+    t.integer "failed_attempts", default: 0, null: false
+    t.string "unlock_token"
+    t.datetime "locked_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
   create_table "vernaculars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
