@@ -36,7 +36,7 @@ class RegistrationsController < Devise::RegistrationsController
   # end
   def configure_permitted_params
     devise_parameter_sanitizer.permit(:sign_up) do |u|
-      u.permit(:username, :email, :password, :password_confirmation, :recaptcha)
+      u.permit(:username, :email, :password, :password_confirmation, :recaptcha,:failed_attempts)
     end
     devise_parameter_sanitizer.permit(:edit) do |u|
       u.permit(:username, :email, :password, :password_confirmation, :current_password)

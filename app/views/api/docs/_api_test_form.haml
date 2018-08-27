@@ -31,7 +31,7 @@
                     %option{ value: 'true', selected: (test_default == true) }= "true"
                 - else
                   - size = (p.integer?) ? 15 : 50
-                  %input.form-control{:placeholder => test_default}
+                  %input.form-control{:value => test_default}
                 
         %tr
           %td{"data-label" => "Name"}

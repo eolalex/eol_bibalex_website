@@ -1,12 +1,12 @@
-= render("tabs")
 .container
   .row
     .col-md-12.blog
       .row
         .col-lg-12
+          %br
           %h2.TaxonName
             = @page.scientific_name
-
+            = render("tabs")
         .col-md-8
           .blog-item
             - image = @page.media.first
@@ -34,7 +34,7 @@
                 - else
                   %h5 No Articles Associated
         .col-md-4
-          -# %aside
+          %aside
             -# .widget.categories
               -# .well
                 -# %h3
@@ -71,9 +71,11 @@
               .row
                 .col-sm-12
                   .single_comments
-                    %b= @page.scientific_name
-                    =image_tag "avatar3.png", :alt => ""
-
+                    .col-lg-2.col-md-3.col-sm-1.col-xs-3.collectionImage.no-padding
+                      %img.img-responsive{:alt => "", :src => "/assets/download.png"}/
+                    .col-lg-10.col-md-9.col-sm-11.col-xs-9
+                      %b 
+                        #{@page.scientific_name}
             .widget.blog_gallery
               %h3 Refresh your memory
               %ul.sidebar-gallery

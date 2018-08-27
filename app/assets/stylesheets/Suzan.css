@@ -1,4 +1,4 @@
-﻿﻿.MainPath {
+﻿.MainPath {
     padding: 16px;
     background-color: #f7f7f7;
     margin-bottom: 30px;
@@ -182,7 +182,8 @@ h3.Special {
     .tree li {
         list-style-type: none;
         margin: 0;
-        padding: 10px 5px 0 5px;
+        /*padding: 10px 5px 0 5px;*/
+        padding: 3px 0 0; /*edited by shaimaa*/
         position: relative
     }
 
@@ -205,7 +206,8 @@ h3.Special {
             border-top: 1px solid #999;
             height: 20px;
             top: 25px;
-            width: 25px
+            /*width: 25px;*/
+            width:20px; /*Edited by shaimaa*/
         }
 
         .tree li span:not(.glyphicon) {
@@ -235,3 +237,4 @@ h3.Special {
         padding: 3px 8px;
         color: #000
     }
+/*------ end of tree style ------*/

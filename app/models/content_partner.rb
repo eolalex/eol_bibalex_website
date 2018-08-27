@@ -4,6 +4,4 @@ class ContentPartner
   validates :name, presence: true
   validates :description, presence: true
   # has_many :users, through: :content_partner_users
-  
-  
 end

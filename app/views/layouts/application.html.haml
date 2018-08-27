@@ -1,3 +1,5 @@
+= javascript_include_tag 'pages'
+= javascript_include_tag 'search'
 %html
   %head
     %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
@@ -39,15 +41,15 @@
                     %option Japanese
                     %option Chinese
                 .mainMenu
-                  %button.btn-search.hidden-lg.hidden-md.hidden-sm{"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"}
-                    %i.fa.fa-search{"aria-hidden" => "true"}
+                  -# %button.btn-search{:id => "#{current_user.id}","data-toggle" => "modal",:onclick => "showPopup(this)",:role => "button"}
+                    -# %i.fa.fa-search{"aria-hidden" => "false"}
                   %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
                     %span.sr-only Toggle navigation
                     %span.icon-bar
                     %span.icon-bar
                     %span.icon-bar
-                  %span.menuText.hidden-sm.hidden-xs
-                    menu
+                  -# %span.menuText.hidden-sm.hidden-xs
+                    -# menu
               .collapse.navbar-collapse.navbar-left
                 %ul.nav.navbar-nav
                   %li
@@ -70,11 +72,18 @@
                       %i.fa.fa-user-circle{"aria-hidden" => "true"}
                       Sign in
                   - else
-                    %a.signIn{:href => "/users/sign_out",:method => :delete}
-                      %i.fa.fa-user-circle{"aria-hidden" => "true"}
-                      Sign out
+                    %li.dropdown
+                      %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                        %i.fa.fa-user-circle{"aria-hidden" => "true"}
+                        #{current_user.username}
+                        %i.fa.fa-angle-down
+                      %ul.dropdown-menu
+                        %li
+                          %a{:href => "/users/#{current_user.id}"}Show Profile
+                        %li
+                          %a.signIn{:href => "/users/sign_out",:method => :delete}Sign Out
                 %li.dropdown
-                  %a.dropdown-toggle.NetworksLink{"data-toggle" => "dropdown", :href => "#"}
+                  %a.dropdown-toggle.NetworksLink{"data-toggle" => "dropdown"}
                     Our Networks
                     %i.fa.fa-angle-down
                   %ul.dropdown-menu
@@ -82,22 +91,20 @@
                       %a{:href => "https://education.eol.org/", :target => "_blank"} Learning + Education
                 %li
                   %a.DonateBtn{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} Donate
-            #myModal.searchbox.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-              .modal-dialog{:role => "document"}
-                .modal-content
-                  .modal-header
-                    %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                      %span{"aria-hidden" => "true"} ×
-                    %h4.modal-title Search Our Network
-                  .modal-body
-                    .searchBox
-                      %input#globalSearch.form-control{:placeholder => "What you are looking for?"}/
+          -#myModal.searchbox.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+          .modal{:id => "popup_#{current_user.id}","aria-labelledby" => "popup_#{current_user.id}Label", :role => "dialog", :tabindex => "-1"}
+            .modal-dialog{:role => "document"}
+              .modal-content
+                .modal-header
+                  %button{ :id =>"#{current_user.id}", :class => "btn", :onclick=> 'hidePopup(this, event)'}x
+                  %h4.modal-title Search Our Network
+                .modal-body
+                  .searchBox
+                    = form_tag(search_path, method: :get) do 
+                      = text_field_tag(:query, params[:query], class: "form-control", id: "globalSearch", :placeholder => "What you are looking for?")
                       %button.searchButton
                         %i.fa.fa-search{"aria-hidden" => "true"}
-                  .modal-footer.hide
-                    %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
-                    %button.btn.btn-primary{:type => "button"} Search
-    
+
     %body
       = render("layouts/flash")
       .container-fluidd
