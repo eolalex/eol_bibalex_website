@@ -992,9 +992,15 @@ class TraitBank
       end
     end
     
-    def find_trait(eol_pk)
-      res = query("MATCH (trait:Trait) WHERE trait.resource_pk = #{eol_pk} RETURN trait")
+    def find_trait(resource_pk, resource_id)
+      res = query("MATCH (trait:Trait) WHERE trait.resource_pk = #{resource_pk} AND trait.supplier = #{resource_id} RETURN trait")
       res["data"] ? res["data"].first : false
+    end
+    
+    
+    def find_traits(occurrence_id, resource_id)
+      res = query("MATCH (trait:Trait) WHERE trait.eol_pk = \"#{occurrence_id}\" AND trait.supplier = #{resource_id} RETURN trait")
+      res["data"] ? res["data"] : false
     end
     
     

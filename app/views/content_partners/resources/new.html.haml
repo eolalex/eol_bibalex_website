@@ -1,62 +1,92 @@
 = javascript_include_tag 'display'
-
 %script{:src => "//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"}
 %script{:src => "//code.jquery.com/jquery-1.11.1.min.js"}
 .container
   .row
-    .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3
-      = simple_form_for @resource, url: content_partner_resources_path, html: { class: "eol-userform recaptchad uk-form-stacked" }, 
+    .col-xs-12.col-sm-12.col-md-12
+      = simple_form_for @resource, url: content_partner_resources_path, html: { class: "" }, 
         defaults: { input_html: { class: 'uk-input' }, wrapper_html: { class: 'field' }, label_html: { class: 'uk-form-label' } } do |f|
-        %h2
+        %h2.mainTitle
           New Resource
-        %hr.colorgraph
-          .form-group
-            %input.form-control.input-lg{:name => "resource[name]", :placeholder => "Name", :tabindex => "1", :type => "text"}
-          .form-group
-            %input.form-control.input-lg{:name => "resource[origin_url]", :placeholder => "Abbreviation", :tabindex => "2", :type => "text"}
-          .form-group
-            .resource_url
-              = f.radio_button :type, "url",id: "radio1",onClick: "url_show();"
-              = label_tag "Load Resource from Url"
-              #display1{:style => "display:none;"}
-                .form-group
-                  %div.row.form-inline
-                    .col-md-10.col-sm-9.col-xs-12
-                      %input.form-control.input-lg{:name => "resource[uploaded_url]", :placeholder => "uploaded_url", :tabindex => "1", :type => "text"}
-                  %br
-                  %div.row.form-inline
-                    %label.col-md-2.col-sm-3.col-xs-12.control-label
-                      Harvest Frequency
-                    .col-md-10.col-sm-9.col-xs-12
-                      = f.select :harvest_frequency, ['once','weekly','monthly','bimonthly','quarterly']
-            .resource_file
-              = f.radio_button :type, "file",id: "radio2" ,onClick: "file_show();"
-              = label_tag "Load Resource from file"
-              #display2{:style => "display:none;"}
-                = f.file_field :path
+        %div.form-horizontal.formStyle
+          .form-group.row.form-inline
+            %label.col-md-2.col-sm-3.col-xs-12.control-label
+              %span{:style => "color: red"}> *
+              Name:
+            .col-md-10.col-sm-9.col-xs-12
+              %input.form-control{:name => "resource[name]", :tabindex => "1", :type => "text"}
+          .form-group.row.form-inline
+            %label.col-md-2.col-sm-3.col-xs-12.control-label
+              Abbreviation:
+            .col-md-10.col-sm-9.col-xs-12
+              %input.form-control{:name => "resource[origin_url]", :tabindex => "2", :type => "text"}
+          .form-group.row.form-inline
+            %label.col-md-2.col-sm-3.col-xs-12.control-label
+              %span{:style => "color: red"}> *
+              Load resource:
+            .col-md-10.col-sm-9.col-xs-12
+              %label.radio-inline
+                = f.radio_button :type, "url",id: "radio1",onClick: "url_show();"
+                = label_tag "from Url"
+              %label.radio-inline
+                = f.radio_button :type, "file",id: "radio2" ,onClick: "file_show();"
+                = label_tag "from file"
+              .resource_url
+                #display1{:style => "display:none;"}
+                  .form-group
+                    %div.row.form-inline
+                      .topSpaceSeparator
+                      %label.col-md-12.col-sm-12.col-xs-12
+                        %span{:style => "color: red"}> *
+                        Uploaded Url:
+                      .col-md-10.col-sm-9.col-xs-12
+                        %input.form-control{:name => "resource[uploaded_url]", :tabindex => "1", :type => "text"}
+                    %div.row.form-inline
+                      .topSpaceSeparator
+                      %label.col-md-12.col-sm-12.col-xs-12
+                        %span{:style => "color: red"}> *
+                        Harvest Frequency
+                      .col-md-8.col-sm-8.col-xs-12
+                        .selectStyle
+                          = f.select :harvest_frequency, ['once','weekly','monthly','bimonthly','quarterly']
+              .resource_file
+                #display2{:style => "display:none;"}
+                  = f.file_field :path
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               Dataset License
+            .col-md-2.col-sm-8.col-xs-12
+              .selectStyle
+                = f.collection_select :dataset_license  , License.all , :id, :name
+          .form-group.row.form-inline
+            %label.col-md-2.col-sm-3.col-xs-12.control-label
+              Dataset Rights Holder:
             .col-md-10.col-sm-9.col-xs-12
-              = f.collection_select :dataset_license  , License.all , :id, :name
-          .form-group
-            %input.form-control.input-lg{:name => "resource[dataset_rights_holder]", :placeholder => "Dataset Rights Holder", :tabindex => "1", :type => "text"}
-          .form-group
-            %input.form-control.input-lg{:name => "resource[dataset_rights_statement]", :placeholder => "Dataset Rights Statement", :tabindex => "1", :type => "text"}
+              %input.form-control{:name => "resource[dataset_rights_holder]", :tabindex => "1", :type => "text"}
+          .form-group.row.form-inline
+            %label.col-md-2.col-sm-3.col-xs-12.control-label
+              Dataset Rights Statement:
+            .col-md-10.col-sm-9.col-xs-12
+              %input.form-control{:name => "resource[dataset_rights_statement]", :tabindex => "1", :type => "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               Default Language
+            .col-md-2.col-sm-8.col-xs-12
+              .selectStyle
+                = f.collection_select :default_language_id , Language.all , :id, :code
+          .form-group.row.form-inline
+            %label.col-md-2.col-sm-3.col-xs-12.control-label
+              Description:
             .col-md-10.col-sm-9.col-xs-12
-              = f.collection_select :default_language_id , Language.all , :id, :code
-          .form-group
-            %input.form-control.input-lg{:name => "resource[description]", :placeholder => "Description", :tabindex => "1", :type => "text"}
+              %input.form-control{:name => "resource[description]", :tabindex => "1", :type => "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               Default License
-            .col-md-10.col-sm-9.col-xs-12
-              = f.collection_select :default_license_string , License.all , :id, :name
-          .input-group
-            %hr.colorgraph
-              .row
-                .col-xs-12
-                  %input.btn.btn-primary.btn-block.btn-lg{:tabindex => "5", :type => "submit", :value => "Create"}
+            .col-md-2.col-sm-8.col-xs-12
+              .selectStyle
+                = f.collection_select :default_license_string , License.all , :id, :name
+          %hr.colorgraph
+            .row
+              .col-xs-12
+                = resource_error_messages(@resource)
+                %input.btn.btn-primary.btn-lg{:tabindex => "5", :type => "submit", :value => "Create"}

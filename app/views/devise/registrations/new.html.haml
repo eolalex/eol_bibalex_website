@@ -33,6 +33,14 @@
                     %input#login-remember{:name => "remember", :type => "checkbox", :value => "1"}/
                     Remember me
           .row
+            .col-xs-12.col-sm-6.col-md-6
+              .form-group
+                = f.label I18n.t(:recaptcha), required: true
+                = recaptcha_tags(theme: 'clean', callback: 'recaptchaCallback')
+                - if flash.any? { |name, msg| name == "recaptcha_error" }
+                  %span.error
+                    = I18n.t('recaptcha_error')
+          .row
             .col-xs-12
               %input.btn.btn-success.btn-lg.btn-block{:type => "submit", :value => "Sign up"}/
           .row
