@@ -2,19 +2,22 @@
   .col-md-12
 -nodes = @page.nodes.to_a.sort_by{|n| n.resource_id}
 #test.tree
-  %ul
-    %li.parent_li
-      -nodes.each do |page_node|
-        -tree = classification(page_node)
-        -resource_info = get_resource_info(page_node.resource_id)
-        - if !resource_info.nil?
-          %h3.Special
-            = resource_info.name
-        -else
-          %h3.Special Unknown Resource 
-        -tree.each do |node|
-          %span{:title => "Verkleinern"} 
-            %a{:href => "#{page_path(node.pages.first.id)}"}
-              %div.paddingLeft20
+  -nodes.each do |page_node|
+    -tree = classification(page_node)
+    -resource_info = get_resource_info(page_node.resource_id)
+    - if !resource_info.nil?
+      %span
+        = resource_info.name
+    -else
+      %span Unknown Resource 
+    - x = 0  
+    -tree.each do |node|
+      %ul.treeNode{ style: "padding-left: #{x}px;"}
+        %li.parent_li
+          %ul
+            - x = x + 40
+            %li.parent_li
+              %a{:href => "#{page_path(node.pages.first.id)}"}
                 =node.canonical_form
           %ul
+    %br

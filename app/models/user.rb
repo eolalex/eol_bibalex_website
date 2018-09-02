@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :lockable, :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
-  validate :username_format, :password_complexity
+  validate :password_complexity
   validates_confirmation_of :password
   validates :email,presence: true, :uniqueness => true
   has_and_belongs_to_many :collections
@@ -11,13 +11,12 @@ class User < ApplicationRecord
   has_many :content_partners, through: :content_partner_users
   has_many :user_providers, :dependent => :destroy
   
-  def username_format
-    return unless username =~ /\s/
-    errors.add :username, 'Invalid Username Format: Username should not contain any blank spaces.'
-  end
+  # def username_format
+    # return unless username =~ /\s/
+    # errors.add :username, 'Invalid Username Format: Username should not contain any blank spaces.'
+  # end
 
   def password_complexity
-    # Regexp extracted from https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
     if password.present? and not password.match (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)./)
       errors.add :password, 'Complexity requirement not met. Password should be at least 6 characters long and include: 1 Upper case, 1 lower case, and 1 digit'
     end

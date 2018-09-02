@@ -2,13 +2,16 @@
 = render("tabs")
 
 - build_associations(@page)
+
 .container
   .row
     .col-md-12.blog
       .row
         .col-md-8
+          %br
           %h2.TaxonName
-            Data Table 
+            = @page.scientific_name
+            = render("tabs") 
           %table.customTable
             %tbody
               - @page.predicates.each_with_index do |uri, index|
@@ -22,18 +25,21 @@
                     - uri = predicate[:uri].dup
                     - uri.sub! '/', '_'
                     %tr
-                      %td{"data-label" => "Name", :id => "#{uri}", :onmouseover =>"showOver(this)", :onmouseout=>"hideOver(this)"} 
+                      %td 
                         %div
                           = predicate[:name]
+                          %span.glyphicon.glyphicon-info-sign{"data-label" => "Name", :id => "#{uri}", :onmouseover =>"showOver(this)", :onmouseout=>"hideOver(this)"}
                         %div{:id => "hover_#{uri}", :style=> "display:none;"}
                           uri:  #{predicate[:uri]}
                           %br
                           definition: #{predicate[:definition]}
-                        -#%div{:id => "#{uri}", :onclick=> 'showPopup(this)'}
-                          -#%i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
-                      %td{"data-label" => "Object Term"}
-                        - show_data_value(trait)
-                      - if trait[:units]
+
+                        -# %div{:id => "#{uri}", :onclick=> 'showPopup(this)'}
+                        %div{:id => "#{uri}"}
+                          %i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
+                      -if trait[:object_term]
+                        %td{"data-label" => "Object Term"} #{trait[:object_term][:name]}
+                      -if trait[:units]
                         %td{"data-label" => "Units"} #{trait[:units][:name]}
                       %td{"data-label" => "Source"} #{show_source_segment(trait)}
                     %div{ :id => "popup_#{uri}", :style=> "display:none;", :class => "popup"}
