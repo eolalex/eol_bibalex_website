@@ -12,7 +12,7 @@ module DataHelper
       end
   end
 
-  def data_value(data)
+  def data_value(data)    
     parts = []
     value = t(:data_missing, keys: data.keys.join(", "))
     if @associations && (target_id = data[:object_page_id])

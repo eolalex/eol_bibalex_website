@@ -1,4 +1,8 @@
 = javascript_include_tag 'data'
+= render("tabs")
+
+- build_associations(@page)
+
 .container
   .row
     .col-md-12.blog
@@ -29,6 +33,7 @@
                           uri:  #{predicate[:uri]}
                           %br
                           definition: #{predicate[:definition]}
+
                         -# %div{:id => "#{uri}", :onclick=> 'showPopup(this)'}
                         %div{:id => "#{uri}"}
                           %i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw

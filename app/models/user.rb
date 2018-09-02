@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :lockable, :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
-  validate :username_format, :password_complexity
+  validate :password_complexity
   validates_confirmation_of :password
   validates :email,presence: true, :uniqueness => true
   has_and_belongs_to_many :collections
@@ -11,10 +11,10 @@ class User < ApplicationRecord
   has_many :content_partners, through: :content_partner_users
   has_many :user_providers, :dependent => :destroy
   
-  def username_format
-    return unless username =~ /\s/
-    errors.add :username, 'Invalid Username Format: Username should not contain any blank spaces.'
-  end
+  # def username_format
+    # return unless username =~ /\s/
+    # errors.add :username, 'Invalid Username Format: Username should not contain any blank spaces.'
+  # end
 
   def password_complexity
     if password.present? and not password.match (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)./)

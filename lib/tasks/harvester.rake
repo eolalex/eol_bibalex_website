@@ -1,86 +1,125 @@
+require 'uri'
+
+
+def main_method_2
+  is_updates = check_for_upadtes
+  nodes_ids = []
+  if is_updates == "true"
+    finish = false
+    start_key = -1
+    json_content = get_latest_updates_from_hbase(start_key)
+    if json_content.empty?
+      finish = true          
+    end
+    while !finish do      
+      unless json_content == false
+        nodes = JSON.parse(json_content)
+        current_node = nil
+        nodes.each do |node|
+          current_node = node
+          res = Node.where(generated_node_id: node["generatedNodeId"])        
+          if res.count > 0
+            created_node = res.first
+          else
+            params = { resource_id: node["resourceId"],
+                     scientific_name: node["taxon"]["scientificName"], canonical_form: node["taxon"]["canonicalName"],
+                     rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
+                     page_id: node["taxon"]["pageEolId"] }
+            created_node = create_node(params)
+          end 
+        end
+        start_key = "#{current_node["resourceId"]}_#{current_node["generatedNodeId"]}"
+        json_content = get_latest_updates_from_hbase(start_key)
+        if json_content.empty?
+          finish = true          
+        end
+      end
+    end    
+  end
+end
+
+
+
 def main_method
-  
+  #442
   # nodes_ids = [1976]
   
   is_updates = check_for_upadtes
   nodes_ids = []
   if is_updates == "true"
-    # json_content = get_latest_updates_from_hbase
-     nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'node.json')
-     json_content = File.read(nodes_file_path)
+    json_content = get_nodes_of_resource_from_hbase(452)
+     # nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'nodes4.json')
+     # json_content = File.read(nodes_file_path)
      unless json_content == false
        nodes = JSON.parse(json_content)
        
-       # load_occurrences
-       nodes.each do |node|
-         unless node["occurrences"].nil?
-           node["occurrences"].each do |occurrence|
-             
-             if occurrence["deltaStatus"] == "I"
-               #case resource is deleted (it rarely happens)
-               res = OccurrencePageMapping.where(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"])
-               if res.count < 1
-                  OccurrencePageMapping.create(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"], page_id: node["taxon"]["pageEolId"]) 
-               end     
-               
-             else               
-               res = OccurrencePageMapping.where(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"])
-               unless res.nil?
-                 old_occurrence_mapping = res.first
-                 unless old_occurrence_mapping.nil?
-                   if occurrence["deltaStatus"] == "U"
-                     old_occurrence_mapping.update_attributes(page_id: node["taxon"]["pageEolId"])
-                   else
-                     old_occurrence_mapping.destroy
-                   end
-                 end
-               end               
-             end
-           end
-         end
-       end
+       # # load_occurrences
+       # nodes.each do |node|
+         # unless node["occurrences"].nil?
+           # node["occurrences"].each do |occurrence|
+#              
+             # if occurrence["deltaStatus"] == "I"
+               # OccurrencePageMapping.create(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"], page_id: node["taxon"]["pageEolId"])
+#                
+             # else               
+               # res = OccurrencePageMapping.where(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"])
+               # unless res.nil?
+                 # old_occurrence_mapping = res.first
+                 # unless old_occurrence_mapping.nil?
+                   # if occurrence["deltaStatus"] == "U"
+                     # old_occurrence_mapping.update_attributes(page_id: node["taxon"]["pageEolId"])
+                   # else
+                     # old_occurrence_mapping.destroy
+                   # end
+                 # end
+               # end               
+             # end
+           # end
+         # end
+       # end
+
        
        
        
       nodes.each do |node|
         
-        # if node["resourceId"] == 442
+        if node["resourceId"] == 452
         
         
-        nodes_ids << node["generatedNodeId"]
+        # nodes_ids << node["generatedNodeId"]
         
-        res = Node.where(generated_node_id: node["generatedNodeId"])        
-        if res.count > 0
-          created_node = res.first
-        else
-          params = { resource_id: node["resourceId"],
-                     scientific_name: node["taxon"]["scientificName"], canonical_form: node["taxon"]["canonicalName"],
-                     rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
-                     page_id: node["taxon"]["pageEolId"] }
-          created_node = create_node(params)
-        end          
-          
-           
-        unless node["taxon"]["pageEolId"].nil? 
-          page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
-          create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
-                                 node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] })      
-          unless node["vernaculars"].nil?
-            create_vernaculars({vernaculars: node["vernaculars"], node_id: created_node.id, page_id: page_id, resource_id: node["resourceId"] })
-          end
-          
-          unless node["media"].nil?
-            create_media({media: node["media"],resource_id: node["resourceId"],page_id: page_id, references: node["references"]})
-          end
+        # res = Node.where(generated_node_id: node["generatedNodeId"])        
+        # if res.count > 0
+          # created_node = res.first
+        # else
+          # params = { resource_id: node["resourceId"],
+                     # scientific_name: node["taxon"]["scientificName"], canonical_form: node["taxon"]["canonicalName"],
+                     # rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
+                     # page_id: node["taxon"]["pageEolId"] }
+          # created_node = create_node(params)
+        # end          
+#           
+#            
+        # unless node["taxon"]["pageEolId"].nil? 
+          # page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
+          # create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
+                                 # node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] })      
+          # unless node["vernaculars"].nil?
+            # create_vernaculars({vernaculars: node["vernaculars"], node_id: created_node.id, page_id: page_id, resource_id: node["resourceId"] })
+          # end
+#           
+          # unless node["media"].nil?
+            # create_media({media: node["media"],resource_id: node["resourceId"],page_id: page_id, references: node["references"]})
+          # end
           
           node_params = { page_id: node["taxon"]["pageEolId"], resource_id: node["resourceId"],
                           scientific_name: node["taxon"]["scientificName"] }
           add_neo4j(node_params, node["occurrences"], node["measurementOrFacts"], node["associations"])           
-        end      
-         # end
+        # end      
+         end
       end # end of nodes loop
        
-      build_hierarchy(nodes_ids)
+      # build_hierarchy(nodes_ids)
        
 
     end
@@ -106,18 +145,21 @@ def check_for_upadtes
   end  
 end
 
-def get_latest_updates_from_hbase
+def get_latest_updates_from_hbase(start_key)
   hbase_uri = "#{HBASE_ADDRESS}#{HBASE_GET_LATEST_UPDATES_ACTION}"
-  last_harvested_time = "1510150973451"
+  start_harvested_time = "1510150973451"
+  last_harvested_time = "#{DateTime.now.strftime('%Q')}"
   begin    
     request =RestClient::Request.new(
         :method => :get,
         :timeout => -1,
-        :url => "#{hbase_uri}/#{last_harvested_time}"
+        :url => "#{hbase_uri}/#{start_harvested_time}/#{last_harvested_time}/#{start_key}"
       )
       response = request.execute
       response.body
   rescue => e
+    debugger
+    c="l"
     false
   end
 end
@@ -134,8 +176,6 @@ def get_nodes_of_resource_from_hbase(resource_id)
       response = request.execute
       response.body
   rescue => e
-    debugger
-    c=:l
     false
   end
 end
@@ -476,9 +516,7 @@ def fill_page_contents(params)
 end
 
 def add_neo4j(node_params, occurrences, measurements, associations)
-  
   unless occurrences.nil?
-    
     # load occurrences
     occurrences_hash = {}    
     occurrences.each do |occurrence|
@@ -492,39 +530,109 @@ def add_neo4j(node_params, occurrences, measurements, associations)
   
     unless measurements.nil?
       measurements.each do |measurement|
-        if measurement["measurementOfTaxon"] == "true"
-          occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
-          options = { supplier: { "data" => { "resource_id" =>node_params[:resource_id] } },
-                      resource_pk: measurement["measurementId"], page: node_params[:page_id] ,
-                      eol_pk: "eol_pk_#{measurement["measurementId"]}", scientific_name: node_params[:scientific_name],
-                      predicate: { "name" => "predicate_name_#{measurement["measurementId"]}", uri: measurement["measurementType"],
-                                    section_ids:[1,2,3],definition:"predicate definition"},
-                      object_term:{ "name" => "temp object term_#{measurement["measurementId"]}",
-                                     uri: measurement["measurementValue"], section_ids:[1,2,3],definition:"object_term definition"}
-                       }
-          if measurement["unit"]
-            options[:units_term] = {"name"=>"unit #{measurement["measurementId"]}","uri"=> measurement["unit"],
-                               section_ids:[1,2,3],definition:"test units"}            
-          end
+        
+        occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
+        # options = { supplier: { "data" => { "resource_id" =>node_params[:resource_id] } },
+                    # resource_pk: measurement["measurementId"], page: node_params[:page_id] ,
+                    # eol_pk: "eol_pk_#{measurement["measurementId"]}", scientific_name: node_params[:scientific_name],
+                    # predicate: { "name" => "predicate_name_#{measurement["measurementId"]}", uri: measurement["measurementType"],
+                                  # section_ids:[1,2,3],definition:"predicate definition"}
+                     # }
+        options = { 
+                    predicate: { "name" => "predicate_name_#{measurement["measurementId"]}", uri: measurement["measurementType"],
+                                  section_ids:[1,2,3],definition:"predicate definition"}
+                     }
+        if numeric?(measurement["measurementValue"])
+          options[:measurement] = measurement["measurementValue"]
+        elsif uri?(measurement["measurementValue"])
+          options[:object_term] = { "name" => "temp object term_#{measurement["measurementId"]}",
+                                   uri: measurement["measurementValue"], section_ids:[1,2,3],definition:"object_term definition"}
+        else
+          #TODO update this part after discussing it with stakeholders
+          options[:literal] = measurement["measurementValue"]            
+        end
+        if measurement["unit"]
+          options[:units_term] = {"name"=>"unit #{measurement["measurementId"]}","uri"=> measurement["unit"],
+                             section_ids:[1,2,3],definition:"test units"}            
+        end
+        
+        
+        if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
+          options[:lifestage_term] = { "name" => "lifeStage_#{measurement["measurementId"]}",
+                                 uri: occurrence_of_measurement["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
+        end
+        
+        if occurrence_of_measurement && occurrence_of_measurement["sex"]
+          options[:sex_term] = { "name" => "sex_#{measurement["measurementId"]}",
+                                 uri: occurrence_of_measurement["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
+        end
+        
+        if occurrence_of_measurement && occurrence_of_measurement["statisticalMethod"]
+          options[:statistical_method_term] = { "name" => "statisticalMethod_#{measurement["measurementId"]}",
+                                 uri: occurrence_of_measurement["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
+        end
+        
+        
+        
+        if measurement["measurementOfTaxon"] == "true" || measurement["measurementOfTaxon"] == "TRUE"
+          # occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
+          # options = { supplier: { "data" => { "resource_id" =>node_params[:resource_id] } },
+                      # resource_pk: measurement["measurementId"], page: node_params[:page_id] ,
+                      # eol_pk: "eol_pk_#{measurement["measurementId"]}", scientific_name: node_params[:scientific_name],
+                      # predicate: { "name" => "predicate_name_#{measurement["measurementId"]}", uri: measurement["measurementType"],
+                                    # section_ids:[1,2,3],definition:"predicate definition"}
+                       # }
+          # if numeric?(measurement["measurementValue"])
+            # options[:measurement] = measurement["measurementValue"]
+          # elsif uri?(measurement["measurementValue"])
+            # options[:object_term] = { "name" => "temp object term_#{measurement["measurementId"]}",
+                                     # uri: measurement["measurementValue"], section_ids:[1,2,3],definition:"object_term definition"}
+          # else
+            # #TODO update this part after discussing it with stakeholders
+            # options[:literal] = measurement["measurementValue"]            
+          # end
+          # if measurement["unit"]
+            # options[:units_term] = {"name"=>"unit #{measurement["measurementId"]}","uri"=> measurement["unit"],
+                               # section_ids:[1,2,3],definition:"test units"}            
+          # end
+#           
+#           
+          # if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
+            # options[:lifestage_term] = { "name" => "lifeStage_#{measurement["measurementId"]}",
+                                   # uri: occurrence_of_measurement["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
+          # end
+#           
+          # if occurrence_of_measurement && occurrence_of_measurement["sex"]
+            # options[:sex_term] = { "name" => "sex_#{measurement["measurementId"]}",
+                                   # uri: occurrence_of_measurement["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
+          # end
+#           
+          # if occurrence_of_measurement && occurrence_of_measurement["statisticalMethod"]
+            # options[:statistical_method_term] = { "name" => "statisticalMethod_#{measurement["measurementId"]}",
+                                   # uri: occurrence_of_measurement["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
+          # end
           
           
-          if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
-            options[:lifestage_term] = { "name" => "lifeStage_#{measurement["measurementId"]}",
-                                   uri: occurrence_of_measurement["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
-          end
-          
-          if occurrence_of_measurement && occurrence_of_measurement["sex"]
-            options[:sex_term] = { "name" => "sex_#{measurement["measurementId"]}",
-                                   uri: occurrence_of_measurement["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
-          end
-          
-          if occurrence_of_measurement && occurrence_of_measurement["statisticalMethod"]
-            options[:statistical_method_term] = { "name" => "statisticalMethod_#{measurement["measurementId"]}",
-                                   uri: occurrence_of_measurement["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
-          end
-          
-          
+        
+          options[:supplier] = { "data" => { "resource_id" =>node_params[:resource_id] } }
+          options[:resource_pk] =  measurement["measurementId"]
+          options[:page] = node_params[:page_id]
+          options[:eol_pk] = "\"#{measurement["occurrenceId"]}\""
+          options[:scientific_name] =  node_params[:scientific_name]
           trait=TraitBank.create_trait(options)
+          
+          
+          
+        elsif (measurement["measurementOfTaxon"] == "true" || measurement["measurementOfTaxon"] == "TRUE") && !(measurement["parentMeasurementId"].nil?)
+            #Update this condidtion to insert metadata of a given measurement : measurementOfTaxon = true and measurementparent is not null
+          res = TraitBank.find_trait(measurement["parentMeasurementId"], node_params[:resource_id]) # we should use parent measurement id to find the actual trait
+          options.each { |md| TraitBank.add_metadata_to_trait(res, md) }
+          
+        else
+          traits = TraitBank.find_traits(measurement["occurrenceId"], node_params[:resource_id]) # we should use parent measurement id to find the actual trait
+          traits.each do |element|
+            options.each { |md| TraitBank.add_metadata_to_trait(element, md) }
+          end   
         end
       end
     end
@@ -538,7 +646,7 @@ def add_neo4j(node_params, occurrences, measurements, associations)
         end
         options = { supplier: { "data" => { "resource_id" =>node_params[:resource_id] } },
                       resource_pk: association["associationId"].to_i, page: node_params[:page_id] ,
-                      eol_pk: "eol_pk_#{association["associationId"]}", scientific_name: node_params[:scientific_name], object_page_id: object_page_id,
+                      eol_pk: "\"#{measurement["occurrenceId"]}\"", scientific_name: node_params[:scientific_name], object_page_id: object_page_id,
                       predicate: { "name" => "predicate_name_#{association["associationId"]}", uri: association["associationType"], section_ids:[1,2,3],definition:"predicate definition"},
                        }
                        
@@ -591,10 +699,45 @@ def add_neo4j(node_params, occurrences, measurements, associations)
 end
 
 
+def numeric?(str)
+  Float(str) != nil rescue false
+end
+
+def uri?(str)
+  if str =~ URI::regexp
+    true
+  else
+    false
+  end
+end
+
+
 namespace :harvester do
   desc "TODO"  
   task get_latest_updates: :environment do
-    main_method
+    
+    # tb_page = TraitBank.create_page(9893)
+   # tbb_page = TraitBank.create_page(2117)
+  # resource = TraitBank.create_resource(147)
+#   
+  # options = {supplier:{"data"=>{"resource_id"=>147}},
+             # resource_pk:123 , page:9893, eol_pk:" 124", scientific_name: "scientific_name", object_page_id: 2117,
+             # predicate:{"name"=>"event date","uri"=>"test/event",section_ids:[1,2,3],definition:"test predicate definition"}}
+  
+#   
+  # options = {supplier:{"data"=>{"resource_id"=>147}},
+             # resource_pk:123 , page:9893, eol_pk:" 124", scientific_name: "scientific_name", measurement: 12,
+             # predicate:{"name"=>"event date","uri"=>"test/event",section_ids:[1,2,3],definition:"test predicate definition"},
+             # metadata:[{predicate:{"name"=>"md_event","uri"=>"test/md_event",section_ids:[1,2,3],definition:"test predicate definition"},
+                        # object_term:{"name"=>"md_length1","uri"=>"test/md_length1",section_ids:[1,2,3],definition:"test object_term definition"},
+                        # units: {"name"=>"cm","uri"=>"http://eol.org/schema/terms/squarekilometer",section_ids:[1,2,3],definition:"test units"},
+                        # literal:"15"}] } 
+
+  
+  # trait=TraitBank.create_trait(options)
+    
+    
+    main_method_2
     # meta = [{predicate:{"name"=>"new_md_event","uri"=>"new_test/md_event",section_ids:[1,2,3],definition:"new test predicate definition"},
                         # object_term:{"name"=>"new_md_length1","uri"=>"new_test/md_length1",section_ids:[1,2,3],definition:"new test object_term definition"},
                         # units: {"name"=>"new_cm","uri"=>"http://eol.org/schema/terms/squarekilometer_new",section_ids:[1,2,3],definition:"new test units"},

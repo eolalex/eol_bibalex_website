@@ -27,7 +27,7 @@
                   %label.col-lg-2.col-md-3.col-sm-2.col-xs-12.control-label{:for => "inputEmail3"} Email
                   .col-lg-10.col-md-9.col-sm-10.col-xs-12
                     .form-text
-                      %a{:href => "#"} #{@user.email}
+                      =@user.email
       .widget.categories.collectionBox
         .greyBox
           %h3.collectionIcon
@@ -41,8 +41,6 @@
               -else
                 -@collections.each do |collection|
                   %span.pull-right
-                    -# -if @user.id == current_user.id
-                      -# %a{href: edit_collection_path(id: collection.id)} Edit
                   .single_comments
                     %img{:alt => "", :src => "/assets/download.png"}/
                     .collectionName

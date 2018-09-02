@@ -1,3 +1,5 @@
+= javascript_include_tag 'pages'
+-# = hidden_field_tag('collection_id', @collection.id)
 %small
 %span.dropdown.pull-right
   %a.dropdown-toggle.btn.btn-primary.exploreTaxonBtn{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
@@ -19,6 +21,6 @@
         %a{:href => page_data_path(@page)} Data
 %small
 %span.dropdown.pull-right
-  -# %a.btn.btn-primary{:id => "#{@page.id}", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#collection", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
   =link_to 'Add to Collection', new_collected_page_path(page_id: @page.id), class: "btn btn-primary"
 .page_topics{ data: { id: @page.id } }    
+
