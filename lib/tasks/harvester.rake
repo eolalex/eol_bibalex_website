@@ -47,7 +47,9 @@ def main_method
   is_updates = check_for_upadtes
   nodes_ids = []
   if is_updates == "true"
-    json_content = get_nodes_of_resource_from_hbase(452)
+    start_key = -1
+    json_content = get_latest_updates_from_hbase(start_key)
+    # json_content = get_nodes_of_resource_from_hbase(452)
      # nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'nodes4.json')
      # json_content = File.read(nodes_file_path)
      unless json_content == false
@@ -83,21 +85,21 @@ def main_method
        
       nodes.each do |node|
         
-        if node["resourceId"] == 452
+        # if node["resourceId"] == 452
         
         
-        # nodes_ids << node["generatedNodeId"]
+         nodes_ids << node["generatedNodeId"]
         
-        # res = Node.where(generated_node_id: node["generatedNodeId"])        
-        # if res.count > 0
-          # created_node = res.first
-        # else
-          # params = { resource_id: node["resourceId"],
-                     # scientific_name: node["taxon"]["scientificName"], canonical_form: node["taxon"]["canonicalName"],
-                     # rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
-                     # page_id: node["taxon"]["pageEolId"] }
-          # created_node = create_node(params)
-        # end          
+         res = Node.where(generated_node_id: node["generatedNodeId"])        
+         if res.count > 0
+           created_node = res.first
+         else
+           params = { resource_id: node["resourceId"],
+                     scientific_name: node["taxon"]["scientificName"], canonical_form: node["taxon"]["canonicalName"],
+                     rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
+                     page_id: node["taxon"]["pageEolId"] }
+          created_node = create_node(params)
+        end          
 #           
 #            
         # unless node["taxon"]["pageEolId"].nil? 
@@ -114,12 +116,12 @@ def main_method
           
           node_params = { page_id: node["taxon"]["pageEolId"], resource_id: node["resourceId"],
                           scientific_name: node["taxon"]["scientificName"] }
-          add_neo4j(node_params, node["occurrences"], node["measurementOrFacts"], node["associations"])           
+          # add_neo4j(node_params, node["occurrences"], node["measurementOrFacts"], node["associations"])           
         # end      
-         end
+         # end
       end # end of nodes loop
        
-      # build_hierarchy(nodes_ids)
+       build_hierarchy(nodes_ids)
        
 
     end
@@ -176,6 +178,7 @@ def get_nodes_of_resource_from_hbase(resource_id)
       response = request.execute
       response.body
   rescue => e
+    debugger
     false
   end
 end
@@ -188,7 +191,6 @@ end
 def set_parents(nodes_ids)
   
   nodes_ids_parents = nil
-  
   # get nodes_parents from neo4j  
   neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_PARENTS_OF_NODES_ACTION}"
   nodes_ids.each_slice(1000) do |sub_arr|
@@ -223,6 +225,7 @@ end
 
 def set_ancestors(nodes_ids)
   # get nodes_parents from neo4j  
+  
   neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_ANCESTORS_OF_NODES_ACTION}"
   nodes_ids.each_slice(1000) do |sub_arr|
     begin    
@@ -238,13 +241,12 @@ def set_ancestors(nodes_ids)
     rescue => e
       false
     end
-    
     unless nodes_ids_ancestors.nil?
       nodes_ids_ancestors.each do |group|
         current_node = nil
         ancestor_node = nil
         group.each do |key,value|
-          res = Node.where(generated_node_id: value["generatedNodeId"].to_i)
+          res = Node.where(generated_node_id: value.to_i)
           if key.to_i == 0          
             if res.count > 0
               current_node = res.first
@@ -737,7 +739,7 @@ namespace :harvester do
   # trait=TraitBank.create_trait(options)
     
     
-    main_method_2
+    main_method
     # meta = [{predicate:{"name"=>"new_md_event","uri"=>"new_test/md_event",section_ids:[1,2,3],definition:"new test predicate definition"},
                         # object_term:{"name"=>"new_md_length1","uri"=>"new_test/md_length1",section_ids:[1,2,3],definition:"new test object_term definition"},
                         # units: {"name"=>"new_cm","uri"=>"http://eol.org/schema/terms/squarekilometer_new",section_ids:[1,2,3],definition:"new test units"},
