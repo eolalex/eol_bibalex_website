@@ -32,7 +32,8 @@ def main_method_2
         end
         start_key = "#{current_node["resourceId"]}_#{current_node["generatedNodeId"]}"
         json_content = get_latest_updates_from_hbase(last_harvested_time,start_key)
-        if json_content.count == 1
+        nodes = JSON.parse(json_content)
+        if nodes.count <= 1
           finish = true     
         end
       end
