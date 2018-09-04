@@ -7,7 +7,8 @@ def main_method_2
   if is_updates == "true"
     finish = false
     start_key = -1
-    json_content = get_latest_updates_from_hbase(start_key)
+    last_harvested_time = DateTime.now.strftime('%Q')
+    json_content = get_latest_updates_from_hbase(last_harvested_time, start_key)
     if json_content.empty?
       finish = true          
     end
@@ -15,7 +16,8 @@ def main_method_2
       unless json_content == false
         nodes = JSON.parse(json_content)
         current_node = nil
-        nodes.each do |node|
+        nodes.each do |node|          
+          
           current_node = node
           res = Node.where(generated_node_id: node["generatedNodeId"])        
           if res.count > 0
@@ -29,9 +31,9 @@ def main_method_2
           end 
         end
         start_key = "#{current_node["resourceId"]}_#{current_node["generatedNodeId"]}"
-        json_content = get_latest_updates_from_hbase(start_key)
-        if json_content.empty?
-          finish = true          
+        json_content = get_latest_updates_from_hbase(last_harvested_time,start_key)
+        if json_content.count == 1
+          finish = true     
         end
       end
     end    
@@ -145,10 +147,10 @@ def check_for_upadtes
   end  
 end
 
-def get_latest_updates_from_hbase(start_key)
+def get_latest_updates_from_hbase(last_harvested_time, start_key)
   hbase_uri = "#{HBASE_ADDRESS}#{HBASE_GET_LATEST_UPDATES_ACTION}"
   start_harvested_time = "1510150973451"
-  last_harvested_time = "#{DateTime.now.strftime('%Q')}"
+  # last_harvested_time = "#{DateTime.now.strftime('%Q')}"
   begin    
     request =RestClient::Request.new(
         :method => :get,
