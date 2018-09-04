@@ -28,7 +28,24 @@ def main_method_2
                      rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
                      page_id: node["taxon"]["pageEolId"] }
             created_node = create_node(params)
-          end 
+          end
+          
+          
+          
+          
+          unless node["taxon"]["pageEolId"].nil? 
+            page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
+            create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
+                                   node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] })      
+            unless node["vernaculars"].nil?
+              create_vernaculars({vernaculars: node["vernaculars"], node_id: created_node.id, page_id: page_id, resource_id: node["resourceId"] })
+            end
+            
+            unless node["media"].nil?
+              create_media({media: node["media"],resource_id: node["resourceId"],page_id: page_id, references: node["references"]})
+            end
+          end
+           
         end
         start_key = "#{current_node["resourceId"]}_#{current_node["generatedNodeId"]}"
         json_content = get_latest_updates_from_hbase(last_harvested_time,start_key)

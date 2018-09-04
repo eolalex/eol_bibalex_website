@@ -12,8 +12,8 @@ class Medium < ApplicationRecord
   has_many :references, as: :parent
   
   enum subclass: [ :image, :video, :sound, :map, :js_map ]
-  enum format: [ :jpg, :youtube, :flash, :vimeo, :mp3, :ogg, :wav ]
-  enum mime_type: [ 'image/jpeg', 'text/html', 'text/plain', 'video/mp4', 'video/x-ms-wmv', 'video/mpeg', 'video/quicktime', 'video/x-flv', 'audio/mpeg', 'audio/x-wav' ]
+  enum format: [ :jpg, :youtube, :flash, :vimeo, :mp3, :ogg, :wav, 'image/jpeg' ]
+  enum mime_type: [ 'text/html', 'text/plain', 'video/mp4', 'video/x-ms-wmv', 'video/mpeg', 'video/quicktime', 'video/x-flv', 'audio/mpeg', 'audio/x-wav' ]
 
   scope :images, -> { where(subclass: :image) }
   scope :videos, -> { where(subclass: :video) }
