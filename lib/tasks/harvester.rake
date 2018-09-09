@@ -17,6 +17,7 @@ def main_method_2
         current_node = nil
         nodes.each do |node|
           current_node = node
+          nodes_ids << node["generatedNodeId"]
           res = Node.where(generated_node_id: node["generatedNodeId"])        
           if res.count > 0
             created_node = res.first
@@ -27,7 +28,12 @@ def main_method_2
                      page_id: node["taxon"]["pageEolId"] }
             created_node = create_node(params)
           end 
+          unless node["taxon"]["pageEolId"].nil?
+            page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] })
+            create_pages_nodes({resource_id: node["resourceId"], node_id: created_node.id, page_id: page_id}) 
+          end   
         end
+        build_hierarchy(nodes_ids)
         start_key = "#{current_node["resourceId"]}_#{current_node["generatedNodeId"]}"
         json_content = get_latest_updates_from_hbase(start_key)
         if json_content.empty?
@@ -45,14 +51,15 @@ def main_method
   # nodes_ids = [1976]
   
   is_updates = check_for_upadtes
+  
   nodes_ids = []
   if is_updates == "true"
     start_key = -1
-    json_content = get_latest_updates_from_hbase(start_key)
-    # json_content = get_nodes_of_resource_from_hbase(452)
+    # json_content = get_latest_updates_from_hbase(start_key)
+     json_content = get_nodes_of_resource_from_hbase(452)
      # nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'nodes4.json')
      # json_content = File.read(nodes_file_path)
-     unless json_content == false
+     # unless json_content == false
        nodes = JSON.parse(json_content)
        
        # # load_occurrences
@@ -82,14 +89,14 @@ def main_method
 
        
        
-       
-      nodes.each do |node|
+       nodes.each do |node|
         
         # if node["resourceId"] == 452
         
+         
         
+         
          nodes_ids << node["generatedNodeId"]
-        
          res = Node.where(generated_node_id: node["generatedNodeId"])        
          if res.count > 0
            created_node = res.first
@@ -101,11 +108,13 @@ def main_method
           created_node = create_node(params)
         end          
 #           
-#            
-        # unless node["taxon"]["pageEolId"].nil? 
-          # page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
+            
+         unless node["taxon"]["pageEolId"].nil?
+       
+          page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
           # create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
-                                 # node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] })      
+                                 # node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] }) 
+          create_pages_nodes({resource_id: node["resourceId"], node_id: created_node.id, page_id: page_id})     
           # unless node["vernaculars"].nil?
             # create_vernaculars({vernaculars: node["vernaculars"], node_id: created_node.id, page_id: page_id, resource_id: node["resourceId"] })
           # end
@@ -117,16 +126,15 @@ def main_method
           node_params = { page_id: node["taxon"]["pageEolId"], resource_id: node["resourceId"],
                           scientific_name: node["taxon"]["scientificName"] }
           # add_neo4j(node_params, node["occurrences"], node["measurementOrFacts"], node["associations"])           
-        # end      
+          end      
          # end
-      end # end of nodes loop
-       
+      # end # end of nodes loop
        build_hierarchy(nodes_ids)
        
 
     end
-  end    
-end
+   end    
+ end
 
   
 
@@ -157,10 +165,10 @@ def get_latest_updates_from_hbase(start_key)
         :timeout => -1,
         :url => "#{hbase_uri}/#{start_harvested_time}/#{last_harvested_time}/#{start_key}"
       )
+      
       response = request.execute
       response.body
   rescue => e
-    debugger
     c="l"
     false
   end
@@ -176,9 +184,9 @@ def get_nodes_of_resource_from_hbase(resource_id)
         :url => "#{hbase_uri}/#{resource_id}"
       )
       response = request.execute
+      
       response.body
   rescue => e
-    debugger
     false
   end
 end
@@ -209,7 +217,9 @@ def set_parents(nodes_ids)
     end
   
     unless nodes_ids_parents.nil?
+      # debugger
       nodes_ids_parents.each do |key,value|
+        # debugger
         child_res = Node.where(generated_node_id: key.to_i)
         parent_res = Node.where(generated_node_id: value)
         if child_res.count > 0 && parent_res.count > 0
@@ -227,6 +237,7 @@ def set_ancestors(nodes_ids)
   # get nodes_parents from neo4j  
   
   neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_ANCESTORS_OF_NODES_ACTION}"
+  
   nodes_ids.each_slice(1000) do |sub_arr|
     begin    
       request =RestClient::Request.new(
@@ -241,11 +252,13 @@ def set_ancestors(nodes_ids)
     rescue => e
       false
     end
+    
     unless nodes_ids_ancestors.nil?
       nodes_ids_ancestors.each do |group|
         current_node = nil
         ancestor_node = nil
         group.each do |key,value|
+          
           res = Node.where(generated_node_id: value.to_i)
           if key.to_i == 0          
             if res.count > 0
@@ -254,7 +267,7 @@ def set_ancestors(nodes_ids)
           else
             if res.count > 0
               ancestor_node = res.first
-              NodeAncestor.create(node: current_node, ancestor: ancestor_node, depth: key.to_i, resource_id: current_node.resource_id)
+              NodeAncestor.find_or_create_by(node: current_node, ancestor: ancestor_node, depth: key.to_i, resource_id: current_node.resource_id)
             end
           end
         end      
@@ -446,6 +459,11 @@ def create_page(params)
       nil    
   end
 end
+
+def create_pages_nodes(params)
+  is_native = params[:resource_id] == DYNAMIC_HIERARCHY_RESOURCE_ID ? true : false
+  PagesNode.find_or_create_by(page_id: params[:page_id], node_id: params[:node_id], is_native: is_native)
+end  
 
 def create_attribution(params)
   # search in attributions not final parameters
@@ -739,7 +757,7 @@ namespace :harvester do
   # trait=TraitBank.create_trait(options)
     
     
-    main_method
+    main_method_2
     # meta = [{predicate:{"name"=>"new_md_event","uri"=>"new_test/md_event",section_ids:[1,2,3],definition:"new test predicate definition"},
                         # object_term:{"name"=>"new_md_length1","uri"=>"new_test/md_length1",section_ids:[1,2,3],definition:"new test object_term definition"},
                         # units: {"name"=>"new_cm","uri"=>"http://eol.org/schema/terms/squarekilometer_new",section_ids:[1,2,3],definition:"new test units"},
