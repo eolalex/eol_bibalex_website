@@ -2,6 +2,8 @@ require 'uri'
 
 
 def main_method_2
+  batches_log = File.new('batches_log', 'a')
+  nodes_log = File.new('nodes_log', 'a')
   is_updates = check_for_upadtes
   nodes_ids = []
   if is_updates == "true"
@@ -9,6 +11,7 @@ def main_method_2
     start_key = -1
     last_harvested_time = DateTime.now.strftime('%Q')
     json_content = get_latest_updates_from_hbase(last_harvested_time, start_key)
+    batches_log.write("batch done: #{start_key}\n")
     if json_content.empty?
       finish = true          
     end
@@ -21,6 +24,7 @@ def main_method_2
           current_node = node
           res = Node.where(generated_node_id: node["generatedNodeId"])        
           if res.count > 0
+            nodes_log.write("#{node["generatedNodeId"]}: found\n")
             created_node = res.first
           else
             params = { resource_id: node["resourceId"],
@@ -28,6 +32,11 @@ def main_method_2
                      rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
                      page_id: node["taxon"]["pageEolId"] }
             created_node = create_node(params)
+            if created_node.valid?
+              nodes_log.write("#{node["generatedNodeId"]}: success\n")
+            else
+              nodes_log.write("#{node["generatedNodeId"]}: fail\n")
+            end
           end
           
           
@@ -49,6 +58,7 @@ def main_method_2
         end
         start_key = "#{current_node["resourceId"]}_#{current_node["generatedNodeId"]}"
         json_content = get_latest_updates_from_hbase(last_harvested_time,start_key)
+        batches_log.write("batch done: #{start_key}\n")
         nodes = JSON.parse(json_content)
         if nodes.count <= 1
           finish = true     
