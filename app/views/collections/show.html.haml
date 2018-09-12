@@ -1,9 +1,10 @@
 = javascript_include_tag 'pages'
+= javascript_include_tag 'search'
 -collected_page = @collection.collected_pages
-= form_with(model: @collection, local: true) do |f|
-  = f.hidden_field :user_id
-  = hidden_field_tag 'user_id', '0'  
-  .container
+.container
+  = form_with(model: @collection, local: true) do |f|
+    = f.hidden_field :user_id
+    = hidden_field_tag 'user_id', '0'  
     .col-md-3.col-sm-12.col-xs-12
       .collectionInfo
         .row
@@ -17,67 +18,53 @@
             -if (@collection.users.ids.first == current_user.id)
               .Edit_Delete
                 %a.btn.btn-primary{:id => "#{@collection.id}", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
-                  Edit
+                  #{t(:edit_button)}
                 %nbsp
-                  =link_to 'Delete',collection_path(id: @collection.id), method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-primary"
+                  =link_to "#{t(:delete_button)}",collection_path(id: @collection.id), method: :delete, data: { confirm: "#{t(:confirm_message)}"}, class: "btn btn-primary"
       .modal{:id => "popup_#{@collection.id}", "aria-labelledby" => "popup_#{@collection.id}Label", :role => "dialog", :tabindex => "-1"}
         .modal-dialog.modal-lg.extra_large{:role => "document"}
           .modal-content
             .modal-header
               %button{ :id =>"#{@collection.id}", :class => "btn", :onclick=> 'hidePopup(this, event)'}x
-              %h4#editLabel.modal-title Edit Collection
+              %h4#editLabel.modal-title #{t(:edit_collection)}
             .modal-body.editCollection
               .form-group.row.form-inline
                 %label.col-md-2.col-sm-3.col-xs-12.control-label
-                  Name:
+                  #{t(:name)}
                 .col-md-10.col-sm-9.col-xs-12
                   %input.form-control.input-lg{:name => "collection[name]", :placeholder => @collection.name, :tabindex => "1", :type => "text"}
               .form-group.row.form-inline
                 %label.col-md-2.col-sm-3.col-xs-12.control-label
-                  Description:
+                  #{t(:description)}
                 .col-md-10.col-sm-9.col-xs-12
                   %textarea.form-control.input-lg{:name => "collection[description]", :placeholder => @collection.description, :rows => "3", :tabindex => "1", :type => "text"}
             .modal-footer
               = f.submit(class: "btn btn-primary")
     .col-md-9.col-sm-12.col-xs-12
       .row
-        .col-xs-12
-          .SearchCollection.searchBox
-            %h2
-              Search collection
-            %input#globalSearch.form-control{:placeholder => "What you are looking for?"}/
-            %button.searchButton
-              %i.fa.fa-search{"aria-hidden" => "true"}
       - @collection.collected_pages.each do |collected_page|
         .row
           .col-lg-3.col-md-4.col-sm-4.col-xs-12
             .collectionItem
+              -unless collected_page.page.scientific_name.nil?         
+                .collectionName
+                  %a{:href => page_path(collected_page.page_id), locale: params[:locale]} #{collected_page.page.scientific_name}
               .deleteItem
-                =link_to 'x',collected_page_path(id: collected_page.id), method: :delete, data: { confirm: 'Are you sure?'}, class: "btn btn-primary" 
+                =link_to 'x',collected_page_path(id: collected_page.id), method: :delete, data: { confirm: "#{t(:confirm_message)}"}, class: "btn btn-primary" 
               .collectionImage
                 = image_tag Page.find_by_id(collected_page.page_id).try(:media).size > 0 && !Page.find_by_id(collected_page.page_id).try(:media).first.base_url.nil? ? Page.find_by_id(collected_page.page_id).try(:media).first.base_url : "download.png", style: 'height:auto;width:auto;'
-            -unless collected_page.page.scientific_name.nil?         
-              .collectionName
-                %a{:href => page_path(collected_page.page_id)} #{collected_page.page.scientific_name}
+
       .col-xs-12
       %br
-      %br
-        -# %ul.pagination.pagination-lg
-          -# %li
-            -# %a{:href => "#"}
-              -# %i.fa.fa-long-arrow-left>
-              -# Previous Page
-          -# %li.active
-            -# %a{:href => "#"} 1
-          -# %li
-            -# %a{:href => "#"} 2
-          -# %li
-            -# %a{:href => "#"} 3
-          -# %li
-            -# %a{:href => "#"} 4
-          -# %li
-            -# %a{:href => "#"} 5
-          -# %li
-            -# %a{:href => "#"}
-              -# Next Page
-              -# %i.fa.fa-long-arrow-right
+  .col-md-9.col-sm-12.col-xs-12
+  .row
+    .col-xs-12
+      .SearchCollection.searchBox
+        %h2
+          #{t(:search_collection)}
+        .searchBox
+          = form_tag( collection_collected_pages_path(@collection), method: "get") do |form| 
+            = text_field_tag(:q, params[:q], :id =>"#{@collection.id}", class: "form-control", :placeholder => "#{t(:search_placeholder)}")
+            = hidden_field_tag('collection_id', @collection.id)
+            %button.searchButton
+              %i.fa.fa-search{"aria-hidden" => "false"}

@@ -1,13 +1,13 @@
 class CollectedPagesController < ApplicationController
   layout "application"
   before_action :authenticate_user!
-  def index
-    if params[:q]
-      @results = CollectedPage.find_pages(params[:q], params[:collection_id])
-    else
-      @collection = Collection.find(params[:collection_id])
-    end
-  end
+  # def index
+    # if params[:q]
+      # @results = CollectedPage.find_pages(params[:q], params[:collection_id])
+    # else
+      # @collection = Collection.find(params[:collection_id])
+    # end
+  # end
 
   def show
     @collected_page = CollectedPage.find(params[:id])
@@ -52,7 +52,7 @@ class CollectedPagesController < ApplicationController
   def index
     @collection_id = params[:collection_id]
     @collected_pages = CollectedPage.where(collection_id: @collection_id)
-    @canonical_form = params[:canonical_form]
+    @canonical_form = params[:q]
     @collected_pages.each do |collected_page|
   # assumtion scientific name has only one page
       @scientific_names = collected_page.page.scientific_names
