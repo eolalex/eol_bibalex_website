@@ -1,6 +1,6 @@
 = javascript_include_tag 'pages'
 = javascript_include_tag 'search'
--#- @url = url_without_locale_params(request.original_url)
+- @url = request.original_url.split('?', 2).first
 %html
   %head
     %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
@@ -41,9 +41,9 @@
                       %i.fa.fa-angle-down
                     %ul.dropdown-menu
                       %li
-                        %a{:href => "#"} English
+                        %a{:href => "#{@url}?locale=en"} English
                       %li
-                        %a{:href => "#"} العربية
+                        %a{:href => "#{@url}?locale=ar"} العربية
                   .mainMenu
                     %button.btn-search{:id => "1","data-toggle" => "modal",:onclick => "showPopup(this)",:role => "button"}
                       %i.fa.fa-search{"aria-hidden" => "false"}
