@@ -1,14 +1,17 @@
 class CollectedPagesController < ApplicationController
+  include ApplicationHelper
   layout "application"
   before_action :authenticate_user!
-  def index
-    if params[:q]
-      @results = CollectedPage.find_pages(params[:q], params[:collection_id])
-    else
-      @collection = Collection.find(params[:collection_id])
-    end
-  end
-
+  helper_method :url_without_locale_params
+  
+  # def index
+    # if params[:q]
+      # @results = CollectedPage.find_pages(params[:q], params[:collection_id])
+    # else
+      # @collection = Collection.find(params[:collection_id])
+    # end
+  # end
+  
   def show
     @collected_page = CollectedPage.find(params[:id])
     respond_to do |format|
@@ -30,14 +33,17 @@ class CollectedPagesController < ApplicationController
     @collected_page = CollectedPage.find_or_initialize_by(existing_collected_page_params)
     is_new_page = @collected_page.new_record?
     if @collected_page.save
-      respond_to do |fmt|
-        fmt.html do
-          flash[:notice] = "Page Added to Collection"
+      if is_new_page
+        respond_to do |f|
+          f.html {}
+          f.js {}
         end
-        fmt.js { }
+        flash[:notice] = "Page Added to Collection"
+      else
+        flash[:notice] = "Page Already Exists in This Collection"
       end
-      redirect_to @collected_page.page
     end
+    redirect_to @collected_page.page
   end
 
   def destroy
@@ -48,30 +54,35 @@ class CollectedPagesController < ApplicationController
     end
     redirect_to @collected_page.collection
   end
-  
+
   def index
     @collection_id = params[:collection_id]
     @collected_pages = CollectedPage.where(collection_id: @collection_id)
-    @canonical_form = params[:canonical_form]
+    @canonical_form = params[:q]
     @collected_pages.each do |collected_page|
   # assumtion scientific name has only one page
       @scientific_names = collected_page.page.scientific_names
-      @scientific_names.each do|scientific_name| 
+      @scientific_names.each do|scientific_name|
         if scientific_name[:canonical_form].downcase.start_with?(@canonical_form.downcase)
           if @result.nil?
-             @result= Array.new 
+             @result= Array.new
            end
           @result << scientific_name
         end
       end
     end
-    @result = @result.sort_by{|collected_page| collected_page.page.scientific_name.downcase} 
-    @result = @result.paginate(:page => params[:page], :per_page => ENV['per_page'])
+    unless @result.nil?
+      @result = @result.sort_by{|collected_page| collected_page.page.scientific_name.downcase}
+      @result = @result.paginate(:page => params[:page], :per_page => ENV['per_page'])
+    else
+     flash[:notice] = "No Results Found"
+     redirect_to collection_path(id: @collection_id)
+    end
+    
     # @scientific_names= if params[:canonical_form]
       # ScientificName.where('canonical_form LIKE ?', "#{params[:canonical_form]}%")
     # end
   end
-
 
   private
 

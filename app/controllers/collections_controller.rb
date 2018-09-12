@@ -1,5 +1,5 @@
 class CollectionsController < ApplicationController
-
+  include ApplicationHelper
   before_action :authenticate_user!
 
 
@@ -19,9 +19,8 @@ class CollectionsController < ApplicationController
         format.html {}
         format.js {}
       end
-    redirect_to @collection
-    else
-      redirect_to root_path
+      redirect_to :controller => 'pages', :action => 'show', :id => CollectedPage.where("collection_id = ?", @collection.id).last.page_id
+      flash[:notice] = "Page Added to Collection"
     end
   end
 
@@ -33,10 +32,10 @@ class CollectionsController < ApplicationController
     @collection = Collection.find(params[:id])
     if @collection.update_attributes (collection_params)
      flash[:success] = "Successfully Updated"
-     redirect_to @collection
     else
-      render 'edit'
+     flash[:success] = "Update Failed"
     end
+    redirect_to @collection
   end
   
   def show

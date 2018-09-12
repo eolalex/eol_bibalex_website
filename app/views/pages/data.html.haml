@@ -24,7 +24,7 @@
                       %td 
                         %div
                           = predicate[:name]
-                          %span.glyphicon.glyphicon-info-sign{"data-label" => "Name", :id => "#{uri}", :onmouseover =>"showOver(this)", :onmouseout=>"hideOver(this)"}
+                          %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}", :id => "#{uri}", :onmouseover =>"showOver(this)", :onmouseout=>"hideOver(this)"}
                         %div{:id => "hover_#{uri}", :style=> "display:none;"}
                           uri:  #{predicate[:uri]}
                           %br
@@ -33,20 +33,19 @@
                         %div{:id => "#{uri}"}
                           %i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
                       -if trait[:object_term]
-                        %td{"data-label" => "Object Term"} #{trait[:object_term][:name]}
+                        %td{"data-label" => "#{t(:object_term)}"} #{trait[:object_term][:name]}
                       -if trait[:units]
-                        %td{"data-label" => "Units"} #{trait[:units][:name]}
-                      %td{"data-label" => "Source"} #{show_source_segment(trait)}
+                        %td{"data-label" => "#{t(:units)}"} #{trait[:units][:name]}
+                      %td{"data-label" => "#{t(:source)}"} #{show_source_segment(trait)}
                     %div{ :id => "popup_#{uri}", :style=> "display:none;", :class => "popup"}
                       - if trait[:metadata] && trait[:metadata].any?
                         -debugger
                         %ul.meta-items.js-meta-items
                         - trait[:metadata].each do |datum|
-                          -debugger
         .col-md-4
           %aside
             .widget.categories
-              %h3 Taxon Card
+              %h3 #{t(:taxon_card)}
               .row
                 .col-sm-12
                   .single_comments
@@ -54,7 +53,7 @@
                     =image_tag "avatar3.png", :alt => ""
 
             .widget.blog_gallery
-              %h3 Refresh your memory
+              %h3 #{t(:refresh_memory)}
               %ul.sidebar-gallery
                 %li
                   %a{:href => "https://education.eol.org/memory/"}

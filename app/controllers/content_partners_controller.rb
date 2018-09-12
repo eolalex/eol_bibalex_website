@@ -1,4 +1,5 @@
 class ContentPartnersController < ApplicationController
+  include ApplicationHelper
   before_action :authenticate_user!
   def new
     @content_partner = ContentPartner.new

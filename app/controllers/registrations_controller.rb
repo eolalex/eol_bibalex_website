@@ -1,5 +1,7 @@
 class RegistrationsController < Devise::RegistrationsController
-
+  include ApplicationHelper
+  helper_method :url_without_locale_params
+  before_action :set_locale
   before_action :configure_permitted_params, only: [:create, :edit]
   before_action :check_captcha, only: [:create]
 
@@ -17,7 +19,6 @@ class RegistrationsController < Devise::RegistrationsController
   # def edit
   #   super
   # end
-
   # PUT /resource
   # def update
   #   super
@@ -71,8 +72,12 @@ class RegistrationsController < Devise::RegistrationsController
       new_session_path(resource_name)
     end
   end
-  
+
   def email
-    
+
+  end
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
   end
 end

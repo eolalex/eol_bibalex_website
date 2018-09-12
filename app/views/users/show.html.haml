@@ -3,14 +3,14 @@
     .col-lg-12
       %br
       %h2.mainTitle.resurceTitle
-        User Profile
+        #{t(:user_profile)}
     .col-md-8
       .greyBox.userInfo.part
         %h3
-          User Information
+          #{t(:user_info)}
           %span.pull-right
             -if @user.id == current_user.id
-              %a{href: edit_user_registration_path} Edit
+              %a{href: edit_user_registration_path} #{t(:edit_button)}
         %hr/
         .row
           .col-lg-2.col-md-2.col-sm-2
@@ -19,25 +19,25 @@
             .form-horizontal
               .form-group
                 .form-group
-                  %label.col-lg-2.col-md-3.col-sm-2.col-xs-12.control-label{:for => "inputPassword3"} User Name
+                  %label.col-lg-2.col-md-3.col-sm-2.col-xs-12.control-label{:for => "inputPassword3"} #{t(:username)}
                   .col-lg-10.col-md-9.col-sm-10.col-xs-12
                     .form-text
                       = @user.username
                 .form-group
-                  %label.col-lg-2.col-md-3.col-sm-2.col-xs-12.control-label{:for => "inputEmail3"} Email
+                  %label.col-lg-2.col-md-3.col-sm-2.col-xs-12.control-label{:for => "inputEmail3"} #{t(:email)}
                   .col-lg-10.col-md-9.col-sm-10.col-xs-12
                     .form-text
                       %a{:href => "#"} #{@user.email}
       .widget.categories.collectionBox
         .greyBox
           %h3.collectionIcon
-            Collections
+            #{t(:collections)}
           %hr/
           .row
             .col-sm-12
               -if @user.collections.empty?
                 %p
-                  No Collections Yet
+                  #{t(:no_collections_yet)}
               -else
                 -@collections.each do |collection|
                   %span.pull-right
@@ -47,14 +47,14 @@
                       %a{href: collection_path(id: collection.id)} #{collection.name}
                       %div    
                         %small
-                          #{collection.collected_pages_count} items; Last updated over #{time_ago_in_words(collection.updated_at)} ago
+                          #{collection.collected_pages_count} #{t(:items)}; #{t(:last_updated_at)} #{time_ago_in_words(collection.updated_at)} #{t(:ago)}
                     .clearfix
     .col-md-4
       %aside
         .widget.categories.collectionBox
           .greyBox
             %h3.collectionIcon
-              Content Partners
+              #{t(:content_partners)}
               -if @user.id == current_user.id
                 %a.btn-addResource{href: "#{ new_content_partner_path}"}
                   %span.pull-right  +
@@ -64,13 +64,13 @@
                 -content_partner = ContentPartnerUser.where("user_id = ? ", params[:id]).first
                 -if content_partner.nil?
                   %p
-                    No Content Partners Yet
+                    #{t(:no_content_partners)}
                 -else
                   - @content_partner_ids.each do |content_partner_id|
                     -result = ContentPartnerApi.get_content_partner_without_resources(content_partner_id)
                     %span.pull-right
                       -if @user.id == current_user.id
-                        %a{href: edit_content_partner_path(id: result["id"])} Edit
+                        %a{href: "#{edit_content_partner_path(id: result["id"])}"} #{t(:edit_button)}
                     .single_comments
                       %img{:alt => "", :src => "../images/blog/avatar3.png"}/
                       %a{href: content_partner_path(id: content_partner_id)}

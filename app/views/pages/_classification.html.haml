@@ -9,7 +9,7 @@
       %span
         = resource_info.name
     -else
-      %span Unknown Resource 
+      %span #{t(:unknown_resource)} 
     - x = 0  
     -tree.each do |node|
       %ul.treeNode{ style: "padding-left: #{x}px;"}
