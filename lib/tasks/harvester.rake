@@ -10,14 +10,14 @@ def main_method_2
     finish = false
     start_key = -1
     last_harvested_time = DateTime.now.strftime('%Q')
-    json_content = get_latest_updates_from_hbase(last_harvested_time, start_key)
-    batches_log.write("batch done: #{start_key}\n")
+    json_content = get_latest_updates_from_hbase(last_harvested_time, start_key)    
     if json_content.empty?
       finish = true          
     end
     while !finish do      
       unless json_content == false
         nodes = JSON.parse(json_content)
+        batches_log.write("batch done: #{start_key}: #{nodes.count}\n")
         current_node = nil
         nodes.each do |node|          
           
@@ -58,8 +58,8 @@ def main_method_2
         end
         start_key = "#{current_node["resourceId"]}_#{current_node["generatedNodeId"]}"
         json_content = get_latest_updates_from_hbase(last_harvested_time,start_key)
-        batches_log.write("batch done: #{start_key}\n")
-        nodes = JSON.parse(json_content)
+        # batches_log.write("batch done: #{start_key}\n")
+        # nodes = JSON.parse(json_content)
         if nodes.count <= 1
           finish = true     
         end
