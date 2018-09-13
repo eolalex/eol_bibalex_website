@@ -1,4 +1,5 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  include ApplicationHelper
   # def facebook
 #     
     # @user = UserProvider.find_for_facebook_oauth(request.env["omniauth.auth"])

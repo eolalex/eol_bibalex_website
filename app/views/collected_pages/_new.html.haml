@@ -4,21 +4,21 @@
       - @collection.collected_pages.each do |collected_page|
         = page_f.hidden_field(:page_id, page_id: collected_page.page_id)
       %h2
-        Add to a New Collection
+        #{t(:add_to_new_collection)}
         %br
         %br
-        %input.form-control.input-lg{:name => "collection[name]", :placeholder =>"New Collection Name", :tabindex => "1", :type => "text", :required => true}
+        %input.form-control.input-lg{:name => "collection[name]", :placeholder =>"#{t(:collection_name_placeholder)}", :tabindex => "1", :type => "text", :required => true}
         %br
-        %textarea.form-control.input-lg{:name => "collection[description]", :placeholder => "New Collection Description (Optional)", :rows => "3", :tabindex => "1", :type => "text"}
+        %textarea.form-control.input-lg{:name => "collection[description]", :placeholder => "#{t(:collection_description_placeholder)}", :rows => "3", :tabindex => "1", :type => "text"}
         %br
       = f.submit(class: "btn btn-primary")
 .container
   .col-md-30.col-sm-12.col-xs-12
     %h2
-      Add to an Existing Collection
+      #{t(:add_to_existing_collection)}
     - if current_user.collections.empty?
       %p
-        No Existing Collections
+        #{t(:no_collections_yet)}
     - else
       = form_for(@collected_page, html: { class: "form" }) do |f|
         = f.hidden_field(:page_id, page_id: @collected_page.page_id)
@@ -29,4 +29,4 @@
               = f.radio_button(:collection_id, collection.id, class: "uk-radio", :checked => "checked")
               = f.label(:collection_id, collection.name)
         .uk-text-center.uk-margin-medium
-          = f.submit("Add", class: "btn btn-primary")
+          = f.submit("#{t(:add)}", class: "btn btn-primary")

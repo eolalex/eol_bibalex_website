@@ -2,6 +2,7 @@
 
     background-color: #2E2E2E !important;
 
+
 }
 
  
@@ -1112,7 +1113,6 @@ body > form {
         height: 45px;
 
     }
-<<<<<<< HEAD
 .topSpaceSeparator{
 	margin-top:10px;
 }
@@ -1131,11 +1131,7 @@ body > form {
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
     width: 100%;
 }
-=======
 
- 
-
-/*>>>>>>> 7089ba0bf1d1119d93d2888855e161d25f8baec4*/
     .searchBox .searchButton {
 
         background-color: transparent;
@@ -1172,15 +1168,6 @@ body > form {
 
     }
 
- 
-
-        .searchBox .searchButton:hover {
-
-            opacity: 1;
-
-           background-color: #f5f5f5;
-
-        }
 
  .exploreTaxonBtn{
  	padding:8px 20px!important;

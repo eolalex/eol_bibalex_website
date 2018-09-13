@@ -7,11 +7,11 @@
         %span.pull-right
           -if(current_user==@content_partner.user)
             %a.btn.btn-primary{:href => "#{edit_content_partner_resource_path(content_partner_id: @content_partner.id,id: params["id"])}", :role => "button"}
-              Edit
+              #{t(:edit_button)}
     .col-md-8
       .part
         .subtitle
-          About Resource
+          #{t(:about_resource)}
         %p
           = @resource.description
         %p
@@ -19,68 +19,68 @@
           %a{:href => content_partner_resource_path(@content_partner.id, params["id"]), :target => "_blank"} #{@resource.name}
       .part
         .subtitle
-          Dataset
+          #{t(:dataset)}
         %p
           %strong
-            type
+            #{t(:type)}
           %a #{ @resource.type }
         -if @resource.type.eql?("url")
           %p
             %strong
-              Uploaded url
+              #{t(:uploaded_url)}
             %a #{ @resource.uploaded_url }
         -if @resource.type.eql?("file")
           %p
             %strong
-              File path
+              #{t(:file_path)}
             %a #{ @resource.path}
         %p
           %strong
-            Default language
+            #{t(:default_language)}
           =Language.find(@resource.default_language_id).code
       .part
         .subtitle
-          Rights  attribution
+          #{t(:rights_attribution)}
         %strong
-          dataset license
+          #{t(:dataset_license)}
         %p
           = License.find(@resource.dataset_license).name
         %strong
-          Dataset rights holder
+          #{t(:dataset_rights_holder)}
         %p
           = @resource.dataset_rights_holder
         %strong
-          Dataset rights statement
+          #{t(:dataset_rights_statement)}
         %p
           = @resource.dataset_rights_statement
         %strong
-          Default rights holder
+          #{t(:default_rights_holder)}
         %p
           = @resource.default_rights_holder
         %strong
-          Default rights statement
+          #{t(:default_rights_statement)}
         %p
           = @resource.default_rights_statement
         %strong
-          Default license string
+          #{t(:default_license_string)}
         %p
           = License.find(@resource.default_license_string).name
       .part
         .subtitle
-          Processing status & settings   
+          #{t(:processing_status_and_settings)}
         %strong
-          Harvest frequency
+          #{t(:harvest_frequency)}
         %p
           = @resource.harvest_frequency
         %strong
-          Auto-published
+          #{t(:auto_published)}
         %p
           = @resource.is_autopublished
       .part
         .subtitle
-          Harvest events   
+         #{t(:harvest_events)}   
         %strong
-          Last harvest
+          #{t(:last_harvest)}
         %p
           -if @resource.last_harvested_at
             = Time.at(@resource.last_harvested_at)
@@ -88,7 +88,7 @@
       %aside
         .widget.categories.contentManger
           %span
-            %b Managed by
+            %b #{t(:managed_by)}
           .row
             .col-sm-12
               .single_comments
@@ -100,7 +100,7 @@
       %aside
         .widget.categories.contentManger
           %span
-            %b Content partner name
+            %b #{t(:content_partner_name)}
           .row
             .col-sm-12
               .single_comments

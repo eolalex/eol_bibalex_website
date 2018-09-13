@@ -3,14 +3,12 @@
     .Description
     %p.alert-secondary{:role => "alert"}
       %i.fa.fa-info-circle{"aria-hidden" => "false"}>
-      Many people know organisms only by the vernaculars, or common names. Unlike scientific names, vernaculars are almost always different for speakers of different languages. They may also vary regionally within a language. 
-      This tab shows all the vernaculars provided to EOL for this organism from a variety of providers, including EOL curators. Currently we can only set one preferred vernacular per language on a given EOL page,
-      but all the names should be searchable.
+      #{t(:vernaculars_description)}
     %br/
 .row
   .col-md-12
     - if @vernaculars.empty?
-      %h3.Special No vernaculars for this page
+      %h3.Special #{t(:no_vernaculars)}
     - else  
       -@vernaculars.group_by { |n| n.language.code }.each do |language, names|
         %h3.Special 
@@ -18,22 +16,22 @@
         %table.customTable
           %thead
             %tr
-              %th{:scope => "col"} Preferred
-              %th{:scope => "col"} Name
-              %th{:scope => "col"} Sources
+              %th{:scope => "col"} #{t(:preferred_name)}
+              %th{:scope => "col"} #{t(:name)}
+              %th{:scope => "col"} #{t(:sources)}
           %tbody
             -vernaculars_resources = get_resources(names)
             -vernaculars_resources.each do |name, resource|
               %tr
                 - preferred = Vernacular.where(string: name).pluck(:is_prefered_by_resource).include? true
-                %td{"data-label" => "Preferred"}
+                %td{"data-label" => "#{t(:preferred_name)}"}
                   %input.form-check-input{:checked => preferred, :name => "exampleRadios", :type => "radio"}/
-                %td{"data-label" => "Name"} 
+                %td{"data-label" => "#{t(:name)}"} 
                   = name
-                %td{"data-label" => "Sources"} 
+                %td{"data-label" => "#{t(:sources)}"} 
                   -if !vernaculars_resources[name].nil?
                     - vernaculars_resources[name].each do |resource|
                       - if !resource.nil?
                         = resource.name 
                       - else
-                        = "Unknown Resource "
+                        = "#{t(:unknown_resource)}"

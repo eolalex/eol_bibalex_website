@@ -4,8 +4,19 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_locale
+  before_action :set_locale_direction
+  helper_method :url_without_locale_params
 
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
+  end
+
+  def set_locale_direction
+    @direction_page = (I18n.locale==:ar)?("rtl"):("ltr")
+  end
   protected
+
   def configure_permitted_parameters
     added_attrs = [:username, :email, :password, :password_confirmation, :recaptcha]
     update_attrs = [:username, :email, :password, :password_confirmation, :current_password]
@@ -16,17 +27,16 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     request.env['omniauth.origin'] || root_path
   end
-  
 
   private
-  
-    def after_sign_out_path_for(resource_or_scope)
-      if current_user
-        request.referrer
-      else
-        # root_path
-        new_user_session_url
-      end
+
+  def after_sign_out_path_for(resource_or_scope)
+    if current_user
+      request.referrer
+    else
+    # root_path
+      new_user_session_url
     end
+  end
 
 end
