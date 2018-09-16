@@ -3,11 +3,7 @@
     .Description
     %p.alert-secondary{:role => "alert"}
       %i.fa.fa-info-circle{"aria-hidden" => "true"}>
-      Scientists aim to describe a single 'tree of life' that reflects the evolutionary relationships of living things. 
-      However, evolutionary relationships are a matter of ongoing discovery, and there are different opinions about how living 
-      things should be grouped and named. EOL reflects these differences by supporting several different scientific 'classifications'.
-      Some species have been named more than once. Such duplicates are listed under synonyms.
-      EOL also provides support for common names which may vary across regions as well as languages.
+      #{t(:scientific_name_description)}
     %br/
 .row
   .col-md-12  
@@ -17,18 +13,18 @@
         %table.customTable
           %thead
             %tr
-              %th{:scope => "col"} Name
-              %th{:scope => "col"} Sources
+              %th{:scope => "col"} #{t(:scientific_name)}
+              %th{:scope => "col"} #{t(:scientific_name_source)}
           %tbody
             -scientific_names_resources = get_resources(names)
             -scientific_names_resources.each do |name, resource|
               %tr
-                %td{"data-label" => "Name"} 
+                %td{"data-label" => "#{t(:scientific_name)}"} 
                   = name
-                %td{"data-label" => "Sources"} 
+                %td{"data-label" => "#{t(:scientific_name_source)}"} 
                   -if !scientific_names_resources[name].nil?
                     - scientific_names_resources[name].each do |resource|
                       - if !resource.nil?
                         = resource.name 
                       - else
-                        = "Unknown Resource "
+                        = #{t(:unknown_resource)}

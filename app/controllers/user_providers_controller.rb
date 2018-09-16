@@ -1,5 +1,6 @@
 require 'devise'
 class UserProvidersController < ApplicationController
+  include ApplicationHelper
   def new
     password = Devise.friendly_token[0,16]
     @user = User.new(email: params[:info][:email], password: password, 

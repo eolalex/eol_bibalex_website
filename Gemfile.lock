@@ -639,7 +639,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   omniauth-twitter
   puma (~> 3.7)
-  rails (~> 5.1.4)
+  rails (~> 5.1.6)
   recaptcha
   record_tag_helper
   refinerycms (~> 4.0.2)

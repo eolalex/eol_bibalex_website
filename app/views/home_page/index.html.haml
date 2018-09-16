@@ -23,8 +23,8 @@
           .row.slide-margin
             .col-sm-12
               .carousel-content
-                %h1.animation.text-center.animated-item-1.slogan.hidden-xs Global Access to Knowledge about Life on Earth
-                %h1.animation.text-center.animated-item-1.slogan.hidden-lg.hidden-md.hidden-sm Search Our Network
+                %h1.animation.text-center.animated-item-1.slogan.hidden-xs #{t(:global_access_to_knowledge)}
+                %h1.animation.text-center.animated-item-1.slogan.hidden-lg.hidden-md.hidden-sm #{t(:search_network)}
                 .searchBox
                   = render :partial => "search_bar"
                   %button.searchButton
@@ -40,7 +40,7 @@
   %section.smallCarousel
     .container
       .center.wow.fadeInDown.animated.hidden-lg.hidden-md.hidden-sm{:style => "visibility: visible; animation-name: fadeInDown; padding-bottom: 0; margin-bottom: -20px"}
-        %h2 Explore Taxons
+        %h2 #{t(:explore_taxa)}
       #mixedSlider.carousel_Thumbnails
         .MS-content
           .item
@@ -83,10 +83,10 @@
   %section#Home_Statistics
     .container
       .center.wow.fadeInDown
-        %h2 Currently in the Encyclopedia of Life
+        %h2 #{t(:currently_in_eol)}
         %p.lead
-          There is more in deep, want to
-          %a{:href => "/pages/1"} see more...
+          #{t(:more_in_deep)}
+          %a{:href => "/pages/1"} #{t(:see_more)}
       .row
         .Home_statistics
           .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
@@ -96,7 +96,7 @@
               .number
                 = User.count
               %span
-                Members like you
+                #{t(:members_like_you)}
           .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
             .feature-wrap
               %a{:href => "#"}
@@ -104,7 +104,7 @@
               .number
                 = Collection.count
               %span
-                Collections
+                #{t(:collections)}
           .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
             .feature-wrap
               %a{:href => "#"}
@@ -112,7 +112,7 @@
               .number
                 = Medium.count
               %span
-                Media
+                #{t(:media)}
           .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
             .feature-wrap
               %a{:href => "#"}
@@ -120,7 +120,7 @@
               .number
                 3
               %span
-                Content Partners
+                #{t(:content_partners)}
           .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
             .feature-wrap
               %a{:href => "#"}
@@ -128,7 +128,7 @@
               .number
                 5
               %span
-                Data
+                #{t(:data)}
           .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
             .feature-wrap
               %a{:href => "#"}
@@ -136,11 +136,11 @@
               .number
                 20
               %span
-                Resources
+                #{t(:resources)}
   %section#Sponsors
     .container
       .center.wow.fadeInDown
-        %h2 Institutional Sponsors
+        %h2 #{t(:institutional_sponsors)}
       .row
         .col-md-2.col-sm-2.col-xs-4.logo-item
           %a{:href => "https://www.ala.org.au/"}
@@ -163,7 +163,7 @@
   .Donation
     .container
       .get-started.center.wow.fadeInDown
-        %h2 Donate online to support the EOL Mission
-        %p.lead To increase awareness and understanding of living nature through an Encyclopedia of Life that gathers, generates, and shares knowledge in an open, freely accessible and trusted digital resource.
+        %h2 #{t(:donate_online)}
+        %p.lead #{t(:donate)}
         .Donate_Btn
-          %a{:href => "#"} Donate
+          %a{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_hl"} #{t(:donate_button)}

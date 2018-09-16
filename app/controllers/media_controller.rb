@@ -1,5 +1,5 @@
 class MediaController < ApplicationController
-
+  include ApplicationHelper
   layout "application"
     
   def show

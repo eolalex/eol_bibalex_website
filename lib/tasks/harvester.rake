@@ -6,7 +6,11 @@ def main_method_2
   nodes_log = File.new('nodes_log', 'a')
   is_updates = check_for_upadtes
   nodes_ids = []
+<<<<<<< HEAD
   if is_updates == "true"    
+=======
+  if is_updates == "true"
+>>>>>>> 82a4eef1656e9307145dada16b0e7e4f8f8460e4
     finish = false
     start_key = -1
     last_harvested_time = DateTime.now.strftime('%Q')
@@ -15,8 +19,13 @@ def main_method_2
       finish = true          
     end
     while !finish do      
+<<<<<<< HEAD
       unless json_content == false       
         nodes = JSON.parse(json_content)        
+=======
+      unless json_content == false
+        nodes = JSON.parse(json_content)
+>>>>>>> 82a4eef1656e9307145dada16b0e7e4f8f8460e4
         batches_log.write("batch done: #{start_key}: #{nodes.count}\n")
         current_node = nil
         nodes.each do |node|          
@@ -183,7 +192,11 @@ end
 
 def get_latest_updates_from_hbase(last_harvested_time, start_key)
   hbase_uri = "#{HBASE_ADDRESS}#{HBASE_GET_LATEST_UPDATES_ACTION}"
+<<<<<<< HEAD
   start_harvested_time = "1536650663000"
+=======
+  start_harvested_time = "1510150973451"
+>>>>>>> 82a4eef1656e9307145dada16b0e7e4f8f8460e4
   # last_harvested_time = "#{DateTime.now.strftime('%Q')}"
   begin    
     request =RestClient::Request.new(
@@ -195,7 +208,10 @@ def get_latest_updates_from_hbase(last_harvested_time, start_key)
       response = request.execute
       response.body
   rescue => e
+<<<<<<< HEAD
    debugger
+=======
+>>>>>>> 82a4eef1656e9307145dada16b0e7e4f8f8460e4
     c="l"
     false
   end

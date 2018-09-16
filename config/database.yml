@@ -14,6 +14,7 @@ development:
   # PLEASE DON'T PUT YOUR USER / PASS HERE (e.g.: "root"). Set your environment
   # variables.
   username: root
+<<<<<<< HEAD
   password: pDy013UEjn7vU9zul
   # password: root
   database: ba_eol_development
@@ -21,6 +22,10 @@ development:
   # password: Luxor&Aswan@2o17
   # password: root
   #password: Luxor&Aswan@2o17
+=======
+  # password: Luxor&Aswan@2o17
+  password: root
+>>>>>>> 82a4eef1656e9307145dada16b0e7e4f8f8460e4
   # password: admin
 
 test: &test

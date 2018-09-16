@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180808075324) do
+ActiveRecord::Schema.define(version: 20180902095625) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.text "owner"
@@ -210,6 +210,8 @@ ActiveRecord::Schema.define(version: 20180808075324) do
     t.string "node_resource_pk"
     t.string "ancestor_resource_pk"
     t.integer "depth"
+    t.integer "node_generated_node_id"
+    t.integer "ancestor_generated_node_id"
     t.index ["ancestor_id"], name: "index_node_ancestors_on_ancestor_id"
     t.index ["ancestor_resource_pk"], name: "index_node_ancestors_on_ancestor_resource_pk"
     t.index ["node_id"], name: "index_node_ancestors_on_node_id"

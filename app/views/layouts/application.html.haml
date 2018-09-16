@@ -1,5 +1,6 @@
 = javascript_include_tag 'pages'
 = javascript_include_tag 'search'
+- @url = request.original_url.split('?', 2).first
 %html
   %head
     %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
@@ -33,21 +34,24 @@
               .navbar-header
                 %a.navbar-brand{:href => "/"}
                   =image_tag "eol_logo.png", :alt => "logo"
-                .lang
-                  %select
-                    %option English
-                    %option Arabic
-                    %option French
-                    %option Japanese
-                    %option Chinese
-                .mainMenu
-                  %button.btn-search{:id => "1","data-toggle" => "modal",:onclick => "showPopup(this)",:role => "button"}
-                    %i.fa.fa-search{"aria-hidden" => "false"}
-                  %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
-                    %span.sr-only Toggle navigation
-                    %span.icon-bar
-                    %span.icon-bar
-                    %span.icon-bar
+                %ul.topMenu
+                  %li.dropdown
+                    %a.dropdown-toggle{"data-toggle" => "dropdown"}
+                      #{t(:language)}
+                      %i.fa.fa-angle-down
+                    %ul.dropdown-menu
+                      %li
+                        %a{:href => "#{@url}?locale=en"} English
+                      %li
+                        %a{:href => "#{@url}?locale=ar"} العربية
+                  .mainMenu
+                    %button.btn-search{:id => "1","data-toggle" => "modal",:onclick => "showPopup(this)",:role => "button"}
+                      %i.fa.fa-search{"aria-hidden" => "false"}
+                    %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
+                      %span.sr-only Toggle navigation
+                      %span.icon-bar
+                      %span.icon-bar
+                      %span.icon-bar
                   -# %span.menuText.hidden-sm.hidden-xs
                     -# menu
               .collapse.navbar-collapse.navbar-left
@@ -55,22 +59,22 @@
                   %li
                     %a{:href => "http://eol.org/about"}
                       %i.fa.fa-info-circle{"aria-hidden" => "true"}
-                      About EOL
+                      #{t(:about_eol)}
                   %li
                     %a{:href => "http://eol.org/news"}
                       %i.fa.fa-newspaper-o{"aria-hidden" => "true"}
-                      News
+                      #{t(:news)}
                   %li
                     %a{:href => "http://eol.org/help"}
                       %i.fa.fa-question-circle{"aria-hidden" => "true"}
-                      Help
+                      #{t(:help)}
             .col-lg-5.col-md-6.col-sm-6.col-xs-12.coloredMenu
               %ul.topMenu
                 %li
                   - unless user_signed_in?
                     %a.signIn{:href => "/users/sign_in"}
                       %i.fa.fa-user-circle{"aria-hidden" => "true"}
-                      Sign in
+                      #{t(:sign_in)}
                   - else
                     %li.dropdown
                       %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
@@ -79,28 +83,28 @@
                         %i.fa.fa-angle-down
                       %ul.dropdown-menu
                         %li
-                          %a{:href => "/users/#{current_user.id}"}Show Profile
+                          %a{:href => "/users/#{current_user.id}?locale=#{locale}"} #{t(:show_user_profile)}
                         %li
-                          %a.signIn{:href => "/users/sign_out",:method => :delete}Sign Out
+                          %a.signIn{:href => "/users/sign_out",:method => :delete} #{t(:sign_out)}
                 %li.dropdown
                   %a.dropdown-toggle.NetworksLink{"data-toggle" => "dropdown"}
-                    Our Networks
+                    #{t(:networks)}
                     %i.fa.fa-angle-down
                   %ul.dropdown-menu
                     %li
-                      %a{:href => "https://education.eol.org/", :target => "_blank"} Learning + Education
+                      %a{:href => "https://education.eol.org/", :target => "_blank"} #{t(:learning_education)}
                 %li
-                  %a.DonateBtn{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} Donate
+                  %a.DonateBtn{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} #{t(:donate_button)}
           .modal{:id => "popup_#{1}","aria-labelledby" => "popup_#{1}Label", :role => "dialog", :tabindex => "-1"}
             .modal-dialog{:role => "document"}
               .modal-content
                 .modal-header
                   %button{ :id =>"1", :class => "btn", :onclick=> 'hidePopup(this, event)'}x
-                  %h4.modal-title Search Our Network
+                  %h4.modal-title #{t(:search_network)}
                 .modal-body
                   .searchBox
                     = form_tag(search_path, method: :get) do 
-                      = text_field_tag(:query, params[:query], class: "form-control", id: "globalSearch", :placeholder => "What you are looking for?")
+                      = text_field_tag(:query, params[:query], class: "form-control", id: "globalSearch", :placeholder => "#{t(:search_placeholder)}")
                       %button.searchButton
                         %i.fa.fa-search{"aria-hidden" => "true"}
 
@@ -122,17 +126,17 @@
         .col-sm-6.col-xs-12
           %ul
             %li
-              %a{:href => "http://eol.org/terms_of_use"} Terms of Use
+              %a{:href => "http://eol.org/terms_of_use"} #{t(:terms_of_use)}
             %li
-              %a{:href => "http://eol.org/info/glossary"} Glossary
+              %a{:href => "http://eol.org/info/glossary"} #{t(:glossary)}
             %li
-              %a{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} Donate
+              %a{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} #{t(:donate_button)}
             %li
-              %a{:href => "http://eol.org/contact_us"} Contact Us
+              %a{:href => "http://eol.org/contact_us"} #{t(:contact_us)}
         .col-sm-6.col-xs-12
           .social
             %ul.social-share
-              %li Follow us on:
+              %li #{t(:follow_us)}
               %li
                 %a{:href => "https://www.facebook.com/encyclopediaoflife/"}
                   %i.fa.fa-facebook
