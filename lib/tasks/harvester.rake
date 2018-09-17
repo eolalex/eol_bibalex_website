@@ -14,7 +14,7 @@ def main_method_2
     if json_content.empty?
       finish = true          
     end
-    while !finish do      
+    while !finish do              
       unless json_content == false
         nodes = JSON.parse(json_content)
         batches_log.write("batch done: #{start_key}: #{nodes.count}\n")
@@ -167,7 +167,7 @@ def main_method
 
 def check_for_upadtes
   scheduler_uri = "#{SCHEDULER_ADDRESS}/#{CHECK_FOR_UPDATES}"
-  last_harvested_time = "1510150973451"
+  last_harvested_time = "1536650663000"
    begin    
     request =RestClient::Request.new(
         :method => :get,
@@ -195,6 +195,7 @@ def get_latest_updates_from_hbase(last_harvested_time, start_key)
       response = request.execute
       response.body
   rescue => e
+  debugger
     c="l"
     false
   end
@@ -308,8 +309,7 @@ def create_vernaculars(params)
   params[:vernaculars].each do |vernacular|
     language_id= vernacular["language"].nil? ? create_language("eng") : create_language(vernacular["language"])
     create_vernacular({ string: vernacular["name"], node_id: params[:node_id], page_id: params[:page_id],
-                        is_preferred_by_resource: vernacular["isPreferred"], language_id: language_id,
-                        resource_id: params[:resource_id]  })
+                        is_preferred_by_resource: vernacular["isPreferred"], language_id: language_id, resource_id: params[:resource_id]})
   end
 end
 
