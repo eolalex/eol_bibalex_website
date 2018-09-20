@@ -10,17 +10,18 @@
         = resource_info.name
     -else
       %span #{t(:unknown_resource)} 
-    - x = 0  
+    - x = 0 
     -tree.each do |node|
       %ul.treeNode{ style: "padding-left: #{x}px;"}
         %li.parent_li
-          %ul
-            - x = x + 40
-            %li.parent_li
-              -unless node.pages.empty?
-                %a{href:  "/pages/#{node.pages.first.id}"} 
-                  =node.scientific_name
-              -else
-                =node.scientific_name 
-          %ul
+          - unless node.nil?
+            %ul
+              - x = x + 40
+              %li.parent_li
+                -unless node.pages.empty?
+                  %a{href:  "/pages/#{node.pages.first.id}"} 
+                    =node.scientific_name
+                -else
+                  =node.scientific_name 
+            %ul
     %br

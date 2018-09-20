@@ -11,6 +11,7 @@ def main_method_2
     start_key = -1
     last_harvested_time = DateTime.now.strftime('%Q')
     json_content = get_latest_updates_from_hbase(last_harvested_time, start_key)
+    # debugger
     batches_log.write("batch done: #{start_key}\n")
     if json_content.empty?
       finish = true          
@@ -57,7 +58,7 @@ def main_method_2
             end
           end
         end
-        build_hierarchy(nodes_ids)
+        # build_hierarchy(nodes_ids)
         start_key = "#{current_node["resourceId"]}_#{current_node["generatedNodeId"]}"
         json_content = get_latest_updates_from_hbase(last_harvested_time,start_key)
         batches_log.write("batch done: #{start_key}\n")
@@ -66,11 +67,21 @@ def main_method_2
           finish = true     
         end
       end
-    end    
+    end
+    build_hierarchy(nodes_ids)    
   end
 end
 
 
+def get_dynamic_heirarchy_nodes
+  node_ids = []
+  json_content = get_nodes_of_resource_from_hbase(DYNAMIC_HIERARCHY_RESOURCE_ID)
+  nodes = JSON.parse(json_content)
+  nodes.each do |node|
+     node_ids << node["generatedNodeId"]
+  end
+  build_hierarchy(node_ids) 
+end
 
 def main_method
   #442
@@ -82,11 +93,12 @@ def main_method
   if is_updates == "true"
     start_key = -1
     # json_content = get_latest_updates_from_hbase(start_key)
-     json_content = get_nodes_of_resource_from_hbase(452)
+     json_content = get_nodes_of_resource_from_hbase()
      # nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'nodes4.json')
      # json_content = File.read(nodes_file_path)
      # unless json_content == false
        nodes = JSON.parse(json_content)
+       
        
        # # load_occurrences
        # nodes.each do |node|
@@ -155,7 +167,7 @@ def main_method
           end      
          # end
       # end # end of nodes loop
-       build_hierarchy(nodes_ids)
+       # build_hierarchy(nodes_ids)
        
 
     end
@@ -218,50 +230,47 @@ def get_nodes_of_resource_from_hbase(resource_id)
 end
 
 def build_hierarchy(nodes_ids)
-  set_parents(nodes_ids)
+  # set_parents(nodes_ids)
   set_ancestors(nodes_ids)
 end
 
-def set_parents(nodes_ids)
-  
-  nodes_ids_parents = nil
-  # get nodes_parents from neo4j  
-  neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_PARENTS_OF_NODES_ACTION}"
-  nodes_ids.each_slice(1000) do |sub_arr|
-    begin    
-      request =RestClient::Request.new(
-          :method => :get,
-          :timeout => -1,
-          :url => "#{neo4j_uri}",
-          headers: { content_type: 'application/json', accept: 'application/json'},
-          :payload =>  sub_arr.to_json
-        )
-        response = request.execute
-        nodes_ids_parents = JSON.parse(response.body)
-    rescue => e
-      false
-    end
-  
-    unless nodes_ids_parents.nil?
-      # debugger
-      nodes_ids_parents.each do |key,value|
-        # debugger
-        child_res = Node.where(generated_node_id: key.to_i)
-        parent_res = Node.where(generated_node_id: value)
-        if child_res.count > 0 && parent_res.count > 0
-          child_node = child_res.first
-          parent_node = parent_res.first
-          child_node.update_attributes(parent_id: parent_node.id)
-        end
-      end
-    end
-  end
-end
+# def set_parents(nodes_ids)
+#   
+  # nodes_ids_parents = nil
+  # # get nodes_parents from neo4j  
+  # neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_PARENTS_OF_NODES_ACTION}"
+  # nodes_ids.each_slice(1000) do |sub_arr|
+    # begin 
+      # debugger   
+      # request =RestClient::Request.new(
+          # :method => :get,
+          # :timeout => -1,
+          # :url => "#{neo4j_uri}",
+          # headers: { content_type: 'application/json', accept: 'application/json'},
+          # :payload =>  sub_arr.to_json
+        # )
+        # response = request.execute
+        # nodes_ids_parents = JSON.parse(response.body)
+    # rescue => e
+      # false
+    # end 
+    # unless nodes_ids_parents.nil?
+      # nodes_ids_parents.each do |key,value|
+        # child_res = Node.where(generated_node_id: key.to_i)
+        # parent_res = Node.where(generated_node_id: value)
+        # if child_res.count > 0 && parent_res.count > 0
+          # child_node = child_res.first
+          # parent_node = parent_res.first
+          # child_node.update_attributes(parent_id: parent_node.id)
+        # end
+      # end
+    # end
+  # end
+# end
 
 
 def set_ancestors(nodes_ids)
   # get nodes_parents from neo4j  
-  
   neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_ANCESTORS_OF_NODES_ACTION}"
   
   nodes_ids.each_slice(1000) do |sub_arr|
@@ -273,6 +282,7 @@ def set_ancestors(nodes_ids)
           headers: { content_type: 'application/json', accept: 'application/json'},
           :payload =>  sub_arr.to_json
         )
+        
         response = request.execute
         nodes_ids_ancestors = JSON.parse(response.body)
     rescue => e
@@ -284,18 +294,19 @@ def set_ancestors(nodes_ids)
         current_node = nil
         ancestor_node = nil
         group.each do |key,value|
-          
           res = Node.where(generated_node_id: value.to_i)
-          if key.to_i == 0          
-            if res.count > 0
-              current_node = res.first
+          if key.to_i == 0  
+            if  res.count > 0 
+              current_node = res.first 
             end
           else
-            if res.count > 0
+            if res.count > 0 
               ancestor_node = res.first
               NodeAncestor.find_or_create_by(node: current_node, ancestor: ancestor_node, depth: key.to_i, resource_id: current_node.resource_id)
+            else
+              NodeAncestor.find_or_create_by(node_generated_node_id: current_node.generated_node_id, ancestor_generated_node_id: value.to_i, depth: key.to_i, resource_id: current_node.resource_id)
             end
-          end
+          end 
         end      
       end
     end
@@ -782,8 +793,10 @@ namespace :harvester do
   
   # trait=TraitBank.create_trait(options)
     
-    
     main_method_2
+    # build_hierarchy(Node.all.limit(50).pluck(:generated_node_id))
+     # main_method
+    # get_dynamic_heirarchy_nodes
     # meta = [{predicate:{"name"=>"new_md_event","uri"=>"new_test/md_event",section_ids:[1,2,3],definition:"new test predicate definition"},
                         # object_term:{"name"=>"new_md_length1","uri"=>"new_test/md_length1",section_ids:[1,2,3],definition:"new test object_term definition"},
                         # units: {"name"=>"new_cm","uri"=>"http://eol.org/schema/terms/squarekilometer_new",section_ids:[1,2,3],definition:"new test units"},

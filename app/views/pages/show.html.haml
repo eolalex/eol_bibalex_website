@@ -43,11 +43,12 @@
                 -page_node = @page.nodes.first
                 -tree = classification(page_node)
                 -tree.each do |node|
-                  -unless node.pages.empty?
-                    %a{href:  "/pages/#{node.pages.first.id}"} 
-                      =node.scientific_name
-                  -else
-                    =node.scientific_name 
+                  -unless node.nil?
+                    -unless node.pages.empty?
+                      %a{href:  "/pages/#{node.pages.first.id}"} 
+                        =node.scientific_name
+                    -else
+                      =node.scientific_name 
                   \/
             .widget.categories
               -if @page.data.size > 0
