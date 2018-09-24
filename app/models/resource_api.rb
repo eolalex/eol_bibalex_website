@@ -1,12 +1,7 @@
 class ResourceApi
-  # @base_schedular_uri = 'http://localhost:8084/scheduler'
-  @base_schedular_uri = 'http://172.16.0.161:80/scheduler'
-  @@base_storage_uri = 'http://172.16.0.99:80/eol/archiver'
-  # @base_storage_uri = 'http://localhost:8010/eol/archiver'
+  @base_schedular_uri = ENV['schedular_ip']
   # @base_schedular_uri = 'http://172.16.0.161:80/scheduler'
-  # @base_storage_uri = 'http://localhost:8010/eol/archiver'
-  @base_schedular_uri = 'http://172.16.0.161:80/scheduler'
-  @base_storage_uri = 'http://172.16.0.99:80/eol/archiver'
+  @base_storage_uri = ENV['storage_ip']
 
   def self.add_resource?(params, content_partner_id)
     # resource_data_set = params[:path]
