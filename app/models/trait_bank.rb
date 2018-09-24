@@ -554,11 +554,17 @@ class TraitBank
     end
 
     def page_exists?(page_id)
-      debugger
       res = query("MATCH (page:Page { page_id: #{page_id} }) RETURN page")
       res["data"] && res["data"].first ? res["data"].first.first : false
     end
-
+    
+    def meta_exists?(measurement_id)
+      params = {:eol_pk => measurement_id}
+      res = query("MATCH (meta:MetaData { eol_pk: {eol_pk}}) RETURN meta",params)
+      res["data"] && res["data"].first ? res["data"].first.first : false
+    end
+    
+    
     def page_has_parent?(page, page_id)
       node = Neography::Node.load(page["metadata"]["id"], connection)
       return false unless node.rel?(:parent)
@@ -758,13 +764,12 @@ class TraitBank
       supplier = find_resource(resource_id)
       meta = options.delete(:metadata)
       predicate = parse_term(options.delete(:predicate))
-      
+      units = parse_term(options.delete(:units))
       # occurrence metadata
       lifestage = parse_term(options.delete(:lifestage_term))
       sex = parse_term(options.delete(:sex_term))
       statistical_method = parse_term(options.delete(:statistical_method_term))
       
-      units = parse_term(options.delete(:units))
       object_term = parse_term(options.delete(:object_term))
       convert_measurement(options, units)
       trait = connection.create_node(options)
@@ -785,7 +790,7 @@ class TraitBank
     end
 
     def relate(how, from, to)
-      begin
+      begin        
         connection.create_relationship(how, from, to)
       rescue
         # Try again...
@@ -816,18 +821,47 @@ class TraitBank
       end
     end
     
+    def check_relation(how, from, to)
+      res = query("MATCH (n)-[rel:#{how}]->(r)where id(n)= #{from["metadata"]["id"]} AND id(r)= #{to["metadata"]["id"]} RETURN rel")
+      # res = query("MATCH  (f:from), (t:to) RETURN EXISTS( (f)-[:#{how}]->(t) )")
+      # res = query("MATCH (from)-[rel:#{how}]->(to) RETURN rel")
+      # res = query("RETURN EXISTS((from)-[rel:#{how}]->(to))")
+      res["data"].empty? ? false : true  
+    end
+    
     def add_metadata_to_trait(trait, options)
+      # debugger
       predicate = parse_term(options.delete(:predicate))
       units = parse_term(options.delete(:units))
       object_term = parse_term(options.delete(:object_term))
       convert_measurement(options, units)
-      meta = connection.create_node(options)
+      if (meta = meta_exists?(options[:eol_pk]))
+      else
+        meta = connection.create_node(options)
+      end
+      # meta = connection.create_node(options)
       connection.set_label(meta, "MetaData")
+      # debugger
+      if(!check_relation("metadata", trait.first, meta))
+        # debugger
       relate("metadata", trait, meta)
+      end
+      if(!check_relation("predicate", meta, predicate))
+        # debugger
       relate("predicate", meta, predicate)
-      relate("units_term", meta, units) if units
-      relate("object_term", meta, object_term) if
-        object_term
+      end
+      if (units)
+        if(!check_relation("units_term", meta, units))
+          # debugger
+          relate("units_term", meta, units) 
+        end
+      end
+      if(object_term)
+        if(!check_relation("object_term", meta, object_term))
+        # debugger
+          relate("object_term", meta, object_term) 
+        end
+      end
       meta
     end
     def add_parent_to_page(parent, page)
@@ -889,6 +923,7 @@ class TraitBank
     end
 
     def create_term(options)
+      # debugger
       if (existing_term = term(options[:uri])) # NO DUPLICATES!
         return existing_term unless options.delete(:force)
       end
@@ -994,13 +1029,17 @@ class TraitBank
     end
     
     def find_trait(resource_pk, resource_id)
-      res = query("MATCH (trait:Trait) WHERE trait.resource_pk = #{resource_pk} AND trait.supplier = #{resource_id} RETURN trait")
+      # res = query("MATCH (trait:Trait) WHERE trait.resource_pk = #{resource_pk} AND trait.supplier = #{resource_id} RETURN trait")
+      params = { :resource_pk => resource_pk, :resource_id => resource_id }
+      res = query("MATCH (trait:Trait { resource_pk: {resource_pk} })-[:supplier]->(res:Resource { resource_id: {resource_id} }) RETURN trait", params)
       res["data"] ? res["data"].first : false
     end
     
     
     def find_traits(occurrence_id, resource_id)
-      res = query("MATCH (trait:Trait) WHERE trait.eol_pk = \"#{occurrence_id}\" AND trait.supplier = #{resource_id} RETURN trait")
+      params = { :occurrence_id => occurrence_id, :resource_id => resource_id }
+      res = query("MATCH (trait:Trait { occurrence_id: {occurrence_id} })-[:supplier]->(res:Resource { resource_id: {resource_id} }) RETURN trait", params)
+      # res = query("MATCH (trait:Trait) WHERE trait.eol_pk = \"#{occurrence_id}\" AND trait.supplier = #{resource_id} RETURN trait")
       res["data"] ? res["data"] : false
     end
     

@@ -77,18 +77,16 @@ def main_method
   # nodes_ids = [1976]
   
   is_updates = check_for_upadtes
-  
   nodes_ids = []
   if is_updates == "true"
     start_key = -1
     # json_content = get_latest_updates_from_hbase(start_key)
-     json_content = get_nodes_of_resource_from_hbase(452)
+     json_content = get_nodes_of_resource_from_hbase(471)
      # nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'nodes4.json')
      # json_content = File.read(nodes_file_path)
      # unless json_content == false
        nodes = JSON.parse(json_content)
-       
-       # # load_occurrences
+       # load_occurrences
        # nodes.each do |node|
          # unless node["occurrences"].nil?
            # node["occurrences"].each do |occurrence|
@@ -115,32 +113,35 @@ def main_method
 
        
        
-       nodes.each do |node|
-        
+       # nodes.each do |node|
+
         # if node["resourceId"] == 452
         
+         node=nodes[0]
+         node["taxon"]["pageEolId"]="1"
+         measurements = node["measurementOrFacts"]
+         measurements[3]["parentMeasurementId"]="912"
          
-        
+         # node["taxon"]["pageEolId"]= "1"
          
          nodes_ids << node["generatedNodeId"]
-         res = Node.where(generated_node_id: node["generatedNodeId"])        
-         if res.count > 0
-           created_node = res.first
-         else
-           params = { resource_id: node["resourceId"],
-                     scientific_name: node["taxon"]["scientificName"], canonical_form: node["taxon"]["canonicalName"],
-                     rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
-                     page_id: node["taxon"]["pageEolId"] }
-          created_node = create_node(params)
-        end          
+         # res = Node.where(generated_node_id: node["generatedNodeId"])        
+         # if res.count > 0
+           # created_node = res.first
+         # else
+           # params = { resource_id: node["resourceId"],
+                     # scientific_name: node["taxon"]["scientificName"], canonical_form: node["taxon"]["canonicalName"],
+                     # rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
+                     # page_id: node["taxon"]["pageEolId"] }
+          # created_node = create_node(params)
+        # end          
 #           
-            
          unless node["taxon"]["pageEolId"].nil?
        
-          page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
+          # page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
           # create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
                                  # node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] }) 
-          create_pages_nodes({resource_id: node["resourceId"], node_id: created_node.id, page_id: page_id})     
+          # create_pages_nodes({resource_id: node["resourceId"], node_id: created_node.id, page_id: page_id})     
           # unless node["vernaculars"].nil?
             # create_vernaculars({vernaculars: node["vernaculars"], node_id: created_node.id, page_id: page_id, resource_id: node["resourceId"] })
           # end
@@ -151,15 +152,16 @@ def main_method
           
           node_params = { page_id: node["taxon"]["pageEolId"], resource_id: node["resourceId"],
                           scientific_name: node["taxon"]["scientificName"] }
-          # add_neo4j(node_params, node["occurrences"], node["measurementOrFacts"], node["associations"])           
+          add_neo4j(node_params, node["occurrences"], node["measurementOrFacts"], node["associations"])           
           end      
          # end
       # end # end of nodes loop
-       build_hierarchy(nodes_ids)
+      
+       # build_hierarchy(nodes_ids)
        
 
     end
-   end    
+   # end    
  end
 
   
@@ -576,7 +578,6 @@ def add_neo4j(node_params, occurrences, measurements, associations)
   
     unless measurements.nil?
       measurements.each do |measurement|
-        
         occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
         # options = { supplier: { "data" => { "resource_id" =>node_params[:resource_id] } },
                     # resource_pk: measurement["measurementId"], page: node_params[:page_id] ,
@@ -585,99 +586,69 @@ def add_neo4j(node_params, occurrences, measurements, associations)
                                   # section_ids:[1,2,3],definition:"predicate definition"}
                      # }
         options = { 
-                    predicate: { "name" => "predicate_name_#{measurement["measurementId"]}", uri: measurement["measurementType"],
+                    predicate: { name:"predicate_name_#{measurement["measurementId"]}", uri: measurement["measurementType"],
                                   section_ids:[1,2,3],definition:"predicate definition"}
                      }
         if numeric?(measurement["measurementValue"])
           options[:measurement] = measurement["measurementValue"]
         elsif uri?(measurement["measurementValue"])
-          options[:object_term] = { "name" => "temp object term_#{measurement["measurementId"]}",
+          options[:object_term] = { name: "temp object term_#{measurement["measurementId"]}",
                                    uri: measurement["measurementValue"], section_ids:[1,2,3],definition:"object_term definition"}
         else
           #TODO update this part after discussing it with stakeholders
           options[:literal] = measurement["measurementValue"]            
         end
         if measurement["unit"]
-          options[:units_term] = {"name"=>"unit #{measurement["measurementId"]}","uri"=> measurement["unit"],
+          options[:units] = {name: "unit_#{measurement["measurementId"]}",uri: measurement["unit"],
                              section_ids:[1,2,3],definition:"test units"}            
         end
         
         
         if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
-          options[:lifestage_term] = { "name" => "lifeStage_#{measurement["measurementId"]}",
+          options[:lifestage_term] = { name: "lifeStage_#{measurement["measurementId"]}",
                                  uri: occurrence_of_measurement["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
         end
         
         if occurrence_of_measurement && occurrence_of_measurement["sex"]
-          options[:sex_term] = { "name" => "sex_#{measurement["measurementId"]}",
+          options[:sex_term] = { name: "sex_#{measurement["measurementId"]}",
                                  uri: occurrence_of_measurement["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
         end
         
         if occurrence_of_measurement && occurrence_of_measurement["statisticalMethod"]
-          options[:statistical_method_term] = { "name" => "statisticalMethod_#{measurement["measurementId"]}",
+          options[:statistical_method_term] = { name: "statisticalMethod_#{measurement["measurementId"]}",
                                  uri: occurrence_of_measurement["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
         end
         
         
         
-        if measurement["measurementOfTaxon"] == "true" || measurement["measurementOfTaxon"] == "TRUE"
-          # occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
-          # options = { supplier: { "data" => { "resource_id" =>node_params[:resource_id] } },
-                      # resource_pk: measurement["measurementId"], page: node_params[:page_id] ,
-                      # eol_pk: "eol_pk_#{measurement["measurementId"]}", scientific_name: node_params[:scientific_name],
-                      # predicate: { "name" => "predicate_name_#{measurement["measurementId"]}", uri: measurement["measurementType"],
-                                    # section_ids:[1,2,3],definition:"predicate definition"}
-                       # }
-          # if numeric?(measurement["measurementValue"])
-            # options[:measurement] = measurement["measurementValue"]
-          # elsif uri?(measurement["measurementValue"])
-            # options[:object_term] = { "name" => "temp object term_#{measurement["measurementId"]}",
-                                     # uri: measurement["measurementValue"], section_ids:[1,2,3],definition:"object_term definition"}
-          # else
-            # #TODO update this part after discussing it with stakeholders
-            # options[:literal] = measurement["measurementValue"]            
-          # end
-          # if measurement["unit"]
-            # options[:units_term] = {"name"=>"unit #{measurement["measurementId"]}","uri"=> measurement["unit"],
-                               # section_ids:[1,2,3],definition:"test units"}            
-          # end
-#           
-#           
-          # if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
-            # options[:lifestage_term] = { "name" => "lifeStage_#{measurement["measurementId"]}",
-                                   # uri: occurrence_of_measurement["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
-          # end
-#           
-          # if occurrence_of_measurement && occurrence_of_measurement["sex"]
-            # options[:sex_term] = { "name" => "sex_#{measurement["measurementId"]}",
-                                   # uri: occurrence_of_measurement["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
-          # end
-#           
-          # if occurrence_of_measurement && occurrence_of_measurement["statisticalMethod"]
-            # options[:statistical_method_term] = { "name" => "statisticalMethod_#{measurement["measurementId"]}",
-                                   # uri: occurrence_of_measurement["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
-          # end
-          
-          
-        
+        if measurement["measurementOfTaxon"] == "true" || measurement["measurementOfTaxon"] == "TRUE" 
+          # debugger      
           options[:supplier] = { "data" => { "resource_id" =>node_params[:resource_id] } }
           options[:resource_pk] =  measurement["measurementId"]
           options[:page] = node_params[:page_id]
-          options[:eol_pk] = "\"#{measurement["occurrenceId"]}\""
+          options[:eol_pk] = "#{measurement["occurrenceId"]}"+"_"+"#{measurement["measurementId"]}"
+          # options[:eol_pk] = "\"#{measurement["occurrenceId"]}\""
           options[:scientific_name] =  node_params[:scientific_name]
+          options[:occurrence_id]= measurement["occurrenceId"]
           trait=TraitBank.create_trait(options)
-          
-          
-          
-        elsif (measurement["measurementOfTaxon"] == "true" || measurement["measurementOfTaxon"] == "TRUE") && !(measurement["parentMeasurementId"].nil?)
+
+        elsif (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
+          # debugger
             #Update this condidtion to insert metadata of a given measurement : measurementOfTaxon = true and measurementparent is not null
           res = TraitBank.find_trait(measurement["parentMeasurementId"], node_params[:resource_id]) # we should use parent measurement id to find the actual trait
-          options.each { |md| TraitBank.add_metadata_to_trait(res, md) }
+          # options.each { |md| TraitBank.add_metadata_to_trait(res, md) }
+          options[:eol_pk]= measurement["measurementId"]
+          TraitBank.add_metadata_to_trait(res, options)
           
         else
+          # debugger
           traits = TraitBank.find_traits(measurement["occurrenceId"], node_params[:resource_id]) # we should use parent measurement id to find the actual trait
           traits.each do |element|
-            options.each { |md| TraitBank.add_metadata_to_trait(element, md) }
+            debugger
+            options[:eol_pk]= measurement["measurementId"]
+            options_copy = options.clone
+            TraitBank.add_metadata_to_trait(element, options_copy)
+            # options.each { |md| TraitBank.add_metadata_to_trait(element, md) }
           end   
         end
       end
@@ -692,23 +663,26 @@ def add_neo4j(node_params, occurrences, measurements, associations)
         end
         options = { supplier: { "data" => { "resource_id" =>node_params[:resource_id] } },
                       resource_pk: association["associationId"].to_i, page: node_params[:page_id] ,
-                      eol_pk: "\"#{measurement["occurrenceId"]}\"", scientific_name: node_params[:scientific_name], object_page_id: object_page_id,
-                      predicate: { "name" => "predicate_name_#{association["associationId"]}", uri: association["associationType"], section_ids:[1,2,3],definition:"predicate definition"},
+                      occurrence_id:association["occurrenceId"],
+                      eol_pk: "\"#{association["occurrenceId"]}\""+"_"+"\"#{association["associationId"]}\"",
+                      # eol_pk: "\"#{measurement["occurrenceId"]}\"", 
+                      scientific_name: node_params[:scientific_name], object_page_id: object_page_id,
+                      predicate: { name: "predicate_name_#{association["associationId"]}", uri: association["associationType"], section_ids:[1,2,3],definition:"predicate definition"}
                        }
                        
           occurrence_of_association = occurrences_hash[association["occurrenceId"]]
           if occurrence_of_association && occurrence_of_association["sex"]
-            options[:sex_term] = { "name" => "sex_#{association["associationId"]}",
+            options[:sex_term] = { name: "sex_#{association["associationId"]}",
                                    uri: occurrence_of_association["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
           end
           
           if occurrence_of_association && occurrence_of_association["lifeStage"]
-            options[:lifestage_term] = { "name" => "lifeStage_#{association["associationId"]}",
+            options[:lifestage_term] = { name: "lifeStage_#{association["associationId"]}",
                                    uri: occurrence_of_association["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
           end
           
           if occurrence_of_association && occurrence_of_association["statisticalMethod"]
-            options[:statistical_method_term] = { "name" => "statisticalMethod_#{association["associationId"]}",
+            options[:statistical_method_term] = { name: "statisticalMethod_#{association["associationId"]}",
                                    uri: occurrence_of_association["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
           end
           trait=TraitBank.create_trait(options)
@@ -783,7 +757,7 @@ namespace :harvester do
   # trait=TraitBank.create_trait(options)
     
     
-    main_method_2
+    main_method
     # meta = [{predicate:{"name"=>"new_md_event","uri"=>"new_test/md_event",section_ids:[1,2,3],definition:"new test predicate definition"},
                         # object_term:{"name"=>"new_md_length1","uri"=>"new_test/md_length1",section_ids:[1,2,3],definition:"new test object_term definition"},
                         # units: {"name"=>"new_cm","uri"=>"http://eol.org/schema/terms/squarekilometer_new",section_ids:[1,2,3],definition:"new test units"},

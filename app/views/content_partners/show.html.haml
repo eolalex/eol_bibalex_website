@@ -10,11 +10,11 @@
             -content_partner_user = User.find(ContentPartnerUser.find_by_content_partner_id(params[:id]).user_id)
             -if(content_partner_user==current_user)
               %a.btn.btn-primary{:href => "#{edit_content_partner_path(id: @content_partner.id)}", :role => "button"}
-                Edit
+                #{t(:edit_button)}
       .col-md-8
         .part
           .subtitle
-            Description
+            #{t(:description)}
           %p
             = @content_partner.description
             %hr/
@@ -26,7 +26,7 @@
         %aside
           .widget.categories.contentManger
             %span
-              %b Managed by
+              %b #{t(:managed_by)}
             .row
               .col-sm-12
                 .single_comments
@@ -37,7 +37,7 @@
           .widget.categories.Resources
             .greyBox
               %h3.ResourcesIcon
-                Resources
+                #{t(:resources)}
                 -content_partner_user = User.find(ContentPartnerUser.find_by_content_partner_id(params[:id]).user_id)
                 -if(content_partner_user==current_user)                
                   %a.btn-addResource{href: "#{ new_content_partner_resource_path(content_partner_id: @content_partner.id)}"}

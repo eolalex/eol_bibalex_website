@@ -13,11 +13,11 @@
           / Only required for left/right tabs
           %ul.nav.nav-tabs
             %li.nav-item.active
-              %a.nav-link.active{"data-toggle" => "tab", :href => "#ScientificNames"} Scientific Names
+              %a.nav-link.active{"data-toggle" => "tab", :href => "#ScientificNames"} #{t(:scientific_names)}
             %li.nav-item
-              %a.nav-link{"data-toggle" => "tab", :href => "#CommonNames"} Vernaculars
+              %a.nav-link{"data-toggle" => "tab", :href => "#CommonNames"} #{t(:vernaculars)}
             %li.nav-item
-              %a.nav-link{"data-toggle" => "tab", :href => "#Classifications"} Classifications
+              %a.nav-link{"data-toggle" => "tab", :href => "#Classifications"} #{t(:classifications)}
           .tab-content
             #CommonNames.tab-pane
               = render('pages/vernaculars.html.haml')

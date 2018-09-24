@@ -1,4 +1,5 @@
 class CollectedPage < ActiveRecord::Base
+  searchkick word_start: [:scientific_name]
   belongs_to :page, inverse_of: :collected_pages
   belongs_to :collection, inverse_of: :collected_pages
   require 'acts_as_list'
@@ -30,6 +31,13 @@ class CollectedPage < ActiveRecord::Base
   #   text(:vernaculars) { page.vernaculars.preferred.map { |v| v.string } }
   # end
 
+  def search_data
+
+    {
+     scientific_name_string: scientific_name_string
+    }
+
+  end
   def self.find_pages(q, collection_id)
     CollectedPage.search do
       q = "*#{q}" unless q[0] == "*"

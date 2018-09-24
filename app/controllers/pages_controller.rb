@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
+  include ApplicationHelper
   before_action :authenticate_user!, only: [:index, :new]
   def index
   end

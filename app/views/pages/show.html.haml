@@ -22,17 +22,17 @@
                     - unless content.trust.nil?   
                       %span.btn.btn-success.btn-xs
                         = content.trust 
-                  %span.TaxonMentaData
+                  %span.TaxonMetaData
                     - unless image.nil?
-                      %b Photographed by:
+                      %b #{t(:photographed_by)}
                       = image.owner
               .col-xs-12.blog-content
                 %br/
                 - if @page.articles.size > 0
-                  %h5 Comprehensive Description
+                  %h5 #{t(:comprehensive_description)}
                   = @page.articles.first
                 - else
-                  %h5 No Articles Associated
+                  %h5 #{t(:no_articles)}
         .col-md-4
           %aside
             .widget.categories
@@ -52,7 +52,7 @@
             .widget.categories
               -if @page.data.size > 0
                 %h3
-                  Selective Traits
+                  #{t(:selective_traits)}
                   %small.pull-right traits
                 %table.table.table-striped
                   - @page.data.each do |trait|  
@@ -63,14 +63,14 @@
                         =trait[:predicate][:definition]
               -else
                 %h3
-                  Selective Traits
+                  #{t(:selective_traits)}
                   %small.pull-right traits
                 %table.table.table-striped
                   %tr
                     %td.text-center
-                      %b No Traits associated to this page
+                      %b #{t(:no_traits)}
             .widget.categories
-              %h3 Taxon Card
+              %h3 #{t(:taxon_card)}
               .row
                 .col-sm-12
                   .single_comments
@@ -80,7 +80,7 @@
                       %b 
                         #{@page.scientific_name}
             .widget.blog_gallery
-              %h3 Refresh your memory
+              %h3 #{t(:refresh_memory)}
               %ul.sidebar-gallery
                 %li
                   %a{:href => "https://education.eol.org/memory/"}

@@ -3,24 +3,24 @@
 %small
 %span.dropdown.pull-right
   %a.dropdown-toggle.btn.btn-primary.exploreTaxonBtn{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
-    Explore this taxon
+    #{t(:explore_taxon)}
     %span.caret
   %ul#menu1.dropdown-menu{"aria-labelledby" => "drop4"}
     %li
-      %a{:href => page_path(@page)} Overview
+      %a{:href => page_path(@page)} #{t(:overview)}
     %li
-      %a{:href => names_page_path(@page)} Names
+      %a{:href => names_page_path(@page)} #{t(:names)}
     - if @page.media.size > 0
       %li
-        %a{:href => page_media_path(@page)} Media
+        %a{:href => page_media_path(@page)} #{t(:media)}
     -if @page.referents.size > 0
       %li
-        %a{:href => page_literature_and_references_path(@page)} Literature and references
+        %a{:href => page_literature_and_references_path(@page)} #{t(:literature_and_references_header)}
     -if @page.data.size > 0
       %li
-        %a{:href => page_data_path(@page)} Data
+        %a{:href => page_data_path(@page)} #{t(:data)}
 %small
 %span.dropdown.pull-right
-  =link_to 'Add to Collection', new_collected_page_path(page_id: @page.id), class: "btn btn-primary"
+  =link_to "#{t(:collect_button)}", new_collected_page_path(page_id: @page.id), class: "btn btn-primary"
 .page_topics{ data: { id: @page.id } }    
 
