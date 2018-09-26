@@ -1,0 +1,1031 @@
+{
+    "ranks": [
+        {
+            "id": 1,
+            "name": "species"
+        },
+        {
+            "id": 2,
+            "name": "superfamily"
+        },
+        {
+            "id": 3,
+            "name": "polyphyletic group"
+        },
+        {
+            "id": 4,
+            "name": "family"
+        },
+        {
+            "id": 5,
+            "name": "genus"
+        },
+        {
+            "id": 6,
+            "name": "suborder"
+        }
+    ],
+    "nodes": [
+        {
+            "id": 1,
+            "resource_id": 4,
+            "scientific_name": "????????????????????????????????",
+            "canonical_form": "",
+            "generated_node_id": 1,
+            "resource_pk": "-100000",
+            "parent_id": null,
+            "rank_id": 1
+        },
+        {
+            "id": 2,
+            "resource_id": 4,
+            "scientific_name": "Frescocyathus tessieri Barta-Calmus, 1969",
+            "canonical_form": "Frescocyathus tessieri",
+            "generated_node_id": 2,
+            "resource_pk": "-100001",
+            "parent_id": null,
+            "rank_id": 1
+        },
+        {
+            "id": 3,
+            "resource_id": 4,
+            "scientific_name": "Diphhelia raristella Haime & Milne-Edwards",
+            "canonical_form": "Diphhelia raristella",
+            "generated_node_id": 3,
+            "resource_pk": "-100002",
+            "parent_id": null,
+            "rank_id": 1
+        },
+        {
+            "id": 4,
+            "resource_id": 4,
+            "scientific_name": "Brachycoenia leptophyllia Reuss, 1854",
+            "canonical_form": "Brachycoenia leptophyllia",
+            "generated_node_id": 4,
+            "resource_pk": "-100003",
+            "parent_id": null,
+            "rank_id": 1
+        },
+        {
+            "id": 5,
+            "resource_id": 4,
+            "scientific_name": "Elasmofungia comoserioides Alloiteau, 1957",
+            "canonical_form": "Elasmofungia comoserioides",
+            "generated_node_id": 5,
+            "resource_pk": "-100004",
+            "parent_id": null,
+            "rank_id": 1
+        },
+        {
+            "id": 6,
+            "resource_id": 4,
+            "scientific_name": "Actinernoidea Stephenson, 1922",
+            "canonical_form": "Actinernoidea",
+            "generated_node_id": 6,
+            "resource_pk": "-100047",
+            "parent_id": null,
+            "rank_id": 2
+        },
+        {
+            "id": 7,
+            "resource_id": 4,
+            "scientific_name": "Edwardsioidea Andres, 1881",
+            "canonical_form": "Edwardsioidea",
+            "generated_node_id": 7,
+            "resource_pk": "-100048",
+            "parent_id": null,
+            "rank_id": 2
+        },
+        {
+            "id": 8,
+            "resource_id": 4,
+            "scientific_name": "Actinostoloidea Carlgren, 1932",
+            "canonical_form": "Actinostoloidea",
+            "generated_node_id": 8,
+            "resource_pk": "-100051",
+            "parent_id": null,
+            "rank_id": 2
+        },
+        {
+            "id": 9,
+            "resource_id": 4,
+            "scientific_name": "unplaced extinct Diptera",
+            "canonical_form": "",
+            "generated_node_id": 9,
+            "resource_pk": "-1000742",
+            "parent_id": null,
+            "rank_id": 3
+        },
+        {
+            "id": 10,
+            "resource_id": 4,
+            "scientific_name": "Ascilla coriacea E. Haeckel, 1872",
+            "canonical_form": "Ascilla coriacea",
+            "generated_node_id": 10,
+            "resource_pk": "-100084",
+            "parent_id": null,
+            "rank_id": 1
+        },
+        {
+            "id": 11,
+            "resource_id": 4,
+            "scientific_name": "Ctenopthalmidae",
+            "canonical_form": "Ctenopthalmidae",
+            "generated_node_id": 11,
+            "resource_pk": "-1000947",
+            "parent_id": null,
+            "rank_id": 4
+        },
+        {
+            "id": 12,
+            "resource_id": 4,
+            "scientific_name": "unplaced extinct Amphiesmenoptera",
+            "canonical_form": "",
+            "generated_node_id": 12,
+            "resource_pk": "-1000964",
+            "parent_id": null,
+            "rank_id": 3
+        },
+        {
+            "id": 13,
+            "resource_id": 4,
+            "scientific_name": "Pseudopolycentropidae",
+            "canonical_form": "Pseudopolycentropidae",
+            "generated_node_id": 13,
+            "resource_pk": "-1000971",
+            "parent_id": null,
+            "rank_id": 4
+        },
+        {
+            "id": 14,
+            "resource_id": 4,
+            "scientific_name": "Protomerope Tillyard, 1926",
+            "canonical_form": "Protomerope",
+            "generated_node_id": 14,
+            "resource_pk": "-1001010",
+            "parent_id": null,
+            "rank_id": 5
+        },
+        {
+            "id": 15,
+            "resource_id": 4,
+            "scientific_name": "Cretacechorista Hong, Yan & Wang, 1989",
+            "canonical_form": "Cretacechorista",
+            "generated_node_id": 15,
+            "resource_pk": "-1001011",
+            "parent_id": null,
+            "rank_id": 5
+        },
+        {
+            "id": 16,
+            "resource_id": 4,
+            "scientific_name": "Wightimicropsocus Azar, 2014",
+            "canonical_form": "Wightimicropsocus",
+            "generated_node_id": 16,
+            "resource_pk": "-1001013",
+            "parent_id": null,
+            "rank_id": 5
+        },
+        {
+            "id": 17,
+            "resource_id": 4,
+            "scientific_name": "Wightipsocus Azar, 2014",
+            "canonical_form": "Wightipsocus",
+            "generated_node_id": 17,
+            "resource_pk": "-1001015",
+            "parent_id": null,
+            "rank_id": 5
+        },
+        {
+            "id": 18,
+            "resource_id": 4,
+            "scientific_name": "Awightipsocus Azar, 2014",
+            "canonical_form": "Awightipsocus",
+            "generated_node_id": 18,
+            "resource_pk": "-1001018",
+            "parent_id": null,
+            "rank_id": 5
+        },
+        {
+            "id": 19,
+            "resource_id": 4,
+            "scientific_name": "Parapsocida",
+            "canonical_form": "Parapsocida",
+            "generated_node_id": 19,
+            "resource_pk": "-1001019",
+            "parent_id": null,
+            "rank_id": 6
+        },
+        {
+            "id": 20,
+            "resource_id": 4,
+            "scientific_name": "Permopsocida",
+            "canonical_form": "Permopsocida",
+            "generated_node_id": 20,
+            "resource_pk": "-1001023",
+            "parent_id": null,
+            "rank_id": 6
+        }
+    ],
+    "pages": [
+        {
+            "id": 1,
+            "page_richness": null,
+            "node_id": 1
+        },
+        {
+            "id": 2,
+            "page_richness": null,
+            "node_id": 2
+        },
+        {
+            "id": 3,
+            "page_richness": null,
+            "node_id": 3
+        },
+        {
+            "id": 4,
+            "page_richness": null,
+            "node_id": 4
+        },
+        {
+            "id": 5,
+            "page_richness": null,
+            "node_id": 5
+        },
+        {
+            "id": 6,
+            "page_richness": null,
+            "node_id": 6
+        },
+        {
+            "id": 7,
+            "page_richness": null,
+            "node_id": 7
+        },
+        {
+            "id": 8,
+            "page_richness": null,
+            "node_id": 8
+        },
+        {
+            "id": 9,
+            "page_richness": null,
+            "node_id": 9
+        },
+        {
+            "id": 10,
+            "page_richness": null,
+            "node_id": 10
+        },
+        {
+            "id": 11,
+            "page_richness": null,
+            "node_id": 11
+        },
+        {
+            "id": 12,
+            "page_richness": null,
+            "node_id": 12
+        },
+        {
+            "id": 13,
+            "page_richness": null,
+            "node_id": 13
+        },
+        {
+            "id": 14,
+            "page_richness": null,
+            "node_id": 14
+        },
+        {
+            "id": 15,
+            "page_richness": null,
+            "node_id": 15
+        },
+        {
+            "id": 16,
+            "page_richness": null,
+            "node_id": 16
+        },
+        {
+            "id": 17,
+            "page_richness": null,
+            "node_id": 17
+        },
+        {
+            "id": 18,
+            "page_richness": null,
+            "node_id": 18
+        },
+        {
+            "id": 19,
+            "page_richness": null,
+            "node_id": 19
+        },
+        {
+            "id": 20,
+            "page_richness": null,
+            "node_id": 20
+        }
+    ],
+    "pages_nodes": [
+        {
+            "id": 1,
+            "page_id": 1,
+            "node_id": 1,
+            "is_native": false
+        },
+        {
+            "id": 2,
+            "page_id": 2,
+            "node_id": 2,
+            "is_native": false
+        },
+        {
+            "id": 3,
+            "page_id": 3,
+            "node_id": 3,
+            "is_native": false
+        },
+        {
+            "id": 4,
+            "page_id": 4,
+            "node_id": 4,
+            "is_native": false
+        },
+        {
+            "id": 5,
+            "page_id": 5,
+            "node_id": 5,
+            "is_native": false
+        },
+        {
+            "id": 6,
+            "page_id": 6,
+            "node_id": 6,
+            "is_native": false
+        },
+        {
+            "id": 7,
+            "page_id": 7,
+            "node_id": 7,
+            "is_native": false
+        },
+        {
+            "id": 8,
+            "page_id": 8,
+            "node_id": 8,
+            "is_native": false
+        },
+        {
+            "id": 9,
+            "page_id": 9,
+            "node_id": 9,
+            "is_native": false
+        },
+        {
+            "id": 10,
+            "page_id": 10,
+            "node_id": 10,
+            "is_native": false
+        },
+        {
+            "id": 11,
+            "page_id": 11,
+            "node_id": 11,
+            "is_native": false
+        },
+        {
+            "id": 12,
+            "page_id": 12,
+            "node_id": 12,
+            "is_native": false
+        },
+        {
+            "id": 13,
+            "page_id": 13,
+            "node_id": 13,
+            "is_native": false
+        },
+        {
+            "id": 14,
+            "page_id": 14,
+            "node_id": 14,
+            "is_native": false
+        },
+        {
+            "id": 15,
+            "page_id": 15,
+            "node_id": 15,
+            "is_native": false
+        },
+        {
+            "id": 16,
+            "page_id": 16,
+            "node_id": 16,
+            "is_native": false
+        },
+        {
+            "id": 17,
+            "page_id": 17,
+            "node_id": 17,
+            "is_native": false
+        },
+        {
+            "id": 18,
+            "page_id": 18,
+            "node_id": 18,
+            "is_native": false
+        },
+        {
+            "id": 19,
+            "page_id": 19,
+            "node_id": 19,
+            "is_native": false
+        },
+        {
+            "id": 20,
+            "page_id": 20,
+            "node_id": 20,
+            "is_native": false
+        }
+    ],
+    "scientific_names": [
+        {
+            "id": 1,
+            "resource_id": 4,
+            "canonical_form": "",
+            "node_resource_pk": "-100000",
+            "italicized": "",
+            "generated_node_id": 1,
+            "is_preferred": null,
+            "node_id": 1,
+            "page_id": 1,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 2,
+            "resource_id": 4,
+            "canonical_form": "Frescocyathus tessieri",
+            "node_resource_pk": "-100001",
+            "italicized": "Frescocyathus tessieri",
+            "generated_node_id": 2,
+            "is_preferred": null,
+            "node_id": 2,
+            "page_id": 2,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 3,
+            "resource_id": 4,
+            "canonical_form": "Diphhelia raristella",
+            "node_resource_pk": "-100002",
+            "italicized": "Diphhelia raristella",
+            "generated_node_id": 3,
+            "is_preferred": null,
+            "node_id": 3,
+            "page_id": 3,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 4,
+            "resource_id": 4,
+            "canonical_form": "Brachycoenia leptophyllia",
+            "node_resource_pk": "-100003",
+            "italicized": "Brachycoenia leptophyllia",
+            "generated_node_id": 4,
+            "is_preferred": null,
+            "node_id": 4,
+            "page_id": 4,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 5,
+            "resource_id": 4,
+            "canonical_form": "Elasmofungia comoserioides",
+            "node_resource_pk": "-100004",
+            "italicized": "Elasmofungia comoserioides",
+            "generated_node_id": 5,
+            "is_preferred": null,
+            "node_id": 5,
+            "page_id": 5,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 6,
+            "resource_id": 4,
+            "canonical_form": "Actinernoidea",
+            "node_resource_pk": "-100047",
+            "italicized": "Actinernoidea",
+            "generated_node_id": 6,
+            "is_preferred": null,
+            "node_id": 6,
+            "page_id": 6,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 7,
+            "resource_id": 4,
+            "canonical_form": "Edwardsioidea",
+            "node_resource_pk": "-100048",
+            "italicized": "Edwardsioidea",
+            "generated_node_id": 7,
+            "is_preferred": null,
+            "node_id": 7,
+            "page_id": 7,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 8,
+            "resource_id": 4,
+            "canonical_form": "Actinostoloidea",
+            "node_resource_pk": "-100051",
+            "italicized": "Actinostoloidea",
+            "generated_node_id": 8,
+            "is_preferred": null,
+            "node_id": 8,
+            "page_id": 8,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 9,
+            "resource_id": 4,
+            "canonical_form": "",
+            "node_resource_pk": "-1000742",
+            "italicized": "",
+            "generated_node_id": 9,
+            "is_preferred": null,
+            "node_id": 9,
+            "page_id": 9,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 10,
+            "resource_id": 4,
+            "canonical_form": "Ascilla coriacea",
+            "node_resource_pk": "-100084",
+            "italicized": "Ascilla coriacea",
+            "generated_node_id": 10,
+            "is_preferred": null,
+            "node_id": 10,
+            "page_id": 10,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 11,
+            "resource_id": 4,
+            "canonical_form": "Ctenopthalmidae",
+            "node_resource_pk": "-1000947",
+            "italicized": "Ctenopthalmidae",
+            "generated_node_id": 11,
+            "is_preferred": null,
+            "node_id": 11,
+            "page_id": 11,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 12,
+            "resource_id": 4,
+            "canonical_form": "",
+            "node_resource_pk": "-1000964",
+            "italicized": "",
+            "generated_node_id": 12,
+            "is_preferred": null,
+            "node_id": 12,
+            "page_id": 12,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 13,
+            "resource_id": 4,
+            "canonical_form": "Pseudopolycentropidae",
+            "node_resource_pk": "-1000971",
+            "italicized": "Pseudopolycentropidae",
+            "generated_node_id": 13,
+            "is_preferred": null,
+            "node_id": 13,
+            "page_id": 13,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 14,
+            "resource_id": 4,
+            "canonical_form": "Protomerope",
+            "node_resource_pk": "-1001010",
+            "italicized": "Protomerope",
+            "generated_node_id": 14,
+            "is_preferred": null,
+            "node_id": 14,
+            "page_id": 14,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 15,
+            "resource_id": 4,
+            "canonical_form": "Cretacechorista",
+            "node_resource_pk": "-1001011",
+            "italicized": "Cretacechorista",
+            "generated_node_id": 15,
+            "is_preferred": null,
+            "node_id": 15,
+            "page_id": 15,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 16,
+            "resource_id": 4,
+            "canonical_form": "Wightimicropsocus",
+            "node_resource_pk": "-1001013",
+            "italicized": "Wightimicropsocus",
+            "generated_node_id": 16,
+            "is_preferred": null,
+            "node_id": 16,
+            "page_id": 16,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 17,
+            "resource_id": 4,
+            "canonical_form": "Wightipsocus",
+            "node_resource_pk": "-1001015",
+            "italicized": "Wightipsocus",
+            "generated_node_id": 17,
+            "is_preferred": null,
+            "node_id": 17,
+            "page_id": 17,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 18,
+            "resource_id": 4,
+            "canonical_form": "Awightipsocus",
+            "node_resource_pk": "-1001018",
+            "italicized": "Awightipsocus",
+            "generated_node_id": 18,
+            "is_preferred": null,
+            "node_id": 18,
+            "page_id": 18,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 19,
+            "resource_id": 4,
+            "canonical_form": "Parapsocida",
+            "node_resource_pk": "-1001019",
+            "italicized": "Parapsocida",
+            "generated_node_id": 19,
+            "is_preferred": null,
+            "node_id": 19,
+            "page_id": 19,
+            "taxonomic_status_id": 1
+        },
+        {
+            "id": 20,
+            "resource_id": 4,
+            "canonical_form": "Permopsocida",
+            "node_resource_pk": "-1001023",
+            "italicized": "Permopsocida",
+            "generated_node_id": 20,
+            "is_preferred": null,
+            "node_id": 20,
+            "page_id": 20,
+            "taxonomic_status_id": 1
+        }
+    ],
+    "languages": [
+        {
+            "id": 1,
+            "code": "en",
+            "group": "en"
+        }
+    ],
+    "vernaculars": [
+        {
+            "id": 1,
+            "string": "Common Redpoll",
+            "resource_id": 4,
+            "is_prefered_by_resource": false,
+            "generated_node_id": 1,
+            "node_id": 1,
+            "page_id": 1,
+            "language_id": 1
+        },
+        {
+            "id": 2,
+            "string": "Cooper's Hawk",
+            "resource_id": 4,
+            "is_prefered_by_resource": false,
+            "generated_node_id": 2,
+            "node_id": 2,
+            "page_id": 2,
+            "language_id": 1
+        },
+        {
+            "id": 3,
+            "string": "Northern Goshawk",
+            "resource_id": 4,
+            "is_prefered_by_resource": false,
+            "generated_node_id": 3,
+            "node_id": 3,
+            "page_id": 3,
+            "language_id": 1
+        },
+        {
+            "id": 4,
+            "string": "Sharp-shinned Hawk",
+            "resource_id": 4,
+            "is_prefered_by_resource": false,
+            "generated_node_id": 4,
+            "node_id": 4,
+            "page_id": 4,
+            "language_id": 1
+        },
+        {
+            "id": 5,
+            "string": "Spotted Sandpiper",
+            "resource_id": 4,
+            "is_prefered_by_resource": false,
+            "generated_node_id": 5,
+            "node_id": 5,
+            "page_id": 5,
+            "language_id": 1
+        },
+        {
+            "id": 6,
+            "string": "Northern Saw-whet Owl",
+            "resource_id": 4,
+            "is_prefered_by_resource": false,
+            "generated_node_id": 6,
+            "node_id": 6,
+            "page_id": 6,
+            "language_id": 1
+        },
+        {
+            "id": 7,
+            "string": "Red-winged Blackbird",
+            "resource_id": 4,
+            "is_prefered_by_resource": false,
+            "generated_node_id": 7,
+            "node_id": 7,
+            "page_id": 7,
+            "language_id": 1
+        },
+        {
+            "id": 8,
+            "string": "Wood Duck",
+            "resource_id": 4,
+            "is_prefered_by_resource": false,
+            "generated_node_id": 8,
+            "node_id": 8,
+            "page_id": 8,
+            "language_id": 1
+        },
+        {
+            "id": 9,
+            "string": "Saltmarsh Sparrow",
+            "resource_id": 4,
+            "is_prefered_by_resource": false,
+            "generated_node_id": 9,
+            "node_id": 9,
+            "page_id": 9,
+            "language_id": 1
+        },
+        {
+            "id": 10,
+            "string": "Henslow's Sparrow",
+            "resource_id": 4,
+            "is_prefered_by_resource": false,
+            "generated_node_id": 10,
+            "node_id": 10,
+            "page_id": 10,
+            "language_id": 1
+        }
+    ],
+    "licenses": [
+        {
+            "id": 1,
+            "source_url": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+            "name": "license"
+        }
+    ],
+    "locations": [],
+    "media": [
+        {
+            "id": 1,
+            "format": 0,
+            "description": "<p>The Common Redpoll is one of a few cold-weather finch species in North America. This finch is about 5 inches long with a plump body, notched tail, and thick bill. Males and females are streaked brown and tan above, and both have a red forehead and black throat. The male’s breast is washed with pink, while the female’s is off-white. Despite its name, the Common Redpoll is common only in the northernmost parts of North America and Eurasia. In North America, this species breeds in Alaska and high arctic Canada, and winters in southern Canada and the northern tier of the United States. In Eurasia, this species breeds in Scandinavia and Russia, wintering south to central Europe and China. Although among the most common species of songbird on its breeding grounds, quite a few birdwatchers never venture far enough north to see it. Common Redpolls inhabit open areas of tundra, sparse evergreen forest, and scrub. They mainly eat seeds, but will also catch insects when available in summer. In some years, large numbers of Redpolls will move south into the U.S. during winter as a response to an insufficient seed crop. They are most active during the day. These finches are best observed foraging for food, when they may be found feeding high in trees, atop small bushes, or on the ground. Redpolls are acrobatic while feeding, often perching precariously on the ends of branches and hanging down to reach seeds or cones.</p><p><a href='http://www.iucnredlist.org/details/22725044/0'>Threat Status: Least Concern<a></p>",
+            "owner": "Smithsonian Institution",
+            "resource_id": 4,
+            "guid": "85c937d4-dddd-4ec7-af5d-702b192bc53e",
+            "resource_pk": "Acanthis_flammea_TEXT",
+            "source_page_url": "http://172.16.1.33:80https://www.bibalex.org/en/Attachments/Highlights/Cropped/1600x400/201802271420452729_bannerenglishfinal.jpg",
+            "base_url": "/san/eol_workspace/resources/4/media/201802271420452729_bannerenglishfinal.jpg",
+            "mime_type": null,
+            "subclass": null,
+            "name": null,
+            "rights_statement": null,
+            "source_url": null,
+            "bibliographic_citation_id": null,
+            "language_id": 1,
+            "license_id": 1,
+            "location_id": -1
+        },
+        {
+            "id": 2,
+            "format": 0,
+            "description": "<p>The Cooper’s Hawk is often confused with its slightly smaller relative, the Sharp-shinned Hawk. Both species are blue-gray above and streaked rusty-red below with long tails, yellow legs, and small, hooked beaks. However, the Cooper’s Hawk has a rounded tail (Sharp-shinned Hawks have a squared-off tail), and is slightly larger at 14-20 inches long. Like most species of raptors, females are larger than males. Although Cooper’s Hawks may be found all year long across the majority of the United States, individual populations undertake short distance seasonal migrations. In winter, Canadian populations move south into the U.S. and southern populations move south to the Gulf coast, southern Florida, and the desert southwest. In its range, the Cooper’s Hawk is one of the most numerous and adaptable raptors. While usually found in forest habitats, this species has expanded into human-altered landscapes and now frequents towns and suburbs as well. The Cooper’s Hawk is a ‘bird hawk’ capable of hunting birds (on the ground, in trees, or in flight) from the air, and this species frequently enters yards to take small songbirds from feeders. With the aid of binoculars, Cooper’s Hawks may be seen perched in trees while scanning for prey. However, they are often more easily seen in the air while moving between perches or while actively hunting. As this species hunts by sight, it is only active during the day.</p><p><a href='http://www.iucnredlist.org/details/22695656/0'>Threat Status: Least Concern<a></p>",
+            "owner": "Smithsonian Institution",
+            "resource_id": 4,
+            "guid": "f486476e-b39a-4f40-bf01-b7ae1f6b3fac",
+            "resource_pk": "Accipiter_cooperii_TEXT",
+            "source_page_url": "http://172.16.1.33:80https://www.bibalex.org/en/Attachments/Highlights/Cropped/1600x400/201802271420452729_bannerenglishfinal.jpg",
+            "base_url": "/san/eol_workspace/resources/4/media/201802271420452729_bannerenglishfinal.jpg",
+            "mime_type": null,
+            "subclass": null,
+            "name": null,
+            "rights_statement": null,
+            "source_url": null,
+            "bibliographic_citation_id": null,
+            "language_id": 1,
+            "license_id": 1,
+            "location_id": -1
+        },
+        {
+            "id": 3,
+            "format": 0,
+            "description": "<p>Although closely related to the common Sharp-shinned and Cooper’s Hawks, the Northern Goshawk is encountered far less frequently. This is North America’s largest ‘bird hawk’ at 20-26 inches in length, and may be distinguished by its more familiar relatives by its larger size, grey-streaked breast, and dark cheek patch. Like most species of raptors, females are larger than males. The Northern Goshawk breeds in the Canadian sub-arctic, the northern tier of the United States, and at higher elevations in the Rocky Mountains south to central Mexico. This species may be found in its breeding range all year long, although some individuals move south into the mid-Atlantic, Ohio River valley, and Great Plains in winter. This species also inhabits northern Eurasia south the Mediterranean, Central Asia, and China. Northern Goshawks inhabit dense evergreen or mixed evergreen and deciduous forests. Like all ‘bird hawks,’ this species is equipped with the long tail and short, broad wings needed to hunt birds (on the ground, in trees, or in flight) from the air. Unlike most bird hawks, however, this species also takes Snowshoe Hare (<em>Lepus americanus</em>) in addition to avian prey. Large numbers of Northern Goshawks may wander far south of their normal range during winter in years when hare and grouse populations are low. With the aid of binoculars, Northern Goshawks may be seen perched in trees while scanning for prey. However, they are often more easily seen in the air while moving between perches or while actively hunting. As this species hunts by sight, it is only active during the day.</p><p><a href='http://www.iucnredlist.org/details/22695683/0'>Threat Status: Least Concern<a></p>",
+            "owner": "Smithsonian Institution",
+            "resource_id": 4,
+            "guid": "a3851d92-737e-4395-93f7-279444163373",
+            "resource_pk": "Accipiter_gentilis_TEXT",
+            "source_page_url": "http://172.16.1.33:80https://www.bibalex.org/en/Attachments/Highlights/Cropped/1600x400/201802271420452729_bannerenglishfinal.jpg",
+            "base_url": "/san/eol_workspace/resources/4/media/201802271420452729_bannerenglishfinal.jpg",
+            "mime_type": null,
+            "subclass": null,
+            "name": null,
+            "rights_statement": null,
+            "source_url": null,
+            "bibliographic_citation_id": null,
+            "language_id": 1,
+            "license_id": 1,
+            "location_id": -1
+        },
+        {
+            "id": 4,
+            "format": 0,
+            "description": "<p>The Sharp-shinned Hawk is often confused with its slightly larger relative, the Cooper’s Hawk. Both species are blue-gray above and streaked rusty-red below with long tails, yellow legs, and small, hooked beaks. However, the Sharp-shinned Hawk has a squared-off tail (Cooper’s Hawks have rounded tails), and is slightly smaller at 10-14 inches long. The Sharp-shinned Hawk displays the greatest difference in size between males and females (called sexual dimorphism) of any raptor in North America, with females weighing almost twice as much as males. The Sharp-shinned Hawk is also a more local breeder than the Cooper’s Hawk. While that species breeds across the United States and southern Canada, the Sharp-shinned Hawk’s main breeding range is restricted to the Canadian sub-arctic and higher elevation areas of the Appalachians and Rockies. This species migrates south in winter, when it may be found more widely across the U.S. In its range, the Sharp-shinned Hawk is among the most adaptable raptors. While usually found in forest habitats, this species has expanded into human-altered landscapes and now frequents towns and suburbs as well. The Sharp-shinned Hawk, like all ‘bird hawks,’ is capable of hunting birds (on the ground, in trees, or in flight) from the air. This species frequently enters yards to take small songbirds from feeders. With the aid of binoculars, Sharp-shinned Hawks may be seen perched in trees while scanning for prey. However, they are often more easily seen in the air while moving between perches or while actively hunting. As this species hunts by sight, it is only active during the day.</p><p><a href='http://www.iucnredlist.org/details/22734130/0'>Threat Status: Least Concern<a></p>",
+            "owner": "Smithsonian Institution",
+            "resource_id": 4,
+            "guid": "b77316ed-64e0-4c82-8c0a-84ebd41afd14",
+            "resource_pk": "Accipiter_striatus_TEXT",
+            "source_page_url": "http://172.16.1.33:80https://www.bibalex.org/en/Attachments/Highlights/Cropped/1600x400/201802271420452729_bannerenglishfinal.jpg",
+            "base_url": "/san/eol_workspace/resources/4/media/201802271420452729_bannerenglishfinal.jpg",
+            "mime_type": null,
+            "subclass": null,
+            "name": null,
+            "rights_statement": null,
+            "source_url": null,
+            "bibliographic_citation_id": null,
+            "language_id": 1,
+            "license_id": 1,
+            "location_id": -1
+        }
+    ],
+    "page_contents": [
+        {
+            "id": 1,
+            "resource_id": 4,
+            "content_type": "Medium",
+            "content_id": 1,
+            "trust": null,
+            "is_incorrect": null,
+            "is_misidentified": null,
+            "is_hidden": null,
+            "is_duplicate": null,
+            "page_id": 1,
+            "source_page_id": 1
+        },
+        {
+            "id": 2,
+            "resource_id": 4,
+            "content_type": "Medium",
+            "content_id": 2,
+            "trust": null,
+            "is_incorrect": null,
+            "is_misidentified": null,
+            "is_hidden": null,
+            "is_duplicate": null,
+            "page_id": 2,
+            "source_page_id": 2
+        },
+        {
+            "id": 3,
+            "resource_id": 4,
+            "content_type": "Medium",
+            "content_id": 3,
+            "trust": null,
+            "is_incorrect": null,
+            "is_misidentified": null,
+            "is_hidden": null,
+            "is_duplicate": null,
+            "page_id": 3,
+            "source_page_id": 3
+        },
+        {
+            "id": 4,
+            "resource_id": 4,
+            "content_type": "Medium",
+            "content_id": 4,
+            "trust": null,
+            "is_incorrect": null,
+            "is_misidentified": null,
+            "is_hidden": null,
+            "is_duplicate": null,
+            "page_id": 4,
+            "source_page_id": 4
+        }
+    ],
+    "attributions": [
+        {
+            "id": 1,
+            "content_id": 1,
+            "content_type": "Medium",
+            "role_name": "Author",
+            "value": "Reid Rumelt",
+            "url": null,
+            "resource_id": 4,
+            "resource_pk": "RumeltR",
+            "content_resource_fk": "Acanthis_flammea_TEXT"
+        },
+        {
+            "id": 2,
+            "content_id": 2,
+            "content_type": "Medium",
+            "role_name": "Author",
+            "value": "Reid Rumelt",
+            "url": null,
+            "resource_id": 4,
+            "resource_pk": "RumeltR",
+            "content_resource_fk": "Accipiter_cooperii_TEXT"
+        },
+        {
+            "id": 3,
+            "content_id": 3,
+            "content_type": "Medium",
+            "role_name": "Author",
+            "value": "Reid Rumelt",
+            "url": null,
+            "resource_id": 4,
+            "resource_pk": "RumeltR",
+            "content_resource_fk": "Accipiter_gentilis_TEXT"
+        },
+        {
+            "id": 4,
+            "content_id": 4,
+            "content_type": "Medium",
+            "role_name": "Author",
+            "value": "Reid Rumelt",
+            "url": null,
+            "resource_id": 4,
+            "resource_pk": "RumeltR",
+            "content_resource_fk": "Accipiter_striatus_TEXT"
+        }
+    ],
+    "referents": [
+        {
+            "id": 1,
+            "primary_title": null,
+            "secondary_title": null,
+            "pages": null,
+            "page_start": null,
+            "page_end": null,
+            "volume": null,
+            "editor": null,
+            "publisher": null,
+            "authors_list": null,
+            "editors_list": null,
+            "date_created": null,
+            "doi": null,
+            "body": "null null null null null null null null null null null null",
+            "resource_id": 4,
+            "resource_pk": null
+        }
+    ],
+    "references": [
+        {
+            "id": 1,
+            "parent_id": 1,
+            "parent_type": "Medium",
+            "resource_id": 4,
+            "referent_id": 1
+        },
+        {
+            "id": 2,
+            "parent_id": 2,
+            "parent_type": "Medium",
+            "resource_id": 4,
+            "referent_id": 1
+        }
+    ]
+}

@@ -12,6 +12,7 @@ def main_method_2
     last_harvested_time = DateTime.now.strftime('%Q')
 
     json_content = get_latest_updates_from_hbase(last_harvested_time, start_key) 
+    # json_content = get_nodes_of_resource_from_hbase(471)
     batches_log.write("batch done: #{start_key}\n")
     if json_content.empty?
       finish = true          
@@ -22,7 +23,8 @@ def main_method_2
         batches_log.write("batch done: #{start_key}: #{nodes.count}\n")
         current_node = nil
         nodes.each do |node|          
-          
+          load_occurrence(node)
+          nodes_ids << node["generatedNodeId"]
           current_node = node
           nodes_ids << node["generatedNodeId"]
           res = Node.where(generated_node_id: node["generatedNodeId"])        
@@ -42,8 +44,8 @@ def main_method_2
             end
           end
           
-          
-          
+          #node["taxon"]["pageEolId"] return null so set it static until solved
+          node["taxon"]["pageEolId"]= "1"
           
           unless node["taxon"]["pageEolId"].nil? 
             page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
@@ -57,7 +59,12 @@ def main_method_2
             unless node["media"].nil?
               create_media({media: node["media"],resource_id: node["resourceId"],page_id: page_id, references: node["references"]})
             end
+            node_params = { page_id: node["taxon"]["pageEolId"], resource_id: node["resourceId"],
+                scientific_name: node["taxon"]["scientificName"] }
+            add_neo4j(node_params, node["occurrences"], node["measurementOrFacts"], node["associations"]) 
           end
+          
+          
         end
         # build_hierarchy(nodes_ids)
         start_key = "#{current_node["resourceId"]}_#{current_node["generatedNodeId"]}"
@@ -84,6 +91,30 @@ def get_dynamic_heirarchy_nodes
   build_hierarchy(node_ids) 
 end
 
+def load_occurrence(node)
+  unless node["occurrences"].nil?
+     node["occurrences"].each do |occurrence|
+       
+       if occurrence["deltaStatus"] == "I"
+         OccurrencePageMapping.create(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"], page_id: node["taxon"]["pageEolId"])
+         
+       else               
+         res = OccurrencePageMapping.where(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"])
+         unless res.nil?
+           old_occurrence_mapping = res.first
+           unless old_occurrence_mapping.nil?
+             if occurrence["deltaStatus"] == "U"
+               old_occurrence_mapping.update_attributes(page_id: node["taxon"]["pageEolId"])
+             else
+               old_occurrence_mapping.destroy
+             end
+           end
+         end               
+       end
+     end
+   end
+end
+
 def main_method
   #442
   # nodes_ids = [1976]
@@ -102,8 +133,9 @@ def main_method
 
        
        
-       # # load_occurrences
-       # nodes.each do |node|
+       # load_occurrences
+       nodes.each do |node|
+         load_occurrence(node)
          # unless node["occurrences"].nil?
            # node["occurrences"].each do |occurrence|
 #              
@@ -125,20 +157,20 @@ def main_method
              # end
            # end
          # end
-       # end
+       end
 
        
        
-       # nodes.each do |node|
+      nodes.each do |node|
 
         # if node["resourceId"] == 452
         
-         node=nodes[0]
-         node["taxon"]["pageEolId"]="1"
-         measurements = node["measurementOrFacts"]
-         measurements[3]["parentMeasurementId"]="912"
+         # node=nodes[0]
+         # node["taxon"]["pageEolId"]="1"
+         # measurements = node["measurementOrFacts"]
+         # measurements[0]["parentMeasurementId"]="912"
          
-         # node["taxon"]["pageEolId"]= "1"
+         node["taxon"]["pageEolId"]= "1"
          
          nodes_ids << node["generatedNodeId"]
          # res = Node.where(generated_node_id: node["generatedNodeId"])        
@@ -177,7 +209,7 @@ def main_method
        
 
     end
-   # end    
+   end    
  end
 
   
@@ -219,6 +251,23 @@ def get_latest_updates_from_hbase(last_harvested_time, start_key)
   end
 end
 
+def get_latest_updates_from_mysql(start_harvested_time)
+  mysql_uri = "#{MYSQL_ADDRESS}#{MYSQL_GET_LATEST_UPDATES_ACTION}"
+  begin    
+    request =RestClient::Request.new(
+        :method => :get,
+        :timeout => -1,
+        :url => "#{mysql_uri}/#{start_harvested_time}"
+      )
+      
+      response = request.execute
+      response.body
+  rescue => e
+  debugger
+    c="l"
+    false
+  end 
+end
 
 def get_nodes_of_resource_from_hbase(resource_id)
   hbase_uri = "#{HBASE_ADDRESS}#{HBASE_GET_NODES_OF_RESOURCE_ACTION}"
@@ -578,6 +627,45 @@ def fill_page_contents(params)
       
 end
 
+
+def create_measurement(occurrence_of_measurement , measurement)
+    options = { 
+                predicate: { name:"predicate_name_#{measurement["measurementId"]}", uri: measurement["measurementType"],
+                              section_ids:[1,2,3],definition:"predicate definition"}
+                 }
+    if numeric?(measurement["measurementValue"])
+      options[:measurement] = measurement["measurementValue"]
+    elsif uri?(measurement["measurementValue"])
+      options[:object_term] = { name: "temp object term_#{measurement["measurementId"]}",
+                               uri: measurement["measurementValue"], section_ids:[1,2,3],definition:"object_term definition"}
+    else
+      #TODO update this part after discussing it with stakeholders
+      options[:literal] = measurement["measurementValue"]            
+    end
+    if measurement["unit"]
+      options[:units] = {name: "unit_#{measurement["measurementId"]}",uri: measurement["unit"],
+                         section_ids:[1,2,3],definition:"test units"}            
+    end
+    
+    
+    if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
+      options[:lifestage_term] = { name: "lifeStage_#{measurement["measurementId"]}",
+                             uri: occurrence_of_measurement["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
+    end
+    
+    if occurrence_of_measurement && occurrence_of_measurement["sex"]
+      options[:sex_term] = { name: "sex_#{measurement["measurementId"]}",
+                             uri: occurrence_of_measurement["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
+    end
+    
+    if occurrence_of_measurement && occurrence_of_measurement["statisticalMethod"]
+      options[:statistical_method_term] = { name: "statisticalMethod_#{measurement["measurementId"]}",
+                             uri: occurrence_of_measurement["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
+    end
+    options
+end
+
+
 def add_neo4j(node_params, occurrences, measurements, associations)
   unless occurrences.nil?
     # load occurrences
@@ -590,54 +678,15 @@ def add_neo4j(node_params, occurrences, measurements, associations)
     
     page = TraitBank.create_page(node_params[:page_id].to_i)
     resource = TraitBank.create_resource(node_params[:resource_id].to_i)
-  
     unless measurements.nil?
+      measurements_array = []
       measurements.each do |measurement|
         occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
-        # options = { supplier: { "data" => { "resource_id" =>node_params[:resource_id] } },
-                    # resource_pk: measurement["measurementId"], page: node_params[:page_id] ,
-                    # eol_pk: "eol_pk_#{measurement["measurementId"]}", scientific_name: node_params[:scientific_name],
-                    # predicate: { "name" => "predicate_name_#{measurement["measurementId"]}", uri: measurement["measurementType"],
-                                  # section_ids:[1,2,3],definition:"predicate definition"}
-                     # }
-        options = { 
-                    predicate: { name:"predicate_name_#{measurement["measurementId"]}", uri: measurement["measurementType"],
-                                  section_ids:[1,2,3],definition:"predicate definition"}
-                     }
-        if numeric?(measurement["measurementValue"])
-          options[:measurement] = measurement["measurementValue"]
-        elsif uri?(measurement["measurementValue"])
-          options[:object_term] = { name: "temp object term_#{measurement["measurementId"]}",
-                                   uri: measurement["measurementValue"], section_ids:[1,2,3],definition:"object_term definition"}
-        else
-          #TODO update this part after discussing it with stakeholders
-          options[:literal] = measurement["measurementValue"]            
-        end
-        if measurement["unit"]
-          options[:units] = {name: "unit_#{measurement["measurementId"]}",uri: measurement["unit"],
-                             section_ids:[1,2,3],definition:"test units"}            
-        end
-        
-        
-        if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
-          options[:lifestage_term] = { name: "lifeStage_#{measurement["measurementId"]}",
-                                 uri: occurrence_of_measurement["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
-        end
-        
-        if occurrence_of_measurement && occurrence_of_measurement["sex"]
-          options[:sex_term] = { name: "sex_#{measurement["measurementId"]}",
-                                 uri: occurrence_of_measurement["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
-        end
-        
-        if occurrence_of_measurement && occurrence_of_measurement["statisticalMethod"]
-          options[:statistical_method_term] = { name: "statisticalMethod_#{measurement["measurementId"]}",
-                                 uri: occurrence_of_measurement["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
-        end
-        
         
         
         if measurement["measurementOfTaxon"] == "true" || measurement["measurementOfTaxon"] == "TRUE" 
-          # debugger      
+           # debugger      
+          options = create_measurement(occurrence_of_measurement , measurement)
           options[:supplier] = { "data" => { "resource_id" =>node_params[:resource_id] } }
           options[:resource_pk] =  measurement["measurementId"]
           options[:page] = node_params[:page_id]
@@ -648,6 +697,19 @@ def add_neo4j(node_params, occurrences, measurements, associations)
           trait=TraitBank.create_trait(options)
 
         elsif (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
+           # debugger
+          measurements_array << measurement
+        else
+           # debugger
+          measurements_array << measurement
+ 
+        end
+      end
+      
+      measurements_array.each do |measurement|
+        occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
+        options = create_measurement(occurrence_of_measurement , measurement)
+        if (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
           # debugger
             #Update this condidtion to insert metadata of a given measurement : measurementOfTaxon = true and measurementparent is not null
           res = TraitBank.find_trait(measurement["parentMeasurementId"], node_params[:resource_id]) # we should use parent measurement id to find the actual trait
@@ -667,7 +729,10 @@ def add_neo4j(node_params, occurrences, measurements, associations)
           end   
         end
       end
+      
     end
+    
+    
   
     unless associations.nil?
       associations.each do |association|
@@ -747,6 +812,114 @@ def uri?(str)
 end
 
 
+def main_method_3
+  file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'mysql.json')
+  tables = JSON.parse(File.read(file_path))
+  
+  # json_content = get_latest_updates_from_mysql
+  # tables = JSON.parse(json_content)
+  
+  licenses = tables["licenses"]
+  ranks = tables["ranks"]
+  nodes = tables["nodes"]
+  pages = tables["pages"]
+  pages_nodes = tables["pages_nodes"]
+  scientific_names = tables["scientific_names"]
+  languages = tables["languages"]
+  vernaculars = tables["vernaculars"]
+  locations = tables["locations"]
+  media = tables["media"]
+  page_contents = tables["page_contents"]
+  attributions = tables["attributions"]
+  referents = tables["referents"]
+  references = tables["references"]
+  
+  unless licenses.nil?
+    licenses.each do |license|
+      License.create(license)
+    end
+  end
+  
+  unless ranks.nil? 
+    ranks.each do |rank|
+      Rank.create(rank)
+    end
+  end
+  
+  unless nodes.nil? 
+    nodes.each do |node|
+      Node.create(node)
+    end
+  end
+  
+  unless pages.nil? 
+    pages.each do |page|
+      Page.create(page)
+    end
+  end
+  
+  unless pages_nodes.nil? 
+    pages_nodes.each do |pages_node|
+      PagesNode.create(pages_node)
+    end
+  end
+  unless scientific_names.nil? 
+    scientific_names.each do |scientific_name|
+      ScientificName.create(scientific_name)
+    end
+  end
+
+  unless languages.nil? 
+    languages.each do |language|
+      Language.create(language)
+    end
+  end
+  
+  unless vernaculars.nil? 
+    vernaculars.each do |vernacular|
+      Vernacular.create(vernacular)
+    end
+  end
+  
+  unless locations.nil? 
+    locations.each do |location|
+      Location.create(location)
+    end
+  end
+  
+  unless media.nil? 
+    media.each do |medium|
+      Medium.create(medium)
+    end
+  end
+  
+  unless page_contents.nil? 
+    page_contents.each do |page_content|
+      PageContent.create(page_content)
+    end
+  end  
+  
+  unless attributions.nil? 
+    attributions.each do |attribution|
+      Attribution.create(attribution)
+    end
+  end 
+    
+  unless referents.nil? 
+    referents.each do |referent|
+      Referent.create(referent)
+    end
+  end
+  
+  unless references.nil? 
+    references.each do |reference|
+      Reference.create(reference)
+    end
+  end 
+
+end
+
+
 namespace :harvester do
   desc "TODO"  
   task get_latest_updates: :environment do
@@ -772,10 +945,10 @@ namespace :harvester do
   # trait=TraitBank.create_trait(options)
     
 
-    
-    main_method
+    main_method_3
+    #main_method
 
-    # main_method_2
+    #main_method_2
     # build_hierarchy(Node.all.limit(50).pluck(:generated_node_id))
      # main_method
     # get_dynamic_heirarchy_nodes
