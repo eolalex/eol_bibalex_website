@@ -1,5 +1,5 @@
 require 'uri'
-
+$sql_commands= File.new('commands.sql', 'w')
 
 def main_method_2
   batches_log = File.new('batches_log', 'a')
@@ -136,27 +136,6 @@ def main_method
        # load_occurrences
        nodes.each do |node|
          load_occurrence(node)
-         # unless node["occurrences"].nil?
-           # node["occurrences"].each do |occurrence|
-#              
-             # if occurrence["deltaStatus"] == "I"
-               # OccurrencePageMapping.create(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"], page_id: node["taxon"]["pageEolId"])
-#                
-             # else               
-               # res = OccurrencePageMapping.where(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"])
-               # unless res.nil?
-                 # old_occurrence_mapping = res.first
-                 # unless old_occurrence_mapping.nil?
-                   # if occurrence["deltaStatus"] == "U"
-                     # old_occurrence_mapping.update_attributes(page_id: node["taxon"]["pageEolId"])
-                   # else
-                     # old_occurrence_mapping.destroy
-                   # end
-                 # end
-               # end               
-             # end
-           # end
-         # end
        end
 
        
@@ -257,7 +236,8 @@ def get_latest_updates_from_mysql(start_harvested_time)
     request =RestClient::Request.new(
         :method => :get,
         :timeout => -1,
-        :url => "#{mysql_uri}/#{start_harvested_time}"
+        # :url => "http://172.16.0.99/mysql/getLatestUpdates/2018-09-2313:48:51"
+         :url => "#{mysql_uri}/#{start_harvested_time}"
       )
       
       response = request.execute
@@ -815,8 +795,10 @@ end
 def main_method_3
   file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'mysql.json')
   tables = JSON.parse(File.read(file_path))
+  $sql_commands.write("use ba_eol_development;\n")
   
-  # json_content = get_latest_updates_from_mysql
+  # start_harvested_time = "1539850285303"
+  # json_content = get_latest_updates_from_mysql(start_harvested_time)
   # tables = JSON.parse(json_content)
   
   licenses = tables["licenses"]
@@ -836,113 +818,171 @@ def main_method_3
   
   unless licenses.nil?
     licenses.each do |license|
-      License.create(license)
+      cols = license.keys
+      values = license.values
+      insert_mysql_query("licenses",cols,values)
+        # License.create!(license)
     end
   end
   
   unless ranks.nil? 
     ranks.each do |rank|
-      Rank.create(rank)
+      cols = rank.keys
+      values = rank.values
+      insert_mysql_query("ranks",cols,values)      
+       # Rank.create!(rank)
     end
   end
   
   unless nodes.nil? 
     nodes.each do |node|
-      Node.create(node)
+      cols = node.keys
+      values = node.values
+      insert_mysql_query("nodes",cols,values)
+       # Node.create!(node)
     end
   end
   
   unless pages.nil? 
     pages.each do |page|
-      Page.create(page)
+      cols = page.keys
+      values = page.values
+      insert_mysql_query("pages",cols,values)
+       # Page.create!(page)
     end
   end
   
   unless pages_nodes.nil? 
     pages_nodes.each do |pages_node|
-      PagesNode.create(pages_node)
+      cols = pages_node.keys
+      values = pages_node.values
+      insert_mysql_query("pages_nodes",cols,values)
+       # PagesNode.create!(pages_node)
     end
   end
   unless scientific_names.nil? 
     scientific_names.each do |scientific_name|
-      ScientificName.create(scientific_name)
+      cols = scientific_name.keys
+      values = scientific_name.values
+      insert_mysql_query("scientific_names",cols,values)
+       # ScientificName.create!(scientific_name)
     end
   end
 
   unless languages.nil? 
     languages.each do |language|
-      Language.create(language)
+      cols = language.keys
+      cols = cols.map { |x| x == "group" ? "languages.group" : x }
+      values = language.values
+      insert_mysql_query("languages",cols,values)
+       # Language.create!(language)
     end
   end
   
   unless vernaculars.nil? 
     vernaculars.each do |vernacular|
-      Vernacular.create(vernacular)
+      cols = vernacular.keys
+      values = vernacular.values
+      insert_mysql_query("vernaculars",cols,values)
+       # Vernacular.create!(vernacular)
     end
   end
   
   unless locations.nil? 
     locations.each do |location|
-      Location.create(location)
+      cols = location.keys
+      values = location.values
+      insert_mysql_query("locations",cols,values)
+       # Location.create!(location)
     end
   end
   
   unless media.nil? 
     media.each do |medium|
-      Medium.create(medium)
+      cols = medium.keys
+      values = medium.values
+      insert_mysql_query("media",cols,values)
+       # Medium.create!(medium)
     end
   end
   
   unless page_contents.nil? 
     page_contents.each do |page_content|
-      PageContent.create(page_content)
+      cols = page_content.keys
+      values = page_content.values
+      insert_mysql_query("page_contents",cols,values)
+       # PageContent.create!(page_content)
     end
   end  
   
   unless attributions.nil? 
     attributions.each do |attribution|
-      Attribution.create(attribution)
+      cols = attribution.keys
+      values = attribution.values
+      insert_mysql_query("attributions",cols,values)
+       # Attribution.create!(attribution)
     end
   end 
     
   unless referents.nil? 
     referents.each do |referent|
-      Referent.create(referent)
+      cols = referent.keys
+      values = referent.values
+      insert_mysql_query("referents",cols,values)
+       # Referent.create!(referent)
     end
   end
   
   unless references.nil? 
     references.each do |reference|
-      Reference.create(reference)
+      cols = reference.keys
+      values = reference.values
+      insert_mysql_query("ba_eol_development.references",cols,values)
+       # Reference.create!(reference)
     end
   end 
+  # ActiveRecord::Base.connection.execute(IO.read($sql_commands))
+   load_data_into_mysql()
 
 end
 
+def load_data_into_mysql()
+  db = YAML::load( File.open( File.join(Rails.root, 'config', 'database.yml') ) )
+  password = db["development"]["password"] 
+  file = "commands.sql"
+  username = db["development"]["username"]
+  database = db["development"]['database']
+  exec "mysql -u #{username} -p'#{password}' #{database} < #{file}"
+end
+
+def insert_mysql_query(table_name,cols,results)
+  cols << "created_at"
+  cols << "updated_at"
+  values = ""
+  # last_element = results.pop
+  results.each do |result|
+
+    # res= result.is_a? String ? "\"#{result}\"" : result.to_s
+    if(result.nil?)
+      res = "null"
+    elsif (result.is_a? String)
+      res = "\"#{result}\""
+    else
+      res = result.to_s
+    end
+    values = values + res + ","
+  end
+
+  values = values + "now()," + "now()"
+
+  $sql_commands.write("insert into #{table_name} (#{cols.join(",")}) VALUES (#{values});\n")
+  
+end
 
 namespace :harvester do
   desc "TODO"  
   task get_latest_updates: :environment do
     
-    # tb_page = TraitBank.create_page(9893)
-   # tbb_page = TraitBank.create_page(2117)
-  # resource = TraitBank.create_resource(147)
-#   
-  # options = {supplier:{"data"=>{"resource_id"=>147}},
-             # resource_pk:123 , page:9893, eol_pk:" 124", scientific_name: "scientific_name", object_page_id: 2117,
-             # predicate:{"name"=>"event date","uri"=>"test/event",section_ids:[1,2,3],definition:"test predicate definition"}}
-  
-#   
-  # options = {supplier:{"data"=>{"resource_id"=>147}},
-             # resource_pk:123 , page:9893, eol_pk:" 124", scientific_name: "scientific_name", measurement: 12,
-             # predicate:{"name"=>"event date","uri"=>"test/event",section_ids:[1,2,3],definition:"test predicate definition"},
-             # metadata:[{predicate:{"name"=>"md_event","uri"=>"test/md_event",section_ids:[1,2,3],definition:"test predicate definition"},
-                        # object_term:{"name"=>"md_length1","uri"=>"test/md_length1",section_ids:[1,2,3],definition:"test object_term definition"},
-                        # units: {"name"=>"cm","uri"=>"http://eol.org/schema/terms/squarekilometer",section_ids:[1,2,3],definition:"test units"},
-                        # literal:"15"}] } 
-
-  
-  # trait=TraitBank.create_trait(options)
     
 
     main_method_3
@@ -953,16 +993,6 @@ namespace :harvester do
      # main_method
     # get_dynamic_heirarchy_nodes
 
-    # meta = [{predicate:{"name"=>"new_md_event","uri"=>"new_test/md_event",section_ids:[1,2,3],definition:"new test predicate definition"},
-                        # object_term:{"name"=>"new_md_length1","uri"=>"new_test/md_length1",section_ids:[1,2,3],definition:"new test object_term definition"},
-                        # units: {"name"=>"new_cm","uri"=>"http://eol.org/schema/terms/squarekilometer_new",section_ids:[1,2,3],definition:"new test units"},
-                        # literal:"100"}]
-    # res = TraitBank.find_trait(123)
-    # meta.each { |md| TraitBank.add_metadata_to_trait(res, md) } 
-    # # TraitBank.add_metadata_to_trait(res,meta)
-    # debugger
-    # c="l"
-    # add_neo4j(nil,nil,nil,nil)
   end
 end
   
