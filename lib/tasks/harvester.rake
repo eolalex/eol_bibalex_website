@@ -24,7 +24,7 @@ def main_method_2
         current_node = nil
         nodes.each do |node|          
           load_occurrence(node)
-          nodes_ids << node["generatedNodeId"]
+          # nodes_ids << node["generatedNodeId"]
           current_node = node
           nodes_ids << node["generatedNodeId"]
           res = Node.where(generated_node_id: node["generatedNodeId"])        
@@ -66,7 +66,7 @@ def main_method_2
           
           
         end
-        # build_hierarchy(nodes_ids)
+        # 
         start_key = "#{current_node["resourceId"]}_#{current_node["generatedNodeId"]}"
         json_content = get_latest_updates_from_hbase(last_harvested_time,start_key)
         # batches_log.write("batch done: #{start_key}\n")
@@ -220,7 +220,6 @@ def get_latest_updates_from_hbase(last_harvested_time, start_key)
         :timeout => -1,
         :url => "#{hbase_uri}/#{start_harvested_time}/#{last_harvested_time}/#{start_key}"
       )
-      
       response = request.execute
       response.body
   rescue => e
@@ -239,7 +238,6 @@ def get_latest_updates_from_mysql(start_harvested_time)
         # :url => "http://172.16.0.99/mysql/getLatestUpdates/2018-09-2313:48:51"
          :url => "#{mysql_uri}/#{start_harvested_time}"
       )
-      
       response = request.execute
       response.body
   rescue => e
@@ -793,12 +791,16 @@ end
 
 
 def main_method_3
+  $sql_commands.write("use ba_eol_development;\n")
+  nodes_ids = []
+  
   file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'mysql.json')
   tables = JSON.parse(File.read(file_path))
-  $sql_commands.write("use ba_eol_development;\n")
   
-  # start_harvested_time = "1539850285303"
+
+  # start_harvested_time = "1536850285303"
   # json_content = get_latest_updates_from_mysql(start_harvested_time)
+  # debugger
   # tables = JSON.parse(json_content)
   
   licenses = tables["licenses"]
@@ -836,6 +838,7 @@ def main_method_3
   
   unless nodes.nil? 
     nodes.each do |node|
+      nodes_ids << node["generated_node_id"]
       cols = node.keys
       values = node.values
       insert_mysql_query("nodes",cols,values)
@@ -942,17 +945,29 @@ def main_method_3
     end
   end 
   # ActiveRecord::Base.connection.execute(IO.read($sql_commands))
-   load_data_into_mysql()
+  load_data_into_mysql()
+  debugger
+  build_hierarchy(nodes_ids)
+
+   
+
 
 end
 
 def load_data_into_mysql()
-  db = YAML::load( File.open( File.join(Rails.root, 'config', 'database.yml') ) )
-  password = db["development"]["password"] 
-  file = "commands.sql"
-  username = db["development"]["username"]
-  database = db["development"]['database']
-  exec "mysql -u #{username} -p'#{password}' #{database} < #{file}"
+  # db = YAML::load( File.open( File.join(Rails.root, 'config', 'database.yml') ) )
+  # password = db["development"]["password"] 
+  # file = "commands.sql"
+  # username = db["development"]["username"]
+  # database = db["development"]['database']
+  # exec "mysql -u #{username} -p'#{password}' #{database} < #{file}"
+  
+  db = YAML.load_file('config/database.yml')
+  config = db["development"]
+  config[:flags] = Mysql2::Client::MULTI_STATEMENTS
+  client = Mysql2::Client.new(config)
+  sql = File.read("commands.sql")
+  client.query sql
 end
 
 def insert_mysql_query(table_name,cols,results)
