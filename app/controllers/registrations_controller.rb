@@ -14,7 +14,6 @@ class RegistrationsController < Devise::RegistrationsController
   # def create
   #   super
   # end
-
   # GET /resource/edit
   # def edit
   #   super
@@ -37,7 +36,7 @@ class RegistrationsController < Devise::RegistrationsController
   # end
   def configure_permitted_params
     devise_parameter_sanitizer.permit(:sign_up) do |u|
-      u.permit(:username, :email, :password, :password_confirmation, :recaptcha,:failed_attempts)
+      u.permit(:username, :email, :password, :password_confirmation, :recaptcha, :failed_attempts)
     end
     devise_parameter_sanitizer.permit(:edit) do |u|
       u.permit(:username, :email, :password, :password_confirmation, :current_password)
@@ -63,13 +62,16 @@ class RegistrationsController < Devise::RegistrationsController
   # end
 
   def check_captcha
-    if verify_recaptcha
-    true
-    else
+   # debugger
+    #if verify_recaptcha
+   # true
+   # else
+    unless verify_recaptcha
       self.resource = User.new(sign_up_params)
       resource.valid?
       resource.errors.add(:recaptcha, I18n.t(:recaptcha_error))
-      new_session_path(resource_name)
+      #new_session_path(resource_name)
+      redirect_to new_user_registration_path
     end
   end
 

@@ -14,7 +14,16 @@ module PagesHelper
     end
     tree    
   end
-  
+ def classification_overview(node)
+    ancestors = []
+    ancestors=  node.node_ancestors.order('depth DESC')
+    tree = []
+    ancestors.each do |node_ancestor|
+     tree.push(node_ancestor.ancestor)
+    end
+    tree.push(node)
+    tree
+  end  
   def get_resources(names)
     resources = Hash.new { |hash, key| hash[key] = [] }
     names.each do |name|

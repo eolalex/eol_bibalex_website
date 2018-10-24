@@ -4,7 +4,7 @@ git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
-
+gem 'ruby-ntlm'
 gem 'fog'
 gem 'neography'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -23,7 +23,7 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'therubyracer', platforms: :ruby
 gem 'acts_as_list'
 gem 'therubyracer', platforms: :ruby
-
+gem 'active_record_bulk_insert'
 
 
 # Use CoffeeScript for .coffee assets and views
@@ -60,7 +60,7 @@ gem 'omniauth'
 gem 'omniauth-facebook', '~> 4.0.0' 
 gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2' 
-gem 'omniauth-google' 
+#gem 'omniauth-google' 
 gem 'twitter'
 gem 'counter_culture', '~> 1.8'
 # gem 'fb_graph'

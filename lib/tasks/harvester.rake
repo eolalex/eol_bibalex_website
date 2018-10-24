@@ -229,14 +229,30 @@ def get_latest_updates_from_hbase(last_harvested_time, start_key)
   end
 end
 
-def get_latest_updates_from_mysql(start_harvested_time)
+def get_latest_updates_from_mysql(start_harvested_time , end_harvested_time)
   mysql_uri = "#{MYSQL_ADDRESS}#{MYSQL_GET_LATEST_UPDATES_ACTION}"
   begin    
     request =RestClient::Request.new(
         :method => :get,
         :timeout => -1,
-        # :url => "http://172.16.0.99/mysql/getLatestUpdates/2018-09-2313:48:51"
-         :url => "#{mysql_uri}/#{start_harvested_time}"
+         :url => "#{mysql_uri}/#{start_harvested_time}/#{end_harvested_time}"
+      )
+      response = request.execute
+      response.body
+  rescue => e
+  debugger
+    c="l"
+    false
+  end 
+end
+
+def get_end_time
+  mysql_uri = "#{MYSQL_ADDRESS}#{MYSQL_GET_END_TIME}"
+  begin    
+    request =RestClient::Request.new(
+        :method => :get,
+        :timeout => -1,
+         :url => "#{mysql_uri}"
       )
       response = request.execute
       response.body
@@ -791,167 +807,204 @@ end
 
 
 def main_method_3
-  $sql_commands.write("use ba_eol_development;\n")
+  # $sql_commands.write("use ba_eol_development;\n")
   nodes_ids = []
   
-  file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'mysql.json')
-  tables = JSON.parse(File.read(file_path))
-  
+  # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'mysql.json')
+  # tables = JSON.parse(File.read(file_path))
 
-  # start_harvested_time = "1536850285303"
-  # json_content = get_latest_updates_from_mysql(start_harvested_time)
-  # debugger
-  # tables = JSON.parse(json_content)
-  
-  licenses = tables["licenses"]
-  ranks = tables["ranks"]
-  nodes = tables["nodes"]
-  pages = tables["pages"]
-  pages_nodes = tables["pages_nodes"]
-  scientific_names = tables["scientific_names"]
-  languages = tables["languages"]
-  vernaculars = tables["vernaculars"]
-  locations = tables["locations"]
-  media = tables["media"]
-  page_contents = tables["page_contents"]
-  attributions = tables["attributions"]
-  referents = tables["referents"]
-  references = tables["references"]
-  
-  unless licenses.nil?
-    licenses.each do |license|
-      cols = license.keys
-      values = license.values
-      insert_mysql_query("licenses",cols,values)
-        # License.create!(license)
-    end
-  end
-  
-  unless ranks.nil? 
-    ranks.each do |rank|
-      cols = rank.keys
-      values = rank.values
-      insert_mysql_query("ranks",cols,values)      
-       # Rank.create!(rank)
-    end
-  end
-  
-  unless nodes.nil? 
-    nodes.each do |node|
-      nodes_ids << node["generated_node_id"]
-      cols = node.keys
-      values = node.values
-      insert_mysql_query("nodes",cols,values)
-       # Node.create!(node)
-    end
-  end
-  
-  unless pages.nil? 
-    pages.each do |page|
-      cols = page.keys
-      values = page.values
-      insert_mysql_query("pages",cols,values)
-       # Page.create!(page)
-    end
-  end
-  
-  unless pages_nodes.nil? 
-    pages_nodes.each do |pages_node|
-      cols = pages_node.keys
-      values = pages_node.values
-      insert_mysql_query("pages_nodes",cols,values)
-       # PagesNode.create!(pages_node)
-    end
-  end
-  unless scientific_names.nil? 
-    scientific_names.each do |scientific_name|
-      cols = scientific_name.keys
-      values = scientific_name.values
-      insert_mysql_query("scientific_names",cols,values)
-       # ScientificName.create!(scientific_name)
-    end
-  end
-
-  unless languages.nil? 
-    languages.each do |language|
-      cols = language.keys
-      cols = cols.map { |x| x == "group" ? "languages.group" : x }
-      values = language.values
-      insert_mysql_query("languages",cols,values)
-       # Language.create!(language)
-    end
-  end
-  
-  unless vernaculars.nil? 
-    vernaculars.each do |vernacular|
-      cols = vernacular.keys
-      values = vernacular.values
-      insert_mysql_query("vernaculars",cols,values)
-       # Vernacular.create!(vernacular)
-    end
-  end
-  
-  unless locations.nil? 
-    locations.each do |location|
-      cols = location.keys
-      values = location.values
-      insert_mysql_query("locations",cols,values)
-       # Location.create!(location)
-    end
-  end
-  
-  unless media.nil? 
-    media.each do |medium|
-      cols = medium.keys
-      values = medium.values
-      insert_mysql_query("media",cols,values)
-       # Medium.create!(medium)
-    end
-  end
-  
-  unless page_contents.nil? 
-    page_contents.each do |page_content|
-      cols = page_content.keys
-      values = page_content.values
-      insert_mysql_query("page_contents",cols,values)
-       # PageContent.create!(page_content)
-    end
-  end  
-  
-  unless attributions.nil? 
-    attributions.each do |attribution|
-      cols = attribution.keys
-      values = attribution.values
-      insert_mysql_query("attributions",cols,values)
-       # Attribution.create!(attribution)
-    end
-  end 
-    
-  unless referents.nil? 
-    referents.each do |referent|
-      cols = referent.keys
-      values = referent.values
-      insert_mysql_query("referents",cols,values)
-       # Referent.create!(referent)
-    end
-  end
-  
-  unless references.nil? 
-    references.each do |reference|
-      cols = reference.keys
-      values = reference.values
-      insert_mysql_query("ba_eol_development.references",cols,values)
-       # Reference.create!(reference)
-    end
-  end 
-  # ActiveRecord::Base.connection.execute(IO.read($sql_commands))
-  load_data_into_mysql()
-  debugger
-  build_hierarchy(nodes_ids)
 
    
-
-
+   start_harvested_time = "1540211584000"
+  
+  end_harvested_time = get_end_time
+  # debugger
+  
+  while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
+    #start_harvested_time is included 
+    #end_harvested_time is excluded therefore we keep it to next loop
+    json_content = get_latest_updates_from_mysql(start_harvested_time,(start_harvested_time.to_i + 30000).to_s)
+    tables = JSON.parse(json_content)
+    debugger
+    licenses = tables["licenses"]
+    ranks = tables["ranks"]
+    nodes = tables["nodes"]
+    pages = tables["pages"]
+    pages_nodes = tables["pages_nodes"]
+    scientific_names = tables["scientific_names"]
+    languages = tables["languages"]
+    vernaculars = tables["vernaculars"]
+    locations = tables["locations"]
+    media = tables["media"]
+    page_contents = tables["page_contents"]
+    attributions = tables["attributions"]
+    referents = tables["referents"]
+    references = tables["references"]
+    
+   # debugger
+    
+    unless licenses.nil?
+       # License.import licenses
+# License.bulk_insert licenses
+      # debugger
+      License.bulk_insert(licenses, :validate => true, :use_provided_primary_key => true)
+      # debugger
+      # licenses.each do |license|
+        # cols = license.keys
+        # values = license.values
+        # insert_mysql_query("licenses",cols,values)
+          # # License.create!(license)
+      # end
+    end
+    
+    unless ranks.nil? 
+       # Rank.import ranks
+      # Rank.bulk_insert ranks
+      # debugger
+      Rank.bulk_insert(ranks, :validate => true, :use_provided_primary_key => true)
+      # debugger
+      # ranks.each do |rank|
+        # cols = rank.keys
+        # values = rank.values
+        # insert_mysql_query("ranks",cols,values)      
+         # # Rank.create!(rank)
+      # end
+    end
+    
+    unless nodes.nil? 
+      Node.bulk_insert(nodes,:validate => true ,:use_provided_primary_key => true)
+      # nodes.each do |node|
+        # nodes_ids << node["generated_node_id"]
+        # cols = node.keys
+        # values = node.values
+        # insert_mysql_query("nodes",cols,values)
+         # # Node.create!(node)
+      # end
+    end
+    
+    unless pages.nil? 
+      Page.bulk_insert(pages,:validate => true , :use_provided_primary_key => true)
+      # pages.each do |page|
+        # cols = page.keys
+        # values = page.values
+        # insert_mysql_query("pages",cols,values)
+         # # Page.create!(page)
+      # end
+    end
+    
+    unless pages_nodes.nil? 
+      PagesNode.bulk_insert(pages_nodes,:validate => true , :use_provided_primary_key => true)
+      # pages_nodes.each do |pages_node|
+        # cols = pages_node.keys
+        # values = pages_node.values
+        # insert_mysql_query("pages_nodes",cols,values)
+         # # PagesNode.create!(pages_node)
+      # end
+    end
+    unless scientific_names.nil? 
+      ScientificName.bulk_insert(scientific_names,:validate => true , :use_provided_primary_key => true)
+      # scientific_names.each do |scientific_name|
+        # cols = scientific_name.keys
+        # values = scientific_name.values
+        # insert_mysql_query("scientific_names",cols,values)
+         # # ScientificName.create!(scientific_name)
+      # end
+    end
+  
+    unless languages.nil? 
+      languages.each do |language|
+        Language.create(language)
+      end
+      # languages.each do |language|
+        # language["languages.group"] = language.delete("group")
+      # end
+      # Language.bulk_insert(languages,:validate => true , :use_provided_primary_key => true)
+      # languages.each do |language|
+        # cols = language.keys
+        # cols = cols.map { |x| x == "group" ? "languages.group" : x }
+        # values = language.values
+        # insert_mysql_query("languages",cols,values)
+         # # Language.create!(language)
+      # end
+    end
+    
+    unless vernaculars.nil? 
+      Vernacular.bulk_insert(vernaculars,:validate => true , :use_provided_primary_key => true)
+      # vernaculars.each do |vernacular|
+        # cols = vernacular.keys
+        # values = vernacular.values
+        # insert_mysql_query("vernaculars",cols,values)
+         # # Vernacular.create!(vernacular)
+      # end
+    end
+    
+    unless locations.nil?
+      Location.bulk_insert(locations,:validate => true , :use_provided_primary_key => true) 
+      # locations.each do |location|
+        # cols = location.keys
+        # values = location.values
+        # insert_mysql_query("locations",cols,values)
+         # # Location.create!(location)
+      # end
+    end
+    
+    unless media.nil? 
+      Medium.bulk_insert(media,:validate => true , :use_provided_primary_key => true, ignore: true)
+      # media.each do |medium|
+        # cols = medium.keys
+        # values = medium.values
+        # insert_mysql_query("media",cols,values)
+         # # Medium.create!(medium)
+      # end
+    end
+    
+    unless page_contents.nil? 
+      PageContent.bulk_insert(page_contents,:validate => true , :use_provided_primary_key => true)
+      # page_contents.each do |page_content|
+        # cols = page_content.keys
+        # values = page_content.values
+        # insert_mysql_query("page_contents",cols,values)
+         # # PageContent.create!(page_content)
+      # end
+    end  
+    
+    unless attributions.nil? 
+      Attribution.bulk_insert(attributions,:validate => true , :use_provided_primary_key => true)
+      # attributions.each do |attribution|
+        # cols = attribution.keys
+        # values = attribution.values
+        # insert_mysql_query("attributions",cols,values)
+         # # Attribution.create!(attribution)
+      # end
+    end 
+      
+    unless referents.nil? 
+      Referent.bulk_insert(referents,:validate => true , :use_provided_primary_key => true)
+      # referents.each do |referent|
+        # cols = referent.keys
+        # values = referent.values
+        # insert_mysql_query("referents",cols,values)
+         # # Referent.create!(referent)
+      # end
+    end
+    
+    unless references.nil? 
+      Reference.bulk_insert(references,:validate => true , :use_provided_primary_key => true)
+      # references.each do |reference|
+        # cols = reference.keys
+        # values = reference.values
+        # insert_mysql_query("ba_eol_development.references",cols,values)
+         # # Reference.create!(reference)
+      # end
+    end 
+  
+    # load_data_into_mysql()
+  
+    # build_hierarchy(nodes_ids)
+    
+     start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+  end
+   
 end
 
 def load_data_into_mysql()

@@ -44,7 +44,7 @@ Rails.application.routes.draw do
   delete '/collected_pages/:id'=>'collected_pages#destroy'
 
   #search
-  get 'search' => 'search#index'
+  get 'search' => 'search#index', as: :search
 
   get 'overview', :to => redirect("/pages/%{page_id}", :status => 301)
 

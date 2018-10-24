@@ -1,14 +1,16 @@
 class SearchController < ApplicationController
   include ApplicationHelper
-  before_action :set_locale
+  #before_action :set_locale
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
   end
   
   def index
-    unless params[:query].nil?
-      search
+    unless (params[:query].nil?)
+      unless (params[:query].empty?)
+        search
+      end
     end
   end
   
