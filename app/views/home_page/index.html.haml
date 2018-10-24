@@ -29,9 +29,9 @@
                 .searchBox
                   .form-control
                     = form_tag('/search', method: :get) do
-                      = text_field_tag(:query, params[:query], required: true, :placeholder => t(:search_placeholder))
-                  %button.searchButton
-                    %i.fa.fa-search{"aria-hidden" => "false"}
+                      = text_field_tag(:query, params[:query], :required => "true", :placeholder => t(:search_placeholder))
+                      %button.searchButton
+                        %i.fa.fa-search{"aria-hidden" => "true"}
   :javascript
     $(document).ready(function () {
         $('#myCarousel').carousel({

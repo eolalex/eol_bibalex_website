@@ -25,7 +25,17 @@
 
 }
 
- 
+   .searchBox .form-control:first-child input {
+
+      width: 100%;
+      box-shadow: none;
+       border: none;
+        border-top-color: currentcolor;
+        border-right-color: currentcolor;
+        border-bottom-color: currentcolor;
+        border-left-color: currentcolor;
+
+} 
 
 .smallTitle {
 
@@ -1036,26 +1046,6 @@ body > form {
     z-index: 2;
 
     top: 40%;
-
-}
-
-   .searchBox .form-control:first-child input {
-
-      width: 100%;
-      box-shadow: none;
-       border: none;
-        border-top-color: currentcolor;
-        border-right-color: currentcolor;
-        border-bottom-color: currentcolor;
-        border-left-color: currentcolor;
-
-}
-
-.searchBox .form-control:first-child span {
-
-    width: 97%;
-    border: none;
-    box-shadow: none;
 
 }
     .GlobalSearch .slogan {
@@ -3006,7 +2996,7 @@ body > form {
 
     .searchBox .form-control {
         height: 45px;
-        width: 450%;
+        width: 100%;
     }
 
     .searchBox .searchButton {

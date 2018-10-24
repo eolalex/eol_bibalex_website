@@ -27,7 +27,7 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
     %header#header
-      %nav.navbar.navbar-inverse{:role => "banner"}
+      %nav.navbar.navbar-inverse{:role => "banner", :data-turbolinks => "false"}
         .container
           .row
             .col-lg-7.col-md-6.col-sm-6.col-xs-12
@@ -45,9 +45,9 @@
                       %li
                         %a{:href => "#{@url}?locale=ar"} العربية
                   .mainMenu
-                    -# unless current_page?('/')
-                    %button.btn-search{:id => "1","data-toggle" => "modal",:onclick => "showPopup(this)",:role => "button"}
-                      %i.fa.fa-search{"aria-hidden" => "false"}
+                    - unless current_page?('/')
+                      %button.btn-search{:id => "1","data-toggle" => "modal",:onclick => "showPopup(this)",:role => "button"}
+                        %i.fa.fa-search{"aria-hidden" => "false"}
                     %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
                       %span.sr-only Toggle navigation
                       %span.icon-bar
@@ -96,24 +96,24 @@
                       %a{:href => "https://education.eol.org/", :target => "_blank"} #{t(:learning_education)}
                 %li
                   %a.DonateBtn{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} #{t(:donate_button)}
-          -# unless current_page?('/')
-          .modal{:id => "popup_#{1}","aria-labelledby" => "popup_#{1}Label", :role => "dialog", :tabindex => "-1"}
-            .modal-dialog{:role => "document"}
-              .modal-content
-                .modal-header
-                  .form-group.row.form-inline
-                    .col-md-10.col-sm-10.col-xs-10
-                      %h2.editLabel.modal-title #{t(:search_network)}
-                    .col-md-2.col-sm-2.col-xs-2
-                      %button{ :id =>"1", :class => "btn btn-primary pull-right", :tabindex => "1", :onclick=> 'hidePopup(this, event)'}x
-                .modal-body
-                  .searchBox
-                    = form_tag('/search', method: :get) do |f|
-                      -#.form-control                     
-                      = text_field_tag(:query, params[:query],:placeholder => t(:search_placeholder), :class => "modal-body searchBox")
-                      -# %input.form-control.input-lg{:name => "query", :placeholder => t(:search_placeholder), :tabindex => "1", :type => "text", :class => "form-control"} 
-                      %button.searchButton
-                        %i.fa.fa-search{"aria-hidden" => "true"}
+          - unless current_page?('/')
+            .modal{:id => "popup_#{1}","aria-labelledby" => "popup_#{1}Label", :role => "dialog", :tabindex => "-1"}
+              .modal-dialog{:role => "document"}
+                .modal-content
+                  .modal-header
+                    .form-group.row.form-inline
+                      .col-md-10.col-sm-10.col-xs-10
+                        %h2.editLabel.modal-title #{t(:search_network)}
+                      .col-md-2.col-sm-2.col-xs-2
+                        %button{ :id =>"1", :class => "btn btn-primary pull-right", :tabindex => "1", :onclick=> 'hidePopup(this, event)'}x
+                  .modal-body
+                    .searchBox
+                      = form_tag('/search', method: :get) do |f|
+                        -#.form-control                     
+                        = text_field_tag(:query, params[:query],:placeholder => t(:search_placeholder), :class => "modal-body searchBox")
+                        -# %input.form-control.input-lg{:name => "query", :placeholder => t(:search_placeholder), :tabindex => "1", :type => "text", :class => "form-control"} 
+                        %button.searchButton
+                          %i.fa.fa-search{"aria-hidden" => "true"}
     %body
       = render("layouts/flash")
       .container-fluidd
