@@ -52,13 +52,10 @@
               -else 
                 - action = "sign_in"
                 - action_name = "Sign In"
-              .col-sm-4.form-group
-                %a.btn.btn-primary.btn-block{ href: "/users/auth/facebook?intent=#{action}&locale=en" }
-                  %i.fa.fa-facebook
-              .col-sm-4.form-group
+              .col-sm-6.form-group
                 %a.btn.btn-primary.btn-block{ href: "/users/auth/twitter?intent=#{action}&locale=en" }
                   %i.fa.fa-twitter
-              .col-sm-4.form-group
+              .col-sm-6.form-group
                 %a.btn.btn-primary.btn-block{ href: "/users/auth/google_oauth2?intent=#{action}&locale=en" }
                   %i.fa.fa-google-plus
             .col-md-12
