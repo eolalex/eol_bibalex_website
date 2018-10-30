@@ -68,7 +68,10 @@ gem  'refinerycms' , '~> 4.0.2'
 # gem  'refinerycms-authentication-devise' 
 gem  'refinerycms-wymeditor'
 gem  'refinerycms-i18n' 
-
+gem "active_record_bulk_insert"
+gem 'bulk_insert'
+# gem 'ar-extensions'
+ 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

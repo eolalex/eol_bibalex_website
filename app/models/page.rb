@@ -1,5 +1,6 @@
 class Page < ActiveRecord::Base
 
+  validates_uniqueness_of :id
   has_many :collected_pages
   searchkick word_start: [:scientific_name]
 

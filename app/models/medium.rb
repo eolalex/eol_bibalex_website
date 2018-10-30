@@ -19,6 +19,8 @@ class Medium < ApplicationRecord
   scope :videos, -> { where(subclass: :video) }
   scope :sounds, -> { where(subclass: :sound) }
   
+  validates_uniqueness_of :id
+  
   def search_data
     {
         id: id,

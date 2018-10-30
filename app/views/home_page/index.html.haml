@@ -73,11 +73,11 @@
                 %h2.blogTitle
                   = Page.find_by_id(5).try(:scientific_name)
                 = image_tag Page.find_by_id(5) && Page.find_by_id(5).media.size > 0 && !Page.find_by_id(1).try(:media).first.base_url.nil? ? Page.find_by_id(5).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'                
-        .MS-controls
-          %button.MS-left
-            %i.fa.fa-angle-left{"aria-hidden" => "true"}
-          %button.MS-right
-            %i.fa.fa-angle-right{"aria-hidden" => "true"}
+        -# .MS-controls
+          -# %button.MS-left
+            -# %i.fa.fa-angle-left{"aria-hidden" => "true"}
+          -# %button.MS-right
+            -# %i.fa.fa-angle-right{"aria-hidden" => "true"}
   .container
     .separator
   %section#Home_Statistics
