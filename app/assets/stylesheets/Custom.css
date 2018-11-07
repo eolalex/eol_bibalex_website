@@ -23,18 +23,6 @@
 
     width: 100% !important;
 
-}
-
-   .searchBox .form-control:first-child input {
-
-      width: 100%;
-      box-shadow: none;
-       border: none;
-        border-top-color: currentcolor;
-        border-right-color: currentcolor;
-        border-bottom-color: currentcolor;
-        border-left-color: currentcolor;
-
 } 
 
 .smallTitle {
@@ -49,7 +37,25 @@
 
 }
 
- 
+.searchBox .form-control:first-child span {
+
+    width: 97%;
+    border: none;
+    box-shadow: none;
+
+}
+
+   .searchBox .form-control:first-child input {
+
+      width: 100%;
+      box-shadow: none;
+       border: none;
+        border-top-color: currentcolor;
+        border-right-color: currentcolor;
+        border-bottom-color: currentcolor;
+        border-left-color: currentcolor;
+
+} 
 
 .imageThumb {
 
