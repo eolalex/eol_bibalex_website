@@ -24,6 +24,21 @@
     width: 100% !important;
 
 } 
+.searchBox .form-control:first-child input {
+
+ 
+
+      width: 100%;
+      box-shadow: none;
+       border: none;
+        border-top-color: none;
+        border-right-color: none;
+        border-bottom-color: none;
+        border-left-color: none;
+
+ 
+
+}
 
 .smallTitle {
 
@@ -1030,9 +1045,6 @@ body > form {
     position: relative;
 
     margin-top: 0;
-
-    z-index: 2;
-
 }
 
  
@@ -1233,8 +1245,6 @@ table tr td{
 
     position: relative;
 
-    z-index: 3;
-
 }
 
  
@@ -1243,7 +1253,7 @@ table tr td{
 
     background-color: white;
 
-    box-shadow: 0 -115px 24px rgba(0, 0, 0, 0.25);
+    box-shadow:  0 -22px 24px rgba(0, 0, 0, 0.25);
 
     padding: 30px 15px;
 
@@ -2946,7 +2956,6 @@ body > form {
 #main-slider {
     position: relative;
     margin-top: 0;
-    z-index: 2;
 }
 
     #main-slider .carousel {
@@ -3033,12 +3042,11 @@ body > form {
 
 .smallCarousel {
     position: relative;
-    z-index: 3;
 }
 
 .carousel_Thumbnails {
     background-color: white;
-    box-shadow: 0 -115px 24px rgba(0, 0, 0, 0.25);
+    box-shadow:  0 -22px 24px rgba(0, 0, 0, 0.25);
     padding: 30px 15px;
 }
 

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     get "overview", :to => redirect("/pages/%{page_id}")
     get "literature_and_references"
     get "data"
+    get "maps"
 
     member do
       get 'names'
