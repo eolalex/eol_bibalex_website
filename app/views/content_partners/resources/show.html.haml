@@ -2,7 +2,7 @@
   .row
     .col-lg-12
       %h2.mainTitle.resurceTitle
-        %img{:alt => "", :src => "../images/collection.png"}/
+        %img{:alt => "", :src => "/assets/collection.png"}/
         = @resource.name
         %span.pull-right
           -if(current_user==@content_partner.user)
@@ -92,10 +92,10 @@
           .row
             .col-sm-12
               .single_comments
-                %img{:alt => "", :src => "../images/blog/avatar3.png"}/
+                %img{:alt => "", :src => "/assets/avatar3.png"}/
                 %p{:style => ""}
-                  %a{:href => main_app.user_path(@content_partner.user)}
-                    = @content_partner.user.username
+                  -#%a{:href => main_app.user_path(@content_partner.user)}
+                  = @content_partner.user.username
     .col-md-4
       %aside
         .widget.categories.contentManger
@@ -104,7 +104,7 @@
           .row
             .col-sm-12
               .single_comments
-                %img{:alt => "", :src => "../images/blog/avatar3.png"}/
+                %img{:alt => "", :src => "/assets/avatar3.png"}/
                 %p{:style => ""}
                   %a{:href => content_partner_path(id: @content_partner.id)}
                     = @content_partner.name

@@ -83,11 +83,17 @@ end
 
 def get_dynamic_heirarchy_nodes
   node_ids = []
-  json_content = get_nodes_of_resource_from_hbase(DYNAMIC_HIERARCHY_RESOURCE_ID)
+  json_content = get_nodes_of_resource_from_hbase(519)
   nodes = JSON.parse(json_content)
-  nodes.each do |node|
+  nodes.map do |node|
      node_ids << node["generatedNodeId"]
   end
+  build_hierarchy(node_ids) 
+end
+
+def build_ancestors_for_sql_solution
+  node_ids = []
+  node_ids = Node.all.pluck(:generated_node_id)
   build_hierarchy(node_ids) 
 end
 
@@ -124,13 +130,13 @@ def main_method
   if is_updates == "true"
     start_key = -1
     # json_content = get_latest_updates_from_hbase(start_key)
-     json_content = get_nodes_of_resource_from_hbase(471)
+     json_content = get_nodes_of_resource_from_hbase(519)
      # json_content = get_nodes_of_resource_from_hbase()
      # nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'nodes4.json')
      # json_content = File.read(nodes_file_path)
      # unless json_content == false
        nodes = JSON.parse(json_content)
-
+       debugger
        
        
        # load_occurrences
@@ -152,23 +158,23 @@ def main_method
          node["taxon"]["pageEolId"]= "1"
          
          nodes_ids << node["generatedNodeId"]
-         # res = Node.where(generated_node_id: node["generatedNodeId"])        
-         # if res.count > 0
-           # created_node = res.first
-         # else
-           # params = { resource_id: node["resourceId"],
-                     # scientific_name: node["taxon"]["scientificName"], canonical_form: node["taxon"]["canonicalName"],
-                     # rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
-                     # page_id: node["taxon"]["pageEolId"] }
-          # created_node = create_node(params)
-        # end          
+         res = Node.where(generated_node_id: node["generatedNodeId"])        
+         if res.count > 0
+           created_node = res.first
+         else
+           params = { resource_id: node["resourceId"],
+                     scientific_name: node["taxon"]["scientificName"], canonical_form: node["taxon"]["canonicalName"],
+                     rank: node["taxon"]["taxonRank"], generated_node_id: node["generatedNodeId"],taxon_id: node["taxonId"],
+                     page_id: node["taxon"]["pageEolId"] }
+          created_node = create_node(params)
+        end          
 #           
          unless node["taxon"]["pageEolId"].nil?
        
-          # page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
-          # create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
-                                 # node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] }) 
-          # create_pages_nodes({resource_id: node["resourceId"], node_id: created_node.id, page_id: page_id})     
+          page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
+          create_scientific_name({ node_id: created_node.id, page_id: page_id, canonical_form: node["taxon"]["canonicalName"],
+                                 node_resource_pk: node["taxon_id"], scientific_name: node["taxon"]["scientificName"],resource_id: node["resourceId"] }) 
+          create_pages_nodes({resource_id: node["resourceId"], node_id: created_node.id, page_id: page_id})     
           # unless node["vernaculars"].nil?
             # create_vernaculars({vernaculars: node["vernaculars"], node_id: created_node.id, page_id: page_id, resource_id: node["resourceId"] })
           # end
@@ -176,7 +182,7 @@ def main_method
           # unless node["media"].nil?
             # create_media({media: node["media"],resource_id: node["resourceId"],page_id: page_id, references: node["references"]})
           # end
-          
+#           
           node_params = { page_id: node["taxon"]["pageEolId"], resource_id: node["resourceId"],
                           scientific_name: node["taxon"]["scientificName"] }
           add_neo4j(node_params, node["occurrences"], node["measurementOrFacts"], node["associations"])           
@@ -790,169 +796,169 @@ def uri?(str)
 end
 
 
-def main_method_3
-  $sql_commands.write("use ba_eol_development;\n")
-  nodes_ids = []
+# def main_method_3
+#   $sql_commands.write("use ba_eol_development;\n")
+#   nodes_ids = []
   
-  file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'mysql.json')
-  tables = JSON.parse(File.read(file_path))
+#   file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'mysql.json')
+#   tables = JSON.parse(File.read(file_path))
   
 
-  # start_harvested_time = "1536850285303"
-  # json_content = get_latest_updates_from_mysql(start_harvested_time)
-  # debugger
-  # tables = JSON.parse(json_content)
+#   # start_harvested_time = "1536850285303"
+#   # json_content = get_latest_updates_from_mysql(start_harvested_time)
+#   # debugger
+#   # tables = JSON.parse(json_content)
   
-  licenses = tables["licenses"]
-  ranks = tables["ranks"]
-  nodes = tables["nodes"]
-  pages = tables["pages"]
-  pages_nodes = tables["pages_nodes"]
-  scientific_names = tables["scientific_names"]
-  languages = tables["languages"]
-  vernaculars = tables["vernaculars"]
-  locations = tables["locations"]
-  media = tables["media"]
-  page_contents = tables["page_contents"]
-  attributions = tables["attributions"]
-  referents = tables["referents"]
-  references = tables["references"]
+#   licenses = tables["licenses"]
+#   ranks = tables["ranks"]
+#   nodes = tables["nodes"]
+#   pages = tables["pages"]
+#   pages_nodes = tables["pages_nodes"]
+#   scientific_names = tables["scientific_names"]
+#   languages = tables["languages"]
+#   vernaculars = tables["vernaculars"]
+#   locations = tables["locations"]
+#   media = tables["media"]
+#   page_contents = tables["page_contents"]
+#   attributions = tables["attributions"]
+#   referents = tables["referents"]
+#   references = tables["references"]
   
-  unless licenses.nil?
-    licenses.each do |license|
-      cols = license.keys
-      values = license.values
-      insert_mysql_query("licenses",cols,values)
-        # License.create!(license)
-    end
-  end
+#   unless licenses.nil?
+#     licenses.each do |license|
+#       cols = license.keys
+#       values = license.values
+#       insert_mysql_query("licenses",cols,values)
+#         # License.create!(license)
+#     end
+#   end
   
-  unless ranks.nil? 
-    ranks.each do |rank|
-      cols = rank.keys
-      values = rank.values
-      insert_mysql_query("ranks",cols,values)      
-       # Rank.create!(rank)
-    end
-  end
+#   unless ranks.nil? 
+#     ranks.each do |rank|
+#       cols = rank.keys
+#       values = rank.values
+#       insert_mysql_query("ranks",cols,values)      
+#        # Rank.create!(rank)
+#     end
+#   end
   
-  unless nodes.nil? 
-    nodes.each do |node|
-      nodes_ids << node["generated_node_id"]
-      cols = node.keys
-      values = node.values
-      insert_mysql_query("nodes",cols,values)
-       # Node.create!(node)
-    end
-  end
+#   unless nodes.nil? 
+#     nodes.each do |node|
+#       nodes_ids << node["generated_node_id"]
+#       cols = node.keys
+#       values = node.values
+#       insert_mysql_query("nodes",cols,values)
+#        # Node.create!(node)
+#     end
+#   end
   
-  unless pages.nil? 
-    pages.each do |page|
-      cols = page.keys
-      values = page.values
-      insert_mysql_query("pages",cols,values)
-       # Page.create!(page)
-    end
-  end
+#   unless pages.nil? 
+#     pages.each do |page|
+#       cols = page.keys
+#       values = page.values
+#       insert_mysql_query("pages",cols,values)
+#        # Page.create!(page)
+#     end
+#   end
   
-  unless pages_nodes.nil? 
-    pages_nodes.each do |pages_node|
-      cols = pages_node.keys
-      values = pages_node.values
-      insert_mysql_query("pages_nodes",cols,values)
-       # PagesNode.create!(pages_node)
-    end
-  end
-  unless scientific_names.nil? 
-    scientific_names.each do |scientific_name|
-      cols = scientific_name.keys
-      values = scientific_name.values
-      insert_mysql_query("scientific_names",cols,values)
-       # ScientificName.create!(scientific_name)
-    end
-  end
+#   unless pages_nodes.nil? 
+#     pages_nodes.each do |pages_node|
+#       cols = pages_node.keys
+#       values = pages_node.values
+#       insert_mysql_query("pages_nodes",cols,values)
+#        # PagesNode.create!(pages_node)
+#     end
+#   end
+#   unless scientific_names.nil? 
+#     scientific_names.each do |scientific_name|
+#       cols = scientific_name.keys
+#       values = scientific_name.values
+#       insert_mysql_query("scientific_names",cols,values)
+#        # ScientificName.create!(scientific_name)
+#     end
+#   end
 
-  unless languages.nil? 
-    languages.each do |language|
-      cols = language.keys
-      cols = cols.map { |x| x == "group" ? "languages.group" : x }
-      values = language.values
-      insert_mysql_query("languages",cols,values)
-       # Language.create!(language)
-    end
-  end
+#   unless languages.nil? 
+#     languages.each do |language|
+#       cols = language.keys
+#       cols = cols.map { |x| x == "group" ? "languages.group" : x }
+#       values = language.values
+#       insert_mysql_query("languages",cols,values)
+#        # Language.create!(language)
+#     end
+#   end
   
-  unless vernaculars.nil? 
-    vernaculars.each do |vernacular|
-      cols = vernacular.keys
-      values = vernacular.values
-      insert_mysql_query("vernaculars",cols,values)
-       # Vernacular.create!(vernacular)
-    end
-  end
+#   unless vernaculars.nil? 
+#     vernaculars.each do |vernacular|
+#       cols = vernacular.keys
+#       values = vernacular.values
+#       insert_mysql_query("vernaculars",cols,values)
+#        # Vernacular.create!(vernacular)
+#     end
+#   end
   
-  unless locations.nil? 
-    locations.each do |location|
-      cols = location.keys
-      values = location.values
-      insert_mysql_query("locations",cols,values)
-       # Location.create!(location)
-    end
-  end
+#   unless locations.nil? 
+#     locations.each do |location|
+#       cols = location.keys
+#       values = location.values
+#       insert_mysql_query("locations",cols,values)
+#        # Location.create!(location)
+#     end
+#   end
   
-  unless media.nil? 
-    media.each do |medium|
-      cols = medium.keys
-      values = medium.values
-      insert_mysql_query("media",cols,values)
-       # Medium.create!(medium)
-    end
-  end
+#   unless media.nil? 
+#     media.each do |medium|
+#       cols = medium.keys
+#       values = medium.values
+#       insert_mysql_query("media",cols,values)
+#        # Medium.create!(medium)
+#     end
+#   end
   
-  unless page_contents.nil? 
-    page_contents.each do |page_content|
-      cols = page_content.keys
-      values = page_content.values
-      insert_mysql_query("page_contents",cols,values)
-       # PageContent.create!(page_content)
-    end
-  end  
+#   unless page_contents.nil? 
+#     page_contents.each do |page_content|
+#       cols = page_content.keys
+#       values = page_content.values
+#       insert_mysql_query("page_contents",cols,values)
+#        # PageContent.create!(page_content)
+#     end
+#   end  
   
-  unless attributions.nil? 
-    attributions.each do |attribution|
-      cols = attribution.keys
-      values = attribution.values
-      insert_mysql_query("attributions",cols,values)
-       # Attribution.create!(attribution)
-    end
-  end 
+#   unless attributions.nil? 
+#     attributions.each do |attribution|
+#       cols = attribution.keys
+#       values = attribution.values
+#       insert_mysql_query("attributions",cols,values)
+#        # Attribution.create!(attribution)
+#     end
+#   end 
     
-  unless referents.nil? 
-    referents.each do |referent|
-      cols = referent.keys
-      values = referent.values
-      insert_mysql_query("referents",cols,values)
-       # Referent.create!(referent)
-    end
-  end
+#   unless referents.nil? 
+#     referents.each do |referent|
+#       cols = referent.keys
+#       values = referent.values
+#       insert_mysql_query("referents",cols,values)
+#        # Referent.create!(referent)
+#     end
+#   end
   
-  unless references.nil? 
-    references.each do |reference|
-      cols = reference.keys
-      values = reference.values
-      insert_mysql_query("ba_eol_development.references",cols,values)
-       # Reference.create!(reference)
-    end
-  end 
-  # ActiveRecord::Base.connection.execute(IO.read($sql_commands))
-  load_data_into_mysql()
-  debugger
-  build_hierarchy(nodes_ids)
+#   unless references.nil? 
+#     references.each do |reference|
+#       cols = reference.keys
+#       values = reference.values
+#       insert_mysql_query("ba_eol_development.references",cols,values)
+#        # Reference.create!(reference)
+#     end
+#   end 
+#   # ActiveRecord::Base.connection.execute(IO.read($sql_commands))
+#   load_data_into_mysql()
+#   debugger
+#   build_hierarchy(nodes_ids)
 
    
 
 
-end
+# end
 
 def load_data_into_mysql()
   # db = YAML::load( File.open( File.join(Rails.root, 'config', 'database.yml') ) )
@@ -998,15 +1004,8 @@ namespace :harvester do
   desc "TODO"  
   task get_latest_updates: :environment do
     
-    
-
-    main_method_3
-    #main_method
-
-    #main_method_2
-    # build_hierarchy(Node.all.limit(50).pluck(:generated_node_id))
-     # main_method
-    # get_dynamic_heirarchy_nodes
+  
+     build_ancestors_for_sql_solution
 
   end
 end

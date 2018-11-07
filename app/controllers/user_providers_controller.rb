@@ -27,7 +27,7 @@ class UserProvidersController < ApplicationController
      UserProvider.create(user_id: @user.id, 
        provider: user["provider"], uid: user["uid"])
      if user["info"]["email"] != params[:user][:email]
-       redirect_to new_user_session_path, flash: { notice:  flash_msg }
+       redirect_to new_user_registration_path, flash: { notice:  flash_msg }
      else
        sign_in_and_redirect @user, event: :authentication
        flash[:notice] = flash_msg

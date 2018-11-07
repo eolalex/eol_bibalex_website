@@ -5,7 +5,10 @@
 
 }
 
- 
+.modal-body .greyBox{
+    max-height: 300px;
+    overflow-y: scroll;
+} 
 
 .content {
 
@@ -186,7 +189,13 @@
 
 }
 
- 
+ .modal-body .searchBox {
+
+   height: 45px;
+   width: 550px;
+   border-color: #80808033;
+   border-radius: 5px;
+    } 
 
 .extra_large .modal-body {
 

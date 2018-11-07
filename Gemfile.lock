@@ -517,6 +517,7 @@ GEM
     routing-filter (0.6.2)
       actionpack (>= 4.2, < 6)
       activesupport (>= 4.2, < 6)
+    ruby-ntlm (0.0.4)
     ruby_dep (1.5.0)
     ruby_parser (3.11.0)
       sexp_processor (~> 4.9)
@@ -646,6 +647,7 @@ DEPENDENCIES
   refinerycms-i18n
   refinerycms-wymeditor
   rest-client
+  ruby-ntlm
   sass-rails (~> 5.0)
   searchkick
   selenium-webdriver
@@ -663,4 +665,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   1.16.0
+   1.16.3

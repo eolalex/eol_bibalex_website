@@ -30,10 +30,10 @@
             .row
               .col-sm-12
                 .single_comments
-                  %img{:alt => "", :src => "../images/blog/avatar3.png"}/
+                  %img{:alt => "", :src => "/assets/avatar3.png"}/
                   %p{:style => ""}
-                    %a{:href => "#"}
-                      = @content_partner.user.username
+                    -#%a{:href => "#"}
+                    = @content_partner.user.username
           .widget.categories.Resources
             .greyBox
               %h3.ResourcesIcon
