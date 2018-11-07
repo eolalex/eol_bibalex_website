@@ -19,6 +19,8 @@
     -if @page.data.size > 0
       %li
         %a{:href => page_data_path(@page)} #{t(:data)}
+    %li
+      %a{:href => page_maps_path(@page)} #{t(:maps)}
 %small
 %span.dropdown.pull-right
   =link_to "#{t(:collect_button)}", new_collected_page_path(page_id: @page.id), class: "btn btn-primary"

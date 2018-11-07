@@ -12,7 +12,7 @@ class Page < ActiveRecord::Base
       type: 'completion',
       analyzer: 'lowercase',
       search_analyzer: 'lowercase',
-      payloads: 'true'
+      payloads: 'true',
       }
   end
 end
