@@ -23,9 +23,22 @@
 
     width: 100% !important;
 
-}
+} 
+.searchBox .form-control:first-child input {
 
  
+
+      width: 100%;
+      box-shadow: none;
+       border: none;
+        border-top-color: none;
+        border-right-color: none;
+        border-bottom-color: none;
+        border-left-color: none;
+
+ 
+
+}
 
 .smallTitle {
 
@@ -39,7 +52,25 @@
 
 }
 
- 
+.searchBox .form-control:first-child span {
+
+    width: 97%;
+    border: none;
+    box-shadow: none;
+
+}
+
+   .searchBox .form-control:first-child input {
+
+      width: 100%;
+      box-shadow: none;
+       border: none;
+        border-top-color: currentcolor;
+        border-right-color: currentcolor;
+        border-bottom-color: currentcolor;
+        border-left-color: currentcolor;
+
+} 
 
 .imageThumb {
 
@@ -189,13 +220,7 @@
 
 }
 
- .modal-body .searchBox {
-
-   height: 45px;
-   width: 550px;
-   border-color: #80808033;
-   border-radius: 5px;
-    } 
+ 
 
 .extra_large .modal-body {
 
@@ -1020,9 +1045,6 @@ body > form {
     position: relative;
 
     margin-top: 0;
-
-    z-index: 2;
-
 }
 
  
@@ -1044,9 +1066,6 @@ body > form {
     top: 40%;
 
 }
-
- 
-
     .GlobalSearch .slogan {
 
         margin: 0 auto;
@@ -1096,7 +1115,13 @@ body > form {
         color: #333 !important;
 
     }
+    .modal-body .searchBox {
 
+       height: 45px; 
+       width: 550px;
+       border-color: #80808033;
+       border-radius: 5px;
+    }
  
 
 .searchbox .modal-title {
@@ -1220,8 +1245,6 @@ table tr td{
 
     position: relative;
 
-    z-index: 3;
-
 }
 
  
@@ -1230,7 +1253,7 @@ table tr td{
 
     background-color: white;
 
-    box-shadow: 0 -115px 24px rgba(0, 0, 0, 0.25);
+    box-shadow:  0 -22px 24px rgba(0, 0, 0, 0.25);
 
     padding: 30px 15px;
 
@@ -2933,7 +2956,6 @@ body > form {
 #main-slider {
     position: relative;
     margin-top: 0;
-    z-index: 2;
 }
 
     #main-slider .carousel {
@@ -2954,6 +2976,12 @@ body > form {
         font-weight: normal;
     }
 
+    .GlobalSearch .searchBar {
+     font-size: 16px;
+     height: 45px;
+     margin: 25px auto;
+     width: 450%;
+     border-radius: 5px; }
 .modal-body .searchButton {
     background-color: #c52d2f !important;
     color: #fff !important;
@@ -2983,6 +3011,7 @@ body > form {
 
     .searchBox .form-control {
         height: 45px;
+        width: 100%;
     }
 
     .searchBox .searchButton {
@@ -3013,12 +3042,11 @@ body > form {
 
 .smallCarousel {
     position: relative;
-    z-index: 3;
 }
 
 .carousel_Thumbnails {
     background-color: white;
-    box-shadow: 0 -115px 24px rgba(0, 0, 0, 0.25);
+    box-shadow:  0 -22px 24px rgba(0, 0, 0, 0.25);
     padding: 30px 15px;
 }
 

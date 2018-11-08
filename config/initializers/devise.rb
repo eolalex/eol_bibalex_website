@@ -33,9 +33,6 @@ Devise.setup do |config|
     address:       '172.16.0.6',
     port:          25,
     enable_starttls_auto: true,
-    #username:      'nada.eliba',
-    #password:      'AlexSB-16',
-    #authentication:  :plain
   }
   # Configure the class responsible to send e-mails.
   #config.mailer = 'Devise::Mailer'
@@ -275,7 +272,8 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :facebook, ENV['FACEBOOK_APP_ID'],ENV['FACEBBOK_APP_SECRET']
-  config.omniauth :google_oauth2,ENV['GOOGLE_CLIENT_ID'],ENV['GOOGLE_CLIENT_SECRET'], skip_jwt: true
+  config.omniauth :facebook, ENV['FACEBOOK_APP_ID'], ENV['FACEBBOK_APP_SECRET']
+  config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIENT_SECRET'], provider_ignores_state: true, skip_jwt: true
   config.omniauth :twitter, ENV['TWITTER_API_KEY'], ENV['TWITTER_API_SECRET']
 
   # ==> Warden configuration

@@ -23,7 +23,7 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'therubyracer', platforms: :ruby
 gem 'acts_as_list'
 gem 'therubyracer', platforms: :ruby
-
+gem 'active_record_bulk_insert'
 
 
 # Use CoffeeScript for .coffee assets and views
@@ -37,8 +37,10 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'jquery-rails'
+gem 'jquery-turbolinks'
 gem 'haml-rails'
 gem 'searchkick'
+gem 'elasticsearch-model'
 gem 'will_paginate'
 gem 'twitter-typeahead-rails'
 gem "js-routes"
@@ -60,7 +62,7 @@ gem 'omniauth'
 gem 'omniauth-facebook', '~> 4.0.0' 
 gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2' 
-gem 'omniauth-google' 
+#gem 'omniauth-google' 
 gem 'twitter'
 gem 'counter_culture', '~> 1.8'
 # gem 'fb_graph'
@@ -68,6 +70,9 @@ gem  'refinerycms' , '~> 4.0.2'
 # gem  'refinerycms-authentication-devise' 
 gem  'refinerycms-wymeditor'
 gem  'refinerycms-i18n' 
+# gem  'geocoder'
+gem 'gmaps4rails'
+gem 'leaflet-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

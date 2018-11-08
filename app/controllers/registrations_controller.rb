@@ -63,12 +63,14 @@ class RegistrationsController < Devise::RegistrationsController
 
   def check_captcha
    # debugger
+    #if verify_recaptcha
+   # true
+   # else
     unless verify_recaptcha
       self.resource = User.new(sign_up_params)
       resource.valid?
       resource.errors.add(:recaptcha, I18n.t(:recaptcha_error))
       redirect_to new_user_registration_path
-      #new_session_path(resource_name)
     end
   end
 

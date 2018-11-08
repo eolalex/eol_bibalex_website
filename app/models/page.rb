@@ -1,8 +1,26 @@
 class Page < ActiveRecord::Base
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+  
+  index_name Rails.application.class.parent_name.underscore
+  document_type self.name.downcase
+  
+  settings index: { number_of_shards: 10, "index.blocks.read_only_allow_delete": :null } do
+  mapping dynamic: false do
+    indexes :scientitfic_name, type: :varchar 
+    indexes :suggest, {
+      type: 'completion',
+      analyzer: 'lowercase',
+      search_analyzer: 'lowercase',
+      payloads: 'true',
+      }
+  end
+end
+  searchkick word_start: [:scientific_name]
+  
+
 
   has_many :collected_pages
-  searchkick word_start: [:scientific_name]
-
 
   has_and_belongs_to_many :referents
   belongs_to :node
@@ -15,11 +33,11 @@ class Page < ActiveRecord::Base
   has_and_belongs_to_many :referents  
   has_many :pages_node
   has_many :nodes, through: :pages_node
-  
+  validates_uniqueness_of :id  
   def search_data
       {
         id: id,
-        scientific_name: scientific_name
+        scientific_name: scientific_name.downcase
       }
   end
 #   

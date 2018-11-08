@@ -13,6 +13,7 @@ ENV["TWITTER_API_KEY"]= "nEfe27C3l8zIEovBQsyBpw67O"
 ENV["TWITTER_API_SECRET"] = "4KOIPSxUgj5aC5eVVWT3Y2nAGEUwWO074MG4Q4zfaOr2AyYaTB"
 ENV['schedular_ip'] = 'http://172.16.1.35:80/scheduler'
 ENV['storage_ip'] = 'http://172.16.1.33:80/eol/archiver'
+
 #require 'ntlm/smtp'
 # Initialize the Rails application.
 Rails.application.initialize!
@@ -29,3 +30,4 @@ NEO4J_GET_PARENTS_OF_NODES_ACTION = "getParentsOfNodes"
 NEO4J_GET_ANCESTORS_OF_NODES_ACTION = "getAncestors"
 SCHEDULER_ADDRESS = "172.16.1.35:80/scheduler"
 CHECK_FOR_UPDATES = "readyResources"
+MYSQL_GET_END_TIME = "getEndTime"

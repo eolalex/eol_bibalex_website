@@ -1,0 +1,18 @@
+-# - if ! @page.occurrence_map? && @page.maps.blank?
+-#.empty
+  -#%p= I18n.t("maps.empty")
+-# - if @page.occurrence_map?
+-# = render "json_map"
+-# - unless @page.maps.blank?
+-# %h3= t("maps.other_maps_title")
+-# = render "page_media", filterable: false
+-# -debugger
+#map
+  #gmap
+    #panel
+      %div
+        = I18n.t(:georeference_records_colon)
+        %span#total_markers
+      #markerlist
+    #map-container
+      #map-canvas{ :'data-json-path' => maps_json_path(@page) }

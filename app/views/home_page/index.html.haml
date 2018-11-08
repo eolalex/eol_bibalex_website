@@ -1,3 +1,4 @@
+= javascript_include_tag 'search'
 %content#Content1{:contentplaceholderid => "head", :runat => "Server"}
 %content#Content2{:contentplaceholderid => "ContentPlaceHolder1", :runat => "Server"}
   %section#main-slider.no-margin
@@ -26,10 +27,11 @@
                 %h1.animation.text-center.animated-item-1.slogan.hidden-xs #{t(:global_access_to_knowledge)}
                 %h1.animation.text-center.animated-item-1.slogan.hidden-lg.hidden-md.hidden-sm #{t(:search_network)}
                 .searchBox
-                  = form_tag(search_path, method: :get) do
-                    = text_field_tag(:query, params[:query] ,class: "form-control", required: true, :placeholder => t(:search_placeholder))
-                    %button.searchButton
-                      %i.fa.fa-search{"aria-hidden" => "true"}
+                  .form-control
+                    = form_tag('/search', method: :get) do
+                      = text_field_tag(:query, params[:query], :required => "true", :placeholder => t(:search_placeholder))
+                      %button.searchButton
+                        %i.fa.fa-search{"aria-hidden" => "true"}
   :javascript
     $(document).ready(function () {
         $('#myCarousel').carousel({
