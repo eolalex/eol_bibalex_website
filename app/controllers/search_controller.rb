@@ -1,10 +1,6 @@
 class SearchController < ApplicationController
   include ApplicationHelper
   #before_action :set_locale
-
-  def set_locale
-    I18n.locale = params[:locale] || I18n.default_locale
-  end
   
   def index
     unless (params[:query].nil?)
@@ -13,10 +9,10 @@ class SearchController < ApplicationController
       end
     end
   end
-  
+
   def search
     # Page.reindex
-    regex = ".*"+params[:query]+".*"
+    regex = ".*"+params[:query].downcase+".*"
     # scientific_names_result = ScientificName.search params[:query] do |body|
       # body[:query] = {
         # regexp:{

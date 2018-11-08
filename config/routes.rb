@@ -25,6 +25,8 @@ Rails.application.routes.draw do
     get "literature_and_references"
     get "data"
     get "articles"
+    get "maps"
+
 
     member do
       get 'names'
