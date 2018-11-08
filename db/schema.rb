@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20181106090034) do
+
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "owner"
@@ -27,6 +29,7 @@ ActiveRecord::Schema.define(version: 20181106090034) do
     t.bigint "language_id"
     t.bigint "license_id"
     t.bigint "location_id"
+    t.text "body", limit: 4294967295
     t.index ["bibliographic_citation_id"], name: "index_articles_on_bibliographic_citation_id"
     t.index ["language_id"], name: "index_articles_on_language_id"
     t.index ["license_id"], name: "index_articles_on_license_id"
@@ -177,10 +180,6 @@ ActiveRecord::Schema.define(version: 20181106090034) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "maps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "format"

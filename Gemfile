@@ -23,7 +23,6 @@ gem 'uglifier', '>= 1.3.0'
 # gem 'therubyracer', platforms: :ruby
 gem 'acts_as_list'
 gem 'therubyracer', platforms: :ruby
-gem 'active_record_bulk_insert'
 
 
 # Use CoffeeScript for .coffee assets and views
@@ -70,9 +69,16 @@ gem  'refinerycms' , '~> 4.0.2'
 # gem  'refinerycms-authentication-devise' 
 gem  'refinerycms-wymeditor'
 gem  'refinerycms-i18n' 
+
+gem "active_record_bulk_insert"
+gem 'bulk_insert'
+# gem 'ar-extensions'
+ 
+
 # gem  'geocoder'
 gem 'gmaps4rails'
 gem 'leaflet-rails'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

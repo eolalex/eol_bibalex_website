@@ -812,9 +812,12 @@ def main_method_3
   
   # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'mysql.json')
   # tables = JSON.parse(File.read(file_path))
-
+  
+  # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'articles.json')
+  # tables = JSON.parse(File.read(file_path))
 
    
+
    start_harvested_time = "1540211584000"
   
   end_harvested_time = get_end_time
@@ -825,7 +828,8 @@ def main_method_3
     #end_harvested_time is excluded therefore we keep it to next loop
     json_content = get_latest_updates_from_mysql(start_harvested_time,(start_harvested_time.to_i + 30000).to_s)
     tables = JSON.parse(json_content)
-    debugger
+
+
     licenses = tables["licenses"]
     ranks = tables["ranks"]
     nodes = tables["nodes"]
@@ -836,12 +840,13 @@ def main_method_3
     vernaculars = tables["vernaculars"]
     locations = tables["locations"]
     media = tables["media"]
+    articles = tables["articles"]
     page_contents = tables["page_contents"]
     attributions = tables["attributions"]
     referents = tables["referents"]
     references = tables["references"]
     
-   # debugger
+
     
     unless licenses.nil?
        # License.import licenses
@@ -956,6 +961,11 @@ def main_method_3
         # insert_mysql_query("media",cols,values)
          # # Medium.create!(medium)
       # end
+    end
+    
+    unless articles.nil? 
+      # debugger
+       Article.bulk_insert(articles,:validate => true , :use_provided_primary_key => true, ignore: true)
     end
     
     unless page_contents.nil? 

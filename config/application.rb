@@ -1,3 +1,4 @@
+# require 'ar-extensions'
 require_relative 'boot'
 
 require 'rails/all'

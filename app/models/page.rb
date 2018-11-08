@@ -1,11 +1,15 @@
 class Page < ActiveRecord::Base
+
+  validates_uniqueness_of :id
+  has_many :collected_pages
+  
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
   
   index_name Rails.application.class.parent_name.underscore
   document_type self.name.downcase
   
-  settings index: { number_of_shards: 10 } do
+  settings index: { number_of_shards: 10,"index.blocks.read_only_allow_delete": :null } do
   mapping dynamic: false do
     indexes :scientitfic_name, type: :varchar 
     indexes :suggest, {
@@ -16,6 +20,7 @@ class Page < ActiveRecord::Base
       }
   end
 end
+
   searchkick word_start: [:scientific_name]
   
 

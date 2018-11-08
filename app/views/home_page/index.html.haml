@@ -48,34 +48,36 @@
         .MS-content
           .item
             .imgTitle
-              %a{:href => "/pages/1003"}
-                %h2.blogTitle
-                  = Page.find_by_id(1).try(:scientific_name)
-                = image_tag Page.find_by_id(1003).try(:media).size > 0 && !Page.find_by_id(1003).try(:media).first.base_url.nil? ? Page.find_by_id(1003).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
-          .item
-            .imgTitle
-              %a{:href => "/pages/1003"}
-                %h2.blogTitle
-                  = Page.find_by_id(1003).try(:scientific_name)
-                = image_tag Page.find_by_id(1003) && Page.find_by_id(1003).media.size > 0 && !Page.find_by_id(1003).try(:media).first.base_url.nil? ? Page.find_by_id(1003).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
-          .item
-            .imgTitle
-              %a{:href => "/pages/1003"}
-                %h2.blogTitle
-                  = Page.find_by_id(1003).try(:scientific_name)
-                = image_tag Page.find_by_id(1003) && Page.find_by_id(1003).media.size > 0 && !Page.find_by_id(1003).try(:media).first.base_url.nil? ? Page.find_by_id(1003).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
-          .item
-            .imgTitle
-              %a{:href => "/pages/1003"}
-                %h2.blogTitle
-                  = Page.find_by_id(1003).try(:scientific_name)
-                = image_tag Page.find_by_id(1003) && Page.find_by_id(1003).media.size > 0 && !Page.find_by_id(1003).try(:media).first.base_url.nil? ? Page.find_by_id(1003).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
-          .item
-            .imgTitle
-              %a{:href => "/pages/1003"}
-                %h2.blogTitle
-                  = Page.find_by_id(1003).try(:scientific_name)
-                = image_tag Page.find_by_id(1003) && Page.find_by_id(1003).media.size > 0 && !Page.find_by_id(1003).try(:media).first.base_url.nil? ? Page.find_by_id(1003).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'                
+              -# %a{:href => "/pages/1003"}
+                -# %h2.blogTitle
+                  -# = Page.find_by_id(1).try(:scientific_name)
+                -# = image_tag Page.find_by_id(1003).try(:media).size > 0 && !Page.find_by_id(1003).try(:media).first.base_url.nil? ? Page.find_by_id(1003).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+          -# .item
+            -# .imgTitle
+              -# %a{:href => "/pages/1003"}
+                -# %h2.blogTitle
+                  -# = Page.find_by_id(1003).try(:scientific_name)
+                -# = image_tag Page.find_by_id(1003) && Page.find_by_id(1003).media.size > 0 && !Page.find_by_id(1003).try(:media).first.base_url.nil? ? Page.find_by_id(1003).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+          -# .item
+            -# .imgTitle
+              -# %a{:href => "/pages/1003"}
+                -# %h2.blogTitle
+                  -# = Page.find_by_id(1003).try(:scientific_name)
+                -# = image_tag Page.find_by_id(1003) && Page.find_by_id(1003).media.size > 0 && !Page.find_by_id(1003).try(:media).first.base_url.nil? ? Page.find_by_id(1003).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+          -# .item
+            -# .imgTitle
+              -# %a{:href => "/pages/1003"}
+                -# %h2.blogTitle
+                  -# = Page.find_by_id(1003).try(:scientific_name)
+                -# = image_tag Page.find_by_id(1003) && Page.find_by_id(1003).media.size > 0 && !Page.find_by_id(1003).try(:media).first.base_url.nil? ? Page.find_by_id(1003).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+          -# .item
+            -# .imgTitle
+              -# %a{:href => "/pages/1003"}
+                -# %h2.blogTitle
+-# 
+                  -# = Page.find_by_id(1003).try(:scientific_name)
+                -# = image_tag Page.find_by_id(1003) && Page.find_by_id(1003).media.size > 0 && !Page.find_by_id(1003).try(:media).first.base_url.nil? ? Page.find_by_id(1003).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'                
+
   .container
     .separator
   %section#Home_Statistics

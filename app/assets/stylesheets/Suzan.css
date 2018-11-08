@@ -1,4 +1,4 @@
-﻿.MainPath {
+﻿﻿.MainPath {
     padding: 16px;
     background-color: #f7f7f7;
     margin-bottom: 30px;
@@ -168,7 +168,7 @@ h3.Special {
 .tree {
     min-height: 20px;
     padding: 19px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     background-color: #fbfbfb;
     border: 1px solid #999;
     -webkit-border-radius: 4px;
@@ -176,7 +176,8 @@ h3.Special {
     border-radius: 4px;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05)
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    overflow: auto;
 }
 
     .tree li {
@@ -195,7 +196,7 @@ h3.Special {
         }
 
         .tree li::before {
-            border-left: 1px solid #999;
+            border-left: 1px dotted #999;
             bottom: 50px;
             height: 100%;
             top: 0;
@@ -203,9 +204,9 @@ h3.Special {
         }
 
         .tree li::after {
-            border-top: 1px solid #999;
+            border-top: 1px dotted #999;
             height: 20px;
-            top: 25px;
+            top: 16px;
             /*width: 25px;*/
             width:20px; /*Edited by shaimaa*/
         }
@@ -228,7 +229,7 @@ h3.Special {
     }
 
     .tree li:last-child::before {
-        height: 30px
+        height: 17px
     }
 
     .tree li.parent_li > span:not(.glyphicon):hover, .tree li.parent_li > span:not(.glyphicon):hover + ul li span:not(.glyphicon) {
@@ -238,3 +239,10 @@ h3.Special {
         color: #000
     }
 /*------ end of tree style ------*/
+#Classifications ul,#Classifications li{
+	line-height: 30px;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}
