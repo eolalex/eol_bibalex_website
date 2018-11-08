@@ -1,11 +1,17 @@
-%h2 
-  = I18n.t(:complete_registration)
-= form_for(@user, url: user_providers_path, method: :post) do |f|
-  = resource_error_messages(@user)
-  .field
-    = f.label I18n.t(:email)
-    %br/
-    = f.email_field :email
-  .actions
-    = f.submit I18n.t(:create_account)
-    = link_to I18n.t(:cancel), :back
+.container
+  .col-md-30.col-sm-12.col-xs-12
+    = form_for(@user,  url: user_providers_path, html: {method: :post}) do |f|
+      .col-md-20.col-sm-12.col-xs-12
+        %h2
+          #{t(:complete_registration)}
+          %br/
+        .form-group.row.form-inline
+          %label.col-md-10.col-sm-12.col-xs-12.control-label
+            %h3
+              #{t(:email)}
+        .form-group.row.form-inline
+          .col-md-20.col-sm-6.col-xs-6
+            %input.form-control.input-lg{:name => "user[email]"}
+        .form-group.row.form-inline
+          .col-md-5.col-sm-3.col-xs-3
+            = f.button("#{t(:create_account)}", class: "btn btn-primary")

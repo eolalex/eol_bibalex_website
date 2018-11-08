@@ -1,17 +1,18 @@
 .container
-  = form_for(@collection) do |f|
-    = f.fields_for :collected_pages do |page_f|
-      - @collection.collected_pages.each do |collected_page|
-        = page_f.hidden_field(:page_id, page_id: collected_page.page_id)
-      %h2
-        #{t(:add_to_new_collection)}
-        %br
-        %br
-        %input.form-control.input-lg{:name => "collection[name]", :placeholder =>"#{t(:collection_name_placeholder)}", :tabindex => "1", :type => "text", :required => true}
-        %br
-        %textarea.form-control.input-lg{:name => "collection[description]", :placeholder => "#{t(:collection_description_placeholder)}", :rows => "3", :tabindex => "1", :type => "text"}
-        %br
-      = f.submit(class: "btn btn-primary")
+  .col-md-30.col-sm-12.col-xs-12
+    = form_for(@collection) do |f|
+      = f.fields_for :collected_pages do |page_f|
+        - @collection.collected_pages.each do |collected_page|
+          = page_f.hidden_field(:page_id, page_id: collected_page.page_id)
+        %h2
+          #{t(:add_to_new_collection)}
+          %br
+          %br
+          %input.form-control.input-lg{:name => "collection[name]", :placeholder =>"#{t(:collection_name_placeholder)}", :tabindex => "1", :type => "text", :required => true}
+          %br
+          %textarea.form-control.input-lg{:name => "collection[description]", :placeholder => "#{t(:collection_description_placeholder)}", :rows => "3", :tabindex => "1", :type => "text"}
+          %br
+        = f.button("#{t(:create_collection_button)}", class: "btn btn-primary")
 .container
   .col-md-30.col-sm-12.col-xs-12
     %h2
@@ -28,5 +29,4 @@
             .col-md-10.col-sm-9.col-xs-12
               = f.radio_button(:collection_id, collection.id, class: "uk-radio", :checked => "checked")
               = f.label(:collection_id, collection.name)
-        .uk-text-center.uk-margin-medium
-          = f.submit("#{t(:add)}", class: "btn btn-primary")
+        = f.button("#{t(:add_button)}", class: "btn btn-primary")

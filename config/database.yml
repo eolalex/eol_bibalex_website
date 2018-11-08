@@ -26,6 +26,7 @@ development:
 
   # password: root
   # password: admin
+  pool: 10
 
 test: &test
   <<: *common
@@ -36,6 +37,7 @@ test: &test
   username: root
   password: pDy013UEjn7vU9zul
   #password: root
+  pool: 10
 
 staging:
   <<: *common
@@ -52,3 +54,4 @@ production:
   database: <%= ENV['EOL_DB_PROD_NAME'] %>
   username: <%= ENV['EOL_DB_PROD_USERNAME'] %>
   password: <%= ENV['EOL_DB_PROD_PASSWORD'] %>
+  pool: 10

@@ -9,13 +9,19 @@
             = @page.scientific_name
             = render("tabs")
         .col-md-8
-          %h3.smallTitle Images
+          %h3.smallTitle Media
           .row
             - @media.each do |medium|
               %div{:id => "#{medium.id}", :onclick=> 'showPopup(this)', :onmouseover =>"showOver(this)", :onmouseout=>"hideOver(this)"}
                 .col-md-4.col-sm-3.col-xs-12
                   .imageThumbnail
-                    %img.img-responsive{:alt => "", :src => medium.base_url}
+                    -url = URI.parse(medium.base_url)
+                    -http = Net::HTTP.start(url.host, url.port)
+                    -image = http.head(url.request_uri)['Content-Type'].start_with? 'image'
+                    -if image
+                      %img{:src => medium.base_url, :width => '260', :height => '190'}
+                    -else
+                      %video{:src => medium.base_url, :width => '260', :height => '190', :controls => true}
                     - content = medium.page_contents.find { |c| c.content_id == medium.id }
                     - unless content.trust.nil?
                       %span.btn.btn-success.btn-xs.btn-trusted.btn-trusted
@@ -31,7 +37,13 @@
                       .modal-body
                         .row
                           .col-md-8
-                            %img.img-responsive{:alt => "", :src => medium.base_url, :width => "100%"}/
+                            -url = URI.parse(medium.base_url)
+                            -http = Net::HTTP.start(url.host, url.port)
+                            -image = http.head(url.request_uri)['Content-Type'].start_with? 'image'
+                            - if image 
+                              %img.img-responsive{:alt => "", :src => medium.base_url, :width => "100%"}
+                            -else
+                              %video{:src => medium.base_url, :width => "100%", :controls => true}
                           .col-md-4
                             %aside
                               .widget.categories
@@ -47,7 +59,7 @@
                                   #{t(:source)}
                                 .greyBox
                                   %p
-                                    %img{:src => "../images/creative_common.png"}/
+                                    %img{:src => "/assets/creative_common.png"}/
                                     %small
                                       %br/
                                       - unless medium.source_url.nil?
@@ -64,7 +76,7 @@
                                     #{t(:description)}
                                   .greyBox
                                     %p
-                                      = medium.description
+                                      = medium.description.html_safe
           = will_paginate @media
         .col-md-4
           %aside
@@ -80,5 +92,5 @@
               %h3 #{t(:refresh_memory)}
               %ul.sidebar-gallery
                 %li
-                  %a{:href => "https://education.eol.org/memory/"}
+                  %a{:href => "http://fieldguides.eol.org/memory/"}
                     =image_tag "memory-game-icon.png", :alt => ""

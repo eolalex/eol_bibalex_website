@@ -1,0 +1,249 @@
+{
+    "ranks": [
+        {
+            "id": 100,
+            "name": "species"
+        }
+    ],
+    "nodes": [
+        {
+            "id": 100,
+            "resource_id": 148,
+            "scientific_name": "Protaphorura nemorata (Gisin, 1952) Gisin, 1952",
+            "canonical_form": "Protaphorura nemorata",
+            "generated_node_id": 210,
+            "resource_pk": "-1002330",
+            "parent_id": null,
+            "rank_id": 1
+        }
+    ],
+    "pages": [
+        {
+            "id": 100,
+            "page_richness": null,
+            "node_id": 100
+        }
+    ],
+    "pages_nodes": [
+        {
+            "id": 100,
+            "page_id": 100,
+            "node_id": 100,
+            "is_native": false
+        }
+    ],
+    "scientific_names": [
+        {
+            "id": 100,
+            "resource_id": 148,
+            "canonical_form": "Protaphorura nemorata",
+            "node_resource_pk": "-1002330",
+            "italicized": "Protaphorura nemorata",
+            "generated_node_id": 210,
+            "is_preferred": null,
+            "node_id": 100,
+            "page_id": 100,
+            "taxonomic_status_id": 1
+        }
+    ],
+    "languages": [
+        {
+            "id": 100,
+            "code": "und",
+            "group": "und"
+        }
+    ],
+    "vernaculars": [],
+    "licenses": [
+        {
+            "id": 100,
+            "source_url": "http://creativecommons.org/licences/by-sa/3.0/",
+            "name": "license"
+        }
+    ],
+    "locations": [],
+    "media": [
+        {
+            "id": 100,
+            "format": 0,
+            "description": "<p><em>Ponera swezeyi</em></p> ",
+            "owner": "Eli Sarnat",
+            "resource_id": 148,
+            "guid": "ae495a1e-6398-4ec2-bfa5-94fbc2c8050e",
+            "resource_pk": "4fa4ec98-9ab5-47b8-b23c-39b6ee792518#look_alikes",
+            "source_page_url": "http://antkey.org/node/32620",
+            "base_url": "http://172.16.1.33:80null",
+            "mime_type": null,
+            "subclass": null,
+            "name": "media_title",
+            "rights_statement": null,
+            "source_url": null,
+            "bibliographic_citation_id": null,
+            "language_id": 100,
+            "license_id": 100,
+            "location_id": null
+        }
+    ],
+    "articles": [
+        {
+            "id": 100,
+            "owner": "Eli Sarnat",
+            "resource_id": 148,
+            "guid": "f58fba74-8331-4c95-be31-0ef1cb63c68e",
+            "resource_pk": "f1b40afe-7d35-40a5-bd29-acc5f79f335f#distribution",
+            "mime_type": null,
+            "name": "article_title",
+            "rights_statement": null,
+            "source_url": null,
+            "bibliographic_citation_id": null,
+            "language_id": 1,
+            "license_id": 1,
+            "location_id": null,
+            "body": "<p><em>Native range</em>. Neotropics from Guatemala south to Brazil.<br /> "
+        },
+        {
+            "id": 110,
+            "owner": "owner test",
+            "resource_id": 148,
+            "guid": "f58fba74-8331-4c95-be31-0ef1cb63c68ee",
+            "resource_pk": "f1b40afe-7d35-40a5-bd29-acc5f79f335ff#distribution",
+            "mime_type": null,
+            "name": "article2_title",
+            "rights_statement": null,
+            "source_url": null,
+            "bibliographic_citation_id": null,
+            "language_id": 1,
+            "license_id": 1,
+            "location_id": null,
+            "body": "<p><em>Native range</em>. Neotropics from Guatemala south to Brazil  test.<br /> "
+        }
+    ],
+    "page_contents": [
+        {
+            "id": 100,
+            "resource_id": 148,
+            "content_type": "Medium",
+            "content_id": 100,
+            "trust": null,
+            "is_incorrect": null,
+            "is_misidentified": null,
+            "is_hidden": null,
+            "is_duplicate": null,
+            "page_id": 100,
+            "source_page_id": 100
+        },
+        {
+            "id": 110,
+            "resource_id": 148,
+            "content_type": "Article",
+            "content_id": 100,
+            "trust": null,
+            "is_incorrect": null,
+            "is_misidentified": null,
+            "is_hidden": null,
+            "is_duplicate": null,
+            "page_id": 100,
+            "source_page_id": 100
+        }
+    ],
+    "attributions": [
+        {
+            "id": 100,
+            "content_id": 100,
+            "content_type": "Medium",
+            "role_name": "photographer",
+            "value": "rana",
+            "url": "test/homepage1",
+            "resource_id": 148,
+            "resource_pk": "5dc13bd3-e1d0-4d1b-bdc8-d4066ec6fb14cc",
+            "content_resource_fk": "4fa4ec98-9ab5-47b8-b23c-39b6ee792518#look_alikes"
+        },
+        {
+            "id": 110,
+            "content_id": 100,
+            "content_type": "Medium",
+            "role_name": "photographer",
+            "value": "miro",
+            "url": "test/homepage2",
+            "resource_id": 148,
+            "resource_pk": "5dc13bd3-e1d0-4d1b-bdc8-d4066ec6fb14acc",
+            "content_resource_fk": "4fa4ec98-9ab5-47b8-b23c-39b6ee792518#look_alikes"
+        },
+        {
+            "id": 120,
+            "content_id": 110,
+            "content_type": "Article",
+            "role_name": "publisher",
+            "value": "mark jen",
+            "url": "test/homepage1",
+            "resource_id": 148,
+            "resource_pk": "5dc13bd3-e1d0-4d1b-bdc8-d4066ec6fb14",
+            "content_resource_fk": "f1b40afe-7d35-40a5-bd29-acc5f79f335f#distribution"
+        },
+        {
+            "id": 130,
+            "content_id": 110,
+            "content_type": "Article",
+            "role_name": "publisher",
+            "value": "ann andy",
+            "url": "test/homepage2",
+            "resource_id": 148,
+            "resource_pk": "5dc13bd3-e1d0-4d1b-bdc8-d4066ec6fb14a",
+            "content_resource_fk": "f1b40afe-7d35-40a5-bd29-acc5f79f335f#distribution"
+        }
+    ],
+    "referents": [
+        {
+            "id": 100,
+            "primary_title": null,
+            "secondary_title": null,
+            "pages": null,
+            "page_start": null,
+            "page_end": null,
+            "volume": null,
+            "editor": null,
+            "publisher": null,
+            "authors_list": null,
+            "editors_list": null,
+            "date_created": null,
+            "doi": null,
+            "body": "primary title11 secondary title pages page start page end volume null publisher null null null doi",
+            "resource_id": 148,
+            "resource_pk": null
+        },
+        {
+            "id": 110,
+            "primary_title": null,
+            "secondary_title": null,
+            "pages": null,
+            "page_start": null,
+            "page_end": null,
+            "volume": null,
+            "editor": null,
+            "publisher": null,
+            "authors_list": null,
+            "editors_list": null,
+            "date_created": null,
+            "doi": null,
+            "body": "primary title secondary title pages page start page end volume null publisher null null null doi",
+            "resource_id": 148,
+            "resource_pk": null
+        }
+    ],
+    "references": [
+        {
+            "id": 100,
+            "parent_id": 100,
+            "parent_type": "Medium",
+            "resource_id": 148,
+            "referent_id": 10
+        },
+        {
+            "id": 110,
+            "parent_id": 110,
+            "parent_type": "Article",
+            "resource_id": 148,
+            "referent_id": 100
+        }
+    ]
+}

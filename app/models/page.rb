@@ -16,7 +16,7 @@ class Page < ActiveRecord::Base
   has_and_belongs_to_many :referents  
   has_many :pages_node
   has_many :nodes, through: :pages_node
-  
+  validates_uniqueness_of :id  
   def search_data
       {
         id: id,

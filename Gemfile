@@ -4,7 +4,7 @@ git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
-
+gem 'ruby-ntlm'
 gem 'fog'
 gem 'neography'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -25,7 +25,6 @@ gem 'acts_as_list'
 gem 'therubyracer', platforms: :ruby
 
 
-
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
@@ -37,6 +36,7 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'jquery-rails'
+gem 'jquery-turbolinks'
 gem 'haml-rails'
 gem 'searchkick'
 gem 'will_paginate'
@@ -60,7 +60,7 @@ gem 'omniauth'
 gem 'omniauth-facebook', '~> 4.0.0' 
 gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2' 
-gem 'omniauth-google' 
+#gem 'omniauth-google' 
 gem 'twitter'
 gem 'counter_culture', '~> 1.8'
 # gem 'fb_graph'

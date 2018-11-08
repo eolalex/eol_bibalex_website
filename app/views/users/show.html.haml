@@ -14,7 +14,7 @@
         %hr/
         .row
           .col-lg-2.col-md-2.col-sm-2
-            %img.img-responsive{:alt => "", :src => "../images/blog/avatar3.png"}/
+            %img.img-responsive{:alt => "", :src => "/assets/avatar3.png"}/
           .col-lg-10.col-md-10.col-sm-10.col-xs-12
             .form-horizontal
               .form-group
@@ -72,6 +72,6 @@
                       -if @user.id == current_user.id
                         %a{href: "#{edit_content_partner_path(id: result["id"])}"} #{t(:edit_button)}
                     .single_comments
-                      %img{:alt => "", :src => "../images/blog/avatar3.png"}/
+                      %img{:alt => "", :src => "/assets/avatar3.png"}/
                       %a{href: content_partner_path(id: content_partner_id)}
                         =result["name"]

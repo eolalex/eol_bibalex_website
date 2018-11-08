@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     get "overview", :to => redirect("/pages/%{page_id}")
     get "literature_and_references"
     get "data"
+    get "articles"
 
     member do
       get 'names'
@@ -44,7 +45,7 @@ Rails.application.routes.draw do
   delete '/collected_pages/:id'=>'collected_pages#destroy'
 
   #search
-  get 'search' => 'search#index'
+  get 'search' => 'search#index', as: :search
 
   get 'overview', :to => redirect("/pages/%{page_id}", :status => 301)
 
@@ -65,6 +66,7 @@ Rails.application.routes.draw do
   #media
   resources :media, only: [:show]
   resources :users, only: [:show]
+  resources :articles, only: [:show]
   
   root 'home_page#index'
   # get 'media' => 'media#show'

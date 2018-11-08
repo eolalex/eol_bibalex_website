@@ -11,6 +11,5 @@ class PageContent < ApplicationRecord
   scope :images, -> { media_by_subclass(:image) }
   scope :sounds, -> { media_by_subclass(:sound) }
   scope :videos, -> { media_by_subclass(:video) }
-  
   validates_uniqueness_of :id
 end

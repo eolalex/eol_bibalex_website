@@ -1,44 +1,27 @@
--# .row
-  -# .col-md-12
--# -nodes = @page.nodes.to_a.sort_by{|n| n.resource_id}
--# #test.tree
-  -# -nodes.each do |page_node|
-    -# -tree = classification(page_node)
-    -# -resource_info = get_resource_info(page_node.resource_id)
-    -# - if !resource_info.nil?
-      -# %span
-        -# = resource_info.name
-    -# -else
-      -# %span #{t(:unknown_resource)} 
-    -# - x = 0 
-    -# -tree.each do |node|
-      -# %ul.treeNode{ style: "padding-left: #{x}px;"}
-        -# %li.parent_li
-          -# - unless node.nil?
-            -# %ul
-              -# - x = x + 40
-              -# %li.parent_li
-                -# -unless node.pages.empty?
-                  -# %a{href:  "/pages/#{node.pages.first.id}"} 
-                    -# =node.scientific_name
-                -# -else
-                  -# =node.scientific_name 
-            -# %ul
-    -# %br
 .row
   .col-md-12
+-nodes = @page.nodes.to_a.sort_by{|n| n.resource_id}
 #test.tree
-  - x = 0
-  - y = 0 
-  -tree = ['1','1','1','1','1','1','1','1','1','10','11','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1']
-  -tree.each do |node|
-    %ul{ style: "padding-left: #{x}px;"}
-      %li
-        - unless node.nil?
-          %ul
-            - x = x + 10
-            %li.parent_li
-              #{tree[y]}
-              -# TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST#
-              - y = y + 1
-          %ul
+  -nodes.each do |page_node|
+    -tree = classification(page_node)
+    -resource_info = get_resource_info(page_node.resource_id)
+    - if !resource_info.nil?
+      %span
+        = resource_info.name
+    -else
+      %span #{t(:unknown_resource)} 
+    - x = 0 
+    -tree.each do |node|
+      %ul.treeNode{ style: "padding-left: #{x}px;"}
+        %li.parent_li
+          - unless node.nil?
+            %ul
+              - x = x + 40
+              %li.parent_li
+                -unless node.pages.empty?
+                  %a{href:  "/pages/#{node.pages.first.id}"} 
+                    =node.scientific_name
+                -else
+                  =node.scientific_name 
+            %ul
+    %br

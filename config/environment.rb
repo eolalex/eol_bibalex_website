@@ -1,16 +1,19 @@
 # Load the Rails application.
 require_relative 'application'
 ENV['per_page']='30'
-ENV['FACEBOOK_APP_ID']="1070956589720890"
-ENV['FACEBBOK_APP_SECRET']="4e880b866b921c067d9f0838e50b548f"
-ENV["GOOGLE_CLIENT_ID"]="691815144799-je0m66k9c6enar9l986ms04phbft5e10.apps.googleusercontent.com"
-ENV["GOOGLE_CLIENT_SECRET"] = "ELxgyVOD8wDq5-eXDEglALfN"
+#ENV['FACEBOOK_APP_ID']="1070956589720890"
+#ENV['FACEBBOK_APP_SECRET']="4e880b866b921c067d9f0838e50b548f"
+ENV['FACEBOOK_APP_ID']="2050909461893269"
+ENV['FACEBOOK_APP_SECRET']="95af43f7d5eb0efb70138d225b2965d2"
+ENV["GOOGLE_CLIENT_ID"]="594909260794-0h3auanun7gi6igvu7646nb8stv2t4hm.apps.googleusercontent.com" 
+ENV["GOOGLE_CLIENT_SECRET"]="IzX97jLNyqEapO5k3dttIWhE"
 # ENV["GOOGLE_CLIENT_ID"] = "691815144799-je0m66k9c6enar9l986ms04phbft5e10.apps.googleusercontent.com"
 # ENV["GOOGLE_CLIENT_SECRET"] = "ELxgyVOD8wDq5-eXDEglALfN"
 ENV["TWITTER_API_KEY"]= "nEfe27C3l8zIEovBQsyBpw67O"
 ENV["TWITTER_API_SECRET"] = "4KOIPSxUgj5aC5eVVWT3Y2nAGEUwWO074MG4Q4zfaOr2AyYaTB"
 ENV['schedular_ip'] = 'http://172.16.0.161:80/scheduler'
 ENV['storage_ip'] = 'http://172.16.0.99:80/eol/archiver'
+#require 'ntlm/smtp'
 # Initialize the Rails application.
 Rails.application.initialize!
 
@@ -27,3 +30,4 @@ NEO4J_GET_PARENTS_OF_NODES_ACTION = "getParentsOfNodes"
 NEO4J_GET_ANCESTORS_OF_NODES_ACTION = "getAncestors"
 SCHEDULER_ADDRESS = "172.16.0.161:80/scheduler"
 CHECK_FOR_UPDATES = "readyResources"
+MYSQL_GET_END_TIME = "getEndTime"

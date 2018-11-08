@@ -23,7 +23,7 @@
                       %span.btn.btn-success.btn-xs
                         = content.trust 
                   %span.TaxonMetaData
-                    - unless image.nil?
+                    - unless image.nil? || image.owner.nil?
                       %b #{t(:photographed_by)}
                       = image.owner
               .col-xs-12.blog-content
@@ -41,7 +41,7 @@
                   Classification
                 %hr/
                 -page_node = @page.nodes.first
-                -tree = classification(page_node)
+                -tree = classification_overview(page_node)
                 -tree.each do |node|
                   -unless node.nil?
                     -unless node.pages.empty?
@@ -84,6 +84,6 @@
               %h3 #{t(:refresh_memory)}
               %ul.sidebar-gallery
                 %li
-                  %a{:href => "https://education.eol.org/memory/"}
+                  %a{:href => "http://fieldguides.eol.org/memory/"}
                     =image_tag "memory-game-icon.png", :alt => ""
 

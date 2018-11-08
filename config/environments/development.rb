@@ -11,30 +11,30 @@ Rails.application.configure do
 
   # Show full error reports.
   config.consider_all_requests_local = true
-  if config.respond_to?(:action_mailer)
-    config.action_mailer.default_url_options = { host: '172.16.0.186', port: 80 }
-    config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = {:address => "localhost", :port => 1025}
+  #if config.respond_to?(:action_mailer)
+   # config.action_mailer.default_url_options = { host: '172.16.0.186', port: 80 }
+    #config.action_mailer.delivery_method = :smtp
+    #config.action_mailer.smtp_settings = {:address => "localhost", :port => 1025}
 
     # Enable/disable caching. By default caching is disabled.
-    if Rails.root.join('tmp/caching-dev.txt').exist?
-      config.action_controller.perform_caching = true
+    #if Rails.root.join('tmp/caching-dev.txt').exist?
+     # config.action_controller.perform_caching = true
 
-      config.cache_store = :memory_store
-      config.public_file_server.headers = {
-        'Cache-Control' => "public, max-age=#{2.days.seconds.to_i}"
-      }
-  end
-  else
-    config.action_controller.perform_caching = false
+      #config.cache_store = :memory_store
+      #config.public_file_server.headers = {
+       # 'Cache-Control' => "public, max-age=#{2.days.seconds.to_i}"
+      #}
+  #end
+  #else
+   # config.action_controller.perform_caching = false
 
-    config.cache_store = :null_store
-  end
+    #config.cache_store = :null_store
+  #end
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  #config.action_mailer.raise_delivery_errors = true
 
-  config.action_mailer.perform_caching = false
+  #config.action_mailer.perform_caching = false
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -50,6 +50,24 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
   config.assets.compile = true
+
+
+  #config.action_mailer.raise_delivery_errors = true
+
+  #config.action_mailer.perform_caching = true
+  #config.action_mailer_sender = 'nada.eliba@bibalex.org'
+  #config.action_mailer.perform_deliveries = true
+  #config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.default_url_options = { :host => 'eol.bibalex.org'}
+  #config.action_mailer.sendmail_settings = {
+   # user_name:      'nada.eliba@gbibalex.org',
+    #password:       'AlexSB-16',
+    #domain:         'eol.bibalex.org',
+    #address:       '172.16.0.6',
+    #port:          '25',
+    #authentication: :plain,
+    #enable_starttls_auto: true
+  #}
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true

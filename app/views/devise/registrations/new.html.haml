@@ -17,18 +17,18 @@
           .row
             .col-xs-12
               .form-group
-                %input.form-control.input-lg{:name => "user[username]", :placeholder => "#{t(:username)}", :tabindex => "1", :type => "text"}/
+                %input.form-control.input-lg{:name => "user[username]", :placeholder => "#{t(:username)}", :tabindex => "1", :type => "text", :required => true}/
           .row
             .col-xs-12
               .form-group
-                %input.form-control.input-lg{:name => "user[email]", :placeholder => "#{t(:email)}", :tabindex => "2", :type => "email"}/
+                %input.form-control.input-lg{:name => "user[email]", :placeholder => "#{t(:email)}", :tabindex => "2", :type => "email", :required => true}/
           .row
             .col-xs-12.col-sm-6.col-md-6
               .form-group
-                %input.form-control.input-lg{:name => "user[password]", :placeholder => "#{t(:password)}", :tabindex => "3", :type => "password"}/
+                %input.form-control.input-lg{:name => "user[password]", :placeholder => "#{t(:password)}", :tabindex => "3", :type => "password", :required => true}/
             .col-xs-12.col-sm-6.col-md-6
               .form-group
-                %input#password_confirmation.form-control.input-lg{:name => "user[password_confirmation]", :placeholder => "#{t(:password_confirmation)}", :tabindex => "4", :type => "password"}/
+                %input#password_confirmation.form-control.input-lg{:name => "user[password_confirmation]", :placeholder => "#{t(:password_confirmation)}", :tabindex => "4", :type => "password", :required => true}/
           .row
             .col-xs-12.col-sm-6.col-md-6
               .form-group
@@ -39,8 +39,8 @@
           .row
             .col-xs-12.col-sm-6.col-md-6
               .form-group
-                = f.label I18n.t(:recaptcha), required: true
-                = recaptcha_tags(theme: 'clean', callback: 'recaptchaCallback')
+                = f.label I18n.t(:recaptcha)
+                = recaptcha_tags(theme: 'clean', callback: 'recaptchaCallback', :required => true)
                 - if flash.any? { |name, msg| name == "recaptcha_error" }
                   %span.error
                     = I18n.t('recaptcha_error')
@@ -64,13 +64,11 @@
               -else 
                 - action = "sign_in"
                 - action_name = "Sign In"
-              .col-sm-4.form-group   
-                %a.btn.btn-primary.btn-block{ href: "/users/auth/facebook?intent=#{action}&locale=en" }
-                  %i.fa.fa-facebook
-              .col-sm-4.form-group
+
+              .col-sm-6.form-group
                 %a.btn.btn-primary.btn-block{ href: "/users/auth/twitter?intent=#{action}&locale=en" }
                   %i.fa.fa-twitter
-              .col-sm-4.form-group
+              .col-sm-6.form-group
                 %a.btn.btn-primary.btn-block{ href: "/users/auth/google_oauth2?intent=#{action}&locale=en" }
                   %i.fa.fa-google-plus
                 
