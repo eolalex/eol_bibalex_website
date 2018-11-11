@@ -1,47 +1,19 @@
--@articles. each do |article|
-  -#TODO toc(table of content)
-  -name = article.name
-  - name ||= t("untitled")
-  %dd
-    = name
-  %dt= t("content_attributions_labels.provided_by")
-  %dd
-    -content_partner_id=ContentPartnerApi.get_content_partner_resource_id(article.resource_id)
-    -result = ResourceApi.get_resource(content_partner_id["id"],article.resource_id)
-    -@resource = Resource.new( name: result["name"],origin_url: result["original_url"],uploaded_url: result["uploaded_url"],
-                  type: result["type"],path: result["path"],last_harvested_at: result["last_harvested_at"],harvest_frequency: result["harvest_frequency"],
-                  day_of_month: result["day_of_month"],nodes_count: result["nodes_count"],position: result["position"],is_paused: result["_paused"],
-                  is_approved: result["_approved"],is_trusted: result["_trusted"],is_autopublished: result["_autopublished"],is_forced: result["_forced"],
-                  dataset_license: result["dataset_license"],dataset_rights_statement: result["dataset_rights_statement"],
-                  dataset_rights_holder: result["dataset_rights_holder"],default_license_string: result["default_license_string"],
-                  default_rights_statement: result["default_rights_statement"],default_rights_holder: result["default_rights_holder"],
-                  default_language_id: result["default_language_id"])
-    -if !@resource.nil?
-      = link_to(@resource.name, content_partner_resource_path(content_partner_id["id"], result["id"]))
-    -else
-      = t(:resource_missing)
-  .uk-width-1-3
-    %dl.attributions
-      - if article.source_url
-        %dt= t("content_attributions_labels.view_source_label")
-        %dd= link_to(t("content_attributions_labels.visit_source"), article.source_url)
-      %dt= t("content_attributions_labels.license")
-      -@license = article.license
-      %dd= link_to(@license.name.html_safe,@license.source_url)
-      %dt= t("content_attributions_labels.owner")
-      %dd= article.owner
-      %dt= t("content_attributions_labels.resource_label")
-      %dd
-        -if !@resource.nil?
-          = link_to(@resource.name, content_partner_resource_path(content_partner_id["id"], result["id"]))
-        -else
-          = t(:resource_missing)
-      - article.attributions.each do |attribution|
-        %dt= attribution.role_name
-        %dd= attribution.value.html_safe
-        
-  .body.uk-margin-small-top
-    = article.body
-  %dt= t("content_attributions_labels.id")
-  %dd.uk-text-meta.uk-overflow-hidden.uk-margin-remove-top= article.resource_pk
-  %hr
+.container
+  .row
+    .col-lg-12
+      %h2.mainTitle
+        Articles
+    -@articles. each do |article|
+      -#TODO toc(table of content)
+      -#TODO pagination
+      .col-lg-12.articleBlock
+        %h2
+          -name = article.name
+          - name ||= t("untitled")
+          %a{:href => "#"} #{name}
+        %p
+          = article.body
+          = succeed "." do
+            %a{:href => article_path(id: article.id)} Continue reading...
+        %hr/
+    = will_paginate @articles
