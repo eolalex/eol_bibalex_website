@@ -28,7 +28,7 @@
                         default_language_id: result["default_language_id"])
                     - t(:reference_compiled_from_article, source: link_to(@resource.name, content_partner_resource_path(content_partner_id["id"], result["id"])), name: reference.parent.name)
                   - when "Medium"
-                    - link_to(reference.parent.name.html_safe, reference.parent)
+                    - link_to(reference.parent.name.html_safe?, reference.parent)
                   - when "Node"
                     -content_partner_id=ContentPartnerApi.get_content_partner_resource_id(reference.parent.resource_id)
                     -result = ResourceApi.get_resource(content_partner_id["id"],reference.parent.resource_id)

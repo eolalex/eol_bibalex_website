@@ -76,12 +76,7 @@
                 %h2.blogTitle
                   = Page.find_by_id(767462).try(:scientific_name)
                 = image_tag Page.find_by_id(767462) && Page.find_by_id(767462).media.size > 0 && !Page.find_by_id(767462).try(:media).first.base_url.nil? ? Page.find_by_id(767462).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'                
-          .item
-            .imgTitle
-              %a{:href => "/pages/45515099"}
-                %h2.blogTitle
-                  = Page.find_by_id(45515099).try(:scientific_name)
-                = image_tag Page.find_by_id(45515099) && Page.find_by_id(45515099).media.size > 0 && !Page.find_by_id(45515099).try(:media).first.base_url.nil? ? Page.find_by_id(45515099).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+
   .container
     .separator
   %section#Home_Statistics

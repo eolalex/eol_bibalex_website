@@ -2,7 +2,7 @@
     "ranks": [
         {
             "id": 1,
-            "name": "species"
+            "name": "subspecies"
         },
         {
             "id": 2,
@@ -22,7 +22,11 @@
         },
         {
             "id": 6,
-            "name": "suborder"
+            "name": "subsuborder"
+        },
+        {
+            "id": 7,
+            "name": "subsuborder_copy"
         }
     ],
     "nodes": [
@@ -698,6 +702,11 @@
             "id": 1,
             "code": "en",
             "group": "en"
+        },
+        {
+            "id": 2,
+            "code": "fr",
+            "group": "fr"
         }
     ],
     "vernaculars": [
@@ -1022,6 +1031,13 @@
         },
         {
             "id": 2,
+            "parent_id": 2,
+            "parent_type": "Medium",
+            "resource_id": 4,
+            "referent_id": 1
+        },
+        {
+            "id": 5,
             "parent_id": 2,
             "parent_type": "Medium",
             "resource_id": 4,

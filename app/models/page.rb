@@ -1,4 +1,8 @@
 class Page < ActiveRecord::Base
+
+  validates_uniqueness_of :id
+  has_many :collected_pages
+  
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
   
@@ -16,6 +20,7 @@ class Page < ActiveRecord::Base
       }
   end
 end
+
   searchkick word_start: [:scientific_name]
   
 

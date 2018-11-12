@@ -40,10 +40,11 @@ class PagesController < ApplicationController
     end
     @media = media.paginate(:page => params[:page], :per_page => ENV['per_page'])
 
-    respond_to do |format|
-      format.html {}
-      format.js {}
-    end
+  end
+  
+  def articles
+    @page = Page.where(id: params[:page_id]).first
+    @articles = @page.articles
   end
   
   # def show

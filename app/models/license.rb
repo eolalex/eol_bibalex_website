@@ -1,3 +1,5 @@
 class License < ApplicationRecord
-  validates_uniqueness_of :id
+
+   validates_uniqueness_of :id
+
 end

@@ -24,7 +24,9 @@ Rails.application.routes.draw do
     get "overview", :to => redirect("/pages/%{page_id}")
     get "literature_and_references"
     get "data"
+    get "articles"
     get "maps"
+
 
     member do
       get 'names'
@@ -66,6 +68,7 @@ Rails.application.routes.draw do
   #media
   resources :media, only: [:show]
   resources :users, only: [:show]
+  resources :articles, only: [:show]
   
   root 'home_page#index'
   # get 'media' => 'media#show'

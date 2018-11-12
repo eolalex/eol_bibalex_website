@@ -1,0 +1,19 @@
+.container
+  .row
+    .col-lg-12
+      %h2.mainTitle
+        Articles
+    -@articles. each do |article|
+      -#TODO toc(table of content)
+      -#TODO pagination
+      .col-lg-12.articleBlock
+        %h2
+          -name = article.name
+          - name ||= t("untitled")
+          %a{:href => "#"} #{name}
+        %p
+          = article.body
+          = succeed "." do
+            %a{:href => article_path(id: article.id)} Continue reading...
+        %hr/
+        
