@@ -23,7 +23,7 @@
                       %span.btn.btn-success.btn-xs
                         = content.trust 
                   %span.TaxonMetaData
-                    - unless image.nil? || image.owner.nil?
+                    - unless image.nil? || image.owner.nil? || image.owner == "null"
                       %b #{t(:photographed_by)}
                       = image.owner
               .col-xs-12.blog-content
