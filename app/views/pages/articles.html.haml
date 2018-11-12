@@ -16,4 +16,5 @@
           = succeed "." do
             %a{:href => article_path(id: article.id)} Continue reading...
         %hr/
-        
+    = will_paginate @articles
+
