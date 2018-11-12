@@ -217,6 +217,7 @@ def check_for_upadtes
 end
 
 def get_latest_updates_from_hbase(last_harvested_time, start_key)
+  debugger
   hbase_uri = "#{HBASE_ADDRESS}#{HBASE_GET_LATEST_UPDATES_ACTION}"
   start_harvested_time = "1510150973451"
   # last_harvested_time = "#{DateTime.now.strftime('%Q')}"
@@ -236,6 +237,7 @@ def get_latest_updates_from_hbase(last_harvested_time, start_key)
 end
 
 def get_latest_updates_from_mysql(start_harvested_time , end_harvested_time)
+  # debugger
   mysql_uri = "#{MYSQL_ADDRESS}#{MYSQL_GET_LATEST_UPDATES_ACTION}"
   begin    
     request =RestClient::Request.new(
@@ -989,7 +991,8 @@ def main_method_3
    
 
    start_harvested_time = "1540211584000"
-  
+  # start_harvested_time = "1540110200000"
+  # end_harvested_time = "1540400200000"
   end_harvested_time = get_end_time
   # debugger
   
@@ -997,8 +1000,8 @@ def main_method_3
     #start_harvested_time is included 
     #end_harvested_time is excluded therefore we keep it to next loop
     json_content = get_latest_updates_from_mysql(start_harvested_time,(start_harvested_time.to_i + 30000).to_s)
+    # json_content = get_latest_updates_from_mysql(start_harvested_time, end_harvested_time)
     tables = JSON.parse(json_content)
-
 
     licenses = tables["licenses"]
     ranks = tables["ranks"]

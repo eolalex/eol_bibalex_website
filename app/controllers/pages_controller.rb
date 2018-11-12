@@ -45,6 +45,7 @@ class PagesController < ApplicationController
   def articles
     @page = Page.where(id: params[:page_id]).first
     @articles = @page.articles
+    @articles = @articles.paginate(:page => params[:page], :per_page => ENV['per_page'])
   end
   
   # def show
