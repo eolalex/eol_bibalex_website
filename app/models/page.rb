@@ -34,11 +34,13 @@ end
   has_many :vernaculars
   has_many :page_contents
   has_many :media, through: :page_contents, source: :content, source_type: "Medium"
+  has_many :maps,class_name: 'Medium', through: :page_contents, source: :content, source_type: "Map"
   has_many :articles, through: :page_contents, source: :content, source_type: "Article"
   has_and_belongs_to_many :referents  
   has_many :pages_node
   has_many :nodes, through: :pages_node
   validates_uniqueness_of :id  
+  has_one :occurrence_map, inverse_of: :page
   def search_data
       {
         id: id,
@@ -54,10 +56,19 @@ end
     scientific_names.synonym.map { |n| n.canonical_form }
   end
   
-  def maps
-    media.where(subclass: Medium.subclasses[:map])
+  def map?
+    occurrence_map? || map_count.size > 0
   end
-
+  
+  def map_count
+    PageContent.where(source_page_id: id , content_type: 'Map')
+  end
+  
+  
+  
+  def occurrence_map?
+    occurrence_map
+  end
 
  # TRAITS METHODS
 

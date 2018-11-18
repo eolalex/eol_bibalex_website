@@ -30,14 +30,15 @@ class PagesController < ApplicationController
   end
   
   def media
+    
     @page = Page.where(id: params[:page_id]).first
     media = @page.media
-    @subclasses = @page.media.pluck(:subclass).uniq.compact
-    @subclasses << "any type"
-    if params[:subclass] && params[:subclass] != "any type"
-      @subclass = params[:subclass]
-      media = media.where(subclass: params[:subclass])
-    end
+    # @subclasses = @page.media.pluck(:subclass).uniq.compact
+    # @subclasses << "any type"
+    # if params[:subclass] && params[:subclass] != "any type"
+      # @subclass = params[:subclass]
+      # media = media.where(subclass: params[:subclass])
+    # end
     @media = media.paginate(:page => params[:page], :per_page => ENV['per_page'])
 
   end
@@ -48,6 +49,12 @@ class PagesController < ApplicationController
     @articles = @articles.paginate(:page => params[:page], :per_page => ENV['per_page'])
   end
   
+  def maps
+    @page = Page.where(id: params[:page_id]).first
+    @maps = @page.maps
+    @media = @maps
+    @media = @media.paginate(:page => params[:page], :per_page => ENV['per_page'])
+  end
   # def show
     # @page = Page.find_by_id(params[:id])
     # respond_to do |format|
