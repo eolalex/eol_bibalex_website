@@ -25,6 +25,9 @@
                   -if !scientific_names_resources[name].nil?
                     - scientific_names_resources[name].each do |resource|
                       - if !resource.nil?
-                        = resource.name 
+                        -if resource.equal?(scientific_names_resources[name].last)
+                          = resource.name
+                        -else
+                          = resource.name+"," 
                       - else
                         = #{t(:unknown_resource)}

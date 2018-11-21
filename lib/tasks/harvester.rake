@@ -93,7 +93,8 @@ end
 
 def build_ancestors_for_sql_solution
   node_ids = []
-  node_ids = Node.all.pluck(:generated_node_id)
+  #node_ids = Node.all.pluck(:generated_node_id)
+  node_ids =  Node.where(resource_id: 543).pluck(:generated_node_id)
   build_hierarchy(node_ids) 
 end
 
