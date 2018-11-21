@@ -1,13 +1,13 @@
 {
     "ranks": [
         {
-            "id": 100,
+            "id": 1,
             "name": "species"
         }
     ],
     "nodes": [
         {
-            "id": 100,
+            "id": 1,
             "resource_id": 148,
             "scientific_name": "Protaphorura nemorata (Gisin, 1952) Gisin, 1952",
             "canonical_form": "Protaphorura nemorata",
@@ -19,36 +19,36 @@
     ],
     "pages": [
         {
-            "id": 100,
+            "id": 1,
             "page_richness": null,
-            "node_id": 100
+            "node_id": 1
         }
     ],
     "pages_nodes": [
         {
-            "id": 100,
-            "page_id": 100,
-            "node_id": 100,
+            "id": 1,
+            "page_id": 1,
+            "node_id": 1,
             "is_native": false
         }
     ],
     "scientific_names": [
         {
-            "id": 100,
+            "id": 1,
             "resource_id": 148,
             "canonical_form": "Protaphorura nemorata",
             "node_resource_pk": "-1002330",
             "italicized": "Protaphorura nemorata",
             "generated_node_id": 210,
             "is_preferred": null,
-            "node_id": 100,
-            "page_id": 100,
+            "node_id": 1,
+            "page_id": 1,
             "taxonomic_status_id": 1
         }
     ],
     "languages": [
         {
-            "id": 100,
+            "id": 1,
             "code": "und",
             "group": "und"
         }
@@ -56,7 +56,7 @@
     "vernaculars": [],
     "licenses": [
         {
-            "id": 100,
+            "id": 1,
             "source_url": "http://creativecommons.org/licences/by-sa/3.0/",
             "name": "license"
         }
@@ -64,32 +64,32 @@
     "locations": [],
     "media": [
         {
-            "id": 100,
-            "format": 0,
+            "id": 300,
+            "format": 7,
             "description": "<p><em>Ponera swezeyi</em></p> ",
             "owner": "Eli Sarnat",
             "resource_id": 148,
-            "guid": "ae495a1e-6398-4ec2-bfa5-94fbc2c8050e",
+            "guid": "bcd448eb-011c-4412-aa7a-168bfc82b84d",
             "resource_pk": "4fa4ec98-9ab5-47b8-b23c-39b6ee792518#look_alikes",
             "source_page_url": "http://antkey.org/node/32620",
             "base_url": "http://172.16.1.33:80null",
             "mime_type": null,
-            "subclass": null,
-            "name": "media_title",
+            "subclass": 3,
+            "name": "map_300_title",
             "rights_statement": null,
             "source_url": null,
             "bibliographic_citation_id": null,
-            "language_id": 100,
-            "license_id": 100,
+            "language_id": 1,
+            "license_id": 1,
             "location_id": null
         }
     ],
     "articles": [
         {
-            "id": 100,
+            "id": 1,
             "owner": "Eli Sarnat",
             "resource_id": 148,
-            "guid": "f58fba74-8331-4c95-be31-0ef1cb63c68e",
+            "guid": "919f18fd-3dd6-4773-9581-0cfaf57a5bbf",
             "resource_pk": "f1b40afe-7d35-40a5-bd29-acc5f79f335f#distribution",
             "mime_type": null,
             "name": "article_title",
@@ -100,56 +100,40 @@
             "license_id": 1,
             "location_id": null,
             "body": "<p><em>Native range</em>. Neotropics from Guatemala south to Brazil.<br /> "
-        },
-        {
-            "id": 110,
-            "owner": "owner test",
-            "resource_id": 148,
-            "guid": "f58fba74-8331-4c95-be31-0ef1cb63c68ee",
-            "resource_pk": "f1b40afe-7d35-40a5-bd29-acc5f79f335ff#distribution",
-            "mime_type": null,
-            "name": "article2_title",
-            "rights_statement": null,
-            "source_url": null,
-            "bibliographic_citation_id": null,
-            "language_id": 1,
-            "license_id": 1,
-            "location_id": null,
-            "body": "<p><em>Native range</em>. Neotropics from Guatemala south to Brazil  test.<br /> "
         }
     ],
     "page_contents": [
         {
-            "id": 100,
+            "id": 300,
             "resource_id": 148,
             "content_type": "Medium",
-            "content_id": 100,
+            "content_id": 300,
             "trust": null,
             "is_incorrect": null,
             "is_misidentified": null,
             "is_hidden": null,
             "is_duplicate": null,
-            "page_id": 100,
-            "source_page_id": 100
+            "page_id": 1,
+            "source_page_id": 1
         },
         {
-            "id": 110,
+            "id": 2,
             "resource_id": 148,
             "content_type": "Article",
-            "content_id": 100,
+            "content_id": 1,
             "trust": null,
             "is_incorrect": null,
             "is_misidentified": null,
             "is_hidden": null,
             "is_duplicate": null,
-            "page_id": 100,
-            "source_page_id": 100
+            "page_id": 1,
+            "source_page_id": 1
         }
     ],
     "attributions": [
         {
-            "id": 100,
-            "content_id": 100,
+            "id": 1,
+            "content_id": 1,
             "content_type": "Medium",
             "role_name": "photographer",
             "value": "rana",
@@ -159,8 +143,8 @@
             "content_resource_fk": "4fa4ec98-9ab5-47b8-b23c-39b6ee792518#look_alikes"
         },
         {
-            "id": 110,
-            "content_id": 100,
+            "id": 2,
+            "content_id": 1,
             "content_type": "Medium",
             "role_name": "photographer",
             "value": "miro",
@@ -170,8 +154,8 @@
             "content_resource_fk": "4fa4ec98-9ab5-47b8-b23c-39b6ee792518#look_alikes"
         },
         {
-            "id": 120,
-            "content_id": 110,
+            "id": 3,
+            "content_id": 1,
             "content_type": "Article",
             "role_name": "publisher",
             "value": "mark jen",
@@ -181,8 +165,8 @@
             "content_resource_fk": "f1b40afe-7d35-40a5-bd29-acc5f79f335f#distribution"
         },
         {
-            "id": 130,
-            "content_id": 110,
+            "id": 4,
+            "content_id": 1,
             "content_type": "Article",
             "role_name": "publisher",
             "value": "ann andy",
@@ -194,7 +178,7 @@
     ],
     "referents": [
         {
-            "id": 100,
+            "id": 1,
             "primary_title": null,
             "secondary_title": null,
             "pages": null,
@@ -212,7 +196,7 @@
             "resource_pk": null
         },
         {
-            "id": 110,
+            "id": 2,
             "primary_title": null,
             "secondary_title": null,
             "pages": null,
@@ -232,18 +216,18 @@
     ],
     "references": [
         {
-            "id": 100,
-            "parent_id": 100,
+            "id": 1,
+            "parent_id": 1,
             "parent_type": "Medium",
             "resource_id": 148,
-            "referent_id": 10
+            "referent_id": 1
         },
         {
-            "id": 110,
-            "parent_id": 110,
+            "id": 2,
+            "parent_id": 1,
             "parent_type": "Article",
             "resource_id": 148,
-            "referent_id": 100
+            "referent_id": 2
         }
     ]
 }

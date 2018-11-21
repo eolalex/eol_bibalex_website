@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181101094714) do
+ActiveRecord::Schema.define(version: 20181114121656) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.text "owner"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20181101094714) do
     t.bigint "location_id"
     t.text "body", limit: 4294967295
     t.index ["bibliographic_citation_id"], name: "index_articles_on_bibliographic_citation_id"
+    t.index ["guid"], name: "unique_articles", unique: true
     t.index ["language_id"], name: "index_articles_on_language_id"
     t.index ["license_id"], name: "index_articles_on_license_id"
     t.index ["location_id"], name: "index_articles_on_location_id"
@@ -243,6 +244,14 @@ ActiveRecord::Schema.define(version: 20181101094714) do
     t.index ["generated_node_id"], name: "genrated_node_id", unique: true
     t.index ["generated_node_id"], name: "index_nodes_on_generated_node_id"
     t.index ["rank_id"], name: "index_nodes_on_rank_id"
+  end
+
+  create_table "occurrence_maps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "resource_id"
+    t.integer "page_id"
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "occurrence_page_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
