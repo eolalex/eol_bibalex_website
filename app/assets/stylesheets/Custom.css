@@ -3633,3 +3633,10 @@ table.customTable {
                 border-bottom: 0;
             }
 }
+iframe {
+	border: none;
+	box-shadow: none;
+}
+iframe a {
+	color:red;
+}

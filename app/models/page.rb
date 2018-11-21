@@ -34,7 +34,7 @@ end
   has_many :vernaculars
   has_many :page_contents
   has_many :media, through: :page_contents, source: :content, source_type: "Medium"
-  has_many :maps,class_name: 'Medium', through: :page_contents, source: :content, source_type: "Map"
+  # has_many :maps,class_name: 'Medium', through: :page_contents, source: :content, source_type: "Map"
   has_many :articles, through: :page_contents, source: :content, source_type: "Article"
   has_and_belongs_to_many :referents  
   has_many :pages_node
@@ -61,10 +61,13 @@ end
   end
   
   def map_count
-    PageContent.where(source_page_id: id , content_type: 'Map')
+    Medium.joins("INNER JOIN page_contents ON media.id = page_contents.content_id AND media.subclass=3 AND page_contents.source_page_id= #{id}")
+    # PageContent.where(source_page_id: id )
   end
   
-  
+  def maps
+    media.where(subclass: Medium.subclasses[:map])
+  end
   
   def occurrence_map?
     occurrence_map
