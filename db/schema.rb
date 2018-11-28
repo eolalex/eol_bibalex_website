@@ -178,6 +178,11 @@ ActiveRecord::Schema.define(version: 20181114121656) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "maps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "format"
     t.text "description"

@@ -1,0 +1,41 @@
+= javascript_include_tag 'data'
+- build_associations(@page)
+
+.container
+  .row
+    .col-md-12.blog
+      .row
+        .col-lg-12
+          %br
+          %h2.TaxonName
+            = @page.scientific_name
+            = render("tabs")
+          %table.customTable
+            %tbody
+              - @page.predicates.each_with_index do |uri, index|
+                - predicate = @page.glossary[uri]
+                - if predicate.nil?
+                  - Rails.logger.error("** ERROR: missing predicate #{uri}")
+                  - next
+                - @page.grouped_data[uri].each do |trait|
+                  %trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => false), :id => trait[:id] } }
+                    - predicate = trait[:predicate]
+                    - uri = predicate[:uri].dup
+                    - uri.sub! '/', '_'
+                    %tr
+                      %td 
+                        %div
+                          = predicate[:name]
+                          %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}", :id => "#{uri}", :onmouseover =>"showOver(this)", :onmouseout=>"hideOver(this)"}
+                            %div{:id => "hover_#{uri}", :style=> "display:none;"}
+                              uri:  #{predicate[:uri]}
+                              %br
+                              definition: #{predicate[:definition]}
+                        %div{:id => "#{uri}"}
+                          %i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
+                      -if trait[:object_term]
+                        %td{"data-label" => "#{t(:object_term)}"} #{trait[:object_term][:name]}
+                      -if trait[:units]
+                        %td{"data-label" => "#{t(:units)}"} #{trait[:units][:name]}
+                      %td{"data-label" => "#{t(:source)}"} #{show_source_segment(trait)}
+                    %div{ :id => "popup_#{uri}", :style=> "display:none;", :class => "popup"}

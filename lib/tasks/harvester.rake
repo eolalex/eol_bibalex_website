@@ -11,19 +11,23 @@ def main_method_2
     start_key = -1
     last_harvested_time = DateTime.now.strftime('%Q')
 
-    json_content = get_latest_updates_from_hbase(last_harvested_time, start_key) 
+    # json_content = get_latest_updates_from_hbase(last_harvested_time, start_key) 
     # json_content = get_nodes_of_resource_from_hbase(471)
+    # 
     batches_log.write("batch done: #{start_key}\n")
-    if json_content.empty?
-      finish = true          
-    end
+    # if json_content.empty?
+      # finish = true          
+    # end
     while !finish do              
-      unless json_content == false
+      # unless json_content == false
+      json_content=File.read("node(1).json")
         nodes = JSON.parse(json_content)
-        batches_log.write("batch done: #{start_key}: #{nodes.count}\n")
+        # debugger
+        # batches_log.write("batch done: #{start_key}: #{nodes.count}\n")
         current_node = nil
         nodes.each do |node|          
-          load_occurrence(node)
+          # load_occurrence(node)
+          # debugger
           # nodes_ids << node["generatedNodeId"]
           current_node = node
           nodes_ids << node["generatedNodeId"]
@@ -45,7 +49,7 @@ def main_method_2
           end
           
           #node["taxon"]["pageEolId"] return null so set it static until solved
-          node["taxon"]["pageEolId"]= "1"
+          # node["taxon"]["pageEolId"]= "1"
           
           unless node["taxon"]["pageEolId"].nil? 
             page_id = create_page({ resource_id: node["resourceId"], node_id: created_node.id, id: node["taxon"]["pageEolId"] }) # iucn status, medium_id
@@ -67,18 +71,18 @@ def main_method_2
           
         end
         # 
-        start_key = "#{current_node["resourceId"]}_#{current_node["generatedNodeId"]}"
-        json_content = get_latest_updates_from_hbase(last_harvested_time,start_key)
+        # start_key = "#{current_node["resourceId"]}_#{current_node["generatedNodeId"]}"
+        # json_content = get_latest_updates_from_hbase(last_harvested_time,start_key)
         # batches_log.write("batch done: #{start_key}\n")
         # nodes = JSON.parse(json_content)
-        if nodes.count <= 1
+        # if nodes.count <= 1
           finish = true     
         end
       end
     end
-    build_hierarchy(nodes_ids)    
-  end
-end
+    # build_hierarchy(nodes_ids)    
+  # end
+# end
 
 
 def get_dynamic_heirarchy_nodes
@@ -625,6 +629,7 @@ end
 
 
 def create_measurement(occurrence_of_measurement , measurement)
+  # debugger
     options = { 
                 predicate: { name:"predicate_name_#{measurement["measurementId"]}", uri: measurement["measurementType"],
                               section_ids:[1,2,3],definition:"predicate definition"}
@@ -693,7 +698,7 @@ def add_neo4j(node_params, occurrences, measurements, associations)
           trait=TraitBank.create_trait(options)
 
         elsif (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
-           # debugger
+            # debugger
           measurements_array << measurement
         else
            # debugger
@@ -708,7 +713,9 @@ def add_neo4j(node_params, occurrences, measurements, associations)
         if (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
           # debugger
             #Update this condidtion to insert metadata of a given measurement : measurementOfTaxon = true and measurementparent is not null
-          res = TraitBank.find_trait(measurement["parentMeasurementId"], node_params[:resource_id]) # we should use parent measurement id to find the actual trait
+          res = TraitBank.find_trait(measurement["parentMeasurementId"], node_params[:resource_id])
+          # debugger
+           # we should use parent measurement id to find the actual trait
           # options.each { |md| TraitBank.add_metadata_to_trait(res, md) }
           options[:eol_pk]= measurement["measurementId"]
           TraitBank.add_metadata_to_trait(res, options)
@@ -794,6 +801,39 @@ def add_neo4j(node_params, occurrences, measurements, associations)
   # trait=TraitBank.create_trait(options)
 end
 
+def main_method_4
+  # tbb_page = TraitBank.create_page(1003)
+  # tb_page = TraitBank.create_page(1004)
+# resource = TraitBank.create_resource(502)
+  # options = {supplier:{"data"=>{"resource_id"=>502}},
+             # resource_pk:"123" , page:1003, eol_pk:" 124", scientific_name: "scientific_name",
+             # predicate:{"name"=>"event date","uri"=>"test/event",section_ids:[1,2,3],definition:"test predicate definition"},
+             # object_term:{"name"=>"5/2/15","uri"=>"test/date",section_ids:[1,2,3],definition:"test object_term definition"},
+             # units: {"name"=>"cm","uri"=>"http://purl.obolibrary.org/obo/UO_0000008",section_ids:[1,2,3],definition:"test units"},
+             # literal:"10"} 
+  # trait=TraitBank.create_trait(options)
+    # options2 = {supplier:{"data"=>{"resource_id"=>502}},
+             # resource_pk:"125" , page:1004, eol_pk:" 126", scientific_name: "scientific_name2",
+             # predicate:{"name"=>"event2 date","uri"=>"test/event",section_ids:[1,2,3],definition:"test2 predicate definition"},
+             # object_term:{"name"=>"5/12/15","uri"=>"test/date",section_ids:[1,2,3],definition:"test2 object_term definition"},
+             # units: {"name"=>"cm","uri"=>"http://purl.obolibrary.org/obo/UO_0000008",section_ids:[1,2,3],definition:"test units"},
+             # literal:"10",
+             # metadata:[{predicate:{"name"=>"md_event","uri"=>"test/md_event",section_ids:[1,2,3],definition:"test predicate definition"},
+                        # object_term:{"name"=>"md_length1","uri"=>"test/md_length1",section_ids:[1,2,3],definition:"test object_term definition"},
+                        # units: {"name"=>"cm","uri"=>"http://eol.org/schema/terms/squarekilometer",section_ids:[1,2,3],definition:"test units"},
+                        # literal:"15"}]} 
+  # trait2=TraitBank.create_trait(options2)
+          # # options_md=     {metadata:[{predicate:{"name"=>"md_event","uri"=>"test/md_event",section_ids:[1,2,3],definition:"test predicate definition"},
+                        # # object_term:{"name"=>"md_length1","uri"=>"test/md_length1",section_ids:[1,2,3],definition:"test object_term definition"},
+                        # # units: {"name"=>"cm","uri"=>"http://eol.org/schema/terms/squarekilometer",section_ids:[1,2,3],definition:"test units"},
+                        # # literal:"15"}] }
+                                # # occurrence_of_measurement = occurrences_hash["http://n2t.net/ark:/65665/3a4f668ef-ab6a-40cf-8383-a0e196991fdb"]
+        # options_md = create_measurement("http://n2t.net/ark:/65665/3a4f668ef-ab6a-40cf-8383-a0e196991fdb" , measurement)
+  # options_md[:eol_pk]= "126"
+  # options_copy = options_md.clone
+  # traitx=TraitBank.find_trait("125",502)
+            # TraitBank.add_metadata_to_trait(traitx, options_copy)
+end
 
 def numeric?(str)
   Float(str) != nil rescue false
@@ -1066,16 +1106,13 @@ namespace :harvester do
     
     
 
-    main_method_3
-    #main_method
-
-    #main_method_2
+    # main_method_3
+    main_method
+    # main_method_4
+    # main_method_2
     # build_hierarchy(Node.all.limit(50).pluck(:generated_node_id))
      # main_method
     # get_dynamic_heirarchy_nodes
 
   end
 end
-  
-  
-  

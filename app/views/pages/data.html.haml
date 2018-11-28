@@ -1,18 +1,24 @@
-= javascript_include_tag 'data'
-= render("tabs")
-
-- build_associations(@page)
-
+-# = javascript_include_tag 'terms'
 .container
   .row
     .col-md-12.blog
       .row
         .col-md-8
-          %br
           %h2.TaxonName
             = @page.scientific_name
-            = render("tabs") 
+        .col-md-4
+          = render "tabs"
+      .row
+        .col-md-8
           %table.customTable
+            %thead
+              %tr
+                %th{:scope => "col"} Predicate
+                %th{:scope => "col"} Object
+                %th{:scope => "col"} Units
+                %th{:scope => "col"} Resource
+                %th{:scope => "col"} Further Info
+                %th{:scope => "col"} Metadata
             %tbody
               - @page.predicates.each_with_index do |uri, index|
                 - predicate = @page.glossary[uri]
@@ -20,33 +26,76 @@
                   - Rails.logger.error("** ERROR: missing predicate #{uri}")
                   - next
                 - @page.grouped_data[uri].each do |trait|
-                  %trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => false), :id => trait[:id] } }
-                    - predicate = trait[:predicate]
-                    - uri = predicate[:uri].dup
-                    - uri.sub! '/', '_'
-                    %tr
-                      %td 
-                        %div
-                          = predicate[:name]
-                          %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}", :id => "#{uri}", :onmouseover =>"showOver(this)", :onmouseout=>"hideOver(this)"}
-                        %div{:id => "hover_#{uri}", :style=> "display:none;"}
-                          uri:  #{predicate[:uri]}
-                          %br
-                          definition: #{predicate[:definition]}
+                  - predicate = trait[:predicate]
+                  - uri = predicate[:uri].dup
+                  - uri.sub! '/', '_'
+                  %tr
+                    %td
+                      %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri:  #{uri}\ndefinition: #{predicate[:definition]} ", :type => "button"}
+                        #{predicate[:name]}
+                        
+                    -if trait[:object_term]
+                      %td
+                        %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri:  #{uri}\ndefinition: #{predicate[:definition]} ", :type => "button"}
+                          #{trait[:object_term][:name]}
+                    - else
+                      %td{"data-label" => "Object"}
+                         
+                    -if trait[:units]
+                      %td
+                        %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri:  #{uri}\ndefinition: #{predicate[:definition]} ", :type => "button"}
+                          #{trait[:units][:name]}
+                    - else
+                      %td{"data-label" => "Units"}
+                    %td{"data-label" => "#{t(:source)}"} #{show_source_segment(trait)}
 
-                        -# %div{:id => "#{uri}", :onclick=> 'showPopup(this)'}
-                        %div{:id => "#{uri}"}
+                    %td
+                      %div
+                        -# modal view with additional information: 'Citation, Source, RecordURL, ScientificName, Statistical Method, URI, DEfinition'
+                        %a.btn.btn{:id => "#{@page.id}", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
+                          -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}
+                          See More
+                    %td
+                      %div{:id => "#{uri}"}
+                        %a.btn.btn{:id => "#{@page.id}00", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
+                          -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}
                           %i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
-                      -if trait[:object_term]
-                        %td{"data-label" => "#{t(:object_term)}"} #{trait[:object_term][:name]}
-                      -if trait[:units]
-                        %td{"data-label" => "#{t(:units)}"} #{trait[:units][:name]}
-                      %td{"data-label" => "#{t(:source)}"} #{show_source_segment(trait)}
-                    %div{ :id => "popup_#{uri}", :style=> "display:none;", :class => "popup"}
-                      - if trait[:metadata] && trait[:metadata].any?
-                        -debugger
-                        %ul.meta-items.js-meta-items
-                        - trait[:metadata].each do |datum|
+                          -# Show
+
+                  .modal{:id => "popup_#{@page.id}00", "aria-labelledby" => "popup_#{@page.id}00Label", :role => "dialog", :tabindex => "-1"}
+                    .modal-dialog.modal-med{:role => "document"}
+                      .modal-content
+                        .modal-header
+                          .form-group.row.form-inline
+                            .col-md-10.col-sm-10.col-xs-10
+                              %h2.editLabel.modal-title Metadata
+                            .col-md-2.col-sm-2.col-xs-2
+                              %button{ :id =>"#{@page.id}00", :class => "btn btn-primary pull-right", :tabindex => "1", :onclick=> 'hidePopup(this, event)'}x
+                        .modal-body.editCollection
+                          %trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => false), :id => trait[:id] } }
+
+                  .modal{:id => "popup_#{@page.id}", "aria-labelledby" => "popup_#{@page.id}Label", :role => "dialog", :tabindex => "-1"}
+                    .modal-dialog.modal-med{:role => "document"}
+                      .modal-content
+                        .modal-header
+                          .form-group.row.form-inline
+                            .col-md-10.col-sm-10.col-xs-10
+                              %h2.editLabel.modal-title Further Information
+                            .col-md-2.col-sm-2.col-xs-2
+                              %button{ :id =>"#{@page.id}", :class => "btn btn-primary pull-right", :tabindex => "1", :onclick=> 'hidePopup(this, event)'}x
+                        .modal-body.editCollection
+                          Lifestage Term: xxxxx
+                          %br
+                          Sex Term: xxxxxx
+                          %br
+                          Statistical Method: xxxxxxx
+                          %br
+                          Scientific Name: #{@page.scientific_name} 
+                          %br
+                          Record URL: #{request.url}/#trait_id=#{trait[:id]}
+                          
+
+
         .col-md-4
           %aside
             .widget.categories
@@ -64,13 +113,3 @@
                   %a{:href => "http://fieldguides.eol.org/memory/"}
                     =image_tag "memory-game-icon.png", :alt => ""
 
-
--# - cache(page_data_path(@page), expires_in: 1.day) do 
-  -# %ul.traits
-    -# - @page.predicates.each_with_index do |uri, index|
-      -# - predicate = @page.glossary[uri]
-      -# - if predicate.nil?
-        -# - Rails.logger.error("** ERROR: missing predicate #{uri}")
-        -# - next
-      -# - @page.grouped_data[uri].each do |trait|
-        -# = render :partial => "terms/data_row", :locals => { :page => @page, :trait => trait, :show_taxon => false }

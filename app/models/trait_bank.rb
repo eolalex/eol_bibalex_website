@@ -204,6 +204,7 @@ class TraitBank
     end
 
     def by_page(page_id, page = 1, per = 100)
+      # debugger
       q = "MATCH (page:Page { page_id: #{page_id} })-[:trait]->(trait:Trait)"\
           "-[:supplier]->(resource:Resource) "\
         "MATCH (trait:Trait)-[:predicate]->(predicate:Term) "\
