@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(version: 20181114121656) do
     t.bigint "location_id"
     t.text "body", limit: 4294967295
     t.index ["bibliographic_citation_id"], name: "index_articles_on_bibliographic_citation_id"
-    t.index ["guid"], name: "unique_articles", unique: true
     t.index ["language_id"], name: "index_articles_on_language_id"
     t.index ["license_id"], name: "index_articles_on_license_id"
     t.index ["location_id"], name: "index_articles_on_location_id"
@@ -188,13 +187,6 @@ ActiveRecord::Schema.define(version: 20181114121656) do
     t.index ["location", "longitude", "latitude", "altitude", "spatial_location"], name: "unique_location", unique: true, length: { spatial_location: 100 }
   end
 
-
-  create_table "maps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "format"
     t.text "description"
@@ -253,7 +245,7 @@ ActiveRecord::Schema.define(version: 20181114121656) do
     t.index ["rank_id"], name: "index_nodes_on_rank_id"
   end
 
-  create_table "occurrence_maps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "occurrence_maps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "resource_id"
     t.integer "page_id"
     t.string "url"
