@@ -63,7 +63,7 @@
               %a{:href => "/pages/45515245"}
                 %h2.blogTitle
                   = Page.find_by_id(45515245).try(:scientific_name)
-                = image_tag Page.find_by_id(45515245) && Page.find_by_id(45515245).media.size > 0 && !Page.find_by_id(45515245).try(:media).first.base_url.nil? ? Page.find_by_id(45515245).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+                = image_tag Page.find_by_id(45515245) && Page.find_by_id(45515245).media.size > 0 && !Page.find_by_id(45515245).try(:media).first.base_url.nil? ? Page.find_by_id(45515245).try(:media).first.base_url : "assets/download.png", style: 'height:25%;width:auto;'
           .item
             .imgTitle
               %a{:href => "/pages/45515099"}

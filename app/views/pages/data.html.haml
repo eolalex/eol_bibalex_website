@@ -11,7 +11,6 @@
           %br
           %h2.TaxonName
             = @page.scientific_name
-            = render("tabs") 
           %table.customTable
             %tbody
               - @page.predicates.each_with_index do |uri, index|
@@ -33,8 +32,6 @@
                           uri:  #{predicate[:uri]}
                           %br
                           definition: #{predicate[:definition]}
-
-                        -# %div{:id => "#{uri}", :onclick=> 'showPopup(this)'}
                         %div{:id => "#{uri}"}
                           %i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
                       -if trait[:object_term]
@@ -47,30 +44,12 @@
                         -debugger
                         %ul.meta-items.js-meta-items
                         - trait[:metadata].each do |datum|
-        .col-md-4
-          %aside
-            .widget.categories
-              %h3 #{t(:taxon_card)}
-              .row
-                .col-sm-12
-                  .single_comments
-                    %b= @page.scientific_name
-                    =image_tag "avatar3.png", :alt => ""
-
-            .widget.blog_gallery
-              %h3 #{t(:refresh_memory)}
-              %ul.sidebar-gallery
-                %li
-                  %a{:href => "http://fieldguides.eol.org/memory/"}
-                    =image_tag "memory-game-icon.png", :alt => ""
+                          %li.meta-item
+                            .meta-pred
+                              - if datum[:predicate][:uri]
+                                = link_to(datum[:predicate][:name], term_path(:uri => predicate[:uri]))
+                              - else
+                                = datum[:predicate][:name]
+                            .meta-val= show_data_value(datum)
 
 
--# - cache(page_data_path(@page), expires_in: 1.day) do 
-  -# %ul.traits
-    -# - @page.predicates.each_with_index do |uri, index|
-      -# - predicate = @page.glossary[uri]
-      -# - if predicate.nil?
-        -# - Rails.logger.error("** ERROR: missing predicate #{uri}")
-        -# - next
-      -# - @page.grouped_data[uri].each do |trait|
-        -# = render :partial => "terms/data_row", :locals => { :page => @page, :trait => trait, :show_taxon => false }
