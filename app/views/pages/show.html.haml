@@ -30,7 +30,7 @@
                 %br/
                 - if @page.articles.size > 0
                   %h5 #{t(:comprehensive_description)}
-                  = @page.articles.first
+                  = @page.articles.first.name
                 - else
                   %h5 #{t(:no_articles)}
         .col-md-4

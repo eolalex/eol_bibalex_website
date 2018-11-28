@@ -1,0 +1,2 @@
+class CreateOccurrenceMap < ApplicationRecord
+end

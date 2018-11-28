@@ -70,7 +70,6 @@ class RegistrationsController < Devise::RegistrationsController
       self.resource = User.new(sign_up_params)
       resource.valid?
       resource.errors.add(:recaptcha, I18n.t(:recaptcha_error))
-      #new_session_path(resource_name)
       redirect_to new_user_registration_path
     end
   end
