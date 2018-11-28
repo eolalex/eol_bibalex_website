@@ -84,17 +84,17 @@
                             .col-md-2.col-sm-2.col-xs-2
                               %button{ :id =>"#{@page.id}", :class => "btn btn-primary pull-right", :tabindex => "1", :onclick=> 'hidePopup(this, event)'}x
                         .modal-body.editCollection
-                          Lifestage Term: xxxxx
+                          %strong Lifestage Term:
+                          %nbsp xxxxxx
                           %br
-                          Sex Term: xxxxxx
+                          %strong Sex Term: 
+                          %nbsp xxxxxx
                           %br
-                          Statistical Method: xxxxxxx
+                          %strong Statistical Method: 
+                          %nbsp xxxxxx
                           %br
-                          Scientific Name: #{@page.scientific_name} 
-                          %br
-                          Record URL: #{request.url}/#trait_id=#{trait[:id]}
-                          
-
+                          %strong Scientific Name: 
+                          %nbsp #{@page.scientific_name} 
 
         .col-md-4
           %aside
