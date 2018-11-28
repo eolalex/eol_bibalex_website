@@ -26,6 +26,7 @@
                   - Rails.logger.error("** ERROR: missing predicate #{uri}")
                   - next
                 - @page.grouped_data[uri].each do |trait|
+                  -# %trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => false), :id => trait[:id] } }
                   - predicate = trait[:predicate]
                   - uri = predicate[:uri].dup
                   - uri.sub! '/', '_'
