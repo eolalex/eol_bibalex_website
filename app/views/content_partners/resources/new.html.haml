@@ -25,9 +25,9 @@
               %span{:style => "color: red"}> *
               #{t(:load_resource)}
             .col-md-10.col-sm-9.col-xs-12
-              %label.radio-inline
-                = f.radio_button :type, "url",id: "radio1",onClick: "url_show();"
-                = label_tag "#{t(:from_url)}"
+              -# %label.radio-inline
+                -# = f.radio_button :type, "url",id: "radio1",onClick: "url_show();"
+                -# = label_tag "#{t(:from_url)}"
               %label.radio-inline
                 = f.radio_button :type, "file",id: "radio2" ,onClick: "file_show();"
                 = label_tag "#{t(:from_file)}"

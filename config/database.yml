@@ -15,16 +15,17 @@ development:
   # variables.
 
   # password: Luxor&Aswan@2o17
-  # password: pDy013UEjn7vU9zul
+  #password: pDy013UEjn7vU9zul
   # password: root
   database: ba_eol_development
   username: root
   #password: Luxor&Aswan@2o17
   password: root
+  # password: root
   #password: Luxor&Aswan@2o17
   # password: Luxor&Aswan@2o17
 
-  # password: root
+  password: root
   # password: admin
   pool: 10
 

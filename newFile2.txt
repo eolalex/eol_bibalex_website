@@ -1,0 +1,600 @@
+Cannot render console from 10.8.133.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Refinery::PagesController#show as JS
+Processing by Refinery::PagesController#show as JS
+  Parameters: {"path"=>"content_partners/assets/js/jquery", "locale"=>"en"}
+Processing by Refinery::PagesController#show as JS
+  Parameters: {"path"=>"content_partners/assets/js/main", "locale"=>"en"}
+Processing by Refinery::PagesController#show as JS
+  Parameters: {"path"=>"content_partners/assets/js/jquery.prettyPhoto", "locale"=>"en"}
+  Parameters: {"path"=>"content_partners/assets/js/jquery.isotope.min", "locale"=>"en"}
+  [1m[36mRefinery::Page Load (4.4ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'content_partners' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (4.6ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'content_partners' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (10.2ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'content_partners' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (3.1ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (15.7ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (10.9ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::PagePart Load (3.5ms)[0m  [1m[34mSELECT `refinery_page_parts`.`id`, `refinery_page_parts`.`refinery_page_id`, `refinery_page_parts`.`slug`, `refinery_page_parts`.`position`, `refinery_page_parts`.`created_at`, `refinery_page_parts`.`updated_at`, `refinery_page_parts`.`title` FROM `refinery_page_parts` WHERE `refinery_page_parts`.`refinery_page_id` = 2 ORDER BY position ASC[0m
+  [1m[36mRefinery::PagePart Load (14.5ms)[0m  [1m[34mSELECT `refinery_page_parts`.`id`, `refinery_page_parts`.`refinery_page_id`, `refinery_page_parts`.`slug`, `refinery_page_parts`.`position`, `refinery_page_parts`.`created_at`, `refinery_page_parts`.`updated_at`, `refinery_page_parts`.`title` FROM `refinery_page_parts` WHERE `refinery_page_parts`.`refinery_page_id` = 2 ORDER BY position ASC[0m
+  [1m[36mRefinery::Page Load (8.2ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'content_partners' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::PagePart::Translation Load (5.6ms)[0m  [1m[34mSELECT `refinery_page_part_translations`.* FROM `refinery_page_part_translations` WHERE `refinery_page_part_translations`.`refinery_page_part_id` = 3[0m
+  [1m[36mRefinery::PagePart Load (8.5ms)[0m  [1m[34mSELECT `refinery_page_parts`.`id`, `refinery_page_parts`.`refinery_page_id`, `refinery_page_parts`.`slug`, `refinery_page_parts`.`position`, `refinery_page_parts`.`created_at`, `refinery_page_parts`.`updated_at`, `refinery_page_parts`.`title` FROM `refinery_page_parts` WHERE `refinery_page_parts`.`refinery_page_id` = 2 ORDER BY position ASC[0m
+  [1m[36mRefinery::PagePart::Translation Load (1.3ms)[0m  [1m[34mSELECT `refinery_page_part_translations`.* FROM `refinery_page_part_translations` WHERE `refinery_page_part_translations`.`refinery_page_part_id` = 3[0m
+  Rendering refinery/pages/show.html.erb within layouts/application
+  Rendering refinery/pages/show.html.erb within layouts/application
+  [1m[36mRefinery::Page Load (53.4ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::PagePart::Translation Load (39.1ms)[0m  [1m[34mSELECT `refinery_page_part_translations`.* FROM `refinery_page_part_translations` WHERE `refinery_page_part_translations`.`refinery_page_part_id` = 3[0m
+  [1m[36mRefinery::Page::Translation Load (0.7ms)[0m  [1m[34mSELECT `refinery_page_translations`.* FROM `refinery_page_translations` WHERE `refinery_page_translations`.`refinery_page_id` = 2[0m
+  [1m[36mRefinery::PagePart Load (1.0ms)[0m  [1m[34mSELECT `refinery_page_parts`.`id`, `refinery_page_parts`.`refinery_page_id`, `refinery_page_parts`.`slug`, `refinery_page_parts`.`position`, `refinery_page_parts`.`created_at`, `refinery_page_parts`.`updated_at`, `refinery_page_parts`.`title` FROM `refinery_page_parts` WHERE `refinery_page_parts`.`refinery_page_id` = 2 ORDER BY position ASC[0m
+  Rendering refinery/pages/show.html.erb within layouts/application
+  [1m[36mRefinery::Page::Translation Load (34.9ms)[0m  [1m[34mSELECT `refinery_page_translations`.* FROM `refinery_page_translations` WHERE `refinery_page_translations`.`refinery_page_id` = 2[0m
+  Rendered refinery/_content_page.html.erb (62.0ms)
+  Rendered refinery/_content_page.html.erb (62.6ms)
+  [1m[36mRefinery::PagePart::Translation Load (17.4ms)[0m  [1m[34mSELECT `refinery_page_part_translations`.* FROM `refinery_page_part_translations` WHERE `refinery_page_part_translations`.`refinery_page_part_id` = 3[0m
+  Rendered refinery/pages/show.html.erb within layouts/application (106.3ms)
+Started GET "/content_partners/assets/js/bootstrap.min.js" for 10.8.133.84 at 2018-11-07 07:31:57 +0200
+  Rendered refinery/pages/show.html.erb within layouts/application (80.8ms)
+  [1m[36mRefinery::Page::Translation Load (3.1ms)[0m  [1m[34mSELECT `refinery_page_translations`.* FROM `refinery_page_translations` WHERE `refinery_page_translations`.`refinery_page_id` = 2[0m
+  Rendering refinery/pages/show.html.erb within layouts/application
+Cannot render console from 10.8.133.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  Rendered refinery/_content_page.html.erb (219.6ms)
+Processing by Refinery::PagesController#show as JS
+  Rendered refinery/pages/show.html.erb within layouts/application (318.0ms)
+  [1m[36mRefinery::Page::Translation Load (0.9ms)[0m  [1m[34mSELECT `refinery_page_translations`.* FROM `refinery_page_translations` WHERE `refinery_page_translations`.`refinery_page_id` = 2[0m
+  Parameters: {"path"=>"content_partners/assets/js/bootstrap.min", "locale"=>"en"}
+  Rendered refinery/_content_page.html.erb (124.7ms)
+  [1m[36mRefinery::Page Load (69.1ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'content_partners' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  Rendered refinery/pages/show.html.erb within layouts/application (270.6ms)
+  [1m[36mRefinery::Page Load (208.2ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::PagePart Load (113.0ms)[0m  [1m[34mSELECT `refinery_page_parts`.`id`, `refinery_page_parts`.`refinery_page_id`, `refinery_page_parts`.`slug`, `refinery_page_parts`.`position`, `refinery_page_parts`.`created_at`, `refinery_page_parts`.`updated_at`, `refinery_page_parts`.`title` FROM `refinery_page_parts` WHERE `refinery_page_parts`.`refinery_page_id` = 2 ORDER BY position ASC[0m
+  [1m[36mRefinery::PagePart::Translation Load (31.1ms)[0m  [1m[34mSELECT `refinery_page_part_translations`.* FROM `refinery_page_part_translations` WHERE `refinery_page_part_translations`.`refinery_page_part_id` = 3[0m
+  Rendering refinery/pages/show.html.erb within layouts/application
+  [1m[36mRefinery::Page::Translation Load (63.2ms)[0m  [1m[34mSELECT `refinery_page_translations`.* FROM `refinery_page_translations` WHERE `refinery_page_translations`.`refinery_page_id` = 2[0m
+  Rendered refinery/_content_page.html.erb (85.7ms)
+  Rendered refinery/pages/show.html.erb within layouts/application (116.9ms)
+  [1m[36mUser Load (113.1ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 7 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  Rendered layouts/_flash.html.haml (15.8ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 2600ms (Views: 2423.5ms | ActiveRecord: 143.0ms)
+
+
+  [1m[36mUser Load (63.5ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 7 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[36mUser Load (58.8ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 7 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  Rendered layouts/_flash.html.haml (17.3ms)
+  Rendered layouts/_flash.html.haml (5.9ms)
+Filter chain halted as :find_page rendered or redirected
+Started GET "/content_partners/assets/js/wow.min.js" for 10.8.133.84 at 2018-11-07 07:31:59 +0200
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 2861ms (Views: 2659.9ms | ActiveRecord: 122.0ms)
+
+
+  [1m[36mUser Load (71.4ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 7 ORDER BY `users`.`id` ASC LIMIT 1[0m
+Cannot render console from 10.8.133.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Completed 404 Not Found in 2892ms (Views: 2664.7ms | ActiveRecord: 130.6ms)
+
+
+  Rendered layouts/_flash.html.haml (16.9ms)
+Processing by Refinery::PagesController#show as JS
+Filter chain halted as :find_page rendered or redirected
+  Parameters: {"path"=>"content_partners/assets/js/wow.min", "locale"=>"en"}
+Completed 404 Not Found in 2974ms (Views: 2703.3ms | ActiveRecord: 152.2ms)
+
+
+  [1m[36mRefinery::Page Load (8.9ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'content_partners' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (5.2ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::PagePart Load (0.6ms)[0m  [1m[34mSELECT `refinery_page_parts`.`id`, `refinery_page_parts`.`refinery_page_id`, `refinery_page_parts`.`slug`, `refinery_page_parts`.`position`, `refinery_page_parts`.`created_at`, `refinery_page_parts`.`updated_at`, `refinery_page_parts`.`title` FROM `refinery_page_parts` WHERE `refinery_page_parts`.`refinery_page_id` = 2 ORDER BY position ASC[0m
+  [1m[36mRefinery::PagePart::Translation Load (0.5ms)[0m  [1m[34mSELECT `refinery_page_part_translations`.* FROM `refinery_page_part_translations` WHERE `refinery_page_part_translations`.`refinery_page_part_id` = 3[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 7 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  Rendering refinery/pages/show.html.erb within layouts/application
+  Rendered layouts/_flash.html.haml (30.7ms)
+Filter chain halted as :find_page rendered or redirected
+  [1m[36mRefinery::Page::Translation Load (14.2ms)[0m  [1m[34mSELECT `refinery_page_translations`.* FROM `refinery_page_translations` WHERE `refinery_page_translations`.`refinery_page_id` = 2[0m
+Started GET "/content_partners/91/resources/new?locale=en" for 10.8.133.84 at 2018-11-07 07:32:00 +0200
+Completed 404 Not Found in 2504ms (Views: 1737.9ms | ActiveRecord: 485.1ms)
+
+
+  Rendered refinery/_content_page.html.erb (33.4ms)
+Cannot render console from 10.8.133.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  Rendered refinery/pages/show.html.erb within layouts/application (52.2ms)
+Processing by ContentPartners::ResourcesController#new as HTML
+Started GET "/content_partners/assets/js/multislider.js" for 10.8.133.84 at 2018-11-07 07:32:00 +0200
+  Parameters: {"locale"=>"en", "content_partner_id"=>"91"}
+Cannot render console from 10.8.133.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Refinery::PagesController#show as JS
+  Parameters: {"path"=>"content_partners/assets/js/multislider", "locale"=>"en"}
+  [1m[36mUser Load (23.8ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 7 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (9.7ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'content_partners' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (7.9ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mContentPartnerUser Load (21.6ms)[0m  [1m[34mSELECT  `content_partner_users`.* FROM `content_partner_users` WHERE `content_partner_users`.`content_partner_id` = 91 LIMIT 1[0m
+  [1m[36mRefinery::PagePart Load (27.2ms)[0m  [1m[34mSELECT `refinery_page_parts`.`id`, `refinery_page_parts`.`refinery_page_id`, `refinery_page_parts`.`slug`, `refinery_page_parts`.`position`, `refinery_page_parts`.`created_at`, `refinery_page_parts`.`updated_at`, `refinery_page_parts`.`title` FROM `refinery_page_parts` WHERE `refinery_page_parts`.`refinery_page_id` = 2 ORDER BY position ASC[0m
+  [1m[36mRefinery::PagePart::Translation Load (16.9ms)[0m  [1m[34mSELECT `refinery_page_part_translations`.* FROM `refinery_page_part_translations` WHERE `refinery_page_part_translations`.`refinery_page_part_id` = 3[0m
+  [1m[36mUser Load (36.9ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 7 LIMIT 1[0m
+  Rendering refinery/pages/show.html.erb within layouts/application
+  Rendering content_partners/resources/new.html.haml within layouts/application
+  [1m[36mRefinery::Page::Translation Load (150.2ms)[0m  [1m[34mSELECT `refinery_page_translations`.* FROM `refinery_page_translations` WHERE `refinery_page_translations`.`refinery_page_id` = 2[0m
+  Rendered refinery/_content_page.html.erb (166.0ms)
+  Rendered refinery/pages/show.html.erb within layouts/application (205.2ms)
+  [1m[36mLicense Load (148.6ms)[0m  [1m[34mSELECT `licenses`.* FROM `licenses`[0m
+  Rendered content_partners/resources/new.html.haml within layouts/application (369.4ms)
+Completed 500 Internal Server Error in 687ms (ActiveRecord: 270.0ms)
+
+
+  
+ActionView::Template::Error (Mysql2::Error: Disk full (/tmp/#sql_281_0.MAI); waiting for someone to free some space... (errno: 28 "No space left on device"): SHOW FULL FIELDS FROM `licenses`):
+    57:               #{t(:dataset_license)}
+    58:             .col-md-2.col-sm-8.col-xs-12
+    59:               .selectStyle
+    60:                 = f.collection_select :dataset_license  , License.all , :id, :name
+    61:           .form-group.row.form-inline
+    62:             %label.col-md-2.col-sm-3.col-xs-12.control-label
+    63:               #{t(:dataset_rights_holder)}
+  
+app/views/content_partners/resources/new.html.haml:60:in `block in _app_views_content_partners_resources_new_html_haml___1463750684831904643_69934896252140'
+app/views/content_partners/resources/new.html.haml:7:in `_app_views_content_partners_resources_new_html_haml___1463750684831904643_69934896252140'
+  [1m[36mUser Load (57.6ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 7 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  Rendered layouts/_flash.html.haml (14.5ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 1330ms (Views: 1217.2ms | ActiveRecord: 87.0ms)
+
+
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 7 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  Rendered layouts/_flash.html.haml (16.8ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 1178ms (Views: 919.7ms | ActiveRecord: 212.5ms)
+
+
+Started GET "/" for 10.202.2.12 at 2018-11-07 07:33:15 +0200
+Cannot render console from 10.202.2.12! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by HomePageController#index as */*
+  Rendering home_page/index.html.haml within layouts/application
+  [1m[36mPage Load (0.4ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m
+  [1m[36mNode Load (0.4ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4426872 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.4ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 46570763], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4441960 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 46579654], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4203067 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515245], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m
+  [1m[36mNode Load (0.4ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4202927 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 1708658 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.4ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 767462], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Node Load (0.0ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4202927 LIMIT 1[0m  [["id", 4202927], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium'[0m  [["page_id", 45515099], ["content_type", "Medium"]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `users`[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `collections`[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media`[0m
+  Rendered home_page/index.html.haml within layouts/application (194.0ms)
+  Rendered layouts/_flash.html.haml (7.7ms)
+Completed 200 OK in 531ms (Views: 512.9ms | ActiveRecord: 9.5ms)
+
+
+Started GET "/" for 10.202.2.12 at 2018-11-07 07:38:16 +0200
+Cannot render console from 10.202.2.12! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by HomePageController#index as */*
+  Rendering home_page/index.html.haml within layouts/application
+  [1m[36mPage Load (0.4ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4426872 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.2ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 46570763], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4441960 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.1ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 46579654], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4203067 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515245], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4202927 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 1708658 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.4ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 767462], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Node Load (0.1ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4202927 LIMIT 1[0m  [["id", 4202927], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[35mCACHE  (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium'[0m  [["page_id", 45515099], ["content_type", "Medium"]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.1ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.1ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `users`[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `collections`[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media`[0m
+  Rendered home_page/index.html.haml within layouts/application (219.8ms)
+  Rendered layouts/_flash.html.haml (8.6ms)
+Completed 200 OK in 587ms (Views: 569.4ms | ActiveRecord: 9.0ms)
+
+
+Started GET "/" for 10.202.2.12 at 2018-11-07 07:43:16 +0200
+Cannot render console from 10.202.2.12! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by HomePageController#index as */*
+  Rendering home_page/index.html.haml within layouts/application
+  [1m[36mPage Load (0.4ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4426872 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 46570763], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4441960 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 46579654], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4203067 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515245], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4202927 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 1708658 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 767462], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Node Load (0.0ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4202927 LIMIT 1[0m  [["id", 4202927], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium'[0m  [["page_id", 45515099], ["content_type", "Medium"]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `users`[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM `collections`[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media`[0m
+  Rendered home_page/index.html.haml within layouts/application (182.9ms)
+  Rendered layouts/_flash.html.haml (8.9ms)
+Completed 200 OK in 541ms (Views: 525.2ms | ActiveRecord: 7.8ms)
+
+
+Started GET "/" for 89.155.19.131 at 2018-11-07 07:47:58 +0200
+Cannot render console from 89.155.19.131! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by HomePageController#index as TEXT
+  Rendering home_page/index.html.haml within layouts/application
+  [1m[36mPage Load (0.4ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m
+  [1m[36mNode Load (0.5ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4426872 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 46570763], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m
+  [1m[36mNode Load (0.4ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4441960 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.1ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 46579654], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4203067 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515245], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4202927 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 1708658 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.4ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 767462], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Node Load (0.0ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4202927 LIMIT 1[0m  [["id", 4202927], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium'[0m  [["page_id", 45515099], ["content_type", "Medium"]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `users`[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM `collections`[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM `media`[0m
+  Rendered home_page/index.html.haml within layouts/application (202.3ms)
+  Rendered layouts/_flash.html.haml (8.2ms)
+Completed 200 OK in 527ms (Views: 514.3ms | ActiveRecord: 8.9ms)
+
+
+Started GET "/" for 10.202.2.12 at 2018-11-07 07:48:15 +0200
+Cannot render console from 10.202.2.12! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by HomePageController#index as */*
+  Rendering home_page/index.html.haml within layouts/application
+  [1m[36mPage Load (0.4ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m
+  [1m[36mNode Load (0.4ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4426872 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.4ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 46570763], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.4ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4441960 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.4ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 46579654], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.4ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m
+  [1m[36mNode Load (0.4ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4203067 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.4ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.1ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515245], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.4ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m
+  [1m[36mNode Load (0.4ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4202927 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.4ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.1ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m
+  [1m[36mNode Load (7.6ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 1708658 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.4ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 767462], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Node Load (0.0ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4202927 LIMIT 1[0m  [["id", 4202927], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[35mCACHE  (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium'[0m  [["page_id", 45515099], ["content_type", "Medium"]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.1ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `users`[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `collections`[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media`[0m
+  Rendered home_page/index.html.haml within layouts/application (209.2ms)
+  Rendered layouts/_flash.html.haml (8.9ms)
+Completed 200 OK in 522ms (Views: 494.7ms | ActiveRecord: 17.6ms)
+
+
+Started GET "/" for 10.202.2.12 at 2018-11-07 07:53:16 +0200
+Cannot render console from 10.202.2.12! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by HomePageController#index as */*
+  Rendering home_page/index.html.haml within layouts/application
+  [1m[36mPage Load (0.4ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m
+  [1m[36mNode Load (0.4ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4426872 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.4ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.1ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 46570763], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.4ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m
+  [1m[36mNode Load (0.4ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4441960 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.4ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.1ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 46579654], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.4ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m
+  [1m[36mNode Load (0.4ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4203067 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.5ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.1ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515245], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.4ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m
+  [1m[36mNode Load (0.4ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4202927 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.4ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.1ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.4ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m
+  [1m[36mNode Load (0.4ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 1708658 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.4ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.1ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 767462], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Node Load (0.1ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4202927 LIMIT 1[0m  [["id", 4202927], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[35mCACHE  (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium'[0m  [["page_id", 45515099], ["content_type", "Medium"]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.1ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.1ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `users`[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `collections`[0m
+  [1m[35m (2.9ms)[0m  [1m[34mSELECT COUNT(*) FROM `media`[0m
+  Rendered home_page/index.html.haml within layouts/application (229.3ms)
+  Rendered layouts/_flash.html.haml (9.6ms)
+Completed 200 OK in 592ms (Views: 568.4ms | ActiveRecord: 13.7ms)
+
+
+Started GET "/" for 10.202.2.12 at 2018-11-07 07:58:15 +0200
+Cannot render console from 10.202.2.12! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by HomePageController#index as */*
+  Rendering home_page/index.html.haml within layouts/application
+  [1m[36mPage Load (0.4ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4426872 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46570763 LIMIT 1[0m  [["id", 46570763], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46570763 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 46570763], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.4ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4441960 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 46579654 LIMIT 1[0m  [["id", 46579654], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 46579654 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 46579654], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4203067 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.4ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515245 LIMIT 1[0m  [["id", 45515245], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515245 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515245], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.3ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4202927 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mPage Load (0.5ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m
+  [1m[36mNode Load (0.3ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 1708658 LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium'[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mMedium Load (0.3ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 767462 LIMIT 1[0m  [["id", 767462], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.1ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 767462 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 767462], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Node Load (0.1ms)[0m  [1m[34mSELECT  `nodes`.* FROM `nodes` WHERE `nodes`.`id` = 4202927 LIMIT 1[0m  [["id", 4202927], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium'[0m  [["page_id", 45515099], ["content_type", "Medium"]]
+  [1m[36mCACHE Page Load (0.1ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[36mCACHE Page Load (0.0ms)[0m  [1m[34mSELECT  `pages`.* FROM `pages` WHERE `pages`.`id` = 45515099 LIMIT 1[0m  [["id", 45515099], ["LIMIT", 1]]
+  [1m[36mCACHE Medium Load (0.0ms)[0m  [1m[34mSELECT  `media`.* FROM `media` INNER JOIN `page_contents` ON `media`.`id` = `page_contents`.`content_id` WHERE `page_contents`.`page_id` = 45515099 AND `page_contents`.`content_type` = 'Medium' ORDER BY `media`.`id` ASC LIMIT 1[0m  [["page_id", 45515099], ["content_type", "Medium"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `users`[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM `collections`[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM `media`[0m
+  Rendered home_page/index.html.haml within layouts/application (247.4ms)
+  Rendered layouts/_flash.html.haml (8.0ms)
+Completed 200 OK in 628ms (Views: 609.3ms | ActiveRecord: 9.1ms)
+
+
+  [1m[35m (0.3ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 300[0m

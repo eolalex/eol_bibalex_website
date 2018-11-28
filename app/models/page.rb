@@ -9,7 +9,7 @@ class Page < ActiveRecord::Base
   index_name Rails.application.class.parent_name.underscore
   document_type self.name.downcase
   
-  settings index: { number_of_shards: 10,"index.blocks.read_only_allow_delete": :null } do
+  settings index: { number_of_shards: 10, "index.blocks.read_only_allow_delete": :null } do
   mapping dynamic: false do
     indexes :scientitfic_name, type: :varchar 
     indexes :suggest, {
@@ -81,14 +81,14 @@ end
     return @data[0..per] if @data
     data = TraitBank.by_page(id, page, per)
     # Self-healing count of number of data:
-    # @data_toc_needs_other = false
-    # @data_toc = data.flat_map do |t|
-      # next if t[:predicate][:section_ids].nil? # Usu. test data...
-      # secs = t[:predicate][:section_ids].split(",")
-      # @data_toc_needs_other = true if secs.empty?
-      # secs.map(&:to_i)
-    # end.uniq
-    # @data_toc = Section.where(id: @data_toc) unless @data_toc.empty?
+    @data_toc_needs_other = false
+    @data_toc = data.flat_map do |t|
+      next if t[:predicate][:section_ids].nil? # Usu. test data...
+      secs = t[:predicate][:section_ids].split(",")
+      @data_toc_needs_other = true if secs.empty?
+      secs.map(&:to_i)
+    end.uniq
+    @data_toc = Section.where(id: @data_toc) unless @data_toc.empty?
     @data_loaded = true
     @data = data
   end

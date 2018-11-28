@@ -1,6 +1,5 @@
 class SearchController < ApplicationController
   include ApplicationHelper
-  #before_action :set_locale
   
   def index
     unless (params[:query].nil?)
