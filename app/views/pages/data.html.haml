@@ -44,26 +44,26 @@
                       %td{"data-label" => "#{t(:source)}"} #{show_source_segment(trait)}
                     %div{ :id => "popup_#{uri}", :style=> "display:none;", :class => "popup"}
                       - if trait[:metadata] && trait[:metadata].any?
-                        -debugger
-                        %ul.meta-items.js-meta-items
-                        - trait[:metadata].each do |datum|
-        .col-md-4
-          %aside
-            .widget.categories
-              %h3 #{t(:taxon_card)}
-              .row
-                .col-sm-12
-                  .single_comments
-                    %b= @page.scientific_name
-                    =image_tag "avatar3.png", :alt => ""
-
-            .widget.blog_gallery
-              %h3 #{t(:refresh_memory)}
-              %ul.sidebar-gallery
-                %li
-                  %a{:href => "http://fieldguides.eol.org/memory/"}
-                    =image_tag "memory-game-icon.png", :alt => ""
-
+                        ay 7aga
+                        -# %ul.meta-items.js-meta-items
+                        -# - trait[:metadata].each do |datum|
+        -# .col-md-4
+          -# %aside
+            -# .widget.categories
+              -# %h3 #{t(:taxon_card)}
+              -# .row
+                -# .col-sm-12
+                  -# .single_comments
+                    -# %b= @page.scientific_name
+                    -# =image_tag "avatar3.png", :alt => ""
+-# 
+            -# .widget.blog_gallery
+              -# %h3 #{t(:refresh_memory)}
+              -# %ul.sidebar-gallery
+                -# %li
+                  -# %a{:href => "http://fieldguides.eol.org/memory/"}
+                    -# =image_tag "memory-game-icon.png", :alt => ""
+-# 
 
 -# - cache(page_data_path(@page), expires_in: 1.day) do 
   -# %ul.traits

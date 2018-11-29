@@ -124,10 +124,10 @@ def main_method
   if is_updates == "true"
     start_key = -1
     # json_content = get_latest_updates_from_hbase(start_key)
-     json_content = get_nodes_of_resource_from_hbase(471)
+     # json_content = get_nodes_of_resource_from_hbase(471)
      # json_content = get_nodes_of_resource_from_hbase()
-     # nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'nodes4.json')
-     # json_content = File.read(nodes_file_path)
+     nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'node_sample.json')
+     json_content = File.read(nodes_file_path)
      # unless json_content == false
        nodes = JSON.parse(json_content)
 
@@ -149,7 +149,7 @@ def main_method
          # measurements = node["measurementOrFacts"]
          # measurements[0]["parentMeasurementId"]="912"
          
-         node["taxon"]["pageEolId"]= "1"
+         # node["taxon"]["pageEolId"]= "1"
          
          nodes_ids << node["generatedNodeId"]
          # res = Node.where(generated_node_id: node["generatedNodeId"])        
@@ -642,22 +642,30 @@ def create_measurement(occurrence_of_measurement , measurement)
       options[:units] = {name: "unit_#{measurement["measurementId"]}",uri: measurement["unit"],
                          section_ids:[1,2,3],definition:"test units"}            
     end
-    
-    
-    if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
-      options[:lifestage_term] = { name: "lifeStage_#{measurement["measurementId"]}",
-                             uri: occurrence_of_measurement["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
+    unless measurement["citation"].nil?
+      options[:citation] = measurement["citation"]
+    end
+    unless measurement["source"].nil?
+      options[:source] = measurement["source"]
+    end
+    unless measurement["measurementMethod"].nil?
+      options[:measurementMethod] = measurement["measurementMethod"]
     end
     
-    if occurrence_of_measurement && occurrence_of_measurement["sex"]
-      options[:sex_term] = { name: "sex_#{measurement["measurementId"]}",
-                             uri: occurrence_of_measurement["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
-    end
-    
-    if occurrence_of_measurement && occurrence_of_measurement["statisticalMethod"]
-      options[:statistical_method_term] = { name: "statisticalMethod_#{measurement["measurementId"]}",
-                             uri: occurrence_of_measurement["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
-    end
+    # if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
+      # options[:lifestage_term] = { name: "lifeStage_#{measurement["measurementId"]}",
+                             # uri: occurrence_of_measurement["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
+    # end
+#     
+    # if occurrence_of_measurement && occurrence_of_measurement["sex"]
+      # options[:sex_term] = { name: "sex_#{measurement["measurementId"]}",
+                             # uri: occurrence_of_measurement["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
+    # end
+#     
+    # if occurrence_of_measurement && occurrence_of_measurement["statisticalMethod"]
+      # options[:statistical_method_term] = { name: "statisticalMethod_#{measurement["measurementId"]}",
+                             # uri: occurrence_of_measurement["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
+    # end
     options
 end
 
@@ -674,6 +682,51 @@ def add_neo4j(node_params, occurrences, measurements, associations)
     
     page = TraitBank.create_page(node_params[:page_id].to_i)
     resource = TraitBank.create_resource(node_params[:resource_id].to_i)
+    
+    unless associations.nil?
+      associations.each do |association|
+        res = OccurrencePageMapping.where(resource_id: node_params[:resource_id], occurrence_id: association["targetOccurrenceId"])
+        unless res.empty?
+          occurrence_mapping = res.first
+          object_page_id = occurrence_mapping.page_id
+        end
+        options = { supplier: { "data" => { "resource_id" =>node_params[:resource_id] } },
+                      resource_pk: association["associationId"].to_i, page: node_params[:page_id] ,
+                      occurrence_id:association["occurrenceId"],
+                      eol_pk: "A_#{association["occurrenceId"]}_#{association["associationId"]}",
+                      # eol_pk: "\"#{measurement["occurrenceId"]}\"", 
+                      scientific_name: node_params[:scientific_name], object_page_id: object_page_id,
+                      predicate: { name: "predicate_name_#{association["associationId"]}", uri: association["associationType"], section_ids:[1,2,3],definition:"predicate definition"}
+                       }
+                       
+          occurrence_of_association = occurrences_hash[association["occurrenceId"]]
+          if occurrence_of_association && occurrence_of_association["sex"]
+            options[:sex_term] = { name: "sex_#{association["associationId"]}",
+                                   uri: occurrence_of_association["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
+          end
+          
+          if occurrence_of_association && occurrence_of_association["lifeStage"]
+            options[:lifestage_term] = { name: "lifeStage_#{association["associationId"]}",
+                                   uri: occurrence_of_association["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
+          end
+          
+          # if occurrence_of_association && occurrence_of_association["statisticalMethod"]
+            # options[:statistical_method_term] = { name: "statisticalMethod_#{association["associationId"]}",
+                                   # uri: occurrence_of_association["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
+          # end
+          unless association["citation"].nil?
+            options[:citation] = association["citation"]
+          end
+          unless association["source"].nil?
+            options[:source] = association["source"]
+          end
+          unless association["measurementMethod"].nil?
+            options[:measurementMethod] = association["measurementMethod"]
+          end
+          trait=TraitBank.create_trait(options)
+      end
+    end
+    
     unless measurements.nil?
       measurements_array = []
       measurements.each do |measurement|
@@ -686,10 +739,25 @@ def add_neo4j(node_params, occurrences, measurements, associations)
           options[:supplier] = { "data" => { "resource_id" =>node_params[:resource_id] } }
           options[:resource_pk] =  measurement["measurementId"]
           options[:page] = node_params[:page_id]
-          options[:eol_pk] = "#{measurement["occurrenceId"]}"+"_"+"#{measurement["measurementId"]}"
+          options[:eol_pk] = "M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}"
           # options[:eol_pk] = "\"#{measurement["occurrenceId"]}\""
           options[:scientific_name] =  node_params[:scientific_name]
           options[:occurrence_id]= measurement["occurrenceId"]
+          
+          if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
+            options[:lifestage_term] = { name: "lifeStage_#{measurement["measurementId"]}",
+                             uri: occurrence_of_measurement["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
+          end
+    
+          if occurrence_of_measurement && occurrence_of_measurement["sex"]
+            options[:sex_term] = { name: "sex_#{measurement["measurementId"]}",
+                                   uri: occurrence_of_measurement["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
+          end
+  
+          if measurement["statisticalMethod"]
+            options[:statistical_method_term] = { name: "statisticalMethod_#{measurement["measurementId"]}",
+                                   uri: measurement["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
+          end
           trait=TraitBank.create_trait(options)
 
         elsif (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
@@ -708,17 +776,20 @@ def add_neo4j(node_params, occurrences, measurements, associations)
         if (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
           # debugger
             #Update this condidtion to insert metadata of a given measurement : measurementOfTaxon = true and measurementparent is not null
-          res = TraitBank.find_trait(measurement["parentMeasurementId"], node_params[:resource_id]) # we should use parent measurement id to find the actual trait
+          parent_eol_pk = "M_#{measurement["occurrenceId"]}_#{measurement["parentMeasurementId"]}"
+          res = TraitBank.find_trait(parent_eol_pk, node_params[:resource_id]) 
           # options.each { |md| TraitBank.add_metadata_to_trait(res, md) }
-          options[:eol_pk]= measurement["measurementId"]
+          # options[:eol_pk]= measurement["measurementId"]
+          options[:eol_pk] = "M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}"
           TraitBank.add_metadata_to_trait(res, options)
           
         else
           # debugger
-          traits = TraitBank.find_traits(measurement["occurrenceId"], node_params[:resource_id]) # we should use parent measurement id to find the actual trait
+          traits = TraitBank.find_traits(measurement["occurrenceId"], node_params[:resource_id]) 
           traits.each do |element|
             # debugger
-            options[:eol_pk]= measurement["measurementId"]
+            # options[:eol_pk]= measurement["measurementId"]
+            options[:eol_pk] = "M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}"
             options_copy = options.clone
             TraitBank.add_metadata_to_trait(element, options_copy)
             # options.each { |md| TraitBank.add_metadata_to_trait(element, md) }
@@ -730,40 +801,7 @@ def add_neo4j(node_params, occurrences, measurements, associations)
     
     
   
-    unless associations.nil?
-      associations.each do |association|
-        res = OccurrencePageMapping.where(resource_id: node_params[:resource_id], occurrence_id: association["targetOccurrenceId"])
-        unless res.nil?
-          occurrence_mapping = res.first
-          object_page_id = occurrence_mapping.page_id
-        end
-        options = { supplier: { "data" => { "resource_id" =>node_params[:resource_id] } },
-                      resource_pk: association["associationId"].to_i, page: node_params[:page_id] ,
-                      occurrence_id:association["occurrenceId"],
-                      eol_pk: "\"#{association["occurrenceId"]}\""+"_"+"\"#{association["associationId"]}\"",
-                      # eol_pk: "\"#{measurement["occurrenceId"]}\"", 
-                      scientific_name: node_params[:scientific_name], object_page_id: object_page_id,
-                      predicate: { name: "predicate_name_#{association["associationId"]}", uri: association["associationType"], section_ids:[1,2,3],definition:"predicate definition"}
-                       }
-                       
-          occurrence_of_association = occurrences_hash[association["occurrenceId"]]
-          if occurrence_of_association && occurrence_of_association["sex"]
-            options[:sex_term] = { name: "sex_#{association["associationId"]}",
-                                   uri: occurrence_of_association["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
-          end
-          
-          if occurrence_of_association && occurrence_of_association["lifeStage"]
-            options[:lifestage_term] = { name: "lifeStage_#{association["associationId"]}",
-                                   uri: occurrence_of_association["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
-          end
-          
-          if occurrence_of_association && occurrence_of_association["statisticalMethod"]
-            options[:statistical_method_term] = { name: "statisticalMethod_#{association["associationId"]}",
-                                   uri: occurrence_of_association["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
-          end
-          trait=TraitBank.create_trait(options)
-      end
-    end    
+    
   end
   
   
@@ -1060,14 +1098,14 @@ def insert_mysql_query(table_name,cols,results)
   
 end
 
+
 namespace :harvester do
   desc "TODO"  
   task get_latest_updates: :environment do
     
     
-
-    main_method_3
-    #main_method
+    # main_method_3
+    main_method
 
     #main_method_2
     # build_hierarchy(Node.all.limit(50).pluck(:generated_node_id))

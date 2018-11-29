@@ -168,15 +168,15 @@ class TraitBank
       %Q{ ORDER BY #{order_clause_array(options).join(", ")}}
     end
 
-    def trait_exists?(resource_id, pk)
+    def trait_exists?(resource_id, eol_pk)
       raise "NO resource ID!" if resource_id.blank?
-      raise "NO resource PK!" if pk.blank?
-      params = { :resource_pk => pk, :resource_id => resource_id }
+      raise "NO resource eol_PK!" if eol_pk.blank?
+      params = { :eol_pk => eol_pk, :resource_id => resource_id }
  
       # res = Neography::Rest.new.execute_query("MATCH (trait:Trait { resource_pk: {resource_pk} })-[:supplier]->(res:Resource { resource_id: {resource_id} }) RETURN trait", params)
       # res = connection.execute_query("MATCH (trait:Trait { resource_pk: #{quote(pk)} })-[:supplier]->(res:Resource { resource_id: #{resource_id} }) RETURN trait")
       # res = query("MATCH (trait:Trait { resource_pk: #{quote(pk)} })-[:supplier]->(res:Resource { resource_id: #{resource_id} }) RETURN trait")
-      res = query("MATCH (trait:Trait { resource_pk: {resource_pk} })-[:supplier]->(res:Resource { resource_id: {resource_id} }) RETURN trait", params)
+      res = query("MATCH (trait:Trait { eol_pk: {eol_pk} })-[:supplier]->(res:Resource { resource_id: {resource_id} }) RETURN trait", params)
       res["data"] ? res["data"].first : false
      
     end
@@ -558,8 +558,8 @@ class TraitBank
       res["data"] && res["data"].first ? res["data"].first.first : false
     end
     
-    def meta_exists?(measurement_id)
-      params = {:eol_pk => measurement_id}
+    def meta_exists?(eol_pk)
+      params = {:eol_pk => eol_pk}
       res = query("MATCH (meta:MetaData { eol_pk: {eol_pk}}) RETURN meta",params)
       res["data"] && res["data"].first ? res["data"].first.first : false
     end
@@ -752,7 +752,7 @@ class TraitBank
       resource_id = options[:supplier]["data"]["resource_id"]
       Rails.logger.warn "++ Create Trait: Resource##{resource_id}, "\
         "PK:#{options[:resource_pk]}"
-      if trait = trait_exists?(resource_id, options[:resource_pk])
+      if trait = trait_exists?(resource_id, options[:eol_pk])
         Rails.logger.warn "++ Already exists, skipping."
         return trait
       end
@@ -762,7 +762,7 @@ class TraitBank
       #supplier returns .......and required id in db therefore i used resource_find
       supplier = options.delete(:supplier)
       supplier = find_resource(resource_id)
-      meta = options.delete(:metadata)
+      # meta = options.delete(:metadata)
       predicate = parse_term(options.delete(:predicate))
       units = parse_term(options.delete(:units))
       # occurrence metadata
@@ -785,7 +785,7 @@ class TraitBank
       relate("sex_term", trait, sex) if sex
       relate("statistical_method_term", trait, statistical_method) if statistical_method
       
-      meta.each { |md| add_metadata_to_trait(trait, md) } unless meta.blank?
+      # meta.each { |md| add_metadata_to_trait(trait, md) } unless meta.blank?
       trait
     end
 
@@ -1028,10 +1028,10 @@ class TraitBank
       end
     end
     
-    def find_trait(resource_pk, resource_id)
+    def find_trait(eol_pk, resource_id)
       # res = query("MATCH (trait:Trait) WHERE trait.resource_pk = #{resource_pk} AND trait.supplier = #{resource_id} RETURN trait")
-      params = { :resource_pk => resource_pk, :resource_id => resource_id }
-      res = query("MATCH (trait:Trait { resource_pk: {resource_pk} })-[:supplier]->(res:Resource { resource_id: {resource_id} }) RETURN trait", params)
+      params = { :eol_pk => eol_pk, :resource_id => resource_id }
+      res = query("MATCH (trait:Trait { eol_pk: {eol_pk} })-[:supplier]->(res:Resource { resource_id: {resource_id} }) RETURN trait", params)
       res["data"] ? res["data"].first : false
     end
     
