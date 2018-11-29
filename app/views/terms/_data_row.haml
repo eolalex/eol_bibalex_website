@@ -4,27 +4,34 @@
   -# - page_id = trait[:page_id]
 - if (trait[:metadata] && trait[:metadata].any?) || (open_row && (trait[:source] || trait[:scientific_name] || page))
   %ul.meta-items.js-meta-items
+    -if trait[:trait][:source]
+      %li
+        %strong Source: 
+        %nbsp 
+          = link_to "#{trait[:source]}"
+        %br
+    - if trait[:scientific_name]
+      -# %li.meta-item
+      %li
+        %strong
+          Scientific Name:
+        %nbsp
+          #{trait[:scientific_name]}
     - Array(trait[:metadata]).each do |datum|
       -# Skip duplicated source:
       - next if datum[:predicate][:uri] == 'http://purl.org/dc/terms/source'
-      .row
-        %div
-          .meta-pred.a= datum[:predicate][:name]
-          = render :partial => "terms/desc_meta", :locals => { :term => datum[:predicate], :search_link => false }
-        .meta-val
+      %li
+        #{datum[:predicate][:name]}
+        %nbsp
           - show_data_value(datum)
-          - if datum[:object_term]
-            = render :partial => "terms/desc_meta", :locals => { :term => datum[:object_term], :search_link => false }
-    - if trait[:source]
-      -# %li.meta-item
-      .row
-        .meta-pred= t("terms.source")
-        - is_uri = URI.parse(trait[:source]).kind_of?(URI::HTTP) rescue nil
-        .meta-val= is_uri ? link_to(trait[:source], trait[:source]) : trait[:source]
-    - if trait[:scientific_name]
-      -# %li.meta-item
-      .row
-        %strong
-          .meta-pred= "Scientific Name:"
-        .meta-val= trait[:scientific_name].html_safe
-
+        %ul.desc-meta
+          %li
+            %strong
+              uri:
+            %nbsp
+              #{datum[:predicate][:uri]}
+          %li
+            %strong
+              definition:
+            %nbsp
+              #{datum[:predicate][:definition]}

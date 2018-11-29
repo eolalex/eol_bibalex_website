@@ -16,7 +16,7 @@
                 %th{:scope => "col"} Predicate
                 %th{:scope => "col"} Object
                 %th{:scope => "col"} Units
-                %th{:scope => "col"} Resource
+                %th{:scope => "col"} Reource
                 %th{:scope => "col"} Further Info
                 %th{:scope => "col"} Metadata
             %tbody
@@ -30,6 +30,7 @@
                   - predicate = trait[:predicate]
                   - uri = predicate[:uri].dup
                   - uri.sub! '/', '_'
+                  -# - debugger
                   %tr
                     %td
                       %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri:  #{uri}\ndefinition: #{predicate[:definition]} ", :type => "button"}
@@ -37,14 +38,14 @@
                         
                     -if trait[:object_term]
                       %td
-                        %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri:  #{uri}\ndefinition: #{predicate[:definition]} ", :type => "button"}
+                        %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri: #{trait[:object_term][:uri]}\ndefinition: #{trait[:object_term][:definition]} ", :type => "button"}
                           #{trait[:object_term][:name]}
                     - else
                       %td{"data-label" => "Object"}
                          
                     -if trait[:units]
                       %td
-                        %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri:  #{uri}\ndefinition: #{predicate[:definition]} ", :type => "button"}
+                        %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri: #{trait[:units][:uri]}\ndefinition: #{trait[:units][:definition]} ", :type => "button"}
                           #{trait[:units][:name]}
                     - else
                       %td{"data-label" => "Units"}
@@ -85,17 +86,37 @@
                             .col-md-2.col-sm-2.col-xs-2
                               %button{ :id =>"#{@page.id}", :class => "btn btn-primary pull-right", :tabindex => "1", :onclick=> 'hidePopup(this, event)'}x
                         .modal-body.editCollection
-                          %strong Lifestage Term:
-                          %nbsp xxxxxx
-                          %br
-                          %strong Sex Term: 
-                          %nbsp xxxxxx
-                          %br
-                          %strong Statistical Method: 
-                          %nbsp xxxxxx
-                          %br
                           %strong Scientific Name: 
                           %nbsp #{@page.scientific_name} 
+                          %br
+                          -if trait[:lifestage_term]
+                            %strong Lifestage Term:
+                            %nbsp 
+                              %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri:  #{trait[:lifestage_term][:uri]}\ndefinition: #{trait[:lifestage_term][:definition]} ", :type => "button"}
+                                #{trait[:lifestage_term][:name]}
+                            %br
+                          -if trait[:sex_term]
+                            %strong Sex Term: 
+                            %nbsp 
+                              %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri:  #{trait[:sex_term][:uri]}\ndefinition: #{trait[:sex_term][:definition]} ", :type => "button"}
+                                #{trait[:sex_term][:name]}
+                            %br
+                          -if trait[:statistical_method_term]
+                            %strong Statistical Method: 
+                            %nbsp 
+                              %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri:  #{trait[:statistical_method_term][:uri]}\ndefinition: #{trait[:statistical_method_term][:definition]} ", :type => "button"}
+                                #{trait[:statistical_method_term][:name]}
+                              %br
+                          -if trait[:citation]
+                            %strong Citation: 
+                            %nbsp 
+                              #{trait[:citation]}
+                            %br
+                          -if trait[:trait][:source]
+                            %strong Source: 
+                            %nbsp 
+                              = link_to "#{trait[:source]}"
+                            %br
 
         .col-md-4
           %aside
