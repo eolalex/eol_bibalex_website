@@ -9,7 +9,7 @@ class Page < ActiveRecord::Base
   index_name Rails.application.class.parent_name.underscore
   document_type self.name.downcase
   
-  settings index: { number_of_shards: 10,"index.blocks.read_only_allow_delete": :null } do
+  settings index: { number_of_shards: 10, "index.blocks.read_only_allow_delete": :null } do
   mapping dynamic: false do
     indexes :scientitfic_name, type: :varchar 
     indexes :suggest, {
@@ -77,6 +77,7 @@ end
 
 
   def data(page = 1, per = 2000)
+    # debugger
     return @data[0..per] if @data
     data = TraitBank.by_page(id, page, per)
     # Self-healing count of number of data:

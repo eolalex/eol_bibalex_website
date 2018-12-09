@@ -46,7 +46,7 @@
                         %a{:href => "#{@url}?locale=ar"} العربية
                   .mainMenu
                     - unless current_page?('/')
-                      %button.btn-search{:id => "1","data-toggle" => "modal",:onclick => "showPopup(this)",:role => "button"}
+                      %button.btn-search{:id => "0","data-toggle" => "modal",:onclick => "showPopup(this)",:role => "button"}
                         %i.fa.fa-search{"aria-hidden" => "false"}
                     %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
                       %span.sr-only Toggle navigation
@@ -97,7 +97,7 @@
                 %li
                   %a.DonateBtn{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} #{t(:donate_button)}
           - unless current_page?('/')
-            .modal{:id => "popup_#{1}","aria-labelledby" => "popup_#{1}Label", :role => "dialog", :tabindex => "-1"}
+            .modal{:id => "popup_#{0}","aria-labelledby" => "popup_#{0}Label", :role => "dialog", :tabindex => "-1"}
               .modal-dialog{:role => "document"}
                 .modal-content
                   .modal-header
@@ -105,7 +105,7 @@
                       .col-md-10.col-sm-10.col-xs-10
                         %h2.editLabel.modal-title #{t(:search_network)}
                       .col-md-2.col-sm-2.col-xs-2
-                        %button{ :id =>"1", :class => "btn btn-primary pull-right", :tabindex => "1", :onclick=> 'hidePopup(this, event)'}x
+                        %button{ :id =>"0", :class => "btn btn-primary pull-right", :tabindex => "1", :onclick=> 'hidePopup(this, event)'}x
                   .modal-body
                     .searchBox
                       = form_tag('/search', method: :get) do |f|

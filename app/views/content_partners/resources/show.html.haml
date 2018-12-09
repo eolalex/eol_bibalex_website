@@ -94,8 +94,8 @@
               .single_comments
                 %img{:alt => "", :src => "/assets/avatar3.png"}/
                 %p{:style => ""}
-                  %a{:href => main_app.user_path(@content_partner.user)}
-                    = @content_partner.user.username
+                  -#%a{:href => main_app.user_path(@content_partner.user)}
+                  = @content_partner.user.username
     .col-md-4
       %aside
         .widget.categories.contentManger

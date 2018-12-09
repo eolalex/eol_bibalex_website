@@ -24,8 +24,8 @@ $(function() {
       ;
 
 
-    $that.removeClass('fa-angle-down');
-    $that.addClass('fa-spin fa-spinner');
+    // $that.removeClass('fa-angle-down');
+    // $that.addClass('fa-spin fa-spinner');
     // var path = {id: 124, show_taxon: true};
     // var url = Routes.datum_path(path);
 	var x = document.getElementsByClassName("js-data-row");

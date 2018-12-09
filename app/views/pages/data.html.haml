@@ -1,18 +1,24 @@
-= javascript_include_tag 'data'
-= render("tabs")
-
-- build_associations(@page)
-
+-# = javascript_include_tag 'terms'
 .container
   .row
     .col-md-12.blog
       .row
         .col-md-8
-          %br
           %h2.TaxonName
             = @page.scientific_name
-            = render("tabs") 
+        .col-md-4
+          = render "tabs"
+      .row
+        .col-md-8
           %table.customTable
+            %thead
+              %tr
+                %th{:scope => "col"} Predicate
+                %th{:scope => "col"} Object
+                %th{:scope => "col"} Units
+                %th{:scope => "col"} Reource
+                %th{:scope => "col"} Further Info
+                %th{:scope => "col"} Metadata
             %tbody
               - @page.predicates.each_with_index do |uri, index|
                 - predicate = @page.glossary[uri]
@@ -20,57 +26,112 @@
                   - Rails.logger.error("** ERROR: missing predicate #{uri}")
                   - next
                 - @page.grouped_data[uri].each do |trait|
-                  %trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => false), :id => trait[:id] } }
-                    - predicate = trait[:predicate]
-                    - uri = predicate[:uri].dup
-                    - uri.sub! '/', '_'
-                    %tr
-                      %td 
-                        %div
-                          = predicate[:name]
-                          %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}", :id => "#{uri}", :onmouseover =>"showOver(this)", :onmouseout=>"hideOver(this)"}
-                        %div{:id => "hover_#{uri}", :style=> "display:none;"}
-                          uri:  #{predicate[:uri]}
-                          %br
-                          definition: #{predicate[:definition]}
+                  -# %trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => false), :id => trait[:id] } }
+                  - predicate = trait[:predicate]
+                  - uri = predicate[:uri].dup
+                  - uri.sub! '/', '_'
+                  -# - debugger
+                  %tr
+                    %td
+                      %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri:  #{uri}\ndefinition: #{predicate[:definition]} ", :type => "button"}
+                        #{predicate[:name]}
+                        
+                    -if trait[:object_term]
+                      %td
+                        %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri: #{trait[:object_term][:uri]}\ndefinition: #{trait[:object_term][:definition]} ", :type => "button"}
+                          #{trait[:object_term][:name]}
+                    - else
+                      %td{"data-label" => "Object"}
+                         
+                    -if trait[:units]
+                      %td
+                        %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri: #{trait[:units][:uri]}\ndefinition: #{trait[:units][:definition]} ", :type => "button"}
+                          #{trait[:units][:name]}
+                    - else
+                      %td{"data-label" => "Units"}
+                    %td{"data-label" => "#{t(:source)}"} #{show_source_segment(trait)}
 
-                        -# %div{:id => "#{uri}", :onclick=> 'showPopup(this)'}
-                        %div{:id => "#{uri}"}
+                    %td
+                      %div
+                        -# modal view with additional information: 'Citation, Source, RecordURL, ScientificName, Statistical Method, URI, DEfinition'
+                        %a.btn.btn{:id => "#{@page.id}", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
+                          -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}
+                          See More
+                    %td
+                      %div{:id => "#{uri}"}
+                        %a.btn.btn{:id => "#{@page.id}00", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
+                          -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}
                           %i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
-                      -if trait[:object_term]
-                        %td{"data-label" => "#{t(:object_term)}"} #{trait[:object_term][:name]}
-                      -if trait[:units]
-                        %td{"data-label" => "#{t(:units)}"} #{trait[:units][:name]}
-                      %td{"data-label" => "#{t(:source)}"} #{show_source_segment(trait)}
-                    %div{ :id => "popup_#{uri}", :style=> "display:none;", :class => "popup"}
-                      - if trait[:metadata] && trait[:metadata].any?
-                        ay 7aga
-                        -# %ul.meta-items.js-meta-items
-                        -# - trait[:metadata].each do |datum|
-        -# .col-md-4
-          -# %aside
-            -# .widget.categories
-              -# %h3 #{t(:taxon_card)}
-              -# .row
-                -# .col-sm-12
-                  -# .single_comments
-                    -# %b= @page.scientific_name
-                    -# =image_tag "avatar3.png", :alt => ""
--# 
-            -# .widget.blog_gallery
-              -# %h3 #{t(:refresh_memory)}
-              -# %ul.sidebar-gallery
-                -# %li
-                  -# %a{:href => "http://fieldguides.eol.org/memory/"}
-                    -# =image_tag "memory-game-icon.png", :alt => ""
--# 
 
--# - cache(page_data_path(@page), expires_in: 1.day) do 
-  -# %ul.traits
-    -# - @page.predicates.each_with_index do |uri, index|
-      -# - predicate = @page.glossary[uri]
-      -# - if predicate.nil?
-        -# - Rails.logger.error("** ERROR: missing predicate #{uri}")
-        -# - next
-      -# - @page.grouped_data[uri].each do |trait|
-        -# = render :partial => "terms/data_row", :locals => { :page => @page, :trait => trait, :show_taxon => false }
+
+                  .modal{:id => "popup_#{@page.id}00", "aria-labelledby" => "popup_#{@page.id}00Label", :role => "dialog", :tabindex => "-1"}
+                    .modal-dialog.modal-med{:role => "document"}
+                      .modal-content
+                        .modal-header
+                          .form-group.row.form-inline
+                            .col-md-10.col-sm-10.col-xs-10
+                              %h2.editLabel.modal-title Metadata
+                            .col-md-2.col-sm-2.col-xs-2
+                              %button{ :id =>"#{@page.id}00", :class => "btn btn-primary pull-right", :tabindex => "1", :onclick=> 'hidePopup(this, event)'}x
+                        .modal-body.editCollection
+                          %trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => false), :id => trait[:id] } }
+
+                  .modal{:id => "popup_#{@page.id}", "aria-labelledby" => "popup_#{@page.id}Label", :role => "dialog", :tabindex => "-1"}
+                    .modal-dialog.modal-med{:role => "document"}
+                      .modal-content
+                        .modal-header
+                          .form-group.row.form-inline
+                            .col-md-10.col-sm-10.col-xs-10
+                              %h2.editLabel.modal-title Further Information
+                            .col-md-2.col-sm-2.col-xs-2
+                              %button{ :id =>"#{@page.id}", :class => "btn btn-primary pull-right", :tabindex => "1", :onclick=> 'hidePopup(this, event)'}x
+                        .modal-body.editCollection
+                          %strong Scientific Name: 
+                          %nbsp #{@page.scientific_name} 
+                          %br
+                          -if trait[:lifestage_term]
+                            %strong Lifestage Term:
+                            %nbsp 
+                              %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri:  #{trait[:lifestage_term][:uri]}\ndefinition: #{trait[:lifestage_term][:definition]} ", :type => "button"}
+                                #{trait[:lifestage_term][:name]}
+                            %br
+                          -if trait[:sex_term]
+                            %strong Sex Term: 
+                            %nbsp 
+                              %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri:  #{trait[:sex_term][:uri]}\ndefinition: #{trait[:sex_term][:definition]} ", :type => "button"}
+                                #{trait[:sex_term][:name]}
+                            %br
+                          -if trait[:statistical_method_term]
+                            %strong Statistical Method: 
+                            %nbsp 
+                              %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri:  #{trait[:statistical_method_term][:uri]}\ndefinition: #{trait[:statistical_method_term][:definition]} ", :type => "button"}
+                                #{trait[:statistical_method_term][:name]}
+                              %br
+                          -if trait[:citation]
+                            %strong Citation: 
+                            %nbsp 
+                              #{trait[:citation]}
+                            %br
+                          -if trait[:trait][:source]
+                            %strong Source: 
+                            %nbsp 
+                              = link_to "#{trait[:source]}"
+                            %br
+
+        .col-md-4
+          %aside
+            .widget.categories
+              %h3 #{t(:taxon_card)}
+              .row
+                .col-sm-12
+                  .single_comments
+                    %b= @page.scientific_name
+                    =image_tag "avatar3.png", :alt => ""
+
+            .widget.blog_gallery
+              %h3 #{t(:refresh_memory)}
+              %ul.sidebar-gallery
+                %li
+                  %a{:href => "http://fieldguides.eol.org/memory/"}
+                    =image_tag "memory-game-icon.png", :alt => ""
+
