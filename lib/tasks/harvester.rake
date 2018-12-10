@@ -1093,7 +1093,7 @@ def main_method_3
    
 
    # start_harvested_time = "1540211584000"
-   start_harvested_time = "1540110200000"
+   start_harvested_time = "1544350385000"
   # # end_harvested_time = "1540400200000"
    end_harvested_time = get_end_time
   # # debugger
@@ -1200,6 +1200,7 @@ def main_method_3
       traits.each do|trait|
         generated_node_id = trait["generated_node_id"]
         occurrences = "["+trait["occurrences"]+"]"
+        debugger
         occurrences = JSON.parse(occurrences)
         node = Node.where(generated_node_id: generated_node_id).first
         node_id = node.id

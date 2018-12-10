@@ -38,7 +38,6 @@ class ResourceApi
         response_storage = request.execute
         resource_id
         rescue => e
-          debugger
           nil
         end
         if(response_storage)
@@ -58,14 +57,12 @@ class ResourceApi
             response = request.execute
             resource_id
           rescue => e
-            debugger
             nil
           end
         end
       end
       resource_id
     rescue => e
-      debugger
       nil
     end
     
