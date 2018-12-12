@@ -30,8 +30,7 @@
                 %br/
                 - if @page.articles.size > 0
                   %h5 #{t(:comprehensive_description)}
-                  %a{href: "/pages/#{@page.id}/articles"}
-                    =t(:articles)
+                  =@page.articles.first.body.html_safe
                 - else
                   %h5 #{t(:no_articles)}
         .col-md-4
