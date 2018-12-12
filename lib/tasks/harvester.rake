@@ -707,6 +707,7 @@ end
 
 
 def add_neo4j(node_params, occurrences, measurements, associations)
+
   unless (occurrences.nil? || occurrences.empty?)
     # load occurrences
     occurrences_hash = {}    
@@ -714,12 +715,11 @@ def add_neo4j(node_params, occurrences, measurements, associations)
       occurrences_hash[occurrence["occurrenceId"]] = occurrence
     end
     
-    
-    
+
     page = TraitBank.create_page(node_params[:page_id].to_i)
     resource = TraitBank.create_resource(node_params[:resource_id].to_i)
     unless (associations.nil? || associations.empty?)
-      debugger
+      # debugger
       associations.each do |association|
         res = OccurrencePageMapping.where(resource_id: node_params[:resource_id], occurrence_id: association["targetOccurrenceId"])
         unless res.empty?
@@ -769,8 +769,9 @@ def add_neo4j(node_params, occurrences, measurements, associations)
         occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
         
         
-        if measurement["measurementOfTaxon"] == "true" || measurement["measurementOfTaxon"] == "TRUE" 
-           # debugger      
+        # if measurement["measurementOfTaxon"] == "true" || measurement["measurementOfTaxon"] == "TRUE" || measurement["measurementOfTaxon"].nil?
+        if measurement["measurementOfTaxon"].nil? || VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase)
+          debugger      
           options = create_measurement(occurrence_of_measurement , measurement)
           options[:supplier] = { "data" => { "resource_id" =>node_params[:resource_id] } }
           options[:resource_pk] =  measurement["measurementId"]
@@ -796,7 +797,8 @@ def add_neo4j(node_params, occurrences, measurements, associations)
           end
           trait=TraitBank.create_trait(options)
 
-        elsif (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
+        # elsif (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
+        elsif (NON_VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase)) && !(measurement["parentMeasurementId"].nil?)
             # debugger
           measurements_array << measurement
         else
@@ -809,8 +811,9 @@ def add_neo4j(node_params, occurrences, measurements, associations)
       measurements_array.each do |measurement|
         occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
         options = create_measurement(occurrence_of_measurement , measurement)
-        if (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
-          # debugger
+        # if (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
+        if (NON_VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase)) && !(measurement["parentMeasurementId"].nil?)
+           debugger
             #Update this condidtion to insert metadata of a given measurement : measurementOfTaxon = true and measurementparent is not null
           parent_eol_pk = "M_#{measurement["occurrenceId"]}_#{measurement["parentMeasurementId"]}"
           res = TraitBank.find_trait(parent_eol_pk, node_params[:resource_id]) 
@@ -867,40 +870,6 @@ def add_neo4j(node_params, occurrences, measurements, associations)
 # 
 #   
   # trait=TraitBank.create_trait(options)
-end
-
-def main_method_4
-  # tbb_page = TraitBank.create_page(1003)
-  # tb_page = TraitBank.create_page(1004)
-# resource = TraitBank.create_resource(502)
-  # options = {supplier:{"data"=>{"resource_id"=>502}},
-             # resource_pk:"123" , page:1003, eol_pk:" 124", scientific_name: "scientific_name",
-             # predicate:{"name"=>"event date","uri"=>"test/event",section_ids:[1,2,3],definition:"test predicate definition"},
-             # object_term:{"name"=>"5/2/15","uri"=>"test/date",section_ids:[1,2,3],definition:"test object_term definition"},
-             # units: {"name"=>"cm","uri"=>"http://purl.obolibrary.org/obo/UO_0000008",section_ids:[1,2,3],definition:"test units"},
-             # literal:"10"} 
-  # trait=TraitBank.create_trait(options)
-    # options2 = {supplier:{"data"=>{"resource_id"=>502}},
-             # resource_pk:"125" , page:1004, eol_pk:" 126", scientific_name: "scientific_name2",
-             # predicate:{"name"=>"event2 date","uri"=>"test/event",section_ids:[1,2,3],definition:"test2 predicate definition"},
-             # object_term:{"name"=>"5/12/15","uri"=>"test/date",section_ids:[1,2,3],definition:"test2 object_term definition"},
-             # units: {"name"=>"cm","uri"=>"http://purl.obolibrary.org/obo/UO_0000008",section_ids:[1,2,3],definition:"test units"},
-             # literal:"10",
-             # metadata:[{predicate:{"name"=>"md_event","uri"=>"test/md_event",section_ids:[1,2,3],definition:"test predicate definition"},
-                        # object_term:{"name"=>"md_length1","uri"=>"test/md_length1",section_ids:[1,2,3],definition:"test object_term definition"},
-                        # units: {"name"=>"cm","uri"=>"http://eol.org/schema/terms/squarekilometer",section_ids:[1,2,3],definition:"test units"},
-                        # literal:"15"}]} 
-  # trait2=TraitBank.create_trait(options2)
-          # # options_md=     {metadata:[{predicate:{"name"=>"md_event","uri"=>"test/md_event",section_ids:[1,2,3],definition:"test predicate definition"},
-                        # # object_term:{"name"=>"md_length1","uri"=>"test/md_length1",section_ids:[1,2,3],definition:"test object_term definition"},
-                        # # units: {"name"=>"cm","uri"=>"http://eol.org/schema/terms/squarekilometer",section_ids:[1,2,3],definition:"test units"},
-                        # # literal:"15"}] }
-                                # # occurrence_of_measurement = occurrences_hash["http://n2t.net/ark:/65665/3a4f668ef-ab6a-40cf-8383-a0e196991fdb"]
-        # options_md = create_measurement("http://n2t.net/ark:/65665/3a4f668ef-ab6a-40cf-8383-a0e196991fdb" , measurement)
-  # options_md[:eol_pk]= "126"
-  # options_copy = options_md.clone
-  # traitx=TraitBank.find_trait("125",502)
-            # TraitBank.add_metadata_to_trait(traitx, options_copy)
 end
 
 def numeric?(str)
@@ -1087,8 +1056,8 @@ def main_method_3
   # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'mysql.json')
   # tables = JSON.parse(File.read(file_path))
   
-  # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
-  # tables = JSON.parse(File.read(file_path))
+  file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
+  tables = JSON.parse(File.read(file_path))
 
    
 
@@ -1098,12 +1067,12 @@ def main_method_3
    end_harvested_time = get_end_time
   # # debugger
 #   
-  while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
-    #start_harvested_time is included 
-    #end_harvested_time is excluded therefore we keep it to next loop
-    json_content = get_latest_updates_from_mysql(start_harvested_time,(start_harvested_time.to_i + 30000).to_s)
-    # json_content = get_latest_updates_from_mysql(start_harvested_time, end_harvested_time)
-    tables = JSON.parse(json_content)
+  # while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
+    # #start_harvested_time is included 
+    # #end_harvested_time is excluded therefore we keep it to next loop
+    # json_content = get_latest_updates_from_mysql(start_harvested_time,(start_harvested_time.to_i + 30000).to_s)
+    # # json_content = get_latest_updates_from_mysql(start_harvested_time, end_harvested_time)
+    # tables = JSON.parse(json_content)
 
     licenses = tables["licenses"]
     ranks = tables["ranks"]
@@ -1229,8 +1198,8 @@ def main_method_3
   
     # build_hierarchy(nodes_ids)
     
-     start_harvested_time = (start_harvested_time.to_i + 30000).to_s
-  end
+     # start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+  # end
    
 end
 
@@ -1280,7 +1249,11 @@ namespace :harvester do
   desc "TODO"  
   task get_latest_updates: :environment do
     
-
+    # o1 = "{\"occurrenceId\":\"Plakobranchus 803\",\"eventId\":null,\"institutionCode\":null,\"collectionCode\":null,\"catalogNumber\":null,\"sex\":null,\"lifeStage\":null,\"reproductiveCondition\":null,\"behavior\":null,\"establishmentMeans\":null,\"remarks\":\"sp, \\\"white\",\"countOfIndividuals\":null,\"preparations\":null,\"fieldNotes\":null,\"samplingProtocol\":null,\"samplingEffort\":null,\"recordedBy\":null,\"identifiedBy\":null,\"dateIdentified\":null,\"eventDate\":null,\"modifiedDate\":null,\"locality\":\"Oceania\",\"decimalLatitude\":\"13\",\"decimalLongitude\":null,\"verbatimLatitude\":null,\"verbatimLongitude\":null,\"verbatimElevation\":null,\"deltaStatus\":\"I\"}"
+    # o2 = JSON.parse(o1)
+    # remarks = o2["remarks"]
+    # debugger
+    # remarks.include?"\""
     main_method_3
     # main_method
     # main_method_4
