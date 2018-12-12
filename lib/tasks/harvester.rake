@@ -1056,8 +1056,8 @@ def main_method_3
   # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'mysql.json')
   # tables = JSON.parse(File.read(file_path))
   
-  file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
-  tables = JSON.parse(File.read(file_path))
+  # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
+  # tables = JSON.parse(File.read(file_path))
 
    
 
@@ -1067,12 +1067,12 @@ def main_method_3
    end_harvested_time = get_end_time
   # # debugger
 #   
-  # while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
-    # #start_harvested_time is included 
-    # #end_harvested_time is excluded therefore we keep it to next loop
-    # json_content = get_latest_updates_from_mysql(start_harvested_time,(start_harvested_time.to_i + 30000).to_s)
-    # # json_content = get_latest_updates_from_mysql(start_harvested_time, end_harvested_time)
-    # tables = JSON.parse(json_content)
+  while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
+    #start_harvested_time is included 
+    #end_harvested_time is excluded therefore we keep it to next loop
+    json_content = get_latest_updates_from_mysql(start_harvested_time,(start_harvested_time.to_i + 30000).to_s)
+    # json_content = get_latest_updates_from_mysql(start_harvested_time, end_harvested_time)
+    tables = JSON.parse(json_content)
 
     licenses = tables["licenses"]
     ranks = tables["ranks"]
@@ -1199,8 +1199,8 @@ def main_method_3
   
     # build_hierarchy(nodes_ids)
     
-     # start_harvested_time = (start_harvested_time.to_i + 30000).to_s
-  # end
+     start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+  end
    
 end
 
