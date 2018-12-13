@@ -1,9 +1,9 @@
-= render("tabs")
 .container
   .row
     .col-lg-12
       %h2.mainTitle
         Articles
+        = render("tabs")
     -@articles.each do |article|
       -#TODO toc(table of content)
       .col-lg-12.articleBlock
