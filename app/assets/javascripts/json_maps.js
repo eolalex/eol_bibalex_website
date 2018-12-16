@@ -2,7 +2,7 @@ var currCenter = "";
 
 function goFullScreen()
 {
-    currCenter = EoLMap.map.getCenter();
+    currCenter = $EoLMap.map.getCenter();
 
     var elem = document.getElementById("gmap"); // gmap or map-container
     if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement )
@@ -170,30 +170,30 @@ function record_history()
     if(!initial_map) initial_map = current;
     currCenter = EoLMap.map.getCenter();
 }
-EoLMap.back = function()
-{
-    if(statuz.length > 1) {
-        statuz.pop();
-        var current = statuz.pop();
-        EoLMap.map.setOptions(current);
-        if(JSON.stringify(current) == JSON.stringify(initial_map)){
-            statuz = [];
-            statuz_all = [];
-        }
-    }
-}
-EoLMap.next = function()
-{
-    if(statuz_all.length > 1) {
-        statuz_all.pop();
-        var current = statuz_all.pop();
-        EoLMap.map.setOptions(current);
-        if(JSON.stringify(current) == JSON.stringify(initial_map)){
-            statuz = [];
-            statuz_all = [];
-        }
-    }
-}
+// EoLMap.back = function()
+// {
+    // if(statuz.length > 1) {
+        // statuz.pop();
+        // var current = statuz.pop();
+        // EoLMap.map.setOptions(current);
+        // if(JSON.stringify(current) == JSON.stringify(initial_map)){
+            // statuz = [];
+            // statuz_all = [];
+        // }
+    // }
+// }
+// EoLMap.next = function()
+// {
+    // if(statuz_all.length > 1) {
+        // statuz_all.pop();
+        // var current = statuz_all.pop();
+        // EoLMap.map.setOptions(current);
+        // if(JSON.stringify(current) == JSON.stringify(initial_map)){
+            // statuz = [];
+            // statuz_all = [];
+        // }
+    // }
+// }
 //end back button
 
 //start customized controls

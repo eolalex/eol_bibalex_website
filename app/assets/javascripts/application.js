@@ -19,5 +19,3 @@
 //= require bootstrap-sprockets
 //= require twitter/typeahead
 //= require js-routes
-//= require gmaps/google
-//= require leaflet

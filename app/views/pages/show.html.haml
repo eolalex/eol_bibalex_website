@@ -39,22 +39,24 @@
               .well
                 %h3
                   Classification
-                %hr/
-                -page_node = @page.nodes.first
-                -tree = classification_overview(page_node)
-                -tree.each do |node|
-                  -unless node.nil?
-                    -unless node.pages.empty?
-                      %a{href:  "/pages/#{node.pages.first.id}"} 
-                        =node.scientific_name
-                    -else
-                      =node.scientific_name 
+                  -# %hr/
+                  -# -page_node = @page.nodes.first
+                  -# -tree = classification_overview(page_node)
+                  -# -tree.each do |node|
+                    -# -unless node.nil?
+                      -# -unless node.pages.empty?
+                        -# %a{href:  "/pages/#{node.pages.first.id}"} 
+                          -# =node.scientific_name
+                      -# -else
+                        -# =node.scientific_name 
                   \/
             .widget.categories
               -if @page.data.size > 0
                 %h3
                   #{t(:selective_traits)}
-                  %small.pull-right traits
+                  %small.pull-right 
+                    %li
+                      %a{:href => page_data_path(@page)} #{t(:traits)}
                 %table.table.table-striped
                   - @page.data.each do |trait|  
                     %tr

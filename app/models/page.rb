@@ -111,5 +111,19 @@ end
     @object_terms ||= glossary.keys - predicates
   end
 
- 
+  def occurrence_map?
+    occurrence_map
+  end
+
+  def map?
+    occurrence_map? || map_count > 0
+  end
+
+  def maps
+    media.where(subclass: Medium.subclasses[:map])
+  end
+
+  def map_count
+    PageContent.where(source_page_id: id, content_type: 'Map').visible.not_untrusted.count + (occurrence_map? ? 1 : 0)
+  end 
   end

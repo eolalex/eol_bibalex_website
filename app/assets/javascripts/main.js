@@ -54,29 +54,21 @@ jQuery(function($) {'use strict',
 		});
 	});
 	
-	EOL.ready = function() {
-    var $flashes = $('.eol-flash');
-    if ($flashes.length) {
-      $flashes.each(function() {
-        UIkit.notification($(this).data("text"), {
-            status: 'primary',
-            pos: 'top-center',
-            offset: '100px'
-        });
-      });
-    }
 
-	
-	//goto top
-	$('.gototop').click(function(event) {
-		event.preventDefault();
-		$('html, body').animate({
-			scrollTop: $("body").offset().top
-		}, 500);
-	});	
-
-	//Pretty Photo
-	$("a[rel^='prettyPhoto']").prettyPhoto({
-		social_tools: false
-	});	
-});
+    if ($("#gmap").length >= 1) {
+      EolMap.init();
+    }})
+//  
+	// //goto top
+	// $('.gototop').click(function(event) {
+		// event.preventDefault();
+		// $('html, body').animate({
+			// scrollTop: $("body").offset().top
+		// }, 500);
+	// });	
+// 
+	// //Pretty Photo
+	// $("a[rel^='prettyPhoto']").prettyPhoto({
+		// social_tools: false
+	// });	
+// });

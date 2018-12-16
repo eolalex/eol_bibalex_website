@@ -1,4 +1,4 @@
-//= require shared/data_row
+// require shared/data_row
 
 (function() {
   function fetchForm(option) {

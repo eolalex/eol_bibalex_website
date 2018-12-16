@@ -7,11 +7,23 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :set_locale_direction
   helper_method :url_without_locale_params
+  before_action :allow_cross_domain_ajax
+  
+  
+  def allow_cross_domain_ajax
+      headers['Access-Control-Allow-Origin'] = '*'
+      headers['Access-Control-Request-Method'] = 'POST, OPTIONS'
+  end
+
+
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
   end
-
+  
+  def nothing
+      render text: '', content_type: 'text/plain'
+  end
   def set_locale_direction
     @direction_page = (I18n.locale==:ar)?("rtl"):("ltr")
   end
