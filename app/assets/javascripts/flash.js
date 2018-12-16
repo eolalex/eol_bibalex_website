@@ -1,17 +1,17 @@
 $(document).ready(function() {
   setTimeout(function(){
-    $('.alert').slideUp(100);
-  }, 200);
+    $('.alert').slideUp(5);
+  }, 10);
     setTimeout(function(){
-    $('.notice').slideUp(100);
-  }, 200);
+    $('.notice').slideUp(5);
+  }, 10);
     setTimeout(function(){
-    $('.error').slideUp(100);
-  }, 200);
+    $('.error').slideUp(5);
+  }, 10);
       setTimeout(function(){
-    $('.success').slideUp(100);
-  }, 200);
+    $('.success').slideUp(5);
+  }, 10);
     setTimeout(function(){
-    $('.modal-backdrop.fade.in').slideUp(100);
-  }, 200);
+    $('.modal-backdrop.fade.in').slideUp(5);
+  }, 10);
 });

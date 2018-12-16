@@ -25,7 +25,10 @@
               %tr
                 - preferred = Vernacular.where(string: name).pluck(:is_prefered_by_resource).include? true
                 %td{"data-label" => "#{t(:preferred_name)}"}
-                  %input.form-check-input{:checked => preferred, :name => "exampleRadios", :type => "radio"}/
+                  -if preferred
+                    preferred
+                  -else
+                    not preferred
                 %td{"data-label" => "#{t(:name)}"} 
                   = name
                 %td{"data-label" => "#{t(:sources)}"} 
