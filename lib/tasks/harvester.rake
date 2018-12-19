@@ -1,5 +1,8 @@
 require 'uri'
+require 'json'
+require 'pathname'
 $sql_commands= File.new('commands.sql', 'w')
+
 
 def main_method_2
   batches_log = File.new('batches_log', 'a')
@@ -1062,15 +1065,17 @@ def main_method_3
    
 
    # start_harvested_time = "1540211584000"
-   start_harvested_time = "1544350385000"
+   # start_harvested_time = "1544350385000"
+   start_harvested_time="1545110600000"
   # # end_harvested_time = "1540400200000"
-   end_harvested_time = get_end_time
+   # end_harvested_time = get_end_time
+ end_harvested_time="1546124630000"
   # # debugger
 #   
   while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
     #start_harvested_time is included 
     #end_harvested_time is excluded therefore we keep it to next loop
-    json_content = get_latest_updates_from_mysql(start_harvested_time,(start_harvested_time.to_i + 30000).to_s)
+    json_content = get_latest_updates_from_mysql(start_harvested_time,"1546124630000")
     # json_content = get_latest_updates_from_mysql(start_harvested_time, end_harvested_time)
     tables = JSON.parse(json_content)
 
@@ -1090,6 +1095,7 @@ def main_method_3
     referents = tables["referents"]
     references = tables["references"]
     traits = tables["traits"]
+    taxa = tables["taxa"]
 
     
     unless licenses.nil?
@@ -1169,7 +1175,6 @@ def main_method_3
       traits.each do|trait|
         generated_node_id = trait["generated_node_id"]
         occurrences = "["+trait["occurrences"]+"]"
-        debugger
         occurrences = JSON.parse(occurrences)
         node = Node.where(generated_node_id: generated_node_id).first
         node_id = node.id
@@ -1196,13 +1201,69 @@ def main_method_3
       end
     end
 
+    # create maps json file for occurrence_maps
+    unless taxa.nil?
+      taxa.each do |taxon|
+        write_to_json(taxon)
+      end
+      
+    end
+#       
+    # end
+   
+
   
     # build_hierarchy(nodes_ids)
     
-     start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+     # start_harvested_time = (start_harvested_time.to_i + 30000).to_s
   end
    
 end
+
+def write_to_json(taxon)
+        page_eol_id = taxon["page_eol_id"]
+        occurrences = "["+taxon["occurrences"]+"]"
+        occurrences = JSON.parse(occurrences)
+        occ_count = occurrences.count
+        actual_count = 0
+        maps_path = Pathname("public/data/maps/"+"#{page_eol_id%100}/")
+        # debugger
+        unless maps_path.exist?
+          # maps_path.dirname.mkdir
+          FileUtils.mkdir_p maps_path
+        end
+        unless occurrences.nil?
+          json_path = File.open("#{maps_path}"+"#{page_eol_id}.json","w")
+          json_path.write("{\"records\":[")
+          occurrences.each do |occ|
+            tempHash = {
+              "a" => "#{occ["catalogNumber"]}", #catalog number
+              "b" => "#{taxon["scientific_name"]}", #scientific_name
+              "c" => "", #publisher
+              "d" => "", #publisherId
+              "e" => "", #dataset
+              "f" => "#{taxon["dataset_id"]}", #datasetId
+              "g" => "#{taxon["source"]}", #gbifId
+              "h" => "#{occ["decimalLatitude"]}", #decimalLatitude
+              "i" => "#{occ["decimalLongitude"]}", #decimalLongitude
+              "j" => "#{occ["recordedBy"]}", #recordedBy
+              "k" => "#{occ["identifiedBy"]}", #identifiedBy
+              "l" => "", #pic_url
+              "m" => "#{occ["eventDate"]}" #eventDate
+              }
+            unless tempHash["h"].empty?||tempHash["i"].empty? #validate decimal longitude and latitude existence
+               json_path.write(tempHash.to_json)
+               actual_count +=1
+            end
+            occ_count-=1
+            if occ_count>=1
+              json_path.write(",")
+            end
+          end
+          json_path.write("], \"count\": #{occurrences.count},\"actual\":#{actual_count}}")
+        end
+end
+
 
 
 def load_data_into_mysql()

@@ -25,7 +25,6 @@ development:
   #password: Luxor&Aswan@2o17
   # password: Luxor&Aswan@2o17
 
-  password: root
   # password: admin
   pool: 10
 
