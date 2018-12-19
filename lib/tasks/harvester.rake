@@ -2,7 +2,8 @@ require 'uri'
 require 'json'
 require 'pathname'
 $sql_commands= File.new('commands.sql', 'w')
-
+$occurrence_maps_count = 0
+$occurrence_maps_array = Array.new()
 
 def main_method_2
   batches_log = File.new('batches_log', 'a')
@@ -1075,7 +1076,7 @@ def main_method_3
   while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
     #start_harvested_time is included 
     #end_harvested_time is excluded therefore we keep it to next loop
-    json_content = get_latest_updates_from_mysql(start_harvested_time,"1546124630000")
+    json_content = get_latest_updates_from_mysql(start_harvested_time,"1545220665123")
     # json_content = get_latest_updates_from_mysql(start_harvested_time, end_harvested_time)
     tables = JSON.parse(json_content)
 
@@ -1206,7 +1207,8 @@ def main_method_3
       taxa.each do |taxon|
         write_to_json(taxon)
       end
-      
+      OccurrenceMap.bulk_insert($occurrence_maps_array)
+      $occurrence_maps_count = 0           
     end
 #       
     # end
@@ -1221,6 +1223,7 @@ def main_method_3
 end
 
 def write_to_json(taxon)
+  #TO-DO: handle multiple resources updating the page maps file
         page_eol_id = taxon["page_eol_id"]
         occurrences = "["+taxon["occurrences"]+"]"
         occurrences = JSON.parse(occurrences)
@@ -1229,7 +1232,6 @@ def write_to_json(taxon)
         maps_path = Pathname("public/data/maps/"+"#{page_eol_id%100}/")
         # debugger
         unless maps_path.exist?
-          # maps_path.dirname.mkdir
           FileUtils.mkdir_p maps_path
         end
         unless occurrences.nil?
@@ -1262,6 +1264,11 @@ def write_to_json(taxon)
           end
           json_path.write("], \"count\": #{occurrences.count},\"actual\":#{actual_count}}")
         end
+        #add entries to occurrence_maps table if the page has valid occurrence plottings for the maps
+        if (actual_count>0)
+          $occurrence_maps_array.insert($occurrence_maps_count,{:resource_id => taxon["resourceId"],:page_id => taxon["page_eol_id"]}) 
+          $occurrence_maps_count+=1
+          end
 end
 
 
