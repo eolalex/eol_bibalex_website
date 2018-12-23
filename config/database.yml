@@ -17,8 +17,8 @@ development:
   username: root
   # password: Luxor&Aswan@2o17
   # password: pDy013UEjn7vU9zul
-  # password: root
-  password: admin
+  password: root
+  # password: admin
   pool: 10
 
 test: &test

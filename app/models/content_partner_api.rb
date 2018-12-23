@@ -20,6 +20,7 @@ class ContentPartnerApi
       ContentPartnerUser.create(user_id: current_user_id , content_partner_id: response.body.to_i)
       content_partner_id 
     rescue => e
+      debugger
       nil
     end
     begin
