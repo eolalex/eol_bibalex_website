@@ -24,13 +24,13 @@ Devise.setup do |config|
   config.mailer.raise_delivery_errors = true
   #config.active_support.deprecation = :notify
   config.mailer.perform_caching = true
-  config.mailer_sender = 'no-reply@eol.bibalex.org'
+  config.mailer_sender = 'eol@bibalex.com'
   config.mailer.perform_deliveries = true
   config.mailer.delivery_method = :smtp
-  config.mailer.default_url_options = {:host => 'eol.bibalex.org'}
+  #config.mailer.default_url_options = {:host => 'eol.bibalex.org'}
   config.mailer.smtp_settings = {
-    domain:        'bibalex.org',
-    address:       '172.16.0.6',
+    domain:        'bibalex.com',
+    address:       '172.16.1.31',
     port:          25,
     enable_starttls_auto: true,
   }

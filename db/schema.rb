@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20181223054635) do
     t.bigint "location_id"
     t.text "body", limit: 4294967295
     t.index ["bibliographic_citation_id"], name: "index_articles_on_bibliographic_citation_id"
+    t.index ["guid"], name: "unique_articles", unique: true
     t.index ["language_id"], name: "index_articles_on_language_id"
     t.index ["license_id"], name: "index_articles_on_license_id"
     t.index ["location_id"], name: "index_articles_on_location_id"
@@ -227,7 +228,7 @@ ActiveRecord::Schema.define(version: 20181223054635) do
 
   create_table "nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "resource_id"
-    t.string "scientific_name"
+    t.string "scientific_name", collation: "utf8_general_ci"
     t.string "canonical_form"
     t.integer "generated_node_id"
     t.string "resource_pk"
@@ -482,7 +483,19 @@ ActiveRecord::Schema.define(version: 20181223054635) do
     t.datetime "updated_at", null: false
   end
 
+<<<<<<< HEAD
   create_table "user_providers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+=======
+  create_table "traits", primary_key: "generated_node_id", id: :integer, default: 0, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.text "occurrences"
+    t.text "associations"
+    t.text "measurement_or_facts"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_providers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+>>>>>>> 3c22c0b4c971fa7ab8eb29de3ebf6c3a84ce281f
     t.bigint "user_id"
     t.string "provider"
     t.string "uid"
@@ -519,8 +532,13 @@ ActiveRecord::Schema.define(version: 20181223054635) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+<<<<<<< HEAD
   create_table "vernaculars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "string"
+=======
+  create_table "vernaculars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "string", collation: "utf8_general_ci"
+>>>>>>> 3c22c0b4c971fa7ab8eb29de3ebf6c3a84ce281f
     t.integer "resource_id"
     t.boolean "is_prefered_by_resource"
     t.integer "generated_node_id"

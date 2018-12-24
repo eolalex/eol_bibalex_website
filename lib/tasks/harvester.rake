@@ -255,7 +255,6 @@ def check_for_upadtes
 end
 
 def get_latest_updates_from_hbase(last_harvested_time, start_key)
-  debugger
   hbase_uri = "#{HBASE_ADDRESS}#{HBASE_GET_LATEST_UPDATES_ACTION}"
   start_harvested_time = "1510150973451"
   # last_harvested_time = "#{DateTime.now.strftime('%Q')}"
@@ -778,8 +777,8 @@ def add_neo4j(node_params, occurrences, measurements, associations)
         
         
         # if measurement["measurementOfTaxon"] == "true" || measurement["measurementOfTaxon"] == "TRUE" || measurement["measurementOfTaxon"].nil?
-        if measurement["measurementOfTaxon"].nil? || VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase)
-          # debugger      
+
+        if (!measurement["measurementOfTaxon"].nil?) && (VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase))    
           options = create_measurement(occurrence_of_measurement , measurement)
           options[:supplier] = { "data" => { "resource_id" =>node_params[:resource_id] } }
           options[:resource_pk] =  measurement["measurementId"]
@@ -806,7 +805,7 @@ def add_neo4j(node_params, occurrences, measurements, associations)
           trait=TraitBank.create_trait(options)
 
         # elsif (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
-        elsif (NON_VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase)) && !(measurement["parentMeasurementId"].nil?)
+        elsif (measurement["measurementOfTaxon"].nil? ||NON_VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase)) && !(measurement["parentMeasurementId"].nil?)
             # debugger
           measurements_array << measurement
         else
@@ -820,8 +819,7 @@ def add_neo4j(node_params, occurrences, measurements, associations)
         occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
         options = create_measurement(occurrence_of_measurement , measurement)
         # if (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
-        if (NON_VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase)) && !(measurement["parentMeasurementId"].nil?)
-           debugger
+        if (measurement["measurementOfTaxon"].nil? || NON_VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase)) && !(measurement["parentMeasurementId"].nil?)
             #Update this condidtion to insert metadata of a given measurement : measurementOfTaxon = true and measurementparent is not null
           parent_eol_pk = "M_#{measurement["occurrenceId"]}_#{measurement["parentMeasurementId"]}"
           res = TraitBank.find_trait(parent_eol_pk, node_params[:resource_id]) 
@@ -1071,11 +1069,13 @@ def main_method_3
   # tables = JSON.parse(File.read(file_path))
 
    
-   start_harvested_time="1545110600000"
 
-   end_harvested_time = get_end_time
+   # start_harvested_time = "1540211584000"
+   start_harvested_time = "1545246841000"
+  # # end_harvested_time = "1540400200000"
+    end_harvested_time = get_end_time
+  # # debugger
 
-# finish = 0
   while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
   # while(finish == 0)
     #start_harvested_time is included 
@@ -1123,7 +1123,8 @@ def main_method_3
     
     unless pages_nodes.nil? 
       PagesNode.bulk_insert(pages_nodes,:validate => true , :use_provided_primary_key => true)
-    end
+     
+   end
     unless scientific_names.nil? 
       ScientificName.bulk_insert(scientific_names,:validate => true , :use_provided_primary_key => true)
     end
