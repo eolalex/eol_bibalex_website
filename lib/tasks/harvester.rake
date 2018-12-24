@@ -1,6 +1,10 @@
 require 'uri'
 require 'json'
 require 'pathname'
+require "date"
+require "enumerator"
+require "fileutils"
+require "yaml"
 $sql_commands= File.new('commands.sql', 'w')
 $occurrence_maps_count = 0
 $occurrence_maps_array = Array.new()
@@ -775,7 +779,7 @@ def add_neo4j(node_params, occurrences, measurements, associations)
         
         # if measurement["measurementOfTaxon"] == "true" || measurement["measurementOfTaxon"] == "TRUE" || measurement["measurementOfTaxon"].nil?
         if measurement["measurementOfTaxon"].nil? || VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase)
-          debugger      
+          # debugger      
           options = create_measurement(occurrence_of_measurement , measurement)
           options[:supplier] = { "data" => { "resource_id" =>node_params[:resource_id] } }
           options[:resource_pk] =  measurement["measurementId"]
@@ -1069,14 +1073,16 @@ def main_method_3
    # start_harvested_time = "1544350385000"
    start_harvested_time="1545110600000"
   # # end_harvested_time = "1540400200000"
-   # end_harvested_time = get_end_time
- end_harvested_time="1546124630000"
+   end_harvested_time = get_end_time
+ # end_harvested_time="1546124630000"
   # # debugger
-#   
-  while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
+# finish = 0
+  # while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
+  while(finish == 0)
     #start_harvested_time is included 
     #end_harvested_time is excluded therefore we keep it to next loop
-    json_content = get_latest_updates_from_mysql(start_harvested_time,"1545220665123")
+    json_content = get_latest_updates_from_mysql(start_harvested_time,end_harvested_time)
+    # json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
     # json_content = get_latest_updates_from_mysql(start_harvested_time, end_harvested_time)
     tables = JSON.parse(json_content)
 
@@ -1217,7 +1223,8 @@ def main_method_3
   
     # build_hierarchy(nodes_ids)
     
-     # start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+     start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+  # finish =1
   end
    
 end
@@ -1234,44 +1241,109 @@ def write_to_json(taxon)
         unless maps_path.exist?
           FileUtils.mkdir_p maps_path
         end
-        unless occurrences.nil?
-          json_path = File.open("#{maps_path}"+"#{page_eol_id}.json","w")
-          json_path.write("{\"records\":[")
-          occurrences.each do |occ|
-            tempHash = {
-              "a" => "#{occ["catalogNumber"]}", #catalog number
-              "b" => "#{taxon["scientific_name"]}", #scientific_name
-              "c" => "", #publisher
-              "d" => "", #publisherId
-              "e" => "", #dataset
-              "f" => "#{taxon["dataset_id"]}", #datasetId
-              "g" => "#{taxon["source"]}", #gbifId
-              "h" => "#{occ["decimalLatitude"]}", #decimalLatitude
-              "i" => "#{occ["decimalLongitude"]}", #decimalLongitude
-              "j" => "#{occ["recordedBy"]}", #recordedBy
-              "k" => "#{occ["identifiedBy"]}", #identifiedBy
-              "l" => "", #pic_url
-              "m" => "#{occ["eventDate"]}" #eventDate
-              }
-            unless tempHash["h"].empty?||tempHash["i"].empty? #validate decimal longitude and latitude existence
-               json_path.write(tempHash.to_json)
-               actual_count +=1
-            end
+      #check if the file exists, create new if not, update if already exists
+        unless File.exists?("#{maps_path}#{page_eol_id}.json")
+          unless occurrences.nil?
+            json_path = File.open("#{maps_path}"+"#{page_eol_id}.json","w")
+            json_path.write("{\"records\":[")
+            occurrences.each do |occ|
+              tempHash = {
+                "a" => "#{occ["catalogNumber"]}", #catalog number
+                "b" => "#{taxon["scientific_name"]}", #scientific_name
+                "c" => "", #publisher
+                "d" => "", #publisherId
+                "e" => "", #dataset
+                "f" => "#{taxon["dataset_id"]}", #datasetId
+                "g" => "#{taxon["source"]}", #gbifId
+                "h" => occ["decimalLatitude"],
+                "i" => occ["decimalLongitude"],
+                "j" => "#{occ["recordedBy"]}", #recordedBy
+                "k" => "#{occ["identifiedBy"]}", #identifiedBy
+                "l" => "", #pic_url
+                "m" => "#{occ["eventDate"]}" #eventDate
+                }
+              if (!tempHash["h"].nil?)&&(!tempHash["i"].nil?) #validate decimal longitude and latitude existence
+                 actual_count +=1
+              end
+              json_path.write(tempHash.to_json)
+              occ_count-=1
+              if occ_count>=1
+                json_path.write(",")
+              end
+           end
+            json_path.write("],\"count\":#{occurrences.count},\"actual\":#{actual_count}}")
+           end
+          else
+          #append new occurrence records, and update both count and actual
+          # debugger
+          # json_path = File.read("#{maps_path}"+"#{page_eol_id}.json")
+          json_content = JSON.parse(File.read("#{maps_path}#{page_eol_id}.json"))
+          # json_content = JSON.parse(File.read("public/data/maps/1/1.json"))
+          records = json_content["records"]
+          records_hash = records.first
+          count = json_content["count"].to_i
+          actual = json_content["actual"].to_i
+          unless occurrences.nil?
+            # debugger
+            json_path_temp = File.open("#{maps_path}#{page_eol_id}_temp.json","w")
+            json_path_temp.write("{\"records\":[")
+            records.each do |rec|
+                records_hash = {
+                "a" => "#{rec["a"]}", #catalog number
+                "b" => "#{rec["b"]}", #scientific_name
+                "c" => "", #publisher
+                "d" => "", #publisherId
+                "e" => "", #dataset
+                "f" => "#{rec["f"]}", #datasetId
+                "g" => "#{rec["g"]}", #gbifId
+                "h" => rec["h"], 
+                "i" => rec["i"], 
+                "j" => "#{rec["j"]}", #recordedBy
+                "k" => "#{rec["k"]}", #identifiedBy
+                "l" => "", #pic_url
+                "m" => "#{rec["m"]}" #eventDate
+                }
+                json_path_temp.write("#{records_hash.to_json},")
+              end
+            occurrences.each do |occ|
+              tempHash = {
+                "a" => "#{occ["catalogNumber"]}", #catalog number
+                "b" => "#{taxon["scientific_name"]}", #scientific_name
+                "c" => "", #publisher
+                "d" => "", #publisherId
+                "e" => "", #dataset
+                "f" => "#{taxon["dataset_id"]}", #datasetId
+                "g" => "#{taxon["source"]}", #gbifId
+                "h" => "#{occ["decimalLatitude"]}", #decimalLatitude
+                "i" => "#{occ["decimalLongitude"]}", #decimalLongitude
+                "j" => "#{occ["recordedBy"]}", #recordedBy
+                "k" => "#{occ["identifiedBy"]}", #identifiedBy
+                "l" => "", #pic_url
+                "m" => "#{occ["eventDate"]}" #eventDate
+                }
+              if (!tempHash["h"].nil?)&&(!tempHash["i"].nil?) #validate decimal longitude and latitude existence
+                 actual_count+=1
+                 actual+=1
+              end
+              #records_hash = "#{records_hash.to_json},#{tempHash.to_json}"
+              json_path_temp.write("#{tempHash.to_json}")
             occ_count-=1
-            if occ_count>=1
-              json_path.write(",")
-            end
-          end
-          json_path.write("], \"count\": #{occurrences.count},\"actual\":#{actual_count}}")
-        end
+              if occ_count>=1
+                json_path_temp.write(",")
+              end
+             end
+        json_path_temp.write("],\"count\":#{occurrences.count+count},\"actual\":#{actual}}")
+        # File.delete(json_path)
+        File.rename(json_path_temp, "#{maps_path}#{page_eol_id}.json")
         #add entries to occurrence_maps table if the page has valid occurrence plottings for the maps
         if (actual_count>0)
-          $occurrence_maps_array.insert($occurrence_maps_count,{:resource_id => taxon["resourceId"],:page_id => taxon["page_eol_id"]}) 
+          $occurrence_maps_array.insert($occurrence_maps_count,{:resource_id => taxon["resource_id"],:page_id => taxon["page_eol_id"]})
           $occurrence_maps_count+=1
-          end
+        end
 end
-
-
+end
+end
+# end
 
 def load_data_into_mysql()
   # db = YAML::load( File.open( File.join(Rails.root, 'config', 'database.yml') ) )
