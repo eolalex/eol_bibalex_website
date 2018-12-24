@@ -43,6 +43,26 @@ def check_for_upadtes
 end
 
 
+def get_latest_updates_from_hbase(last_harvested_time, start_key)
+  hbase_uri = "#{HBASE_ADDRESS}#{HBASE_GET_LATEST_UPDATES_ACTION}"
+  start_harvested_time = "1510150973451"
+  # last_harvested_time = "#{DateTime.now.strftime('%Q')}"
+  begin    
+    request =RestClient::Request.new(
+        :method => :get,
+        :timeout => -1,
+        :url => "#{hbase_uri}/#{start_harvested_time}/#{last_harvested_time}/#{start_key}"
+      )
+      response = request.execute
+      response.body
+  rescue => e
+  debugger
+    c="l"
+    false
+  end
+end
+
+
 def get_latest_updates_from_mysql(start_harvested_time , end_harvested_time)
   # debugger
   mysql_uri = "#{MYSQL_ADDRESS}#{MYSQL_GET_LATEST_UPDATES_ACTION}"
@@ -288,9 +308,15 @@ def main_method_3
    
 
    # start_harvested_time = "1540211584000"
+
    # start_harvested_time = "1544350385000"
   # # end_harvested_time = "1540400200000"
     # end_harvested_time = get_end_time
+
+   # start_harvested_time = "1545246841000"
+  # # end_harvested_time = "1540400200000"
+    # end_harvested_time = get_end_time
+
   # # debugger
 #   
   # while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
@@ -336,7 +362,8 @@ def main_method_3
     
     unless pages_nodes.nil? 
       PagesNode.bulk_insert(pages_nodes,:validate => true , :use_provided_primary_key => true)
-    end
+     
+   end
     unless scientific_names.nil? 
       ScientificName.bulk_insert(scientific_names,:validate => true , :use_provided_primary_key => true)
     end
@@ -384,9 +411,7 @@ def main_method_3
       traits.each do|trait|
         generated_node_id = trait["generated_node_id"]
         occurrences = "["+trait["occurrences"]+"]"
-       if JSON.parse(occurrences).nil?
-         debugger
-       end
+
         occurrences = JSON.parse(occurrences)
         node = Node.where(generated_node_id: generated_node_id).first
         node_id = node.id

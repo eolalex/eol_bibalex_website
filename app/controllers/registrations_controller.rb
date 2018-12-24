@@ -42,6 +42,14 @@ class RegistrationsController < Devise::RegistrationsController
       u.permit(:username, :email, :password, :password_confirmation, :current_password)
     end
   end
+  
+  def update_resource(resource, params)
+    if resource.provider.nil?
+      resource.update_with_password(params)
+    else
+      resource.update_without_password(params)
+    end
+  end
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_account_update_params
