@@ -1077,8 +1077,8 @@ def main_method_3
  # end_harvested_time="1546124630000"
   # # debugger
 # finish = 0
-  # while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
-  while(finish == 0)
+  while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
+  # while(finish == 0)
     #start_harvested_time is included 
     #end_harvested_time is excluded therefore we keep it to next loop
     json_content = get_latest_updates_from_mysql(start_harvested_time,end_harvested_time)
