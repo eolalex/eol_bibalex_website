@@ -1,26 +1,22 @@
-= render("tabs")
 .container
   .row
     .col-lg-12
       %h2.mainTitle
         Articles
+        = render("tabs")
     -@articles.each do |article|
       -#TODO toc(table of content)
       .col-lg-12.articleBlock
         %h2
           -name = article.name
           - name ||= t("untitled")
-          %a{:href => "#"} #{name}
-        %p
+          %a{:href => article_path(id: article.id)} #{name}
+        -#%p
           -# %iframe{ :srcdoc => article.body.html_safe , :width => "100%",:height => "100%"}
-          %object{:width => "100%",:height => "100%"}
-            %p
-              =article.body.html_safe
-          = succeed "." do
-            %a{:href => article_path(id: article.id)} Continue reading...
+          -#%object{:width => "100%",:height => "100%"}
+            -#%p
+              -#=article.body.html_safe
+          -#= succeed "." do
+            -#%a{:href => article_path(id: article.id)} Continue reading...
         %hr/
     = will_paginate @articles
-<<<<<<< HEAD
-
-=======
->>>>>>> 4da78f03c0a212ac0bf429a050be3a347ccbfac7

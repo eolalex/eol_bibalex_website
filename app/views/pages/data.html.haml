@@ -16,7 +16,7 @@
                 %th{:scope => "col"} Predicate
                 %th{:scope => "col"} Object
                 %th{:scope => "col"} Units
-                %th{:scope => "col"} Reource
+                %th{:scope => "col"} Resource
                 %th{:scope => "col"} Further Info
                 %th{:scope => "col"} Metadata
             %tbody
@@ -62,7 +62,7 @@
                         %a.btn.btn{:id => "#{@page.id}00", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
                           -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}
                           %i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
-                          -# Show
+
 
                   .modal{:id => "popup_#{@page.id}00", "aria-labelledby" => "popup_#{@page.id}00Label", :role => "dialog", :tabindex => "-1"}
                     .modal-dialog.modal-med{:role => "document"}

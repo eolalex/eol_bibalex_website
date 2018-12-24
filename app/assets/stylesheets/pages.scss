@@ -54,3 +54,23 @@
 .content:hover .hover {
   opacity: 1;
 }
+  .map-overview {
+    width: 100%;
+  }
+
+.l-overview-full {
+  width: 100%;
+}
+
+// leaflet map
+.map {
+  border: 1px solid #aaa;
+  height: 500px;
+  max-width: 90%;
+  margin: 20px auto;
+  z-index: 1;
+}
+
+.map-overview {
+  width: 70%;
+}

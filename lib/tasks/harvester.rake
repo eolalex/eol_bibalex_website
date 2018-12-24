@@ -1,5 +1,13 @@
 require 'uri'
+require 'json'
+require 'pathname'
+require "date"
+require "enumerator"
+require "fileutils"
+require "yaml"
 $sql_commands= File.new('commands.sql', 'w')
+$occurrence_maps_count = 0
+$occurrence_maps_array = Array.new()
 
 def main_method_2
   batches_log = File.new('batches_log', 'a')
@@ -102,20 +110,44 @@ def build_ancestors_for_sql_solution
   build_hierarchy(node_ids) 
 end
 
-def load_occurrence(node)
-  unless node["occurrences"].nil?
-     node["occurrences"].each do |occurrence|
+# def load_occurrence(node)
+  # unless node["occurrences"].nil?
+     # node["occurrences"].each do |occurrence|
+#        
+       # if occurrence["deltaStatus"] == "I"
+         # OccurrencePageMapping.create(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"], page_id: node["taxon"]["pageEolId"])
+#          
+       # else               
+         # res = OccurrencePageMapping.where(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"])
+         # unless res.nil?
+           # old_occurrence_mapping = res.first
+           # unless old_occurrence_mapping.nil?
+             # if occurrence["deltaStatus"] == "U"
+               # old_occurrence_mapping.update_attributes(page_id: node["taxon"]["pageEolId"])
+             # else
+               # old_occurrence_mapping.destroy
+             # end
+           # end
+         # end               
+       # end
+     # end
+   # end
+# end
+
+def load_occurrence(occurrences, page_id, resource_id)
+  unless occurrences.nil?
+     occurrences.each do |occurrence|
        
        if occurrence["deltaStatus"] == "I"
-         OccurrencePageMapping.create(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"], page_id: node["taxon"]["pageEolId"])
+         OccurrencePageMapping.create(resource_id: resource_id, occurrence_id: occurrence["occurrenceId"], page_id: page_id)
          
        else               
-         res = OccurrencePageMapping.where(resource_id: node["resourceId"], occurrence_id: occurrence["occurrenceId"])
+         res = OccurrencePageMapping.where(resource_id: resource_id, occurrence_id: occurrence["occurrenceId"])
          unless res.nil?
            old_occurrence_mapping = res.first
            unless old_occurrence_mapping.nil?
              if occurrence["deltaStatus"] == "U"
-               old_occurrence_mapping.update_attributes(page_id: node["taxon"]["pageEolId"])
+               old_occurrence_mapping.update_attributes(page_id: page_id)
              else
                old_occurrence_mapping.destroy
              end
@@ -130,19 +162,20 @@ def main_method
   #442
   # nodes_ids = [1976]
   
-  is_updates = check_for_upadtes
+  # is_updates = check_for_upadtes
   nodes_ids = []
-  if is_updates == "true"
-    start_key = -1
+  # if is_updates == "true"
+    # start_key = -1
     # json_content = get_latest_updates_from_hbase(start_key)
-     json_content = get_nodes_of_resource_from_hbase(519)
+
+      # json_content = get_nodes_of_resource_from_hbase(471)
+
      # json_content = get_nodes_of_resource_from_hbase()
-     # nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'nodes4.json')
-     # json_content = File.read(nodes_file_path)
+     nodes_file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'node_sample.json')
+     json_content = File.read(nodes_file_path)
      # unless json_content == false
        nodes = JSON.parse(json_content)
-       debugger
-       
+
        
        # load_occurrences
        nodes.each do |node|
@@ -160,7 +193,7 @@ def main_method
          # measurements = node["measurementOrFacts"]
          # measurements[0]["parentMeasurementId"]="912"
          
-         node["taxon"]["pageEolId"]= "1"
+         # node["taxon"]["pageEolId"]= "1"
          
          nodes_ids << node["generatedNodeId"]
          res = Node.where(generated_node_id: node["generatedNodeId"])        
@@ -199,7 +232,7 @@ def main_method
        
 
     end
-   end    
+   # end    
  end
 
   
@@ -285,7 +318,6 @@ def get_nodes_of_resource_from_hbase(resource_id)
         :url => "#{hbase_uri}/#{resource_id}"
       )
       response = request.execute
-      
       response.body
   rescue => e
     false
@@ -654,107 +686,58 @@ def create_measurement(occurrence_of_measurement , measurement)
       options[:units] = {name: "unit_#{measurement["measurementId"]}",uri: measurement["unit"],
                          section_ids:[1,2,3],definition:"test units"}            
     end
-    
-    
-    if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
-      options[:lifestage_term] = { name: "lifeStage_#{measurement["measurementId"]}",
-                             uri: occurrence_of_measurement["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
+    unless measurement["citation"].nil?
+      options[:citation] = measurement["citation"]
+    end
+    unless measurement["source"].nil?
+      options[:source] = measurement["source"]
+    end
+    unless measurement["measurementMethod"].nil?
+      options[:measurementMethod] = measurement["measurementMethod"]
     end
     
-    if occurrence_of_measurement && occurrence_of_measurement["sex"]
-      options[:sex_term] = { name: "sex_#{measurement["measurementId"]}",
-                             uri: occurrence_of_measurement["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
-    end
-    
-    if occurrence_of_measurement && occurrence_of_measurement["statisticalMethod"]
-      options[:statistical_method_term] = { name: "statisticalMethod_#{measurement["measurementId"]}",
-                             uri: occurrence_of_measurement["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
-    end
+    # if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
+      # options[:lifestage_term] = { name: "lifeStage_#{measurement["measurementId"]}",
+                             # uri: occurrence_of_measurement["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
+    # end
+#     
+    # if occurrence_of_measurement && occurrence_of_measurement["sex"]
+      # options[:sex_term] = { name: "sex_#{measurement["measurementId"]}",
+                             # uri: occurrence_of_measurement["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
+    # end
+#     
+    # if occurrence_of_measurement && occurrence_of_measurement["statisticalMethod"]
+      # options[:statistical_method_term] = { name: "statisticalMethod_#{measurement["measurementId"]}",
+                             # uri: occurrence_of_measurement["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
+    # end
     options
 end
 
 
 def add_neo4j(node_params, occurrences, measurements, associations)
-  unless occurrences.nil?
+
+  unless (occurrences.nil? || occurrences.empty?)
     # load occurrences
     occurrences_hash = {}    
     occurrences.each do |occurrence|
       occurrences_hash[occurrence["occurrenceId"]] = occurrence
     end
     
-    
-    
+
     page = TraitBank.create_page(node_params[:page_id].to_i)
     resource = TraitBank.create_resource(node_params[:resource_id].to_i)
-    unless measurements.nil?
-      measurements_array = []
-      measurements.each do |measurement|
-        occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
-        
-        
-        if measurement["measurementOfTaxon"] == "true" || measurement["measurementOfTaxon"] == "TRUE" 
-           # debugger      
-          options = create_measurement(occurrence_of_measurement , measurement)
-          options[:supplier] = { "data" => { "resource_id" =>node_params[:resource_id] } }
-          options[:resource_pk] =  measurement["measurementId"]
-          options[:page] = node_params[:page_id]
-          options[:eol_pk] = "#{measurement["occurrenceId"]}"+"_"+"#{measurement["measurementId"]}"
-          # options[:eol_pk] = "\"#{measurement["occurrenceId"]}\""
-          options[:scientific_name] =  node_params[:scientific_name]
-          options[:occurrence_id]= measurement["occurrenceId"]
-          trait=TraitBank.create_trait(options)
-
-        elsif (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
-            # debugger
-          measurements_array << measurement
-        else
-           # debugger
-          measurements_array << measurement
- 
-        end
-      end
-      
-      measurements_array.each do |measurement|
-        occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
-        options = create_measurement(occurrence_of_measurement , measurement)
-        if (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
-          # debugger
-            #Update this condidtion to insert metadata of a given measurement : measurementOfTaxon = true and measurementparent is not null
-          res = TraitBank.find_trait(measurement["parentMeasurementId"], node_params[:resource_id])
-          # debugger
-           # we should use parent measurement id to find the actual trait
-          # options.each { |md| TraitBank.add_metadata_to_trait(res, md) }
-          options[:eol_pk]= measurement["measurementId"]
-          TraitBank.add_metadata_to_trait(res, options)
-          
-        else
-          # debugger
-          traits = TraitBank.find_traits(measurement["occurrenceId"], node_params[:resource_id]) # we should use parent measurement id to find the actual trait
-          traits.each do |element|
-            # debugger
-            options[:eol_pk]= measurement["measurementId"]
-            options_copy = options.clone
-            TraitBank.add_metadata_to_trait(element, options_copy)
-            # options.each { |md| TraitBank.add_metadata_to_trait(element, md) }
-          end   
-        end
-      end
-      
-    end
-    
-    
-  
-    unless associations.nil?
+    unless (associations.nil? || associations.empty?)
+      # debugger
       associations.each do |association|
         res = OccurrencePageMapping.where(resource_id: node_params[:resource_id], occurrence_id: association["targetOccurrenceId"])
-        unless res.nil?
+        unless res.empty?
           occurrence_mapping = res.first
           object_page_id = occurrence_mapping.page_id
         end
         options = { supplier: { "data" => { "resource_id" =>node_params[:resource_id] } },
                       resource_pk: association["associationId"].to_i, page: node_params[:page_id] ,
                       occurrence_id:association["occurrenceId"],
-                      eol_pk: "\"#{association["occurrenceId"]}\""+"_"+"\"#{association["associationId"]}\"",
+                      eol_pk: "A_#{association["occurrenceId"]}_#{association["associationId"]}",
                       # eol_pk: "\"#{measurement["occurrenceId"]}\"", 
                       scientific_name: node_params[:scientific_name], object_page_id: object_page_id,
                       predicate: { name: "predicate_name_#{association["associationId"]}", uri: association["associationType"], section_ids:[1,2,3],definition:"predicate definition"}
@@ -771,13 +754,102 @@ def add_neo4j(node_params, occurrences, measurements, associations)
                                    uri: occurrence_of_association["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
           end
           
-          if occurrence_of_association && occurrence_of_association["statisticalMethod"]
-            options[:statistical_method_term] = { name: "statisticalMethod_#{association["associationId"]}",
-                                   uri: occurrence_of_association["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
+          # if occurrence_of_association && occurrence_of_association["statisticalMethod"]
+            # options[:statistical_method_term] = { name: "statisticalMethod_#{association["associationId"]}",
+                                   # uri: occurrence_of_association["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
+          # end
+          unless association["citation"].nil?
+            options[:citation] = association["citation"]
+          end
+          unless association["source"].nil?
+            options[:source] = association["source"]
+          end
+          unless association["measurementMethod"].nil?
+            options[:measurementMethod] = association["measurementMethod"]
           end
           trait=TraitBank.create_trait(options)
       end
-    end    
+    end
+    
+    unless (measurements.nil? || measurements.empty?)
+      measurements_array = []
+      measurements.each do |measurement|
+        occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
+        
+        
+        # if measurement["measurementOfTaxon"] == "true" || measurement["measurementOfTaxon"] == "TRUE" || measurement["measurementOfTaxon"].nil?
+        if measurement["measurementOfTaxon"].nil? || VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase)
+          # debugger      
+          options = create_measurement(occurrence_of_measurement , measurement)
+          options[:supplier] = { "data" => { "resource_id" =>node_params[:resource_id] } }
+          options[:resource_pk] =  measurement["measurementId"]
+          options[:page] = node_params[:page_id]
+          options[:eol_pk] = "M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}"
+          # options[:eol_pk] = "\"#{measurement["occurrenceId"]}\""
+          options[:scientific_name] =  node_params[:scientific_name]
+          options[:occurrence_id]= measurement["occurrenceId"]
+          
+          if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
+            options[:lifestage_term] = { name: "lifeStage_#{measurement["measurementId"]}",
+                             uri: occurrence_of_measurement["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
+          end
+    
+          if occurrence_of_measurement && occurrence_of_measurement["sex"]
+            options[:sex_term] = { name: "sex_#{measurement["measurementId"]}",
+                                   uri: occurrence_of_measurement["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
+          end
+  
+          if measurement["statisticalMethod"]
+            options[:statistical_method_term] = { name: "statisticalMethod_#{measurement["measurementId"]}",
+                                   uri: measurement["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
+          end
+          trait=TraitBank.create_trait(options)
+
+        # elsif (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
+        elsif (NON_VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase)) && !(measurement["parentMeasurementId"].nil?)
+            # debugger
+          measurements_array << measurement
+        else
+           # debugger
+          measurements_array << measurement
+ 
+        end
+      end
+      
+      measurements_array.each do |measurement|
+        occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
+        options = create_measurement(occurrence_of_measurement , measurement)
+        # if (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
+        if (NON_VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase)) && !(measurement["parentMeasurementId"].nil?)
+           debugger
+            #Update this condidtion to insert metadata of a given measurement : measurementOfTaxon = true and measurementparent is not null
+          parent_eol_pk = "M_#{measurement["occurrenceId"]}_#{measurement["parentMeasurementId"]}"
+          res = TraitBank.find_trait(parent_eol_pk, node_params[:resource_id]) 
+
+          # options.each { |md| TraitBank.add_metadata_to_trait(res, md) }
+          # options[:eol_pk]= measurement["measurementId"]
+          options[:eol_pk] = "M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}"
+          TraitBank.add_metadata_to_trait(res, options)
+          
+        else
+          # debugger
+          traits = TraitBank.find_traits(measurement["occurrenceId"], node_params[:resource_id]) 
+          traits.each do |element|
+            # debugger
+            # options[:eol_pk]= measurement["measurementId"]
+            options[:eol_pk] = "M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}"
+            options_copy = options.clone
+            TraitBank.add_metadata_to_trait(element, options_copy)
+            # options.each { |md| TraitBank.add_metadata_to_trait(element, md) }
+          end   
+        end
+      end
+      
+    end
+    
+    
+  
+    
   end
   
   
@@ -806,40 +878,6 @@ def add_neo4j(node_params, occurrences, measurements, associations)
 # 
 #   
   # trait=TraitBank.create_trait(options)
-end
-
-def main_method_4
-  # tbb_page = TraitBank.create_page(1003)
-  # tb_page = TraitBank.create_page(1004)
-# resource = TraitBank.create_resource(502)
-  # options = {supplier:{"data"=>{"resource_id"=>502}},
-             # resource_pk:"123" , page:1003, eol_pk:" 124", scientific_name: "scientific_name",
-             # predicate:{"name"=>"event date","uri"=>"test/event",section_ids:[1,2,3],definition:"test predicate definition"},
-             # object_term:{"name"=>"5/2/15","uri"=>"test/date",section_ids:[1,2,3],definition:"test object_term definition"},
-             # units: {"name"=>"cm","uri"=>"http://purl.obolibrary.org/obo/UO_0000008",section_ids:[1,2,3],definition:"test units"},
-             # literal:"10"} 
-  # trait=TraitBank.create_trait(options)
-    # options2 = {supplier:{"data"=>{"resource_id"=>502}},
-             # resource_pk:"125" , page:1004, eol_pk:" 126", scientific_name: "scientific_name2",
-             # predicate:{"name"=>"event2 date","uri"=>"test/event",section_ids:[1,2,3],definition:"test2 predicate definition"},
-             # object_term:{"name"=>"5/12/15","uri"=>"test/date",section_ids:[1,2,3],definition:"test2 object_term definition"},
-             # units: {"name"=>"cm","uri"=>"http://purl.obolibrary.org/obo/UO_0000008",section_ids:[1,2,3],definition:"test units"},
-             # literal:"10",
-             # metadata:[{predicate:{"name"=>"md_event","uri"=>"test/md_event",section_ids:[1,2,3],definition:"test predicate definition"},
-                        # object_term:{"name"=>"md_length1","uri"=>"test/md_length1",section_ids:[1,2,3],definition:"test object_term definition"},
-                        # units: {"name"=>"cm","uri"=>"http://eol.org/schema/terms/squarekilometer",section_ids:[1,2,3],definition:"test units"},
-                        # literal:"15"}]} 
-  # trait2=TraitBank.create_trait(options2)
-          # # options_md=     {metadata:[{predicate:{"name"=>"md_event","uri"=>"test/md_event",section_ids:[1,2,3],definition:"test predicate definition"},
-                        # # object_term:{"name"=>"md_length1","uri"=>"test/md_length1",section_ids:[1,2,3],definition:"test object_term definition"},
-                        # # units: {"name"=>"cm","uri"=>"http://eol.org/schema/terms/squarekilometer",section_ids:[1,2,3],definition:"test units"},
-                        # # literal:"15"}] }
-                                # # occurrence_of_measurement = occurrences_hash["http://n2t.net/ark:/65665/3a4f668ef-ab6a-40cf-8383-a0e196991fdb"]
-        # options_md = create_measurement("http://n2t.net/ark:/65665/3a4f668ef-ab6a-40cf-8383-a0e196991fdb" , measurement)
-  # options_md[:eol_pk]= "126"
-  # options_copy = options_md.clone
-  # traitx=TraitBank.find_trait("125",502)
-            # TraitBank.add_metadata_to_trait(traitx, options_copy)
 end
 
 def numeric?(str)
@@ -1027,20 +1065,24 @@ def main_method_3
   # tables = JSON.parse(File.read(file_path))
   
   # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'articles.json')
+
+  # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
+
   # tables = JSON.parse(File.read(file_path))
 
    
+   start_harvested_time="1545110600000"
 
-   start_harvested_time = "1540211584000"
-  # # start_harvested_time = "1540110200000"
-  # # end_harvested_time = "1540400200000"
    end_harvested_time = get_end_time
-  # # debugger
-#   
+
+# finish = 0
   while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
+  # while(finish == 0)
     #start_harvested_time is included 
     #end_harvested_time is excluded therefore we keep it to next loop
-    json_content = get_latest_updates_from_mysql(start_harvested_time,(start_harvested_time.to_i + 30000).to_s)
+    json_content = get_latest_updates_from_mysql(start_harvested_time,end_harvested_time)
+    # json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
+
     # json_content = get_latest_updates_from_mysql(start_harvested_time, end_harvested_time)
     tables = JSON.parse(json_content)
 
@@ -1059,75 +1101,31 @@ def main_method_3
     attributions = tables["attributions"]
     referents = tables["referents"]
     references = tables["references"]
-    
+    traits = tables["traits"]
+    taxa = tables["taxa"]
 
     
     unless licenses.nil?
-       # License.import licenses
-# License.bulk_insert licenses
-      # debugger
       License.bulk_insert(licenses, :validate => true, :use_provided_primary_key => true)
-      # debugger
-      # licenses.each do |license|
-        # cols = license.keys
-        # values = license.values
-        # insert_mysql_query("licenses",cols,values)
-          # # License.create!(license)
-      # end
     end
     
     unless ranks.nil? 
-       # Rank.import ranks
-      # Rank.bulk_insert ranks
-      # debugger
       Rank.bulk_insert(ranks, :validate => true, :use_provided_primary_key => true)
-      # debugger
-      # ranks.each do |rank|
-        # cols = rank.keys
-        # values = rank.values
-        # insert_mysql_query("ranks",cols,values)      
-         # # Rank.create!(rank)
-      # end
     end
     
     unless nodes.nil? 
       Node.bulk_insert(nodes,:validate => true ,:use_provided_primary_key => true)
-      # nodes.each do |node|
-        # nodes_ids << node["generated_node_id"]
-        # cols = node.keys
-        # values = node.values
-        # insert_mysql_query("nodes",cols,values)
-         # # Node.create!(node)
-      # end
     end
     
     unless pages.nil? 
       Page.bulk_insert(pages,:validate => true , :use_provided_primary_key => true)
-      # pages.each do |page|
-        # cols = page.keys
-        # values = page.values
-        # insert_mysql_query("pages",cols,values)
-         # # Page.create!(page)
-      # end
     end
     
     unless pages_nodes.nil? 
       PagesNode.bulk_insert(pages_nodes,:validate => true , :use_provided_primary_key => true)
-      # pages_nodes.each do |pages_node|
-        # cols = pages_node.keys
-        # values = pages_node.values
-        # insert_mysql_query("pages_nodes",cols,values)
-         # # PagesNode.create!(pages_node)
-      # end
     end
     unless scientific_names.nil? 
       ScientificName.bulk_insert(scientific_names,:validate => true , :use_provided_primary_key => true)
-      # scientific_names.each do |scientific_name|
-        # cols = scientific_name.keys
-        # values = scientific_name.values
-        # insert_mysql_query("scientific_names",cols,values)
-         # # ScientificName.create!(scientific_name)
-      # end
     end
   
     unless languages.nil? 
@@ -1149,32 +1147,14 @@ def main_method_3
     
     unless vernaculars.nil? 
       Vernacular.bulk_insert(vernaculars,:validate => true , :use_provided_primary_key => true)
-      # vernaculars.each do |vernacular|
-        # cols = vernacular.keys
-        # values = vernacular.values
-        # insert_mysql_query("vernaculars",cols,values)
-         # # Vernacular.create!(vernacular)
-      # end
     end
     
     unless locations.nil?
       Location.bulk_insert(locations,:validate => true , :use_provided_primary_key => true) 
-      # locations.each do |location|
-        # cols = location.keys
-        # values = location.values
-        # insert_mysql_query("locations",cols,values)
-         # # Location.create!(location)
-      # end
     end
     
     unless media.nil? 
       Medium.bulk_insert(media,:validate => true , :use_provided_primary_key => true, ignore: true)
-      # media.each do |medium|
-        # cols = medium.keys
-        # values = medium.values
-        # insert_mysql_query("media",cols,values)
-         # # Medium.create!(medium)
-      # end
     end
     
     unless articles.nil? 
@@ -1184,53 +1164,186 @@ def main_method_3
     
     unless page_contents.nil? 
       PageContent.bulk_insert(page_contents,:validate => true , :use_provided_primary_key => true)
-      # page_contents.each do |page_content|
-        # cols = page_content.keys
-        # values = page_content.values
-        # insert_mysql_query("page_contents",cols,values)
-         # # PageContent.create!(page_content)
-      # end
     end  
     
     unless attributions.nil? 
       Attribution.bulk_insert(attributions,:validate => true , :use_provided_primary_key => true)
-      # attributions.each do |attribution|
-        # cols = attribution.keys
-        # values = attribution.values
-        # insert_mysql_query("attributions",cols,values)
-         # # Attribution.create!(attribution)
-      # end
     end 
       
     unless referents.nil? 
       Referent.bulk_insert(referents,:validate => true , :use_provided_primary_key => true)
-      # referents.each do |referent|
-        # cols = referent.keys
-        # values = referent.values
-        # insert_mysql_query("referents",cols,values)
-         # # Referent.create!(referent)
-      # end
     end
     
     unless references.nil? 
       Reference.bulk_insert(references,:validate => true , :use_provided_primary_key => true)
-      # references.each do |reference|
-        # cols = reference.keys
-        # values = reference.values
-        # insert_mysql_query("ba_eol_development.references",cols,values)
-         # # Reference.create!(reference)
-      # end
     end 
   
-    # load_data_into_mysql()
+    unless traits.nil?
+      traits.each do|trait|
+        generated_node_id = trait["generated_node_id"]
+        occurrences = "["+trait["occurrences"]+"]"
+        occurrences = JSON.parse(occurrences)
+        node = Node.where(generated_node_id: generated_node_id).first
+        node_id = node.id
+        resource_id = node.resource_id
+        scientific_name = node.scientific_name
+        page_id = PagesNode.where(node_id: node_id).first.page_id
+        load_occurrence(occurrences, page_id, resource_id)
+      end
+      traits.each do|trait|   
+        generated_node_id = trait["generated_node_id"]
+        occurrences = "["+trait["occurrences"]+"]"
+        occurrences = JSON.parse(occurrences)
+        associations = "["+trait["associations"]+"]"
+        associations = JSON.parse(associations)
+        measurements = "["+trait["measurementOrFacts"]+"]"
+        measurements = JSON.parse(measurements)
+        node = Node.where(generated_node_id: generated_node_id).first
+        node_id = node.id
+        resource_id = node.resource_id
+        scientific_name = node.scientific_name
+        page_id = PagesNode.where(node_id: node_id).first.page_id
+        node_params = { page_id: page_id, resource_id: resource_id, scientific_name: scientific_name}
+        add_neo4j(node_params, occurrences, measurements, associations)
+      end
+    end
+
+    # create maps json file for occurrence_maps
+    unless taxa.nil?
+      taxa.each do |taxon|
+        write_to_json(taxon)
+      end
+      OccurrenceMap.bulk_insert($occurrence_maps_array)
+      $occurrence_maps_count = 0           
+    end
+#       
+    # end
+   
+
   
     # build_hierarchy(nodes_ids)
     
      start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+
   end
    
 end
 
+def write_to_json(taxon)
+  #TO-DO: handle multiple resources updating the page maps file
+        page_eol_id = taxon["page_eol_id"]
+        occurrences = "["+taxon["occurrences"]+"]"
+        occurrences = JSON.parse(occurrences)
+        occ_count = occurrences.count
+        actual_count = 0
+        maps_path = Pathname("public/data/maps/"+"#{page_eol_id%100}/")
+        # debugger
+        unless maps_path.exist?
+          FileUtils.mkdir_p maps_path
+        end
+      #check if the file exists, create new if not, update if already exists
+        unless File.exists?("#{maps_path}#{page_eol_id}.json")
+          unless occurrences.nil?
+            json_path = File.open("#{maps_path}"+"#{page_eol_id}.json","w")
+            json_path.write("{\"records\":[")
+            occurrences.each do |occ|
+              tempHash = {
+                "a" => "#{occ["catalogNumber"]}", #catalog number
+                "b" => "#{taxon["scientific_name"]}", #scientific_name
+                "c" => "", #publisher
+                "d" => "", #publisherId
+                "e" => "", #dataset
+                "f" => "#{taxon["dataset_id"]}", #datasetId
+                "g" => "#{taxon["source"]}", #gbifId
+                "h" => occ["decimalLatitude"],
+                "i" => occ["decimalLongitude"],
+                "j" => "#{occ["recordedBy"]}", #recordedBy
+                "k" => "#{occ["identifiedBy"]}", #identifiedBy
+                "l" => "", #pic_url
+                "m" => "#{occ["eventDate"]}" #eventDate
+                }
+              if (!tempHash["h"].nil?)&&(!tempHash["i"].nil?) #validate decimal longitude and latitude existence
+                 actual_count +=1
+              end
+              json_path.write(tempHash.to_json)
+              occ_count-=1
+              if occ_count>=1
+                json_path.write(",")
+              end
+           end
+            json_path.write("],\"count\":#{occurrences.count},\"actual\":#{actual_count}}")
+           end
+          else
+          #append new occurrence records, and update both count and actual
+          # debugger
+          # json_path = File.read("#{maps_path}"+"#{page_eol_id}.json")
+          json_content = JSON.parse(File.read("#{maps_path}#{page_eol_id}.json"))
+          # json_content = JSON.parse(File.read("public/data/maps/1/1.json"))
+          records = json_content["records"]
+          records_hash = records.first
+          count = json_content["count"].to_i
+          actual = json_content["actual"].to_i
+          unless occurrences.nil?
+            # debugger
+            json_path_temp = File.open("#{maps_path}#{page_eol_id}_temp.json","w")
+            json_path_temp.write("{\"records\":[")
+            records.each do |rec|
+                records_hash = {
+                "a" => "#{rec["a"]}", #catalog number
+                "b" => "#{rec["b"]}", #scientific_name
+                "c" => "", #publisher
+                "d" => "", #publisherId
+                "e" => "", #dataset
+                "f" => "#{rec["f"]}", #datasetId
+                "g" => "#{rec["g"]}", #gbifId
+                "h" => rec["h"], 
+                "i" => rec["i"], 
+                "j" => "#{rec["j"]}", #recordedBy
+                "k" => "#{rec["k"]}", #identifiedBy
+                "l" => "", #pic_url
+                "m" => "#{rec["m"]}" #eventDate
+                }
+                json_path_temp.write("#{records_hash.to_json},")
+              end
+            occurrences.each do |occ|
+              tempHash = {
+                "a" => "#{occ["catalogNumber"]}", #catalog number
+                "b" => "#{taxon["scientific_name"]}", #scientific_name
+                "c" => "", #publisher
+                "d" => "", #publisherId
+                "e" => "", #dataset
+                "f" => "#{taxon["dataset_id"]}", #datasetId
+                "g" => "#{taxon["source"]}", #gbifId
+                "h" => "#{occ["decimalLatitude"]}", #decimalLatitude
+                "i" => "#{occ["decimalLongitude"]}", #decimalLongitude
+                "j" => "#{occ["recordedBy"]}", #recordedBy
+                "k" => "#{occ["identifiedBy"]}", #identifiedBy
+                "l" => "", #pic_url
+                "m" => "#{occ["eventDate"]}" #eventDate
+                }
+              if (!tempHash["h"].nil?)&&(!tempHash["i"].nil?) #validate decimal longitude and latitude existence
+                 actual_count+=1
+                 actual+=1
+              end
+              #records_hash = "#{records_hash.to_json},#{tempHash.to_json}"
+              json_path_temp.write("#{tempHash.to_json}")
+            occ_count-=1
+              if occ_count>=1
+                json_path_temp.write(",")
+              end
+             end
+        json_path_temp.write("],\"count\":#{occurrences.count+count},\"actual\":#{actual}}")
+        # File.delete(json_path)
+        File.rename(json_path_temp, "#{maps_path}#{page_eol_id}.json")
+        #add entries to occurrence_maps table if the page has valid occurrence plottings for the maps
+        if (actual_count>0)
+          $occurrence_maps_array.insert($occurrence_maps_count,{:resource_id => taxon["resource_id"],:page_id => taxon["page_eol_id"]})
+          $occurrence_maps_count+=1
+        end
+end
+end
+end
+# end
 
 def load_data_into_mysql()
   # db = YAML::load( File.open( File.join(Rails.root, 'config', 'database.yml') ) )
@@ -1272,15 +1385,18 @@ def insert_mysql_query(table_name,cols,results)
   
 end
 
+
 namespace :harvester do
   desc "TODO"  
   task get_latest_updates: :environment do
     
-
-    
-
-    # main_method_3
-    main_method
+    # o1 = "{\"occurrenceId\":\"Plakobranchus 803\",\"eventId\":null,\"institutionCode\":null,\"collectionCode\":null,\"catalogNumber\":null,\"sex\":null,\"lifeStage\":null,\"reproductiveCondition\":null,\"behavior\":null,\"establishmentMeans\":null,\"remarks\":\"sp, \\\"white\",\"countOfIndividuals\":null,\"preparations\":null,\"fieldNotes\":null,\"samplingProtocol\":null,\"samplingEffort\":null,\"recordedBy\":null,\"identifiedBy\":null,\"dateIdentified\":null,\"eventDate\":null,\"modifiedDate\":null,\"locality\":\"Oceania\",\"decimalLatitude\":\"13\",\"decimalLongitude\":null,\"verbatimLatitude\":null,\"verbatimLongitude\":null,\"verbatimElevation\":null,\"deltaStatus\":\"I\"}"
+    # o2 = JSON.parse(o1)
+    # remarks = o2["remarks"]
+    # debugger
+    # remarks.include?"\""
+    main_method_3
+    # main_method
     # main_method_4
     # main_method_2
     # build_hierarchy(Node.all.limit(50).pluck(:generated_node_id))
@@ -1288,7 +1404,7 @@ namespace :harvester do
     # get_dynamic_heirarchy_nodes
 
   
-     build_ancestors_for_sql_solution
+     # build_ancestors_for_sql_solution
 
 
   end

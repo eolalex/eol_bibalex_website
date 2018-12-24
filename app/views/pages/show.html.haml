@@ -30,7 +30,10 @@
                 %br/
                 - if @page.articles.size > 0
                   %h5 #{t(:comprehensive_description)}
-                  = @page.articles.first.name
+                  %p
+                    %object{:width => "100%",:height => "100%"}
+                      %p
+                        =@page.articles.first.body.html_safe
                 - else
                   %h5 #{t(:no_articles)}
         .col-md-4
@@ -39,22 +42,24 @@
               .well
                 %h3
                   Classification
-                %hr/
-                -page_node = @page.nodes.first
-                -tree = classification_overview(page_node)
-                -tree.each do |node|
-                  -unless node.nil?
-                    -unless node.pages.empty?
-                      %a{href:  "/pages/#{node.pages.first.id}"} 
-                        =node.scientific_name
-                    -else
-                      =node.scientific_name 
+                  -# %hr/
+                  -# -page_node = @page.nodes.first
+                  -# -tree = classification_overview(page_node)
+                  -# -tree.each do |node|
+                    -# -unless node.nil?
+                      -# -unless node.pages.empty?
+                        -# %a{href:  "/pages/#{node.pages.first.id}"} 
+                          -# =node.scientific_name
+                      -# -else
+                        -# =node.scientific_name 
                   \/
             .widget.categories
               -if @page.data.size > 0
                 %h3
                   #{t(:selective_traits)}
-                  %small.pull-right traits
+                  %small.pull-right 
+                    %li
+                      %a{:href => page_data_path(@page)} #{t(:traits)}
                 %table.table.table-striped
                   - @page.data.each do |trait|  
                     %tr
@@ -80,10 +85,10 @@
                     .col-lg-10.col-md-9.col-sm-11.col-xs-9
                       %b 
                         #{@page.scientific_name}
-            .widget.blog_gallery
-              %h3 #{t(:refresh_memory)}
-              %ul.sidebar-gallery
-                %li
-                  %a{:href => "http://fieldguides.eol.org/memory/"}
-                    =image_tag "memory-game-icon.png", :alt => ""
+            -#.widget.blog_gallery
+              -#%h3 #{t(:refresh_memory)}
+              -#%ul.sidebar-gallery
+                -#%li
+                  -#%a{:href => "http://fieldguides.eol.org/memory/"}
+                    -#=image_tag "memory-game-icon.png", :alt => ""
 

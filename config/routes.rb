@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+  match '(:anything)' => 'application#nothing', via: [:options]
   get 'pages/index'
 
   devise_for :users, controllers: {registrations: "registrations",

@@ -23,17 +23,17 @@
         %p
           %strong
             #{t(:type)}
-          %a #{ @resource.type }
+          #{ @resource.type }
         -if @resource.type.eql?("url")
           %p
             %strong
               #{t(:uploaded_url)}
-            %a #{ @resource.uploaded_url }
+            #{ @resource.uploaded_url }
         -if @resource.type.eql?("file")
           %p
             %strong
               #{t(:file_path)}
-            %a #{ @resource.path}
+            #{ @resource.path}
         %p
           %strong
             #{t(:default_language)}
