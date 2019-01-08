@@ -46,36 +46,36 @@
         %h2 #{t(:explore_taxa)}
       #mixedSlider.carousel_Thumbnails
         .MS-content
-          -# .item
-            -# .imgTitle
-              -# %a{:href => "/pages/46570763"}
-                -# %h2.blogTitle
-                  -# = Page.find_by_id(46570763).try(:scientific_name)
-                -# = image_tag Page.find_by_id(46570763).try(:media).size > 0 && !Page.find_by_id(46570763).try(:media).first.base_url.nil? ? Page.find_by_id(46570763).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
-          -# .item
-            -# .imgTitle
-              -# %a{:href => "/pages/46579654"}
-                -# %h2.blogTitle
-                  -# = Page.find_by_id(46579654).try(:scientific_name)
-                -# = image_tag Page.find_by_id(46579654) && Page.find_by_id(46579654).media.size > 0 && !Page.find_by_id(46579654).try(:media).first.base_url.nil? ? Page.find_by_id(46579654).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
-          -# .item
-            -# .imgTitle
-              -# %a{:href => "/pages/45515245"}
-                -# %h2.blogTitle
-                  -# = Page.find_by_id(45515245).try(:scientific_name)
-                -# = image_tag Page.find_by_id(45515245) && Page.find_by_id(45515245).media.size > 0 && !Page.find_by_id(45515245).try(:media).first.base_url.nil? ? Page.find_by_id(45515245).try(:media).first.base_url : "assets/download.png", style: 'height:25%;width:auto;'
-          -# .item
-            -# .imgTitle
-              -# %a{:href => "/pages/45515099"}
-                -# %h2.blogTitle
-                  -# = Page.find_by_id(45515099).try(:scientific_name)
-                -# = image_tag Page.find_by_id(45515099) && Page.find_by_id(45515099).media.size > 0 && !Page.find_by_id(45515099).try(:media).first.base_url.nil? ? Page.find_by_id(45515099).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
-          -# .item
-            -# .imgTitle
-              -# %a{:href => "/pages/767462"}
-                -# %h2.blogTitle
-                  -# = Page.find_by_id(767462).try(:scientific_name)
-                -# = image_tag Page.find_by_id(767462) && Page.find_by_id(767462).media.size > 0 && !Page.find_by_id(767462).try(:media).first.base_url.nil? ? Page.find_by_id(767462).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'                
+           .item
+             .imgTitle
+               %a{:href => "/pages/46570763"}
+                 %h2.blogTitle
+                   = Page.find_by_id(46570763).try(:scientific_name)
+                 = image_tag Page.find_by_id(46570763).try(:media).size > 0 && !Page.find_by_id(46570763).try(:media).first.base_url.nil? ? Page.find_by_id(46570763).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+           .item
+             .imgTitle
+               %a{:href => "/pages/46579654"}
+                 %h2.blogTitle
+                   = Page.find_by_id(46579654).try(:scientific_name)
+                 = image_tag Page.find_by_id(46579654) && Page.find_by_id(46579654).media.size > 0 && !Page.find_by_id(46579654).try(:media).first.base_url.nil? ? Page.find_by_id(46579654).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+           .item
+             .imgTitle
+               %a{:href => "/pages/45515245"}
+                 %h2.blogTitle
+                   = Page.find_by_id(45515245).try(:scientific_name)
+                 = image_tag Page.find_by_id(45515245) && Page.find_by_id(45515245).media.size > 0 && !Page.find_by_id(45515245).try(:media).first.base_url.nil? ? Page.find_by_id(45515245).try(:media).first.base_url : "assets/download.png", style: 'height:25%;width:auto;'
+           .item
+             .imgTitle
+               %a{:href => "/pages/45515099"}
+                 %h2.blogTitle
+                   = Page.find_by_id(45515099).try(:scientific_name)
+                 = image_tag Page.find_by_id(45515099) && Page.find_by_id(45515099).media.size > 0 && !Page.find_by_id(45515099).try(:media).first.base_url.nil? ? Page.find_by_id(45515099).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+           .item
+             .imgTitle
+               %a{:href => "/pages/767462"}
+                 %h2.blogTitle
+                   = Page.find_by_id(767462).try(:scientific_name)
+                 = image_tag Page.find_by_id(767462) && Page.find_by_id(767462).media.size > 0 && !Page.find_by_id(767462).try(:media).first.base_url.nil? ? Page.find_by_id(767462).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'                
 
   .container
     .separator
