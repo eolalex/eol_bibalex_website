@@ -322,31 +322,23 @@ def main_method_3
   # # end_harvested_time = "1540400200000"
     # end_harvested_time = get_end_time
 
-   start_harvested_time = "1545246841000"
-  # # end_harvested_time = "1540400200000"
+   # start_harvested_time = "1545246841000"
+  # end_harvested_time = "1546148395980"
     end_harvested_time = get_end_time
+    start_harvested_time = "1545735517000"
+    # end_harvested_time = "1545735819000"
 
-  # # debugger
+  # debugger
 
-
+# finish = 0
   while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
   # while(finish == 0)
     #start_harvested_time is included 
     #end_harvested_time is excluded therefore we keep it to next loop
-    json_content = get_latest_updates_from_mysql(start_harvested_time,end_harvested_time)
-    # json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
+     json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
 
     # json_content = get_latest_updates_from_mysql(start_harvested_time, end_harvested_time)
     tables = JSON.parse(json_content)
-
-#   
-  # while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
-    # #start_harvested_time is included 
-    # #end_harvested_time is excluded therefore we keep it to next loop
-    # json_content = get_latest_updates_from_mysql(start_harvested_time,(start_harvested_time.to_i + 30000).to_s)
-    # # json_content = get_latest_updates_from_mysql(start_harvested_time, end_harvested_time)
-    # tables = JSON.parse(json_content)
-
     licenses = tables["licenses"]
     ranks = tables["ranks"]
     nodes = tables["nodes"]
@@ -428,7 +420,8 @@ def main_method_3
     unless references.nil? 
       Reference.bulk_insert(references,:validate => true , :use_provided_primary_key => true)
     end 
-  
+   # debugger
+
     unless traits.nil?
       traits.each do|trait|
         generated_node_id = trait["generated_node_id"]
@@ -441,6 +434,7 @@ def main_method_3
         page_id = PagesNode.where(node_id: node_id).first.page_id
         load_occurrence(occurrences, page_id, resource_id)
       end
+      
       traits.each do|trait|   
         generated_node_id = trait["generated_node_id"]
         occurrences = "["+trait["occurrences"]+"]"
@@ -457,7 +451,7 @@ def main_method_3
         node_params = { page_id: page_id, resource_id: resource_id, scientific_name: scientific_name}
         add_neo4j(node_params, occurrences, measurements, associations)
       end
-    end
+      end
 
     # create maps json file for occurrence_maps
     unless taxa.nil?
@@ -476,21 +470,20 @@ def main_method_3
     
 
      start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+     # finish = 1
 
 end
 
-   
+
 end
 
 def write_to_json(taxon)
-  #TO-DO: handle multiple resources updating the page maps file
         page_eol_id = taxon["page_eol_id"]
         occurrences = "["+taxon["occurrences"]+"]"
         occurrences = JSON.parse(occurrences)
         occ_count = occurrences.count
         actual_count = 0
         maps_path = Pathname("public/data/maps/"+"#{page_eol_id%100}/")
-        # debugger
         unless maps_path.exist?
           FileUtils.mkdir_p maps_path
         end
@@ -498,22 +491,23 @@ def write_to_json(taxon)
         unless File.exists?("#{maps_path}#{page_eol_id}.json")
           unless occurrences.nil?
             json_path = File.open("#{maps_path}"+"#{page_eol_id}.json","w")
+            json_path.sync=true
             json_path.write("{\"records\":[")
             occurrences.each do |occ|
               tempHash = {
-                "a" => "#{occ["catalogNumber"]}", #catalog number
-                "b" => "#{taxon["scientific_name"]}", #scientific_name
-                "c" => "", #publisher
-                "d" => "", #publisherId
-                "e" => "", #dataset
-                "f" => "#{taxon["dataset_id"]}", #datasetId
-                "g" => "#{taxon["source"]}", #gbifId
-                "h" => occ["decimalLatitude"],
-                "i" => occ["decimalLongitude"],
-                "j" => "#{occ["recordedBy"]}", #recordedBy
-                "k" => "#{occ["identifiedBy"]}", #identifiedBy
-                "l" => "", #pic_url
-                "m" => "#{occ["eventDate"]}" #eventDate
+                "a" => (occ["catalogNumber"].nil? ? nil : "#{occ["catalogNumber"]}"), #catalog number
+                "b" => (taxon["scientific_name"] == "null" ? nil : "#{taxon["scientific_name"]}"), #scientific_name
+                "c" => nil, #publisher
+                "d" => nil, #publisherId
+                "e" => nil, #dataset
+                "f" => (taxon["dataset_id"] == "null" ? nil : "#{taxon["dataset_id"]}"), #datasetId
+                "g" => (taxon["source"] == "null" ? nil : "#{taxon["source"]}"), #gbifId
+                "h" => (occ["decimalLatitude"].nil? ? nil : occ["decimalLatitude"]),
+                "i" => (occ["decimalLongitude"].nil? ? nil : occ["decimalLongitude"]),
+                "j" => (occ["recordedBy"].nil? ? nil : "#{occ["recordedBy"]}"), #recordedBy
+                "k" => (occ["identifiedBy"].nil? ? nil : "#{occ["identifiedBy"]}"), #identifiedBy
+                "l" => nil, #pic_url
+                "m" => (occ["eventDate"].nil? ? nil : "#{occ["eventDate"]}") #eventDate
                 }
               if (!tempHash["h"].nil?)&&(!tempHash["i"].nil?) #validate decimal longitude and latitude existence
                  actual_count +=1
@@ -526,59 +520,56 @@ def write_to_json(taxon)
            end
             json_path.write("],\"count\":#{occurrences.count},\"actual\":#{actual_count}}")
            end
+         
           else
           #append new occurrence records, and update both count and actual
-          # debugger
-          # json_path = File.read("#{maps_path}"+"#{page_eol_id}.json")
           json_content = JSON.parse(File.read("#{maps_path}#{page_eol_id}.json"))
-          # json_content = JSON.parse(File.read("public/data/maps/1/1.json"))
           records = json_content["records"]
           records_hash = records.first
-          count = json_content["count"].to_i
+          count = json_content["count"].to_i          
           actual = json_content["actual"].to_i
           unless occurrences.nil?
-            # debugger
             json_path_temp = File.open("#{maps_path}#{page_eol_id}_temp.json","w")
+            json_path_temp.sync=true
             json_path_temp.write("{\"records\":[")
             records.each do |rec|
                 records_hash = {
-                "a" => "#{rec["a"]}", #catalog number
-                "b" => "#{rec["b"]}", #scientific_name
-                "c" => "", #publisher
-                "d" => "", #publisherId
-                "e" => "", #dataset
-                "f" => "#{rec["f"]}", #datasetId
-                "g" => "#{rec["g"]}", #gbifId
-                "h" => rec["h"], 
-                "i" => rec["i"], 
-                "j" => "#{rec["j"]}", #recordedBy
-                "k" => "#{rec["k"]}", #identifiedBy
-                "l" => "", #pic_url
-                "m" => "#{rec["m"]}" #eventDate
+                "a" => (rec["a"].nil? ? nil : "#{rec["a"]}"),
+                "b" => (rec["b"].nil? ? nil : "#{rec["b"]}"),
+                "c" => (rec["c"].nil? ? nil : "#{rec["c"]}"),
+                "d" => (rec["d"].nil? ? nil : "#{rec["d"]}"),
+                "e" => (rec["e"].nil? ? nil : "#{rec["e"]}"),
+                "f" => (rec["f"].nil? ? nil : "#{rec["f"]}"),
+                "g" => (rec["g"].nil? ? nil : "#{rec["g"]}"),
+                "h" => (rec["h"].nil? ? nil : rec["h"]), 
+                "i" => (rec["i"].nil? ? nil : rec["i"]), 
+                "j" => (rec["j"].nil? ? nil : "#{rec["j"]}"),
+                "k" => (rec["k"].nil? ? nil : "#{rec["k"]}"),
+                "l" => (rec["l"].nil? ? nil : "#{rec["l"]}"),
+                "m" => (rec["m"].nil? ? nil : "#{rec["m"]}")
                 }
                 json_path_temp.write("#{records_hash.to_json},")
               end
             occurrences.each do |occ|
               tempHash = {
-                "a" => "#{occ["catalogNumber"]}", #catalog number
-                "b" => "#{taxon["scientific_name"]}", #scientific_name
-                "c" => "", #publisher
-                "d" => "", #publisherId
-                "e" => "", #dataset
-                "f" => "#{taxon["dataset_id"]}", #datasetId
-                "g" => "#{taxon["source"]}", #gbifId
-                "h" => "#{occ["decimalLatitude"]}", #decimalLatitude
-                "i" => "#{occ["decimalLongitude"]}", #decimalLongitude
-                "j" => "#{occ["recordedBy"]}", #recordedBy
-                "k" => "#{occ["identifiedBy"]}", #identifiedBy
-                "l" => "", #pic_url
-                "m" => "#{occ["eventDate"]}" #eventDate
+                "a" => (occ["catalogNumber"].nil? ? nil : "#{occ["catalogNumber"]}"), #catalog number
+                "b" => (taxon["scientific_name"] == "null" ? nil : "#{taxon["scientific_name"]}"), #scientific_name
+                "c" => nil, #publisher
+                "d" => nil, #publisherId
+                "e" => nil, #dataset
+                "f" => (taxon["dataset_id"] == "null" ? nil : "#{taxon["dataset_id"]}"), #datasetId
+                "g" => (taxon["source"] == "null" ? nil : "#{taxon["source"]}"), #gbifId
+                "h" => (occ["decimalLatitude"].nil? ? nil : occ["decimalLatitude"]),
+                "i" => (occ["decimalLongitude"].nil? ? nil : occ["decimalLongitude"]),
+                "j" => (occ["recordedBy"].nil? ? nil : "#{occ["recordedBy"]}"), #recordedBy
+                "k" => (occ["identifiedBy"].nil? ? nil : "#{occ["identifiedBy"]}"), #identifiedBy
+                "l" => nil, #pic_url
+                "m" => (occ["eventDate"].nil? ? nil : "#{occ["eventDate"]}") #eventDate
                 }
               if (!tempHash["h"].nil?)&&(!tempHash["i"].nil?) #validate decimal longitude and latitude existence
                  actual_count+=1
                  actual+=1
               end
-              #records_hash = "#{records_hash.to_json},#{tempHash.to_json}"
               json_path_temp.write("#{tempHash.to_json}")
             occ_count-=1
               if occ_count>=1
@@ -586,7 +577,6 @@ def write_to_json(taxon)
               end
              end
         json_path_temp.write("],\"count\":#{occurrences.count+count},\"actual\":#{actual}}")
-        # File.delete(json_path)
         File.rename(json_path_temp, "#{maps_path}#{page_eol_id}.json")
         #add entries to occurrence_maps table if the page has valid occurrence plottings for the maps
         if (actual_count>0)
@@ -596,7 +586,7 @@ def write_to_json(taxon)
 end
 end
 end
-# end
+
 
 namespace :harvester do
   desc "TODO"  
