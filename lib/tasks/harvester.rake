@@ -325,7 +325,7 @@ def main_method_3
    # start_harvested_time = "1545246841000"
   # end_harvested_time = "1546148395980"
     end_harvested_time = get_end_time
-    start_harvested_time = "1545735517000"
+    start_harvested_time = "1545650517000"
     # end_harvested_time = "1545735819000"
 
   # debugger
