@@ -22,6 +22,7 @@
     -if @page.articles.size > 0
       %li
         %a{:href => page_articles_path(@page)} #{t(:articles)}
+
     -if @page.map?
       %li
         %a{:href => page_maps_path(@page)} #{t(:maps)}

@@ -55,22 +55,25 @@ end
   def synonyms
     scientific_names.synonym.map { |n| n.canonical_form }
   end
+
+  def occurrence_map?
+    occurrence_map
+  end
   
   def map?
     occurrence_map? || map_count.size > 0
   end
   
-  def map_count
-    Medium.joins("INNER JOIN page_contents ON media.id = page_contents.content_id AND media.subclass=3 AND page_contents.source_page_id= #{id}")
-    # PageContent.where(source_page_id: id )
-  end
+
   
   def maps
     media.where(subclass: Medium.subclasses[:map])
   end
   
-  def occurrence_map?
-    occurrence_map
+  def map_count
+    Medium.joins("INNER JOIN page_contents ON media.id = page_contents.content_id AND media.subclass=3 AND page_contents.source_page_id= #{id}")
+    
+    # PageContent.where(source_page_id: id )
   end
 
  # TRAITS METHODS
@@ -111,5 +114,4 @@ end
     @object_terms ||= glossary.keys - predicates
   end
 
- 
   end

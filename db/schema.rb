@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20181230094612) do
+
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "owner"
@@ -178,6 +180,13 @@ ActiveRecord::Schema.define(version: 20181230094612) do
     t.datetime "updated_at", null: false
   end
 
+
+  create_table "maps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "format"
     t.text "description"
@@ -240,6 +249,7 @@ ActiveRecord::Schema.define(version: 20181230094612) do
     t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["page_id", "resource_id"], name: "index_occurrence_maps_on_page_id_and_resource_id"
   end
 
   create_table "occurrence_page_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -476,6 +486,14 @@ ActiveRecord::Schema.define(version: 20181230094612) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "traits", primary_key: "generated_node_id", id: :integer, default: 0, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.text "occurrences"
+    t.text "associations"
+    t.text "measurement_or_facts"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "user_providers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
     t.string "provider"
@@ -513,8 +531,18 @@ ActiveRecord::Schema.define(version: 20181230094612) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+<<<<<<< HEAD
   create_table "vernaculars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "string"
+=======
+<<<<<<< HEAD
+  create_table "vernaculars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "string"
+=======
+  create_table "vernaculars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.string "string", collation: "utf8_general_ci"
+>>>>>>> 3c22c0b4c971fa7ab8eb29de3ebf6c3a84ce281f
+>>>>>>> 87d7063f4dca07a8dcf4e52ad89d20e1233a265f
     t.integer "resource_id"
     t.boolean "is_prefered_by_resource"
     t.integer "generated_node_id"

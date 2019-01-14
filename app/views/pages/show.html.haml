@@ -52,12 +52,14 @@
                         =node.scientific_name
                     -else
                       =node.scientific_name 
-                  \/
+                \/
             .widget.categories
               -if @page.data.size > 0
                 %h3
                   #{t(:selective_traits)}
-                  %small.pull-right traits
+                  %small.pull-right 
+                    %li
+                      %a{:href => page_data_path(@page)} #{t(:traits)}
                 %table.table.table-striped
                   - @page.data.each do |trait|  
                     %tr

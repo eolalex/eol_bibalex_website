@@ -319,8 +319,12 @@ def main_method_3
 # 
   # tables = JSON.parse(File.read(file_path))
 
+
     start_harvested_time = "1540211584000"
     end_harvested_time = get_end_time
+
+
+  # debugger
 
 # finish = 0
   while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
@@ -328,8 +332,8 @@ def main_method_3
     #start_harvested_time is included 
     #end_harvested_time is excluded therefore we keep it to next loop
      json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
-
-     tables = JSON.parse(json_content)
+    # json_content = get_latest_updates_from_mysql(start_harvested_time, end_harvested_time)
+    tables = JSON.parse(json_content)
     licenses = tables["licenses"]
     ranks = tables["ranks"]
     nodes = tables["nodes"]
@@ -455,6 +459,7 @@ def main_method_3
      start_harvested_time = (start_harvested_time.to_i + 30000).to_s
 end
 end
+
 
 def write_to_json(taxon)
         page_eol_id = taxon["page_eol_id"]

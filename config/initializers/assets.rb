@@ -24,4 +24,30 @@ Rails.application.config.assets.precompile += %w( terms.js )
 Rails.application.config.assets.precompile += %w( data.js )
 Rails.application.config.assets.precompile += %w( flash.js )
 Rails.application.config.assets.precompile += %w( haml.css )
+Rails.application.config.assets.precompile += %w( leaflet.css )
+Rails.application.config.assets.precompile += %w( leaflet.js )
+Rails.application.config.assets.precompile += %w( json_maps.js )
+Rails.application.config.assets.precompile += %w( terms.js )
+Rails.application.config.assets.precompile += %w( leaflet-src.js )
+Rails.application.config.assets.precompile += %w( MarkerCluster.css )
+Rails.application.config.assets.precompile += %w( MarkerCluster.Default.css )
+Rails.application.config.assets.precompile += %w( leaflet.markercluster.js )
+# Rails.application.config.assets.precompile += %w(markerclusterer.js )
+Rails.application.config.assets.precompile += %w( Control.FullScreen.css )
+Rails.application.config.assets.precompile += %w( Control.FullScreen.js)
+Rails.application.config.assets.precompile += %w( Control.Loading.css )
+Rails.application.config.assets.precompile += %w( Control.Loading.js )
+Rails.application.config.assets.precompile += %w( Leaflet.NavBar.css )
+Rails.application.config.assets.precompile += %w( Leaflet.NavBar.js )
+Rails.application.config.assets.precompile += %w( freezable.js )
+Rails.application.config.assets.precompile += %w( maps_leaflet.js )
+# For leaflet maps
+%w( leaflet MarkerCluster MarkerCluster.Default Control.FullScreen Leaflet.NavBar Control.Loading ).each do |css_asset|
+  Rails.application.config.assets.precompile << "#{css_asset}.css"
+end
+
+# TODO: remove last entry (should be dynamically loaded json)
+%w( leaflet leaflet.markercluster Control.FullScreen Leaflet.NavBar freezable Control.Loading maps_leaflet 5169 ).each do |js_asset|
+  Rails.application.config.assets.precompile << "#{js_asset}.js"
+end
 
