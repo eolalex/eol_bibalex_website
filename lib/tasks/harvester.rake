@@ -5,6 +5,7 @@ require "date"
 require "enumerator"
 require "fileutils"
 require "yaml"
+require 'geo/coord'
 $sql_commands= File.new('commands.sql', 'w')
 $occurrence_maps_count = 0
 $occurrence_maps_array = Array.new()
@@ -324,9 +325,9 @@ def main_method_3
 
    # start_harvested_time = "1545246841000"
   # end_harvested_time = "1546148395980"
-    end_harvested_time = get_end_time
-    start_harvested_time = "1545735517000"
-    # end_harvested_time = "1545735819000"
+    # end_harvested_time = get_end_time
+    start_harvested_time = "1547379150000"
+    end_harvested_time = "1547382030000"
 
   # debugger
 
@@ -339,6 +340,7 @@ def main_method_3
 
     # json_content = get_latest_updates_from_mysql(start_harvested_time, end_harvested_time)
     tables = JSON.parse(json_content)
+    # debugger
     licenses = tables["licenses"]
     ranks = tables["ranks"]
     nodes = tables["nodes"]
@@ -355,6 +357,7 @@ def main_method_3
     referents = tables["referents"]
     references = tables["references"]
     traits = tables["traits"]
+    # debugger
     taxa = tables["taxa"]
 
     
@@ -422,36 +425,36 @@ def main_method_3
     end 
    # debugger
 
-    unless traits.nil?
-      traits.each do|trait|
-        generated_node_id = trait["generated_node_id"]
-        occurrences = "["+trait["occurrences"]+"]"
-        occurrences = JSON.parse(occurrences)
-        node = Node.where(generated_node_id: generated_node_id).first
-        node_id = node.id
-        resource_id = node.resource_id
-        scientific_name = node.scientific_name
-        page_id = PagesNode.where(node_id: node_id).first.page_id
-        load_occurrence(occurrences, page_id, resource_id)
-      end
-      
-      traits.each do|trait|   
-        generated_node_id = trait["generated_node_id"]
-        occurrences = "["+trait["occurrences"]+"]"
-        occurrences = JSON.parse(occurrences)
-        associations = "["+trait["associations"]+"]"
-        associations = JSON.parse(associations)
-        measurements = "["+trait["measurementOrFacts"]+"]"
-        measurements = JSON.parse(measurements)
-        node = Node.where(generated_node_id: generated_node_id).first
-        node_id = node.id
-        resource_id = node.resource_id
-        scientific_name = node.scientific_name
-        page_id = PagesNode.where(node_id: node_id).first.page_id
-        node_params = { page_id: page_id, resource_id: resource_id, scientific_name: scientific_name}
-        add_neo4j(node_params, occurrences, measurements, associations)
-      end
-      end
+    # unless traits.nil?
+      # traits.each do|trait|
+        # generated_node_id = trait["generated_node_id"]
+        # occurrences = "["+trait["occurrences"]+"]"
+        # occurrences = JSON.parse(occurrences)
+        # node = Node.where(generated_node_id: generated_node_id).first
+        # node_id = node.id
+        # resource_id = node.resource_id
+        # scientific_name = node.scientific_name
+        # page_id = PagesNode.where(node_id: node_id).first.page_id
+        # load_occurrence(occurrences, page_id, resource_id)
+      # end
+#       
+      # traits.each do|trait|   
+        # generated_node_id = trait["generated_node_id"]
+        # occurrences = "["+trait["occurrences"]+"]"
+        # occurrences = JSON.parse(occurrences)
+        # associations = "["+trait["associations"]+"]"
+        # associations = JSON.parse(associations)
+        # measurements = "["+trait["measurementOrFacts"]+"]"
+        # measurements = JSON.parse(measurements)
+        # node = Node.where(generated_node_id: generated_node_id).first
+        # node_id = node.id
+        # resource_id = node.resource_id
+        # scientific_name = node.scientific_name
+        # page_id = PagesNode.where(node_id: node_id).first.page_id
+        # node_params = { page_id: page_id, resource_id: resource_id, scientific_name: scientific_name}
+        # add_neo4j(node_params, occurrences, measurements, associations)
+      # end
+      # end
 
     # create maps json file for occurrence_maps
     unless taxa.nil?
@@ -491,28 +494,50 @@ def write_to_json(taxon)
         unless File.exists?("#{maps_path}#{page_eol_id}.json")
           unless occurrences.nil?
             json_path = File.open("#{maps_path}"+"#{page_eol_id}.json","w")
-            json_path.sync=true
+            json_path.sync = true
             json_path.write("{\"records\":[")
+            geoLocations = Array.new()
             occurrences.each do |occ|
-              tempHash = {
-                "a" => (occ["catalogNumber"].nil? ? nil : "#{occ["catalogNumber"]}"), #catalog number
-                "b" => (taxon["scientific_name"] == "null" ? nil : "#{taxon["scientific_name"]}"), #scientific_name
-                "c" => nil, #publisher
-                "d" => nil, #publisherId
-                "e" => nil, #dataset
-                "f" => (taxon["dataset_id"] == "null" ? nil : "#{taxon["dataset_id"]}"), #datasetId
-                "g" => (taxon["source"] == "null" ? nil : "#{taxon["source"]}"), #gbifId
-                "h" => (occ["decimalLatitude"].nil? ? nil : occ["decimalLatitude"]),
-                "i" => (occ["decimalLongitude"].nil? ? nil : occ["decimalLongitude"]),
-                "j" => (occ["recordedBy"].nil? ? nil : "#{occ["recordedBy"]}"), #recordedBy
-                "k" => (occ["identifiedBy"].nil? ? nil : "#{occ["identifiedBy"]}"), #identifiedBy
-                "l" => nil, #pic_url
-                "m" => (occ["eventDate"].nil? ? nil : "#{occ["eventDate"]}") #eventDate
-                }
+              #check if the coordinates are in Degree, Minute, Hemisphere and convert into decimal format
+
+              if (!occ["decimalLatitude"].nil? && !occ["decimalLongitude"].nil? && (!occ["decimalLongitude"].is_a? Numeric) && (!occ["decimalLatitude"].is_a? Numeric ))
+                lat_border_1 = occ["decimalLatitude"].split('-', 2)[0]
+                lat_border_2 = occ["decimalLatitude"].split('-', 2)[1]
+                lng_border_1 = occ["decimalLongitude"].split('-', 2)[0]
+                lng_border_2 = occ["decimalLongitude"].split('-', 2)[1]
+                
+                geoLocations[0] = Geo::Coord.parse_dms(lat_border_1+','+lng_border_1)
+                geoLocations[1] = Geo::Coord.parse_dms(lat_border_1+','+lng_border_2)
+                geoLocations[2] = Geo::Coord.parse_dms(lat_border_2+','+lng_border_1)
+                geoLocations[3] = Geo::Coord.parse_dms(lat_border_2+','+lng_border_2)
+
+                else
+                  geoLocations[0] = Geo::Coord.parse_ll('#{occ[decimalLatitude]},#{occ[decimalLongitude]}')
+                end
+                geoLocations.each do |geoLoc|
+                    tempHash = {
+                      "a" => (occ["catalogNumber"].nil? ? nil : "#{occ["catalogNumber"]}"), #catalog number
+                      "b" => (taxon["scientific_name"] == "null" ? nil : "#{taxon["scientific_name"]}"), #scientific_name
+                      "c" => nil, #publisher
+                      "d" => nil, #publisherId
+                      "e" => nil, #dataset
+                      "f" => (taxon["dataset_id"] == "null" ? nil : "#{taxon["dataset_id"]}"), #datasetId
+                      "g" => (taxon["source"] == "null" ? nil : "#{taxon["source"]}"), #gbifId
+                      "h" => (occ["decimalLatitude"].nil? ? nil : geoLoc.lat),
+                      "i" => (occ["decimalLongitude"].nil? ? nil : geoLoc.lng),
+                      "j" => (occ["recordedBy"].nil? ? nil : "#{occ["recordedBy"]}"), #recordedBy
+                      "k" => (occ["identifiedBy"].nil? ? nil : "#{occ["identifiedBy"]}"), #identifiedBy
+                      "l" => nil, #pic_url
+                      "m" => (occ["eventDate"].nil? ? nil : "#{occ["eventDate"]}") #eventDate
+                      }
+                  json_path.write(tempHash.to_json)
+                  unless geoLoc == geoLocations.last
+                    json_path.write(",")
+                    end 
+                end
               if (!tempHash["h"].nil?)&&(!tempHash["i"].nil?) #validate decimal longitude and latitude existence
                  actual_count +=1
               end
-              json_path.write(tempHash.to_json)
               occ_count-=1
               if occ_count>=1
                 json_path.write(",")
@@ -530,7 +555,7 @@ def write_to_json(taxon)
           actual = json_content["actual"].to_i
           unless occurrences.nil?
             json_path_temp = File.open("#{maps_path}#{page_eol_id}_temp.json","w")
-            json_path_temp.sync=true
+            json_path_temp.sync = true
             json_path_temp.write("{\"records\":[")
             records.each do |rec|
                 records_hash = {
@@ -550,32 +575,53 @@ def write_to_json(taxon)
                 }
                 json_path_temp.write("#{records_hash.to_json},")
               end
+            geoLocations = Array.new()
             occurrences.each do |occ|
-              tempHash = {
-                "a" => (occ["catalogNumber"].nil? ? nil : "#{occ["catalogNumber"]}"), #catalog number
-                "b" => (taxon["scientific_name"] == "null" ? nil : "#{taxon["scientific_name"]}"), #scientific_name
-                "c" => nil, #publisher
-                "d" => nil, #publisherId
-                "e" => nil, #dataset
-                "f" => (taxon["dataset_id"] == "null" ? nil : "#{taxon["dataset_id"]}"), #datasetId
-                "g" => (taxon["source"] == "null" ? nil : "#{taxon["source"]}"), #gbifId
-                "h" => (occ["decimalLatitude"].nil? ? nil : occ["decimalLatitude"]),
-                "i" => (occ["decimalLongitude"].nil? ? nil : occ["decimalLongitude"]),
-                "j" => (occ["recordedBy"].nil? ? nil : "#{occ["recordedBy"]}"), #recordedBy
-                "k" => (occ["identifiedBy"].nil? ? nil : "#{occ["identifiedBy"]}"), #identifiedBy
-                "l" => nil, #pic_url
-                "m" => (occ["eventDate"].nil? ? nil : "#{occ["eventDate"]}") #eventDate
-                }
+              #check if the coordinates are in Degree, Minute, Hemisphere and convert into decimal format
+              if (!occ[decimalLatitude].is_a? Numeric && (!occ[decimalLatitude].is_a? Numeric )&& !occ[decimalLatitude].nil? && !occ[decimalLongitude].nil?)
+                lat_border_1 = occ[decimalLatitude].split('-', 2)[0]
+                lat_border_2 = occ[decimalLatitude].split('-', 2)[1]
+                lng_border_1 = occ[decimalLongitude].split('-', 2)[0]
+                lng_border_2 = occ[decimalLongitude].split('-', 2)[1]
+                
+                geoLocations[0] = Geo::Coord.parse_dms('#{lat_border_1},#{lng_border_1}')
+                geoLocations[1] = Geo::Coord.parse_dms('#{lat_border_1},#{lng_border_2}')
+                geoLocations[2] = Geo::Coord.parse_dms('#{lat_border_2},#{lng_border_1}')
+                geoLocations[3] = Geo::Coord.parse_dms('#{lat_border_2},#{lng_border_2}')
+
+                else
+                  geoLocations[0] = Geo::Coord.parse_ll('#{occ[decimalLatitude]},#{occ[decimalLongitude]}')
+                end
+                geoLocations.each do |geoLoc|
+                    tempHash = {
+                      "a" => (occ["catalogNumber"].nil? ? nil : "#{occ["catalogNumber"]}"), #catalog number
+                      "b" => (taxon["scientific_name"] == "null" ? nil : "#{taxon["scientific_name"]}"), #scientific_name
+                      "c" => nil, #publisher
+                      "d" => nil, #publisherId
+                      "e" => nil, #dataset
+                      "f" => (taxon["dataset_id"] == "null" ? nil : "#{taxon["dataset_id"]}"), #datasetId
+                      "g" => (taxon["source"] == "null" ? nil : "#{taxon["source"]}"), #gbifId
+                      "h" => (occ["decimalLatitude"].nil? ? nil : geoLoc.lat),
+                      "i" => (occ["decimalLongitude"].nil? ? nil : geoLoc.lng),
+                      "j" => (occ["recordedBy"].nil? ? nil : "#{occ["recordedBy"]}"), #recordedBy
+                      "k" => (occ["identifiedBy"].nil? ? nil : "#{occ["identifiedBy"]}"), #identifiedBy
+                      "l" => nil, #pic_url
+                      "m" => (occ["eventDate"].nil? ? nil : "#{occ["eventDate"]}") #eventDate
+                      }
+                  json_path_temp.write(tempHash.to_json)
+                  unless geoLoc == geoLocations.last
+                    json_path_temp.write(",")
+                    end 
+                end
               if (!tempHash["h"].nil?)&&(!tempHash["i"].nil?) #validate decimal longitude and latitude existence
-                 actual_count+=1
-                 actual+=1
+                 actual_count +=1
+                 actual +=1
               end
-              json_path_temp.write("#{tempHash.to_json}")
-            occ_count-=1
+              occ_count-=1
               if occ_count>=1
-                json_path_temp.write(",")
+                json_path.write(",")
               end
-             end
+           end
         json_path_temp.write("],\"count\":#{occurrences.count+count},\"actual\":#{actual}}")
         File.rename(json_path_temp, "#{maps_path}#{page_eol_id}.json")
         #add entries to occurrence_maps table if the page has valid occurrence plottings for the maps
@@ -587,6 +633,13 @@ end
 end
 end
 
+def validate_coordinates (coord)
+  while ((!coord.include?'°') || (!coord.include?'\'') || (!coord.include? '\"'))
+    degree = coord.include?'°' ? (coord.split('°',2)[0]).to_i: 0 
+    
+    coord = coord.include?'\''? coord.split('\'',2)[0]: 0
+  end
+end
 
 namespace :harvester do
   desc "TODO"  
