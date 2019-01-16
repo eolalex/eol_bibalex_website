@@ -265,22 +265,25 @@ def add_neo4j(node_params, occurrences, measurements, associations)
             #Update this condidtion to insert metadata of a given measurement : measurementOfTaxon = true and measurementparent is not null
           parent_eol_pk = "M_#{measurement["occurrenceId"]}_#{measurement["parentMeasurementId"]}"
           res = TraitBank.find_trait(parent_eol_pk, node_params[:resource_id]) 
-
           # options.each { |md| TraitBank.add_metadata_to_trait(res, md) }
           # options[:eol_pk]= measurement["measurementId"]
+          unless res.nil?
           options[:eol_pk] = "M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}"
           TraitBank.add_metadata_to_trait(res, options)
+          end
           
         else
           # debugger
           traits = TraitBank.find_traits(measurement["occurrenceId"], node_params[:resource_id]) 
-          traits.each do |element|
-            # debugger
-            # options[:eol_pk]= measurement["measurementId"]
-            options[:eol_pk] = "M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}"
-            options_copy = options.clone
-            TraitBank.add_metadata_to_trait(element, options_copy)
-            # options.each { |md| TraitBank.add_metadata_to_trait(element, md) }
+          if (!traits.nil? && !traits.empty? )
+            traits.each do |element|
+              # debugger
+              # options[:eol_pk]= measurement["measurementId"]
+              options[:eol_pk] = "M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}"
+              options_copy = options.clone
+              TraitBank.add_metadata_to_trait(element, options_copy)
+              # options.each { |md| TraitBank.add_metadata_to_trait(element, md) }
+            end
           end   
         end
       end
@@ -314,10 +317,10 @@ def main_method_3
   # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'articles.json')
 
   # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
-
+# 
   # tables = JSON.parse(File.read(file_path))
 
-   # start_harvested_time = "1540211584000"
+
 
    # start_harvested_time = "1544350385000"
   # # end_harvested_time = "1540400200000"
@@ -326,8 +329,11 @@ def main_method_3
    # start_harvested_time = "1545246841000"
   # end_harvested_time = "1546148395980"
     # end_harvested_time = get_end_time
-    start_harvested_time = "1547379150000"
-    end_harvested_time = "1547382030000"
+    # start_harvested_time = "1547379150000"
+    # end_harvested_time = "1547382030000"
+    start_harvested_time = "1540211584000"
+    end_harvested_time = get_end_time
+
 
   # debugger
 
@@ -337,7 +343,6 @@ def main_method_3
     #start_harvested_time is included 
     #end_harvested_time is excluded therefore we keep it to next loop
      json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
-
     # json_content = get_latest_updates_from_mysql(start_harvested_time, end_harvested_time)
     tables = JSON.parse(json_content)
     # debugger
@@ -425,36 +430,36 @@ def main_method_3
     end 
    # debugger
 
-    # unless traits.nil?
-      # traits.each do|trait|
-        # generated_node_id = trait["generated_node_id"]
-        # occurrences = "["+trait["occurrences"]+"]"
-        # occurrences = JSON.parse(occurrences)
-        # node = Node.where(generated_node_id: generated_node_id).first
-        # node_id = node.id
-        # resource_id = node.resource_id
-        # scientific_name = node.scientific_name
-        # page_id = PagesNode.where(node_id: node_id).first.page_id
-        # load_occurrence(occurrences, page_id, resource_id)
-      # end
-#       
-      # traits.each do|trait|   
-        # generated_node_id = trait["generated_node_id"]
-        # occurrences = "["+trait["occurrences"]+"]"
-        # occurrences = JSON.parse(occurrences)
-        # associations = "["+trait["associations"]+"]"
-        # associations = JSON.parse(associations)
-        # measurements = "["+trait["measurementOrFacts"]+"]"
-        # measurements = JSON.parse(measurements)
-        # node = Node.where(generated_node_id: generated_node_id).first
-        # node_id = node.id
-        # resource_id = node.resource_id
-        # scientific_name = node.scientific_name
-        # page_id = PagesNode.where(node_id: node_id).first.page_id
-        # node_params = { page_id: page_id, resource_id: resource_id, scientific_name: scientific_name}
-        # add_neo4j(node_params, occurrences, measurements, associations)
-      # end
-      # end
+    unless traits.nil?
+      traits.each do|trait|
+        generated_node_id = trait["generated_node_id"]
+        occurrences = "["+trait["occurrences"]+"]"
+        occurrences = JSON.parse(occurrences)
+        node = Node.where(generated_node_id: generated_node_id).first
+        node_id = node.id
+        resource_id = node.resource_id
+        scientific_name = node.scientific_name
+        page_id = PagesNode.where(node_id: node_id).first.page_id
+        load_occurrence(occurrences, page_id, resource_id)
+      end
+      
+      traits.each do|trait|   
+        generated_node_id = trait["generated_node_id"]
+        occurrences = "["+trait["occurrences"]+"]"
+        occurrences = JSON.parse(occurrences)
+        associations = "["+trait["associations"]+"]"
+        associations = JSON.parse(associations)
+        measurements = "["+trait["measurementOrFacts"]+"]"
+        measurements = JSON.parse(measurements)
+        node = Node.where(generated_node_id: generated_node_id).first
+        node_id = node.id
+        resource_id = node.resource_id
+        scientific_name = node.scientific_name
+        page_id = PagesNode.where(node_id: node_id).first.page_id
+        node_params = { page_id: page_id, resource_id: resource_id, scientific_name: scientific_name}
+        add_neo4j(node_params, occurrences, measurements, associations)
+      end
+      end
 
     # create maps json file for occurrence_maps
     unless taxa.nil?
@@ -464,21 +469,10 @@ def main_method_3
       OccurrenceMap.bulk_insert($occurrence_maps_array)
       $occurrence_maps_count = 0           
     end
-#       
-    # end
-   
-
-  
-    # build_hierarchy(nodes_ids)
-    
-
      start_harvested_time = (start_harvested_time.to_i + 30000).to_s
-     # finish = 1
-
+end
 end
 
-
-end
 
 def write_to_json(taxon)
         page_eol_id = taxon["page_eol_id"]
