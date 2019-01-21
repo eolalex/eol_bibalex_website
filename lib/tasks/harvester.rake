@@ -128,12 +128,15 @@ def create_measurement(occurrence_of_measurement , measurement)
                          section_ids:[1,2,3],definition:"test units"}            
     end
     unless measurement["citation"].nil?
+      measurement["citation"].gsub!('"','\"')
       options[:citation] = measurement["citation"]
     end
     unless measurement["source"].nil?
+      measurement["source"].gsub!('"','\"')
       options[:source] = measurement["source"]
     end
     unless measurement["measurementMethod"].nil?
+      measurement["measurementMethod"].gsub!('"','\"')
       options[:measurementMethod] = measurement["measurementMethod"]
     end
     
@@ -268,8 +271,8 @@ def add_neo4j(node_params, occurrences, measurements, associations)
           # options.each { |md| TraitBank.add_metadata_to_trait(res, md) }
           # options[:eol_pk]= measurement["measurementId"]
           unless res.nil?
-          options[:eol_pk] = "M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}"
-          TraitBank.add_metadata_to_trait(res, options)
+            options[:eol_pk] = "M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}"
+            TraitBank.add_metadata_to_trait(res, options)
           end
           
         else
