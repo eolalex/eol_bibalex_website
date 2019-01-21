@@ -295,6 +295,7 @@ GEM
     formatador (0.2.5)
     friendly_id (5.2.4)
       activerecord (>= 4.0.0)
+    geo_coord (0.1.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     globalize (5.1.0)
@@ -643,6 +644,7 @@ DEPENDENCIES
   elasticsearch-model
   fog
   font-kit-rails
+  geo_coord
   haml-rails
   hash_to_hidden_fields
   jbuilder (~> 2.5)
