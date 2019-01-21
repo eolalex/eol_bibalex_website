@@ -14,7 +14,7 @@ class Medium < ApplicationRecord
   enum subclass: [ :image, :video, :sound, :map, :js_map ]
   enum format: [ :jpg, :youtube, :flash, :vimeo, :mp3, :ogg, :wav, 'audio/mpeg ', 'audio/ogg' , 'audio/x-wav' , 'video/ogg', 'video/mp4', 'video/x-ms-wmv',
      'video/mpeg', 'video/quicktime', "video/webm", 'video/x-flv' , 'image/jpeg' , "image/gif" , 'image/png' , 'image/tiff' , 'image/svg+xml']
-  enum mime_type: [ 'text/html', 'text/plain', 'video/mp4', 'video/x-ms-wmv', 'video/mpeg', 'video/quicktime', 'video/x-flv', 'audio/mpeg', 'audio/x-wav' ]
+  # enum mime_type: [ 'text/html', 'text/plain', 'video/mp4', 'video/x-ms-wmv', 'video/mpeg', 'video/quicktime', 'video/x-flv', 'audio/mpeg', 'audio/x-wav' ]
 
   scope :images, -> { where(subclass: :image) }
   scope :videos, -> { where(subclass: :video) }
