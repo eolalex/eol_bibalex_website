@@ -553,9 +553,10 @@ class TraitBank
       return [] if res["data"].empty?
       res["data"] ? res["data"].first.first : 0
     end
-
+    
+    # this method chcek if page exists it will return it, else it will create it and return it
     def page_exists?(page_id)
-      res = query("MATCH (page:Page { page_id: #{page_id} }) RETURN page")
+      res = query("MERGE (page:Page { page_id: #{page_id} }) RETURN page")
       res["data"] && res["data"].first ? res["data"].first.first : false
     end
     
@@ -726,13 +727,13 @@ class TraitBank
       if (page = page_exists?(id))
         return page
       end
-      page = connection.create_node(page_id: id)
-      connection.set_label(page, "Page")
-      page
+      # page = connection.create_node(page_id: id)
+      # connection.set_label(page, "Page")
+      # page
     end
-
+    # this method chcek if resource exists it will return it, else it will create it and return it
     def find_resource(id)
-      res = query("MATCH (resource:Resource { resource_id: #{id} }) "\
+      res = query("MERGE (resource:Resource { resource_id: #{id} }) "\
         "RETURN resource LIMIT 1")
       res["data"] ? res["data"].first : false
     end
@@ -741,9 +742,9 @@ class TraitBank
       if (resource = find_resource(id))
         return resource
       end
-      resource = connection.create_node(resource_id: id)
-      connection.set_label(resource, "Resource")
-      resource
+      # resource = connection.create_node(resource_id: id)
+      # connection.set_label(resource, "Resource")
+      # resource
     end
 
 
@@ -759,10 +760,10 @@ class TraitBank
       end
       #page returns page_id and required id in db therefore i used page_exists?
       page = options.delete(:page)
-      page = page_exists?(page)
+      # page = page_exists?(page)
       #supplier returns .......and required id in db therefore i used resource_find
       supplier = options.delete(:supplier)
-      supplier = find_resource(resource_id)
+      # supplier = find_resource(resource_id)
       # meta = options.delete(:metadata)
       predicate = parse_term(options.delete(:predicate))
       units = parse_term(options.delete(:units))
@@ -773,21 +774,57 @@ class TraitBank
       
       object_term = parse_term(options.delete(:object_term))
       convert_measurement(options, units)
-      trait = connection.create_node(options)
-      connection.set_label(trait, "Trait")
-      relate("trait",page, trait)
-      relate("supplier", trait, supplier)
-      relate("predicate", trait, predicate)
-      relate("units_term", trait, units) if units
-      relate("object_term", trait, object_term) if object_term
+      trait = create_node(options,"Trait")
+      # trait = connection.create_node(options)
+      # connection.set_label(trait, "Trait")
+      relation_query = "match (t:Trait{eol_pk: \"#{options[:eol_pk]}\"}) match (p:Page{page_id: #{page}}) match (s:Resource{resource_id: #{resource_id}}) match (perdicate:Term {uri: \"#{predicate["data"]["uri"]}\"})"
       
-      # relate occurrence metadata
-      relate("lifestage_term", trait, lifestage) if lifestage
-      relate("sex_term", trait, sex) if sex
-      relate("statistical_method_term", trait, statistical_method) if statistical_method
+      relation_query = "#{relation_query} match (units:Term {uri: \"#{units["data"]["uri"]}\"})" if units
+      relation_query = "#{relation_query} match (object_term:Term {uri: \"#{object_term["data"]["uri"]}\"})" if object_term
+      relation_query = "#{relation_query} match (lifestage:Term {uri: \"#{lifestage["data"]["uri"]}\"})" if lifestage
+      relation_query = "#{relation_query} match (sex:Term {uri: \"#{sex["data"]["uri"]}\"})" if sex
+      relation_query = "#{relation_query} match (statistical_method:Term {uri: \"#{statistical_method["data"]["uri"]}\"})" if statistical_method
+      
+      relation_query = "#{relation_query} merge (p)-[:trait]->(t) merge (t)-[:supplier]->(s) merge (t)-[:predicate]->(perdicate)"
+      relation_query = "#{relation_query} merge (t)-[:units_term]->(units)" if units
+      relation_query = "#{relation_query} merge (t)-[:object_term]->(object_term)" if object_term
+      relation_query = "#{relation_query} merge (t)-[:lifestage_term]->(lifestage)" if lifestage
+      relation_query = "#{relation_query} merge (t)-[:sex_term]->(sex)" if sex
+      relation_query = "#{relation_query} merge (t)-[:statistical_method_term]->(statistical_method)" if statistical_method
+      query(relation_query)
+      # relate("trait",page, trait)
+      # relate("supplier", trait, supplier)
+      # relate("predicate", trait, predicate)
+      # relate("units_term", trait, units) if units
+      # relate("object_term", trait, object_term) if object_term
+#       
+      # # relate occurrence metadata
+      # relate("lifestage_term", trait, lifestage) if lifestage
+      # relate("sex_term", trait, sex) if sex
+      # relate("statistical_method_term", trait, statistical_method) if statistical_method
       
       # meta.each { |md| add_metadata_to_trait(trait, md) } unless meta.blank?
       trait
+    end
+    
+    def create_node(options, label)
+      query = "create (n:#{label} {"
+      options.each do |key, value|
+        key=key.to_s
+        unless value.nil?
+          if value.is_a? String
+            query ="#{query}#{key}: \"#{value}\","
+          else
+            query ="#{query}#{key}: #{value},"
+          end
+        end 
+        
+      end
+      query[query.length-1]=''
+      query ="#{query}}) return n"
+      node = query(query)
+      node = node["data"].first.first
+      node
     end
 
     def relate(how, from, to)
@@ -838,31 +875,42 @@ class TraitBank
       convert_measurement(options, units)
       if (meta = meta_exists?(options[:eol_pk]))
       else
-        meta = connection.create_node(options)
+        # meta = connection.create_node(options)
+        meta = create_node(options,"MetaData")
       end
       # meta = connection.create_node(options)
-      connection.set_label(meta, "MetaData")
+      # connection.set_label(meta, "MetaData")
       # debugger
-      if(!check_relation("metadata", trait.first, meta))
-        # debugger
-      relate("metadata", trait, meta)
-      end
-      if(!check_relation("predicate", meta, predicate))
-        # debugger
-      relate("predicate", meta, predicate)
-      end
-      if (units)
-        if(!check_relation("units_term", meta, units))
-          # debugger
-          relate("units_term", meta, units) 
-        end
-      end
-      if(object_term)
-        if(!check_relation("object_term", meta, object_term))
-        # debugger
-          relate("object_term", meta, object_term) 
-        end
-      end
+      
+      query = "match (t:Trait {eol_pk: \"#{trait.first["data"]["eol_pk"]}\"}) match (m:MetaData {eol_pk: \"#{options[:eol_pk]}\"}) match(p:Term {uri: \"#{predicate["data"]["uri"]}\"})"
+      query = "#{query} match(units:Term {uri: \"#{units["data"]["uri"]}\"})"if units
+      query = "#{query} match(object:Term {uri: \"#{object_term["data"]["uri"]}\"})"if object_term
+      query = "#{query} merge (t)-[:metadata]->(m) merge (m)-[:predicate]->(p)"
+      query = "#{query} merge (m)-[:units_term]->(units)"if units
+      query = "#{query} merge (m)-[:object_term]->(object) return m"if object_term
+      
+      meta = query(query).first.first
+
+      # if(!check_relation("metadata", trait.first, meta))
+        # # debugger
+      # relate("metadata", trait, meta)
+      # end
+      # if(!check_relation("predicate", meta, predicate))
+        # # debugger
+      # relate("predicate", meta, predicate)
+      # end
+      # if (units)
+        # if(!check_relation("units_term", meta, units))
+          # # debugger
+          # relate("units_term", meta, units) 
+        # end
+      # end
+      # if(object_term)
+        # if(!check_relation("object_term", meta, object_term))
+        # # debugger
+          # relate("object_term", meta, object_term) 
+        # end
+      # end
       meta
     end
     def add_parent_to_page(parent, page)
@@ -947,9 +995,10 @@ class TraitBank
         return existing_term
       end
       begin
-        term_node = connection.create_node(options)
+        term_node = create_node(options , "Term")
+        # term_node = connection.create_node(options)
         # ^ I got a "Could not set property "uri", class Neography::PropertyValueException here.
-        connection.set_label(term_node, "Term")
+        # connection.set_label(term_node, "Term")
         # ^ I got a Neography::BadInputException here saying I couldn't add a label. In that case, the URI included
         # UTF-8 chars, so I think I fixed it by causing all URIs to be escaped...
         count = Rails.cache.read("trait_bank/terms_count") || 0
