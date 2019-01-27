@@ -73,6 +73,7 @@ gem  'refinerycms-i18n'
 
 gem "active_record_bulk_insert"
 gem 'bulk_insert'
+gem "geo_coord"
 # gem 'ar-extensions'
  
 
@@ -87,6 +88,7 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+  gem 'rails-erd'
 end
 
 group :development do
