@@ -32,7 +32,7 @@
                 %a.btn.btn-primary{:id => "#{@collection.id}", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
                   #{t(:edit_button)}
                 %nbsp
-                  =link_to '#{t(:delete_button)}',collection_path(id: @collection.id), method: :delete, data: { confirm: "#{t(:confirm_message)}"}, class: "btn btn-primary"}
+                  =link_to "#{t(:delete_button)}",collection_path(id: @collection.id), method: :delete, data: { confirm: "#{t(:confirm_message)}"}, class: "btn btn-primary"
       .modal{:id => "popup_#{@collection.id}", "aria-labelledby" => "popup_#{@collection.id}Label", :role => "dialog", :tabindex => "-1"}
         .modal-dialog.modal-lg.extra_large{:role => "document"}
           .modal-content

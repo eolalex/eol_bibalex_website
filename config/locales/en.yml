@@ -232,6 +232,7 @@ en:
       EOL also provides support for common names which may vary across regions as well as languages."
   scientific_name: "Scientific Name"
   scientific_name_source: "Scientific Name Source"
+  traits: "Traits"
   unknown_resource: "Unknown Resource"
   overview: "Overview"
   names: "Names"

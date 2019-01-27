@@ -57,16 +57,21 @@
               -if @page.data.size > 0
                 %h3
                   #{t(:selective_traits)}
-                  %small.pull-right 
-                    %li
-                      %a{:href => page_data_path(@page)} #{t(:traits)}
                 %table.table.table-striped
-                  - @page.data.each do |trait|  
-                    %tr
-                      %td.text-right
-                        %b 
-                          =trait[:predicate][:name]
-                        =trait[:predicate][:definition]
+                  -if @page.data.size() > 2
+                    - @page.data.first(3).each do |trait|  
+                      %tr
+                        %td.text-right
+                          %b 
+                            =trait[:predicate][:name]
+                          =trait[:predicate][:definition]
+                  -else
+                    - @page.data.each do |trait|  
+                      %tr
+                        %td.text-right
+                          %b 
+                            =trait[:predicate][:name]
+                          =trait[:predicate][:definition]
               -else
                 %h3
                   #{t(:selective_traits)}

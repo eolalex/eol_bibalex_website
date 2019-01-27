@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20181230094612) do
     t.bigint "location_id"
     t.text "body", limit: 4294967295
     t.index ["bibliographic_citation_id"], name: "index_articles_on_bibliographic_citation_id"
+    t.index ["guid"], name: "unique_articles", unique: true
     t.index ["language_id"], name: "index_articles_on_language_id"
     t.index ["license_id"], name: "index_articles_on_license_id"
     t.index ["location_id"], name: "index_articles_on_location_id"
@@ -232,7 +233,7 @@ ActiveRecord::Schema.define(version: 20181230094612) do
 
   create_table "nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "resource_id"
-    t.string "scientific_name"
+    t.string "scientific_name", collation: "utf8_general_ci"
     t.string "canonical_form"
     t.integer "generated_node_id"
     t.string "resource_pk"
@@ -288,6 +289,7 @@ ActiveRecord::Schema.define(version: 20181230094612) do
     t.bigint "node_id"
     t.boolean "updated", default: false
     t.index ["medium_id"], name: "index_pages_on_medium_id"
+    t.index ["updated"], name: "update_index"
   end
 
   create_table "pages_nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -299,6 +301,7 @@ ActiveRecord::Schema.define(version: 20181230094612) do
     t.boolean "updated", default: false
     t.index ["node_id"], name: "index_pages_nodes_on_node_id"
     t.index ["page_id"], name: "index_pages_nodes_on_page_id"
+    t.index ["updated"], name: "update_index"
   end
 
   create_table "pages_referents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -468,6 +471,7 @@ ActiveRecord::Schema.define(version: 20181230094612) do
     t.index ["node_id"], name: "index_scientific_names_on_node_id"
     t.index ["page_id"], name: "index_scientific_names_on_page_id"
     t.index ["taxonomic_status_id"], name: "index_scientific_names_on_taxonomic_status_id"
+    t.index ["updated"], name: "update_index"
   end
 
   create_table "sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -489,6 +493,19 @@ ActiveRecord::Schema.define(version: 20181230094612) do
     t.index ["seo_meta_id", "seo_meta_type"], name: "id_type_index_on_seo_meta"
   end
 
+  create_table "taxa", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.integer "generated_node_id", null: false
+    t.integer "page_eol_id"
+    t.string "dataset_id"
+    t.string "source"
+    t.text "occurrences"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string "scientific_name"
+    t.integer "resource_id"
+    t.index ["generated_node_id"], name: "index_on_generated_node_id", unique: true
+  end
+
   create_table "taxonomic_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "name"
     t.boolean "is_preferred"
@@ -497,6 +514,14 @@ ActiveRecord::Schema.define(version: 20181230094612) do
     t.boolean "can_merge"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "traits", primary_key: "generated_node_id", id: :integer, default: 0, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.text "occurrences", limit: 4294967295
+    t.text "associations", limit: 4294967295
+    t.text "measurement_or_facts", limit: 4294967295
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "user_providers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -547,11 +572,12 @@ ActiveRecord::Schema.define(version: 20181230094612) do
     t.bigint "page_id"
     t.bigint "language_id"
     t.boolean "updated", default: false
+    t.index ["generated_node_id", "string"], name: "unique_vernacular", unique: true
     t.index ["generated_node_id"], name: "index_vernaculars_on_generated_node_id"
     t.index ["language_id"], name: "index_vernaculars_on_language_id"
     t.index ["node_id"], name: "index_vernaculars_on_node_id"
     t.index ["page_id"], name: "index_vernaculars_on_page_id"
-    t.index ["string", "generated_node_id", "language_id"], name: "unique_vernaculars", unique: true
+    t.index ["updated"], name: "update_index"
   end
 
   add_foreign_key "articles", "bibliographic_citations"
