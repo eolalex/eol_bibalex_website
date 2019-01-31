@@ -130,15 +130,15 @@ def create_measurement(occurrence_of_measurement , measurement)
     unless measurement["citation"].nil?
 
       # measurement["citation"].gsub!('"','\"')
-      options[:citation] = measurement["citation"].gsub!('"','\"')
+      options[:citation] = measurement["citation"].gsub('"','\"')
     end
     unless measurement["source"].nil?
       # measurement["source"].gsub!('"','\"')
-      options[:source] = measurement["source"].gsub!('"','\"')
+      options[:source] = measurement["source"].gsub('"','\"')
     end
     unless measurement["measurementMethod"].nil?
       # measurement["measurementMethod"].gsub!('"','\"')
-      options[:measurementMethod] = measurement["measurementMethod"].gsub!('"','\"')
+      options[:measurementMethod] = measurement["measurementMethod"].gsub('"','\"')
 
     end
     
@@ -205,13 +205,13 @@ def add_neo4j(node_params, occurrences, measurements, associations)
                                    # uri: occurrence_of_association["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
           # end
           unless association["citation"].nil?
-            options[:citation] = association["citation"].gsub!('"','\"')
+            options[:citation] = association["citation"].gsub('"','\"')
           end
           unless association["source"].nil?
-            options[:source] = association["source"].gsub!('"','\"')
+            options[:source] = association["source"].gsub('"','\"')
           end
           unless association["measurementMethod"].nil?
-            options[:measurementMethod] = association["measurementMethod"].gsub!('"','\"')
+            options[:measurementMethod] = association["measurementMethod"].gsub('"','\"')
           end
           trait=TraitBank.create_trait(options)
       end
@@ -321,23 +321,22 @@ end
   # tables = JSON.parse(File.read(file_path))
   # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'articles.json')
 
-  # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
+  file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
+  tables = JSON.parse(File.read(file_path))
 
-  # tables = JSON.parse(File.read(file_path))
 
-
-    start_harvested_time = "1547663643000"
-    end_harvested_time = get_end_time
+    # start_harvested_time = "1547663643000"
+    # end_harvested_time = get_end_time
 
 
   # debugger
 
 # finish = 0
-  while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
+  # while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
     # start_harvested_time is included 
     # end_harvested_time is excluded therefore we keep it to next loop
-     json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
-    tables = JSON.parse(json_content)
+     # json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
+    # tables = JSON.parse(json_content)
     # debugger
     licenses = tables["licenses"]
     ranks = tables["ranks"]
@@ -418,7 +417,7 @@ end
     unless references.nil?
       Reference.bulk_insert(references,:validate => true , :use_provided_primary_key => true)
     end
-    # debugger
+
     unless traits.nil?
       traits.each do|trait|
         generated_node_id = trait["generated_node_id"]
@@ -459,8 +458,8 @@ end
       OccurrenceMap.bulk_insert($occurrence_maps_array)
     $occurrence_maps_count = 0
     end
-    start_harvested_time = (start_harvested_time.to_i + 30000).to_s
-  end
+    # start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+  # end
 
 end
 
