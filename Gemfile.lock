@@ -519,6 +519,7 @@ GEM
       refinerycms-dragonfly (~> 1.0)
     refinerycms-wymeditor (2.0.0)
       refinerycms-core (>= 4.0.0.dev, < 5.0)
+    render_async (2.0.2)
     request_store (1.4.1)
       rack (>= 1.4)
     responders (2.4.0)
@@ -667,6 +668,7 @@ DEPENDENCIES
   refinerycms (~> 4.0.2)
   refinerycms-i18n
   refinerycms-wymeditor
+  render_async
   rest-client
   ruby-ntlm
   sass-rails (~> 5.0)

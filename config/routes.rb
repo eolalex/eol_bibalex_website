@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   end
   resources :collected_pages
   delete '/collected_pages/:id'=>'collected_pages#destroy'
-
+  get :media_grid, :controller => :pages
   #search
   get 'search' => 'search#index', as: :search
 

@@ -32,6 +32,19 @@ class PagesController < ApplicationController
   def media
     
     @page = Page.where(id: params[:page_id]).first
+    # media = @page.media
+    # @subclasses = @page.media.pluck(:subclass).uniq.compact
+    # @subclasses << "any type"
+    # if params[:subclass] && params[:subclass] != "any type"
+      # @subclass = params[:subclass]
+      # media = media.where(subclass: params[:subclass])
+    # end
+    # @media = media.paginate(:page => params[:page], :per_page => ENV['per_page'])
+
+  end
+  
+  def media_grid
+    @page = Page.where(id: params[:page_id]).first
     media = @page.media
     # @subclasses = @page.media.pluck(:subclass).uniq.compact
     # @subclasses << "any type"
@@ -40,7 +53,7 @@ class PagesController < ApplicationController
       # media = media.where(subclass: params[:subclass])
     # end
     @media = media.paginate(:page => params[:page], :per_page => ENV['per_page'])
-
+    render :partial => "media_grid"
   end
   
   def articles

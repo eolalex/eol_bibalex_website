@@ -74,6 +74,7 @@ gem  'refinerycms-i18n'
 gem "active_record_bulk_insert"
 gem 'bulk_insert'
 gem "geo_coord"
+gem 'render_async'
 # gem 'ar-extensions'
  
 
