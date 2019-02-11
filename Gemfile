@@ -25,7 +25,7 @@ gem 'acts_as_list'
 gem 'therubyracer', platforms: :ruby
 
 gem 'rack-cors', require: 'rack/cors'
-
+gem "lazyload-rails"
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
