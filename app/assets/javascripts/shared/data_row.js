@@ -19,23 +19,27 @@ function bindMetaArrow($row) {
 }
 
 $(function() {
-  $('.js-load-arw').click(function() {
-    var $that = $(this)
-      ;
-
-
+  $('.js-load-arw').click(function(e) {
+    var $that = $(this);
+      
+	// alert(e.target.parentNode.id);
+	var id = e.target.parentNode.id;
     // $that.removeClass('fa-angle-down');
     // $that.addClass('fa-spin fa-spinner');
     // var path = {id: 124, show_taxon: true};
     // var url = Routes.datum_path(path);
-	var x = document.getElementsByClassName("js-data-row");
-	$row = x[0];
+	 var $row = document.getElementById(id+'T');
+	// $row = x[0];
+	// alert($row.getAttribute('data-show-path'));
     $.ajax({
       url: $row.getAttribute('data-show-path'),
       success: function(result) {
         var $result = $(result);
         // bindMetaArrow($result);
-        $("trait:first").replaceWith($result);
+        // alert($result.toSource());
+         // $("trait").replaceWith($result);
+         // $row= $result;
+         $('#'+id+'T').replaceWith($result);
       }
     });
   });

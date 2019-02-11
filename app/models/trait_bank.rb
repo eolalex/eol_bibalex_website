@@ -566,6 +566,11 @@ class TraitBank
       res["data"] && res["data"].first ? res["data"].first.first : false
     end
     
+    def has_meta?(eol_pk)
+      params = {:eol_pk => eol_pk}
+      res = query("match(t:Trait{eol_pk: {eol_pk}})-[:metadata]->(m:MetaData)return m",params)
+      res["data"] && res["data"].first ? res["data"].first.first : false
+    end
     
     def page_has_parent?(page, page_id)
       node = Neography::Node.load(page["metadata"]["id"], connection)
