@@ -12,7 +12,7 @@
             %h3.smallTitle Maps
           -else
             %h3.smallTitle Media
-          = render_async media_grid_path(:page_id => @page.id)
+          = render_async media_grid_path(:page_id => @page.id, :page => params[:page])
         .col-md-4
           %aside
             .widget.categories
