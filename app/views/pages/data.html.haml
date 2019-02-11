@@ -20,12 +20,14 @@
                 %th{:scope => "col"} Further Info
                 %th{:scope => "col"} Metadata
             %tbody
+              -counter1 = 0
               - @page.predicates.each_with_index do |uri, index|
                 - predicate = @page.glossary[uri]
                 - if predicate.nil?
                   - Rails.logger.error("** ERROR: missing predicate #{uri}")
                   - next
                 - @page.grouped_data[uri].each do |trait|
+                  -counter1 = counter1 + 1
                   -# %trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => false), :id => trait[:id] } }
                   - predicate = trait[:predicate]
                   - uri = predicate[:uri].dup
@@ -40,6 +42,10 @@
                       %td
                         %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "uri: #{trait[:object_term][:uri]}\ndefinition: #{trait[:object_term][:definition]} ", :type => "button"}
                           #{trait[:object_term][:name]}
+                    - elsif trait[:normal_measurement]
+                      %td
+                        %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :type => "button"}
+                          #{trait[:normal_measurement]}
                     - else
                       %td{"data-label" => "Object"}
                          
@@ -54,29 +60,31 @@
                     %td
                       %div
                         -# modal view with additional information: 'Citation, Source, RecordURL, ScientificName, Statistical Method, URI, DEfinition'
-                        %a.btn.btn{:id => "#{@page.id}", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
+                        %a.btn.btn{:id => "#{counter1}", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
                           -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}
                           See More
-                    %td
-                      %div{:id => "#{uri}"}
-                        %a.btn.btn{:id => "#{@page.id}00", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
-                          -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}
-                          %i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
 
-
-                  .modal{:id => "popup_#{@page.id}00", "aria-labelledby" => "popup_#{@page.id}00Label", :role => "dialog", :tabindex => "-1"}
-                    .modal-dialog.modal-med{:role => "document"}
-                      .modal-content
-                        .modal-header
-                          .form-group.row.form-inline
-                            .col-md-10.col-sm-10.col-xs-10
-                              %h2.editLabel.modal-title Metadata
-                            .col-md-2.col-sm-2.col-xs-2
-                              %button{ :id =>"#{@page.id}00", :class => "btn btn-primary pull-right", :tabindex => "1", :onclick=> 'hidePopup(this, event)'}x
-                        .modal-body.editCollection
-                          %trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => false), :id => trait[:id] } }
-
-                  .modal{:id => "popup_#{@page.id}", "aria-labelledby" => "popup_#{@page.id}Label", :role => "dialog", :tabindex => "-1"}
+                    
+                    - if(TraitBank.has_meta?(trait[:id]))
+                      %td
+                        %div{:id => "#{uri}"}
+                          %a.btn.btn{:id => "#{counter1}T", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
+                            -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}
+                            %i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
+                      .modal{:id => "popup_#{counter1}T", "aria-labelledby" => "popup_#{counter1}TLabel", :role => "dialog", :tabindex => "-1"}
+                        .modal-dialog.modal-med{:role => "document"}
+                          .modal-content
+                            .modal-header
+                              .form-group.row.form-inline
+                                .col-md-10.col-sm-10.col-xs-10
+                                  %h2.editLabel.modal-title Metadata
+                                .col-md-2.col-sm-2.col-xs-2
+                                  %button{ :id =>"#{counter1}T", :class => "btn btn-primary pull-right", :tabindex => "1", :onclick=> 'hidePopup(this, event)'}x
+                            .modal-body.editCollection
+                              %trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => false), :id => trait[:id] }, :id=> "#{counter1}TT" }
+                    - else
+                      %td
+                  .modal{:id => "popup_#{counter1}", "aria-labelledby" => "popup_#{counter1}Label", :role => "dialog", :tabindex => "-1"}
                     .modal-dialog.modal-med{:role => "document"}
                       .modal-content
                         .modal-header
@@ -84,7 +92,7 @@
                             .col-md-10.col-sm-10.col-xs-10
                               %h2.editLabel.modal-title Further Information
                             .col-md-2.col-sm-2.col-xs-2
-                              %button{ :id =>"#{@page.id}", :class => "btn btn-primary pull-right", :tabindex => "1", :onclick=> 'hidePopup(this, event)'}x
+                              %button{ :id =>"#{counter1}", :class => "btn btn-primary pull-right", :tabindex => "1", :onclick=> 'hidePopup(this, event)'}x
                         .modal-body.editCollection
                           %strong Scientific Name: 
                           %nbsp #{@page.scientific_name} 

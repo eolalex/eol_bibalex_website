@@ -29,7 +29,7 @@ test: &test
   # variables.
   username: root
   # password: pDy013UEjn7vU9zul
-  #password: root
+  password: root
   pool: 10
 
 staging:
