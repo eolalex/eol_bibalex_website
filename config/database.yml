@@ -20,7 +20,7 @@ development:
 
    password: root
 
-  # password: admin
+  password: admin
   pool: 10
 
 test: &test
