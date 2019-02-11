@@ -15,10 +15,10 @@ development:
   # variables.
   database: ba_eol_development
   username: root
-  password: Luxor&Aswan@2o17
+  #password: Luxor&Aswan@2o17
   # password: pDy013UEjn7vU9zul
 
-  # password: root
+   password: root
 
   # password: admin
   pool: 10
@@ -31,7 +31,7 @@ test: &test
   # variables.
   username: root
   # password: pDy013UEjn7vU9zul
-  #password: root
+  password: root
   pool: 10
 
 staging:
