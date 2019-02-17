@@ -12,7 +12,9 @@
             %h3.smallTitle Maps
           -else
             %h3.smallTitle Media
-          = render_async media_grid_path(:page_id => @page.id, :page => params[:page])
+          = render_async media_grid_path(:page_id => @page.id, :page => params[:page], :maps => !@maps.nil?) do
+            .col-md-offset-4
+              =image_tag "loading.gif", :alt => ""
         .col-md-4
           %aside
             .widget.categories

@@ -1,13 +1,15 @@
+-# = javascript_include_tag 'verndor/assets/javascripts/jquery.lazyload.js'
 .row
   - @media.each do |medium|
     %div{:id => "#{medium.id}", :onclick=> 'showPopup(this)', :onmouseover =>"showOver(this)", :onmouseout=>"hideOver(this)"}
       .col-md-4.col-sm-3.col-xs-12
         .imageThumbnail
-          -url = URI.parse(medium.base_url)
+          -url = URI.parse(URI.encode(medium.base_url))
           -http = Net::HTTP.start(url.host, url.port)
           -image = http.head(url.request_uri)['Content-Type'].start_with? 'image'
           -if image
-            %img{:src => medium.base_url, :width => '260', :height => '190'}
+            -# =image_tag "#{medium.base_url}", alt:"", lazy: true, width: '260', height: '190'
+            %img{:src => medium.base_url, :width => '260', :height => '190', "data-original" => medium.base_url }
           -else
             %video{:src => medium.base_url, :width => '260', :height => '190', :controls => true}
           - content = medium.page_contents.find { |c| c.content_id == medium.id }
@@ -25,7 +27,7 @@
             .modal-body
               .row
                 .col-md-8
-                  -url = URI.parse(medium.base_url)
+                  -url = URI.parse(URI.encode(medium.base_url))
                   -http = Net::HTTP.start(url.host, url.port)
                   -image = http.head(url.request_uri)['Content-Type'].start_with? 'image'
                   - if image 
@@ -65,4 +67,7 @@
                         .greyBox
                           %p
                             = medium.description.html_safe
-= will_paginate @media, :params => {:controller => 'pages', :action => 'media'}
+-if params[:maps]=="true"
+  =will_paginate @media, :params => {:controller => 'pages', :action => 'maps'}
+-else
+  = will_paginate @media, :params => {:controller => 'pages', :action => 'media'}

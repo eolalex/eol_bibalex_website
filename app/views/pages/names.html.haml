@@ -20,8 +20,14 @@
               %a.nav-link{"data-toggle" => "tab", :href => "#Classifications"} #{t(:classifications)}
           .tab-content
             #CommonNames.tab-pane
-              = render('pages/vernaculars.html.haml')
+              = render_async vernaculars_tab_path(:page_id => @page.id) do
+                .col-md-offset-5
+                  =image_tag "loading.gif", :alt => ""
             #Classifications.tab-pane
-              = render('pages/classification.html.haml')
+              = render_async classification_tab_path(:page_id => @page.id) do
+                .col-md-offset-5
+                  =image_tag "loading.gif", :alt => ""
             #ScientificNames.tab-pane.active
-              = render('pages/scientific_names.html.haml')
+              = render_async scientific_names_tab_path(:page_id => @page.id) do
+                .col-md-offset-5
+                  =image_tag "loading.gif", :alt => ""

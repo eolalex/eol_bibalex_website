@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	// $('#progress').show();
     // $('#media_icon').click(function() {
     	// alert('#{image_id}');
         // $('#popup').show();
@@ -8,8 +9,11 @@ $(document).ready(function() {
     	// event.stopPropagation();
         // $('#popup').hide();
     // });
+    // document.getElementById("progress").style.display = 'none';
 });
-
+$(function() {
+	$("img").lazyload();
+});
 function showPopup(item){
 	// alert($(item).attr("id"));
 	// document.getElementById("popup_"+$(item).attr("id")).show();
@@ -35,3 +39,4 @@ function hideOver(item){
 	var id = $(item).attr("id");
 	$('#hover_'+id).hide();
 }
+
