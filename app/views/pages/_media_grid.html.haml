@@ -65,4 +65,4 @@
                         .greyBox
                           %p
                             = medium.description.html_safe
-= will_paginate @media
+= will_paginate @media, :params => {:controller => 'pages', :action => 'media'}
