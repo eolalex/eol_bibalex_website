@@ -41,6 +41,9 @@ Rails.application.config.assets.precompile += %w( Leaflet.NavBar.css )
 Rails.application.config.assets.precompile += %w( Leaflet.NavBar.js )
 Rails.application.config.assets.precompile += %w( freezable.js )
 Rails.application.config.assets.precompile += %w( maps_leaflet.js )
+Rails.application.config.assets.precompile += %w( shared/data_row.js )
+
+
 # For leaflet maps
 %w( leaflet MarkerCluster MarkerCluster.Default Control.FullScreen Leaflet.NavBar Control.Loading ).each do |css_asset|
   Rails.application.config.assets.precompile << "#{css_asset}.css"
