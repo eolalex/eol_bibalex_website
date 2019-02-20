@@ -45,8 +45,17 @@ Rails.application.routes.draw do
   end
   resources :collected_pages
   delete '/collected_pages/:id'=>'collected_pages#destroy'
+  #tabs
+  
   get :media_grid, :controller => :pages
   get :data_grid, :controller => :pages
+  get :vernaculars_tab, :controller => :pages
+  get :classification_tab, :controller => :pages
+  get :scientific_names_tab, :controller => :pages
+  get :literature_and_references_tab, :controller => :pages
+  get :articles_tab, :controller => :pages
+
+
   #search
   get 'search' => 'search#index', as: :search
 
