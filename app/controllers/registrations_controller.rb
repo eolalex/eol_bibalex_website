@@ -41,6 +41,7 @@ class RegistrationsController < Devise::RegistrationsController
     devise_parameter_sanitizer.permit(:edit) do |u|
       u.permit(:username, :email, :password, :password_confirmation, :current_password)
     end
+   
   end
   
   def update_resource(resource, params)
@@ -70,10 +71,6 @@ class RegistrationsController < Devise::RegistrationsController
   # end
 
   def check_captcha
-   # debugger
-    #if verify_recaptcha
-   # true
-   # else
     unless verify_recaptcha
       self.resource = User.new(sign_up_params)
       resource.valid?
@@ -89,4 +86,5 @@ class RegistrationsController < Devise::RegistrationsController
   def set_locale
     # I18n.locale = params[:locale] || I18n.default_locale
   end
+  
 end

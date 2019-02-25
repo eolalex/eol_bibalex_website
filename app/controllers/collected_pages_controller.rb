@@ -2,7 +2,6 @@ class CollectedPagesController < ApplicationController
   include ApplicationHelper
   layout "application"
   before_action :authenticate_user!
-
   def show
     @collected_page = CollectedPage.find(params[:id])
     respond_to do |format|
@@ -11,13 +10,15 @@ class CollectedPagesController < ApplicationController
   end
 
   def new
-    @collected_page = CollectedPage.new(new_page_params)
-    @page = @collected_page.page
-    @collection = Collection.new(collected_pages: [@collected_page])
-    respond_to do |format|
-      format.html {}
-      format.js {}
-    end
+    # @collected_page = CollectedPage.new(new_page_params)
+    # debugger
+    # @page = @collected_page.page
+    # @collection = Collection.new(collected_pages_attributes: [@collected_page])
+    @collected_page = CollectedPage.new
+  # respond_to do |format|
+  # format.html {}
+  # format.js {}
+  # end
   end
 
   def create
@@ -29,9 +30,9 @@ class CollectedPagesController < ApplicationController
           f.html {}
           f.js {}
         end
-        flash[:notice] = "Page Added to Collection"
+        flash[:notice] = t(:page_added_to_collection)
       else
-        flash[:notice] = "Page Already Exists in This Collection"
+        flash[:notice] = t(:page_exists)
       end
     end
     redirect_to @collected_page.page
@@ -40,10 +41,16 @@ class CollectedPagesController < ApplicationController
   def destroy
     @collected_page = CollectedPage.find(params[:id])
     @page = @collected_page.page
+    @collection = @collected_page.collection
     if @collected_page.destroy
-      flash[:notice] = "Page Deleted"
+      if @collection.collected_pages_count == 1
+        Collection.destroy(@collection.id)
+        redirect_to @page
+      else
+        redirect_to @collection
+      end
+      flash[:notice] = t(:page_deleted)
     end
-    redirect_to @collected_page.collection
   end
 
   def index
@@ -51,14 +58,14 @@ class CollectedPagesController < ApplicationController
     @collected_pages = CollectedPage.where(collection_id: @collection_id)
     @canonical_form = params[:q]
     @collected_pages.each do |collected_page|
-  # assumtion scientific name has only one page
+    # assuming scientific name has only one page
       @scientific_names = collected_page.page.scientific_names
       @scientific_names.each do|scientific_name|
         if scientific_name[:canonical_form].downcase.start_with?(@canonical_form.downcase)
           if @result.nil?
-             @result= Array.new
-           end
-          @result << scientific_name
+            @result= Array.new
+          end
+        @result << scientific_name
         end
       end
     end
@@ -66,13 +73,13 @@ class CollectedPagesController < ApplicationController
       @result = @result.sort_by{|collected_page| collected_page.page.scientific_name.downcase}
       @result = @result.paginate(:page => params[:page], :per_page => ENV['per_page'])
     else
-     flash[:notice] = "No Results Found"
-     redirect_to collection_path(id: @collection_id)
+      flash[:notice] = t(:no_results)
+      redirect_to collection_path(id: @collection_id)
     end
-    
-    # @scientific_names= if params[:canonical_form]
-      # ScientificName.where('canonical_form LIKE ?', "#{params[:canonical_form]}%")
-    # end
+
+  # @scientific_names= if params[:canonical_form]
+  # ScientificName.where('canonical_form LIKE ?', "#{params[:canonical_form]}%")
+  # end
   end
 
   private
@@ -86,6 +93,6 @@ class CollectedPagesController < ApplicationController
   end
 
   def new_page_params
-    params.permit(:page_id)
+    params.permit(:page_id, :collection_id)
   end
 end

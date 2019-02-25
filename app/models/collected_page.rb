@@ -3,7 +3,7 @@ class CollectedPage < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
   
-  index_name Rails.application.class.parent_name.underscore
+  index_name Rails.application.class.parent_name.underscore+"_collectedpage"
   document_type self.name.downcase
   
   settings index: { number_of_shards: 10, "index.blocks.read_only_allow_delete": :null } do
