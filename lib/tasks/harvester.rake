@@ -6,9 +6,15 @@ require "enumerator"
 require "fileutils"
 require "yaml"
 require 'geo/coord'
+# require 'environment.rb'
 $sql_commands= File.new('commands.sql', 'w')
 $occurrence_maps_count = 0
 $occurrence_maps_array = Array.new()
+$terms=""
+$meta=""
+$traits=""
+# $path = ENV['storage_ip']
+# $terms= File.new(path, 'w')
 
 def load_occurrence(occurrences, page_id, resource_id)
   unless occurrences.nil?
@@ -34,8 +40,7 @@ def load_occurrence(occurrences, page_id, resource_id)
    end
 end
 
-  
-def check_for_upadtes
+   def check_for_upadtes
   scheduler_uri = "#{SCHEDULER_ADDRESS}/#{CHECK_FOR_UPDATES}"
   last_harvested_time = "1536650663000"
    begin    
@@ -316,6 +321,7 @@ end
 
 
  def main_method_3
+  $terms=File.new("#{NEO4J_IMPORT_PATH}terms.csv", 'w')
   # $sql_commands.write("use ba_eol_development;\n")
   nodes_ids = []
   # hashof terms key is uri value is term itself
@@ -325,18 +331,18 @@ end
   # tables = JSON.parse(File.read(file_path))
   # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'articles.json')
 
-  # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
-  # tables = JSON.parse(File.read(file_path))
+  file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
+  tables = JSON.parse(File.read(file_path))
 
 
-    start_harvested_time = "1548590794000"
-    end_harvested_time = get_end_time
-# finish = 0
-  while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
-    # start_harvested_time is included 
-    # end_harvested_time is excluded therefore we keep it to next loop
-     json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
-     tables = JSON.parse(json_content)
+    # start_harvested_time = "1548590794000"
+    # end_harvested_time = get_end_time
+# # finish = 0
+  # while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
+    # # start_harvested_time is included 
+    # # end_harvested_time is excluded therefore we keep it to next loop
+     # json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
+     # tables = JSON.parse(json_content)
 
     # debugger
     licenses = tables["licenses"]
@@ -356,70 +362,72 @@ end
     references = tables["references"]
     traits = tables["traits"]
     taxa = tables["taxa"]
-    unless licenses.nil?
-      License.bulk_insert(licenses, :validate => true, :use_provided_primary_key => true)
-    end
-
-    unless ranks.nil?
-      Rank.bulk_insert(ranks, :validate => true, :use_provided_primary_key => true)
-    end
-
-    unless nodes.nil?
-      Node.bulk_insert(nodes,:validate => true ,:use_provided_primary_key => true)
-    end
-
-    unless pages.nil?
-      Page.bulk_insert(pages,:validate => true , :use_provided_primary_key => true)
-    end
-
-    unless pages_nodes.nil?
-      PagesNode.bulk_insert(pages_nodes,:validate => true , :use_provided_primary_key => true)
-
-    end
-    unless scientific_names.nil?
-      ScientificName.bulk_insert(scientific_names,:validate => true , :use_provided_primary_key => true)
-    end
-
-    unless languages.nil?
-      languages.each do |language|
-        Language.create(language)
-      end
-    end
-
-    unless vernaculars.nil?
-      Vernacular.bulk_insert(vernaculars,:validate => true , :use_provided_primary_key => true)
-    end
-
-    unless locations.nil?
-      Location.bulk_insert(locations,:validate => true , :use_provided_primary_key => true)
-    end
-
-    unless media.nil?
-      Medium.bulk_insert(media,:validate => true , :use_provided_primary_key => true, ignore: true)
-    end
-
-    unless articles.nil?
-      # debugger
-      Article.bulk_insert(articles,:validate => true , :use_provided_primary_key => true, ignore: true)
-    end
-
-    unless page_contents.nil?
-      PageContent.bulk_insert(page_contents,:validate => true , :use_provided_primary_key => true)
-    end
-
-    unless attributions.nil?
-      Attribution.bulk_insert(attributions,:validate => true , :use_provided_primary_key => true)
-    end
-
-    unless referents.nil?
-      Referent.bulk_insert(referents,:validate => true , :use_provided_primary_key => true)
-    end
-
-    unless references.nil?
-      Reference.bulk_insert(references,:validate => true , :use_provided_primary_key => true)
-    end
+    # unless licenses.nil?
+      # License.bulk_insert(licenses, :validate => true, :use_provided_primary_key => true)
+    # end
+# 
+    # unless ranks.nil?
+      # Rank.bulk_insert(ranks, :validate => true, :use_provided_primary_key => true)
+    # end
+# 
+    # unless nodes.nil?
+      # Node.bulk_insert(nodes,:validate => true ,:use_provided_primary_key => true)
+    # end
+# 
+    # unless pages.nil?
+      # Page.bulk_insert(pages,:validate => true , :use_provided_primary_key => true)
+    # end
+# 
+    # unless pages_nodes.nil?
+      # PagesNode.bulk_insert(pages_nodes,:validate => true , :use_provided_primary_key => true)
+# 
+    # end
+    # unless scientific_names.nil?
+      # ScientificName.bulk_insert(scientific_names,:validate => true , :use_provided_primary_key => true)
+    # end
+# 
+    # unless languages.nil?
+      # languages.each do |language|
+        # Language.create(language)
+      # end
+    # end
+# 
+    # unless vernaculars.nil?
+      # Vernacular.bulk_insert(vernaculars,:validate => true , :use_provided_primary_key => true)
+    # end
+# 
+    # unless locations.nil?
+      # Location.bulk_insert(locations,:validate => true , :use_provided_primary_key => true)
+    # end
+# 
+    # unless media.nil?
+      # Medium.bulk_insert(media,:validate => true , :use_provided_primary_key => true, ignore: true)
+    # end
+# 
+    # unless articles.nil?
+      # # debugger
+      # Article.bulk_insert(articles,:validate => true , :use_provided_primary_key => true, ignore: true)
+    # end
+# 
+    # unless page_contents.nil?
+      # PageContent.bulk_insert(page_contents,:validate => true , :use_provided_primary_key => true)
+    # end
+# 
+    # unless attributions.nil?
+      # Attribution.bulk_insert(attributions,:validate => true , :use_provided_primary_key => true)
+    # end
+# 
+    # unless referents.nil?
+      # Referent.bulk_insert(referents,:validate => true , :use_provided_primary_key => true)
+    # end
+# 
+    # unless references.nil?
+      # Reference.bulk_insert(references,:validate => true , :use_provided_primary_key => true)
+    # end
 
     unless traits.nil?
+      File.open("#{NEO4J_IMPORT_PATH}terms.csv", 'w'){}
+      $terms.write("name\turi\tsection_ids\tdefinition")
       traits.each do|trait|
         generated_node_id = trait["generated_node_id"]
         occurrences = "["+trait["occurrences"]+"]"
@@ -432,35 +440,36 @@ end
         load_occurrence(occurrences, page_id, resource_id)
       end
 
-      traits.each do|trait|
-        generated_node_id = trait["generated_node_id"]
-        occurrences = "["+trait["occurrences"]+"]"
-        occurrences = JSON.parse(occurrences)
-        associations = "["+trait["associations"]+"]"
-        associations = JSON.parse(associations)
-        measurements = "["+trait["measurementOrFacts"]+"]"
-        measurements = JSON.parse(measurements)
-        node = Node.where(generated_node_id: generated_node_id).first
-        node_id = node.id
-        resource_id = node.resource_id
-        scientific_name = node.scientific_name
-        page_id = PagesNode.where(node_id: node_id).first.page_id
-        node_params = { page_id: page_id, resource_id: resource_id, scientific_name: scientific_name}
-        add_neo4j(node_params, occurrences, measurements, associations,terms)
-      end
+      # traits.each do|trait|
+        # generated_node_id = trait["generated_node_id"]
+        # occurrences = "["+trait["occurrences"]+"]"
+        # occurrences = JSON.parse(occurrences)
+        # associations = "["+trait["associations"]+"]"
+        # associations = JSON.parse(associations)
+        # measurements = "["+trait["measurementOrFacts"]+"]"
+        # measurements = JSON.parse(measurements)
+        # node = Node.where(generated_node_id: generated_node_id).first
+        # node_id = node.id
+        # resource_id = node.resource_id
+        # scientific_name = node.scientific_name
+        # page_id = PagesNode.where(node_id: node_id).first.page_id
+        # node_params = { page_id: page_id, resource_id: resource_id, scientific_name: scientific_name}
+        # add_neo4j(node_params, occurrences, measurements, associations,terms)
+      # end
     end
 
     # create maps json file for occurrence_maps
 
-    unless taxa.nil?
-      taxa.each do |taxon|
-        write_to_json(taxon)
-      end
-      OccurrenceMap.bulk_insert($occurrence_maps_array, :validate => true)
-    $occurrence_maps_count = 0
-     end
-     start_harvested_time = (start_harvested_time.to_i + 30000).to_s
-  end
+    # unless taxa.nil?
+      # taxa.each do |taxon|
+        # write_to_json(taxon)
+      # end
+      # OccurrenceMap.bulk_insert($occurrence_maps_array, :validate => true)
+    # $occurrence_maps_count = 0
+     # end
+     
+     # start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+  # end
 
 end
 
@@ -650,10 +659,12 @@ end
 namespace :harvester do
   desc "TODO"  
   task get_latest_updates: :environment do
-    
+     # $path = ENV['storage_ip']
     main_method_3
 
-
-
+# q= system('sh /home/ba/traits_scripts/terms.sh')
+# q="load csv from 'file:///terms.csv' as line fieldterminator '\t' with line skip 1
+# merge(n:Term {uri: line[1]}) on create set n.name=line[0], n.section_ids=line[2], n.definition=line[3];"
+# TraitBank.query(q)
   end
 end
