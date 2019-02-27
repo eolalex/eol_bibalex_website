@@ -755,7 +755,8 @@ class TraitBank
 
     # # TODO: we should probably do some checking here. For example, we should
     # # only have ONE of [value/object_term/association/literal].
-    def create_trait(options)
+    def create_trait(options,terms)
+      # debugger
       resource_id = options[:supplier]["data"]["resource_id"]
       Rails.logger.warn "++ Create Trait: Resource##{resource_id}, "\
         "PK:#{options[:resource_pk]}"
@@ -768,16 +769,52 @@ class TraitBank
       # page = page_exists?(page)
       #supplier returns .......and required id in db therefore i used resource_find
       supplier = options.delete(:supplier)
-      # supplier = find_resource(resource_id)
-      # meta = options.delete(:metadata)
-      predicate = parse_term(options.delete(:predicate))
-      units = parse_term(options.delete(:units))
+      if (!options[:predicate].nil?) && (!options[:predicate][:uri].nil?) && (terms.include? options[:predicate][:uri])
+        predicate = terms[options[:predicate][:uri]]
+        options.delete(:predicate)
+      else
+        predicate = parse_term(options.delete(:predicate))
+        terms[predicate["data"]["uri"]]= predicate if predicate
+      end
+
+      if (!options[:units].nil?) &&(!options[:units][:uri].nil?) && (terms.include? options[:units][:uri])
+        units = terms[options[:units][:uri]]
+        options.delete(:units)
+      else
+        units = parse_term(options.delete(:units))
+        terms[units["data"]["uri"]]= units if units
+      end
       # occurrence metadata
-      lifestage = parse_term(options.delete(:lifestage_term))
-      sex = parse_term(options.delete(:sex_term))
-      statistical_method = parse_term(options.delete(:statistical_method_term))
+      if (!options[:lifestage_term].nil?) && (!options[:lifestage_term][:uri].nil?) && (terms.include? options[:lifestage_term][:uri])
+        lifestage = terms[options[:lifestage_term][:uri]]
+        options.delete(:lifestage_term)
+      else
+        lifestage = parse_term(options.delete(:lifestage_term))
+        terms[lifestage["data"]["uri"]]= lifestage if lifestage
+      end
+      if (!options[:sex_term].nil?) && (!options[:sex_term][:uri].nil?) && (terms.include? options[:sex_term][:uri])
+        sex = terms[options[:sex_term][:uri]]
+        options.delete(:sex_term)
+      else
+        sex = parse_term(options.delete(:sex_term))
+        terms[sex["data"]["uri"]]= sex if sex
+      end
       
-      object_term = parse_term(options.delete(:object_term))
+      if (!options[:statistical_method_term].nil?) && (!options[:statistical_method_term][:uri].nil?) && (terms.include? options[:statistical_method_term][:uri])
+        statistical_method = terms[options[:statistical_method_term][:uri]]
+        options.delete(:statistical_method_term)
+      else
+        statistical_method = parse_term(options.delete(:statistical_method_term))
+        terms[statistical_method["data"]["uri"]]= statistical_method if statistical_method
+      end
+      
+      if (!options[:object_term].nil?) && (!options[:object_term][:uri].nil?) && (terms.include? options[:object_term][:uri])
+        object_term = terms[options[:object_term][:uri]]
+        options.delete(:object_term)
+      else
+        object_term = parse_term(options.delete(:object_term))
+        terms[object_term["data"]["uri"]]= object_term if object_term
+      end
       convert_measurement(options, units)
       trait = create_node(options,"Trait")
       # trait = connection.create_node(options)
@@ -872,11 +909,31 @@ class TraitBank
       res["data"].empty? ? false : true  
     end
     
-    def add_metadata_to_trait(trait, options)
+    def add_metadata_to_trait(trait, options,terms)
       # debugger
-      predicate = parse_term(options.delete(:predicate))
-      units = parse_term(options.delete(:units))
-      object_term = parse_term(options.delete(:object_term))
+      if (!options[:predicate].nil?) && (!options[:predicate][:uri].nil?) && (terms.include? options[:predicate][:uri])
+        predicate = terms[options[:predicate][:uri]]
+        options.delete(:predicate)
+      else
+        predicate = parse_term(options.delete(:predicate))
+        terms[predicate["data"]["uri"]]= predicate if predicate
+      end
+      
+      if (!options[:units].nil?) && (!options[:units][:uri].nil?) && (terms.include? options[:units][:uri])
+        units = terms[options[:units][:uri]]
+        options.delete(:units)
+      else
+        units = parse_term(options.delete(:units))
+        terms[units["data"]["uri"]]= units if units
+      end
+      
+      if (!options[:object_term].nil?) && (!options[:object_term][:uri].nil?) && (terms.include? options[:object_term][:uri])
+        object_term = terms[options[:object_term][:uri]]
+        options.delete(:object_term)
+      else
+        object_term = parse_term(options.delete(:object_term))
+        terms[object_term["data"]["uri"]]= object_term if object_term
+      end
       convert_measurement(options, units)
       if (meta = meta_exists?(options[:eol_pk]))
       else
@@ -977,7 +1034,6 @@ class TraitBank
     end
 
     def create_term(options)
-      # debugger
       if (existing_term = term(options[:uri])) # NO DUPLICATES!
         return existing_term unless options.delete(:force)
       end

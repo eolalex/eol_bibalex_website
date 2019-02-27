@@ -163,7 +163,7 @@ def create_measurement(occurrence_of_measurement , measurement)
 end
 
 
-def add_neo4j(node_params, occurrences, measurements, associations)
+def add_neo4j(node_params, occurrences, measurements, associations,terms)
 
   unless (occurrences.nil? || occurrences.empty?)
     # load occurrences
@@ -216,7 +216,7 @@ def add_neo4j(node_params, occurrences, measurements, associations)
           unless association["measurementMethod"].nil?
             options[:measurementMethod] = association["measurementMethod"].gsub('"','\"')
           end
-          trait=TraitBank.create_trait(options)
+          trait=TraitBank.create_trait(options,terms)
       end
     end
     
@@ -242,7 +242,6 @@ def add_neo4j(node_params, occurrences, measurements, associations)
             options[:lifestage_term] = { name: "lifeStage_#{measurement["measurementId"]}",
                              uri: occurrence_of_measurement["lifeStage"], section_ids:[1,2,3],definition:"lifeStage term object_term definition"}
           end
-    
           if occurrence_of_measurement && occurrence_of_measurement["sex"]
             options[:sex_term] = { name: "sex_#{measurement["measurementId"]}",
                                    uri: occurrence_of_measurement["sex"], section_ids:[1,2,3],definition:"sex term object_term definition"}
@@ -252,7 +251,7 @@ def add_neo4j(node_params, occurrences, measurements, associations)
             options[:statistical_method_term] = { name: "statisticalMethod_#{measurement["measurementId"]}",
                                    uri: measurement["statisticalMethod"], section_ids:[1,2,3],definition:"statisticalMethod term object_term definition"}
           end
-          trait=TraitBank.create_trait(options)
+          trait=TraitBank.create_trait(options,terms)
 
         # elsif (measurement["measurementOfTaxon"] == "false" || measurement["measurementOfTaxon"] == "FALSE") && !(measurement["parentMeasurementId"].nil?)
         elsif (measurement["measurementOfTaxon"].nil? ||NON_VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase)) && !(measurement["parentMeasurementId"].nil?)
@@ -277,7 +276,7 @@ def add_neo4j(node_params, occurrences, measurements, associations)
           # options[:eol_pk]= measurement["measurementId"]
           unless res.nil?
             options[:eol_pk] = "M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}"
-            TraitBank.add_metadata_to_trait(res, options)
+            TraitBank.add_metadata_to_trait(res, options,terms)
           end
           
         else
@@ -289,7 +288,7 @@ def add_neo4j(node_params, occurrences, measurements, associations)
               # options[:eol_pk]= measurement["measurementId"]
               options[:eol_pk] = "M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}"
               options_copy = options.clone
-              TraitBank.add_metadata_to_trait(element, options_copy)
+              TraitBank.add_metadata_to_trait(element, options_copy,terms)
               # options.each { |md| TraitBank.add_metadata_to_trait(element, md) }
             end
           end   
@@ -319,23 +318,25 @@ end
  def main_method_3
   # $sql_commands.write("use ba_eol_development;\n")
   nodes_ids = []
+  # hashof terms key is uri value is term itself
+  terms = {}
 
   # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'mysql.json')
   # tables = JSON.parse(File.read(file_path))
   # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'articles.json')
 
-  file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
-  tables = JSON.parse(File.read(file_path))
+  # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
+  # tables = JSON.parse(File.read(file_path))
 
 
-    # start_harvested_time = "1548590794000"
-    # end_harvested_time = get_end_time
+    start_harvested_time = "1548590794000"
+    end_harvested_time = get_end_time
 # finish = 0
-  # while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
+  while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
     # start_harvested_time is included 
     # end_harvested_time is excluded therefore we keep it to next loop
-    # json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
-    # tables = JSON.parse(json_content)
+     json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
+     tables = JSON.parse(json_content)
 
     # debugger
     licenses = tables["licenses"]
@@ -445,7 +446,7 @@ end
         scientific_name = node.scientific_name
         page_id = PagesNode.where(node_id: node_id).first.page_id
         node_params = { page_id: page_id, resource_id: resource_id, scientific_name: scientific_name}
-        add_neo4j(node_params, occurrences, measurements, associations)
+        add_neo4j(node_params, occurrences, measurements, associations,terms)
       end
     end
 
@@ -457,8 +458,8 @@ end
       end
       OccurrenceMap.bulk_insert($occurrence_maps_array, :validate => true)
     $occurrence_maps_count = 0
-    # end
-    # start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+     end
+     start_harvested_time = (start_harvested_time.to_i + 30000).to_s
   end
 
 end

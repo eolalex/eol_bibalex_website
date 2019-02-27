@@ -2,7 +2,7 @@
 -#%li.trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => show_taxon), :id => trait[:id] }}
   -# - pages = [] unless local_assigns.has_key?(:pages)
   -# - page_id = trait[:page_id]
-- if (trait[:metadata] && trait[:metadata].any?) || (open_row && (trait[:source] || trait[:scientific_name] || page))
+- if (trait[:metadata] && trait[:metadata].any?) 
   %ul.meta-items.js-meta-items
     -if trait[:trait][:source]
       %li
