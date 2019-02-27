@@ -37,7 +37,7 @@
                         = I18n.t('recaptcha_error')
           .row
             .col-xs-12
-              %input.btn.btn-success.btn-lg.btn-block{:type => "submit", :value => "#{t(:sign_in)}"}/
+              %input.btn.btn-success.btn-lg.btn-block{ type: "submit", value: "#{t(:sign_in)}"}/
 
           .row
             .col-md-12
@@ -47,12 +47,16 @@
           .row
             - if devise_mapping.omniauthable?
               - action = controller_name == 'registrations' ? "sign_up" : "sign_in"
-              .col-sm-6.form-group
-                %a.btn.btn-primary.btn-block{ href: "/users/auth/twitter?intent=#{action}&locale=en" }
-                  %i.fa.fa-twitter
-              .col-sm-6.form-group
+              .col-sm-4.form-group
+                %a.btn.btn-primary.btn-block{ href: "/users/auth/facebook?intent=#{action}&locale=en" }
+                  %i.fa.fa-facebook
+              .col-sm-4.form-group
                 %a.btn.btn-primary.btn-block{ href: "/users/auth/google_oauth2?intent=#{action}&locale=en" }
                   %i.fa.fa-google-plus
+              .col-sm-4.form-group
+                %a.btn.btn-primary.btn-block{ href: "/users/auth/twitter?intent=#{action}&locale=en" }
+                  %i.fa.fa-twitter
+
             .col-md-12
               %p
                 %a{ href: "/users/confirmation/new?locale=en"} #{t(:no_confirmation_instructions)}
