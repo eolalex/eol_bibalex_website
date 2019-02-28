@@ -39,7 +39,12 @@ class SearchController < ApplicationController
     if (params[:scientific_names].nil? && params[:pages].nil?)
       @results = @pages
     end
-    @results = @results.paginate(:page => params[:page], :per_page => ENV['per_page'])
-    # @results =@results.uniq!
+    unless @results.empty?
+      @results = @results.paginate(:page => params[:page], :per_page => ENV['per_page'])
+      # @results =@results.uniq!
+    else
+      flash[:notice] = t(:no_results) +" "+ params[:query]
+      redirect_back(fallback_location: root_path)
+    end
   end
 end

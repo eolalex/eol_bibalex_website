@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -8,25 +9,25 @@ class ApplicationController < ActionController::Base
   before_action :set_locale_direction
   helper_method :url_without_locale_params
   before_action :allow_cross_domain_ajax
-  
-  
+  before_action :set_cache_headers
   def allow_cross_domain_ajax
-      headers['Access-Control-Allow-Origin'] = '*'
-      headers['Access-Control-Request-Method'] = 'POST, OPTIONS'
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Request-Method'] = 'POST, OPTIONS'
   end
-
-
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
   end
-  
+
   def nothing
-      render text: '', content_type: 'text/plain'
+    render text: '', content_type: 'text/plain'
   end
+
   def set_locale_direction
     @direction_page = (I18n.locale==:ar)?("rtl"):("ltr")
   end
+
+
   protected
 
   def configure_permitted_parameters
@@ -38,6 +39,10 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     request.env['omniauth.origin'] || root_path
+  end
+
+  def set_cache_headers
+    response.headers["Cache-Control"] = "no-store"
   end
 
   private

@@ -5,11 +5,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :lockable, :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
   validate :password_complexity
   validates_confirmation_of :password
-  validates :email,presence: true, :uniqueness => true
+  validates :email, presence: true, uniqueness: true
   has_and_belongs_to_many :collections
   has_many :open_authentications, dependent: :delete_all
   has_many :content_partners, through: :content_partner_users
-  has_many :user_providers, :dependent => :destroy
+  has_many :user_providers, dependent: :destroy
   
   # def username_format
     # return unless username =~ /\s/

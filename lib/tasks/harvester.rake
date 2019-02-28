@@ -325,21 +325,31 @@ def main_method_3
 
   # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
   # tables = JSON.parse(File.read(file_path))
+<<<<<<< HEAD
 
 
     start_harvested_time = "1547663631000"
     end_harvested_time = get_end_time
+=======
+>>>>>>> e64a47c36c3d455363a13e759170ee7d1801c9a4
 
 
-    # start_harvested_time = "1548590794000"
-    # end_harvested_time = get_end_time
+    start_harvested_time = "1548590794000"
+    end_harvested_time = get_end_time
 # finish = 0
   while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
     # start_harvested_time is included 
     # end_harvested_time is excluded therefore we keep it to next loop
+<<<<<<< HEAD
     json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
     tables = JSON.parse(json_content)
     # json_content = get_latest_upd
+=======
+     json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
+     tables = JSON.parse(json_content)
+
+    # debugger
+>>>>>>> e64a47c36c3d455363a13e759170ee7d1801c9a4
     licenses = tables["licenses"]
     ranks = tables["ranks"]
     nodes = tables["nodes"]
@@ -459,8 +469,13 @@ def main_method_3
       end
       OccurrenceMap.bulk_insert($occurrence_maps_array, :validate => true)
     $occurrence_maps_count = 0
+<<<<<<< HEAD
     end
     start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+=======
+     end
+     start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+>>>>>>> e64a47c36c3d455363a13e759170ee7d1801c9a4
   end
 
 end

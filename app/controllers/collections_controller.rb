@@ -5,13 +5,14 @@ class CollectionsController < ApplicationController
 
   def new
     @collection = Collection.new
-    respond_to do |format|
-      format.html {}
-      format.js {}
-    end
+    # respond_to do |format|
+      # format.html {}
+      # format.js {}
+    # end
   end
 
   def create
+    @page_id = request.referrer.split("/pages/")[1].split("?")[0].to_i
     @collection = Collection.new(collection_params)
     if @collection.save
       @collection.users << current_user
@@ -19,8 +20,11 @@ class CollectionsController < ApplicationController
         format.html {}
         format.js {}
       end
-      redirect_to :controller => 'pages', :action => 'show', :id => CollectedPage.where("collection_id = ?", @collection.id).last.page_id
-      flash[:notice] = "Page Added to Collection"
+      @collected_page = CollectedPage.new(page_id: @page_id, collection_id: @collection.id)
+      if @collected_page.save
+        redirect_to @collected_page.page
+        flash[:notice] = t(:page_added_to_collection)
+      end
     end
   end
 
@@ -31,9 +35,9 @@ class CollectionsController < ApplicationController
   def update
     @collection = Collection.find(params[:id])
     if @collection.update_attributes (collection_params)
-     flash[:success] = "Successfully Updated"
+     flash[:success] = t(:successfully_updated)
     else
-     flash[:success] = "Update Failed"
+     flash[:error] = t(:update_failed)
     end
     redirect_to @collection
   end
@@ -49,13 +53,13 @@ class CollectionsController < ApplicationController
     @collection = Collection.find(params[:id])
     @user = current_user
     if @collection.destroy
-      flash[:notice] = "Collection Deleted"
+      flash[:notice] = t(:collection_deleted)
       redirect_to root_path
     end
   end
 
   def collection_params
-    params.require(:collection).permit(:id, :name, :description, :collection_type, :default_sort,
+    params.require(:collection).permit(:id, :name, :description, :collection_type, :default_sort, 
       collected_pages_attributes: [:id, :page_id, :annotation,
         collected_pages_media_attributes: [:medium_id, :collected_page_id, :_destroy]])
   end
