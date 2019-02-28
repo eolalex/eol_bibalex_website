@@ -1463,8 +1463,6 @@ img {
 
 }
 
- 
-
 a {
 
     -webkit-transition: all 150ms ease;
@@ -2507,7 +2505,10 @@ body {
 
 .imageThumbnail {
     margin-bottom: 15px;
+    background: url('loading.gif') no-repeat;
+
 }
+ 
 
 .btn-success,
 .btn-trusted {

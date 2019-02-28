@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	// $('#progress').show();
     // $('#media_icon').click(function() {
     	// alert('#{image_id}');
         // $('#popup').show();
@@ -8,6 +9,10 @@ $(document).ready(function() {
     	// event.stopPropagation();
         // $('#popup').hide();
     // });
+    // document.getElementById("progress").style.display = 'none';
+});
+$(function() {
+	$("img").lazyload();
 });
 $("img").lazyload();
 function showPopup(item){
@@ -35,3 +40,4 @@ function hideOver(item){
 	var id = $(item).attr("id");
 	$('#hover_'+id).hide();
 }
+

@@ -18,3 +18,4 @@
 //= require bootstrap-sprockets
 //= require twitter/typeahead
 //= require js-routes
+//= require jquery.lazyload.js
