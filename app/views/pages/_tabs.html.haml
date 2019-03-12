@@ -1,5 +1,4 @@
 = javascript_include_tag 'pages'
--# = hidden_field_tag('collection_id', @collection.id)
 %small
 %span.dropdown.pull-right
   %a.dropdown-toggle.btn.btn-primary.exploreTaxonBtn{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
@@ -11,7 +10,7 @@
     %li
       %a{:href => names_page_path(@page)} #{t(:names)}
     - if @page.media.size > 0
-      %li
+      %litrue
         %a{:href => page_media_path(@page)} #{t(:media)}
     -if @page.referents.size > 0
       %li
@@ -26,8 +25,26 @@
     -if @page.map?
       %li
         %a{:href => page_maps_path(@page)} #{t(:maps)}
-%small
-%span.dropdown.pull-right
-  =link_to "#{t(:collect_button)}", new_collected_page_path(page_id: @page.id), class: "btn btn-primary"
-.page_topics{ data: { id: @page.id } }    
 
+- if user_signed_in?
+  %small
+  %span.dropdown.pull-right
+    %a.btn.btn-primary{id: "#{@page.id}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
+      #{t(:collect_button)}
+  .modal{id: "popup_#{@page.id}", "aria-labelledby": "popup_#{@page.id}Label", role: "dialog", tabindex: "-1"}
+    .modal-dialog.modal-lg.extra_large{role: "document"}
+      .modal-content
+        .modal-header
+          .form-group.row.form-inline
+            .col-md-10.col-sm-10.col-xs-10
+              .editLabel.modal-title #{t(:add_page_to_collection)} 
+            .col-md-2.col-sm-2.col-xs-2
+              %button{ id: "#{@page.id}", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'}x
+        .modal-body.editCollection
+          = render("collected_pages/new", page_id: @page.id)
+  
+        .modal-footer
+          .form-group.row.form-inline
+            .col-md-12.col-sm-12.col-xs-12
+
+.page_topics{ data: { id: @page.id } }    

@@ -9,7 +9,7 @@ ar:
     failure:
       already_authenticated: "تمّ تسجيل دخولك مُسبقاً."
       inactive: "لم يتمّ تنشيط حسابك بعد."
-      invalid: "%{authentication_keys} أو كلمة المرور غير صالحتان."
+      invalid: "%{authentication_keys} أو كلمة المرور غير صالحتين."
       locked: "حسابك مُعلّق."
       last_attempt: "لديك مُحاولة أخيرة قَبل أن يتمّ تعليق حسابك."
       not_found_in_database: "%{authentication_keys} أو كلمة المرور غير صالحتين."
