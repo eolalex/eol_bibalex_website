@@ -2,14 +2,17 @@ class ApplicationController < ActionController::Base
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
+  # protect_from_forgery with: :exception
+  protect_from_forgery
+  include  Devise::Controllers::StoreLocation
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
   before_action :set_locale_direction
   helper_method :url_without_locale_params
   before_action :allow_cross_domain_ajax
-  before_action :set_cache_headers
+  before_action :store_user_location!, if: :storable_location?
+
   def allow_cross_domain_ajax
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Request-Method'] = 'POST, OPTIONS'
@@ -27,7 +30,6 @@ class ApplicationController < ActionController::Base
     @direction_page = (I18n.locale==:ar)?("rtl"):("ltr")
   end
 
-
   protected
 
   def configure_permitted_parameters
@@ -37,16 +39,19 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit :account_update, keys: update_attrs
   end
 
-  def after_sign_in_path_for(resource)
-    request.env['omniauth.origin'] || root_path
+  def storable_location?
+    request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
   end
 
-  def set_cache_headers
-    response.headers["Cache-Control"] = "no-store"
+  def store_user_location!
+    # :user is the scope we are authenticating
+    store_location_for(:user, request.fullpath)
   end
 
-  private
-
+  def after_sign_in_path_for(resource_or_scope)
+    stored_location_for(resource_or_scope) || super
+  end
+  
   def after_sign_out_path_for(resource_or_scope)
     if current_user
       request.referrer

@@ -9,8 +9,8 @@
       %a{:href => page_path(@page)} #{t(:overview)}
     %li
       %a{:href => names_page_path(@page)} #{t(:names)}
-    - if @page.media.size > 0
-      %litrue
+    -if @page.media.size > 0
+      %li
         %a{:href => page_media_path(@page)} #{t(:media)}
     -if @page.referents.size > 0
       %li

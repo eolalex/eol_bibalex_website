@@ -146,7 +146,7 @@ def create_measurement(occurrence_of_measurement , measurement)
   options
 end
 
-def add_neo4j(node_params, occurrences, measurements, associations,terms)
+def add_neo4j(node_params, occurrences, measurements, associations,target_occurrences,terms)
   
   unless (occurrences.nil? || occurrences.empty?)
     # load occurrences
@@ -158,12 +158,12 @@ def add_neo4j(node_params, occurrences, measurements, associations,terms)
   unless (associations.nil? || associations.empty?)
     object_page_id=""
     associations.each do |association|
-      res = OccurrencePageMapping.where(resource_id: node_params[:resource_id], occurrence_id: association["targetOccurrenceId"])
-      unless res.empty?
-        occurrence_mapping = res.first
-        object_page_id = occurrence_mapping.page_id
-      end
-
+      # res = OccurrencePageMapping.where(resource_id: node_params[:resource_id], occurrence_id: association["targetOccurrenceId"])
+      # unless res.empty?
+        # occurrence_mapping = res.first
+        # object_page_id = occurrence_mapping.page_id
+      # end
+object_page_id = target_occurrences[association["targetOccurrenceId"]]
       # $terms.write("predicate_name_#{association["associationId"]}\t#{association["associationType"]}\t1,2,3\tpredicate definition\n")
       $terms_array << "predicate_name_#{association["associationId"]}\t#{association["associationType"]}\t1,2,3\tpredicate definition"
       occurrence_of_association = occurrences_hash[association["occurrenceId"]]
@@ -489,20 +489,25 @@ def main_method_3
       # $terms.write("name\turi\tsection_ids\tdefinition\n")
       # $traits.write("resource_pk\tocc_id\teol_pk\tscientific_name\tcitation\tsource\tmeasurementMethod\tliteral\tnormal_measurement\tnormal_units\tmeasurement\tpage_id\tresource_id\tp_uri\tob_uri\tunit_uri\tlifestage_uri\tsex_uri\tstatisticalMethod_uri\tobject_page_id\n")
       # $meta.write("eol_pk\tmeasurement\tliteral\tparent_eol_pk\tresource_id\tp_uri\tob_uri\tunit_uri\tocc_id\n")
-      traits.each do|trait|
-        generated_node_id = trait["generated_node_id"]
-        occurrences = "["+trait["occurrences"]+"]"
-        occurrences = JSON.parse(occurrences)
-        node = Node.where(generated_node_id: generated_node_id).first
-        node_id = node.id
-        resource_id = node.resource_id
-        scientific_name = node.scientific_name
-        page_id = PagesNode.where(node_id: node_id).first.page_id
-        load_occurrence(occurrences, page_id, resource_id)
-      end
+
+      # traits.each do|trait|
+        # generated_node_id = trait["generated_node_id"]
+        # occurrences = "["+trait["occurrences"]+"]"
+        # occurrences = JSON.parse(occurrences)
+        # node = Node.where(generated_node_id: generated_node_id).first
+        # node_id = node.id
+        # resource_id = node.resource_id
+        # scientific_name = node.scientific_name
+        # page_id = PagesNode.where(node_id: node_id).first.page_id
+        # load_occurrence(occurrences, page_id, resource_id)
+      # end
 
       traits.each do|trait|
         generated_node_id = trait["generated_node_id"]
+        target_occurrences = trait["targetOccurrences"]
+        unless target_occurrences.empty?
+          target_occurrences = JSON.parse(target_occurrences)
+        end
         occurrences = "["+trait["occurrences"]+"]"
         occurrences = JSON.parse(occurrences)
         associations = "["+trait["associations"]+"]"
@@ -515,7 +520,7 @@ def main_method_3
         scientific_name = node.scientific_name
         page_id = PagesNode.where(node_id: node_id).first.page_id
         node_params = { page_id: page_id, resource_id: resource_id, scientific_name: scientific_name}
-        add_neo4j(node_params, occurrences, measurements, associations,terms)
+        add_neo4j(node_params, occurrences, measurements, associations,target_occurrences,terms)
       end
       
       IO.write($terms, $terms_array.join("\n"))
@@ -528,6 +533,11 @@ def main_method_3
       system('sh /home/a-amorad/traits_scripts/terms.sh')
       system('sh /home/a-amorad/traits_scripts/traits.sh')
       system('sh /home/a-amorad/traits_scripts/meta.sh')
+
+      # system('sh /home/ba/traits_scripts/terms.sh')
+      # system('sh /home/ba/traits_scripts/traits.sh')
+      # system('sh /home/ba/traits_scripts/meta.sh')
+
     end
 
     # create maps json file for occurrence_maps
