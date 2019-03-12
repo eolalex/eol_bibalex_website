@@ -146,7 +146,7 @@ def create_measurement(occurrence_of_measurement , measurement)
   options
 end
 
-def add_neo4j(node_params, occurrences, measurements, associations, target_occurrences, terms)
+def add_neo4j(node_params, occurrences, measurements, associations,target_occurrences,terms)
   
   unless (occurrences.nil? || occurrences.empty?)
     # load occurrences
@@ -163,8 +163,7 @@ def add_neo4j(node_params, occurrences, measurements, associations, target_occur
         # occurrence_mapping = res.first
         # object_page_id = occurrence_mapping.page_id
       # end
-         object_page_id = target_occurrences[association["targetOccurrenceId"]]
-
+object_page_id = target_occurrences[association["targetOccurrenceId"]]
       # $terms.write("predicate_name_#{association["associationId"]}\t#{association["associationType"]}\t1,2,3\tpredicate definition\n")
       $terms_array << "predicate_name_#{association["associationId"]}\t#{association["associationType"]}\t1,2,3\tpredicate definition"
       occurrence_of_association = occurrences_hash[association["occurrenceId"]]
@@ -367,6 +366,7 @@ end
 
 
 def main_method_3
+  ActiveRecord::Base.logger.info "starttttttt: #{Time.new}"
   nodes_ids = []
   # hashof terms key is uri value is term itself
   terms = {}
@@ -379,18 +379,18 @@ def main_method_3
   tables = JSON.parse(File.read(file_path))
 
 
-    start_harvested_time = "1548590794000"
+    start_harvested_time = "1551795393000"
     end_harvested_time = get_end_time
 # # finish = 0
-   # while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
+    # while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
       $terms=File.new("#{NEO4J_IMPORT_PATH}terms.csv", 'w')
       $meta=File.new("#{NEO4J_IMPORT_PATH}meta.csv", 'w')
       $traits=File.new("#{NEO4J_IMPORT_PATH}traits.csv", 'w')
       
     # # start_harvested_time is included 
     # # end_harvested_time is excluded therefore we keep it to next loop
-      # json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
-      # tables = JSON.parse(json_content)
+       # json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
+       # tables = JSON.parse(json_content)
 
     licenses = tables["licenses"]
     ranks = tables["ranks"]
@@ -471,7 +471,7 @@ def main_method_3
     unless references.nil?
       Reference.bulk_insert(references,:validate => true , :use_provided_primary_key => true)
     end
-ActiveRecord::Base.logger.info "#{Time.new}"
+
     unless traits.nil?
       File.open("#{NEO4J_IMPORT_PATH}terms.csv", 'w'){}
       File.open("#{NEO4J_IMPORT_PATH}traits.csv", 'w'){}
@@ -528,6 +528,10 @@ ActiveRecord::Base.logger.info "#{Time.new}"
       # $terms.flush
       # $meta.flush
       # $traits.flush
+      #debugger
+      # system('sh /home/a-amorad/traits_scripts/terms.sh')
+      # system('sh /home/a-amorad/traits_scripts/traits.sh')
+      # system('sh /home/a-amorad/traits_scripts/meta.sh')
       system('sh /home/ba/traits_scripts/terms.sh')
       system('sh /home/ba/traits_scripts/traits.sh')
       system('sh /home/ba/traits_scripts/meta.sh')
@@ -543,8 +547,9 @@ ActiveRecord::Base.logger.info "#{Time.new}"
     $occurrence_maps_count = 0
      end
      
-     # start_harvested_time = (start_harvested_time.to_i + 30000).to_s
-  # end
+      # start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+   # end
+   ActiveRecord::Base.logger.info "enddddddddd: #{Time.new}"
 
 end
 
