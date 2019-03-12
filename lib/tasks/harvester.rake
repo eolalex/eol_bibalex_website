@@ -375,22 +375,22 @@ def main_method_3
   # tables = JSON.parse(File.read(file_path))
   # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'articles.json')
 
-  file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
-  tables = JSON.parse(File.read(file_path))
+  # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
+  # tables = JSON.parse(File.read(file_path))
 
 
     start_harvested_time = "1551795393000"
     end_harvested_time = get_end_time
 # # finish = 0
-    # while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
+    while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
       $terms=File.new("#{NEO4J_IMPORT_PATH}terms.csv", 'w')
       $meta=File.new("#{NEO4J_IMPORT_PATH}meta.csv", 'w')
       $traits=File.new("#{NEO4J_IMPORT_PATH}traits.csv", 'w')
       
-    # # start_harvested_time is included 
-    # # end_harvested_time is excluded therefore we keep it to next loop
-       # json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
-       # tables = JSON.parse(json_content)
+    # start_harvested_time is included 
+    # end_harvested_time is excluded therefore we keep it to next loop
+       json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
+       tables = JSON.parse(json_content)
 
     licenses = tables["licenses"]
     ranks = tables["ranks"]
@@ -529,12 +529,12 @@ def main_method_3
       # $meta.flush
       # $traits.flush
       #debugger
-      # system('sh /home/a-amorad/traits_scripts/terms.sh')
-      # system('sh /home/a-amorad/traits_scripts/traits.sh')
-      # system('sh /home/a-amorad/traits_scripts/meta.sh')
-      system('sh /home/ba/traits_scripts/terms.sh')
-      system('sh /home/ba/traits_scripts/traits.sh')
-      system('sh /home/ba/traits_scripts/meta.sh')
+      system('sh /home/a-amorad/traits_scripts/terms.sh')
+      system('sh /home/a-amorad/traits_scripts/traits.sh')
+      system('sh /home/a-amorad/traits_scripts/meta.sh')
+      # system('sh /home/ba/traits_scripts/terms.sh')
+      # system('sh /home/ba/traits_scripts/traits.sh')
+      # system('sh /home/ba/traits_scripts/meta.sh')
     end
 
     # create maps json file for occurrence_maps
@@ -547,8 +547,8 @@ def main_method_3
     $occurrence_maps_count = 0
      end
      
-      # start_harvested_time = (start_harvested_time.to_i + 30000).to_s
-   # end
+      start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+   end
    ActiveRecord::Base.logger.info "enddddddddd: #{Time.new}"
 
 end
