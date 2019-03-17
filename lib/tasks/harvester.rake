@@ -9,6 +9,7 @@ require 'geo/coord'
 $sql_commands= File.new('commands.sql', 'w')
 $occurrence_maps_count = 0
 $occurrence_maps_array = Array.new()
+$node_ancestors_array = Array.new()
 
 def load_occurrence(occurrences, page_id, resource_id)
   unless occurrences.nil?
@@ -419,6 +420,9 @@ end
       Reference.bulk_insert(references,:validate => true , :use_provided_primary_key => true)
     end
 
+    nodes_ids = nodes.map { |p| p["generated_node_id"] }
+    build_hierarchy(nodes_ids)
+    
     unless traits.nil?
       traits.each do|trait|
         generated_node_id = trait["generated_node_id"]
@@ -449,7 +453,7 @@ end
         add_neo4j(node_params, occurrences, measurements, associations,terms)
       end
     end
-
+    
     # create maps json file for occurrence_maps
 
     unless taxa.nil?
@@ -457,8 +461,8 @@ end
         write_to_json(taxon)
       end
       OccurrenceMap.bulk_insert($occurrence_maps_array, :validate => true)
-    $occurrence_maps_count = 0
-     end
+      $occurrence_maps_count = 0
+    end
      start_harvested_time = (start_harvested_time.to_i + 30000).to_s
   end
 
@@ -647,12 +651,91 @@ def validate_coordinates (coord)
   coord =degrees+"°"+minutes.to_s+"'"+seconds.to_s+"\""+coord
 end
 
+def main_method_biuld_hierarchy
+   start_harvested_time = "1547663631000"
+    end_harvested_time = get_end_time
+# finish = 0
+  while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
+    # start_harvested_time is included 
+    # end_harvested_time is excluded therefore we keep it to next loop
+   json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
+   tables = JSON.parse(json_content)
+   nodes = tables["nodes"]
+   unless nodes.nil?
+      Node.bulk_insert(nodes,:validate => true ,:use_provided_primary_key => true)
+    end
+   nodes_ids = nodes.map { |p| p["generated_node_id"] }
+   debugger
+   build_hierarchy(nodes_ids)
+   debugger
+   start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+  end
+
+end
+
+def build_hierarchy(nodes_ids)
+  set_ancestors(nodes_ids)
+end
+
+def set_ancestors(nodes_ids)
+  # get nodes_parents from neo4j  
+  neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_ANCESTORS_OF_NODES_ACTION}"
+  
+  # nodes_ids.each_slice(1000) do |sub_arr|
+    begin    
+      request =RestClient::Request.new(
+          :method => :post,
+          :timeout => -1,
+          :url => "#{neo4j_uri}",
+          headers: { content_type: 'application/json', accept: 'application/json'},
+          :payload =>  nodes_ids.to_json
+        )
+        
+        response = request.execute
+        nodes_ids_ancestors = JSON.parse(response.body)
+    rescue => e
+      false
+    end
+    
+    unless nodes_ids_ancestors.nil?
+      
+      node_ancestors_count=0
+      nodes_ids_ancestors.each do |group|
+        current_node = nil
+        ancestor_node = nil
+        group.each do |key,value|
+          res = Node.where(generated_node_id: value.to_i)
+          if key.to_i == 0  
+            if  res.count > 0 
+              current_node = res.first 
+            end
+          else
+            # if res.count > 0 
+              # ancestor_node = res.first
+              # NodeAncestor.find_or_create_by(node: current_node, ancestor: ancestor_node, depth: key.to_i, resource_id: current_node.resource_id)
+            # else
+              # node_ancestor = NodeAncestor.where(node_generated_node_id: current_node.generated_node_id, ancestor_generated_node_id: value.to_i, depth: key.to_i, resource_id: current_node.resource_id)
+              # unless node_ancestor.count >0
+                # NodeAncestor.create(node_generated_node_id: current_node.generated_node_id, ancestor_generated_node_id: value.to_i, depth: key.to_i, resource_id: current_node.resource_id)
+              # end
+              # NodeAncestor.find_or_create_by(node_generated_node_id: current_node.generated_node_id, ancestor_generated_node_id: value.to_i, depth: key.to_i, resource_id: current_node.resource_id)
+              $node_ancestors_array.insert(node_ancestors_count,{:node_generated_node_id => current_node.generated_node_id, :ancestor_generated_node_id => value.to_i, :depth => key.to_i, :resource_id => current_node.resource_id})
+              node_ancestors_count = node_ancestors_count + 1
+            # end
+          end 
+        end      
+      end
+      NodeAncestor.bulk_insert($node_ancestors_array, :validate => true, :disable_timestamps => true)
+    end
+  # end
+end
+
 namespace :harvester do
   desc "TODO"  
   task get_latest_updates: :environment do
     
     main_method_3
-
+    # main_method_biuld_hierarchy
 
 
   end
