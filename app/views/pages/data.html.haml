@@ -10,7 +10,9 @@
           = render "tabs"
       .row
         .col-md-8
-          = render_async data_grid_path(:page_id => @page.id, :page => params[:page])
+          = render_async data_grid_path(:page_id => @page.id, :page => params[:page]) do
+            .col-md-offset-4
+              =image_tag "loading.gif", :alt => ""
         .col-md-4
           %aside
             .widget.categories
