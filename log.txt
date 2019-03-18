@@ -1,0 +1,300 @@
+Completed 404 Not Found in 75ms (Views: 33.2ms | ActiveRecord: 17.1ms)
+
+
+Started GET "/?locale=en" for 127.0.0.1 at 2019-02-25 14:22:07 +0200
+Processing by HomePageController#index as JSON
+  Parameters: {"locale"=>"en"}
+  Rendering home_page/index.html.haml within layouts/application
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `users`[0m
+  [1m[35m (3.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `collections`[0m
+  [1m[35m (4.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media`[0m
+  Rendered home_page/index.html.haml within layouts/application (171.1ms)
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  Rendered layouts/_flash.html.haml (30.6ms)
+Completed 200 OK in 1119ms (Views: 1082.4ms | ActiveRecord: 8.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-02-25 14:22:19 +0200
+Processing by HomePageController#index as HTML
+  Rendering home_page/index.html.haml within layouts/application
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT COUNT(*) FROM `users`[0m
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `collections`[0m
+  [1m[35m (2.8ms)[0m  [1m[34mSELECT COUNT(*) FROM `media`[0m
+  Rendered home_page/index.html.haml within layouts/application (78.5ms)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  Rendered layouts/_flash.html.haml (7.3ms)
+Completed 200 OK in 531ms (Views: 524.4ms | ActiveRecord: 5.6ms)
+
+
+Started GET "/images/NetworkIcon.png" for 127.0.0.1 at 2019-02-25 14:22:21 +0200
+Processing by Refinery::PagesController#show as PNG
+  Parameters: {"path"=>"images/NetworkIcon", "locale"=>"en"}
+  [1m[36mRefinery::Page Load (4.4ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'images' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (0.3ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  Rendering public/404.html
+  Rendered public/404.html (0.4ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 40ms (Views: 28.9ms | ActiveRecord: 4.7ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-02-25 14:22:21 +0200
+Processing by HomePageController#index as JSON
+  Rendering home_page/index.html.haml within layouts/application
+  [1m[35m (2.2ms)[0m  [1m[34mSELECT COUNT(*) FROM `users`[0m
+  [1m[35m (5.1ms)[0m  [1m[34mSELECT COUNT(*) FROM `collections`[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM `media`[0m
+  Rendered home_page/index.html.haml within layouts/application (205.0ms)
+  [1m[36mUser Load (3.2ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  Rendered layouts/_flash.html.haml (4.0ms)
+Completed 200 OK in 1026ms (Views: 1013.1ms | ActiveRecord: 10.8ms)
+
+
+  [1m[35m (146.9ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 300[0m
+DEPRECATION WARNING: Using a dynamic :action segment in a route is deprecated and will be removed in Rails 5.2. (called from block in <top (required)> at /home/ba/eol_website_alt/config/routes.rb:64)
+DEPRECATION WARNING: Using a dynamic :action segment in a route is deprecated and will be removed in Rails 5.2. (called from block in <top (required)> at /home/ba/eol_website_alt/config/routes.rb:65)
+DEPRECATION WARNING: Using a dynamic :action segment in a route is deprecated and will be removed in Rails 5.2. (called from block in <top (required)> at /home/ba/eol_website_alt/config/routes.rb:66)
+DEPRECATION WARNING: Using a dynamic :action segment in a route is deprecated and will be removed in Rails 5.2. (called from block in <top (required)> at /home/ba/eol_website_alt/config/routes.rb:67)
+DEPRECATION WARNING: Using a dynamic :action segment in a route is deprecated and will be removed in Rails 5.2. (called from block in <top (required)> at /home/ba/eol_website_alt/config/routes.rb:68)
+DEPRECATION WARNING: Using a dynamic :action segment in a route is deprecated and will be removed in Rails 5.2. (called from block in <top (required)> at /home/ba/eol_website_alt/config/routes.rb:64)
+DEPRECATION WARNING: Using a dynamic :action segment in a route is deprecated and will be removed in Rails 5.2. (called from block in <top (required)> at /home/ba/eol_website_alt/config/routes.rb:65)
+DEPRECATION WARNING: Using a dynamic :action segment in a route is deprecated and will be removed in Rails 5.2. (called from block in <top (required)> at /home/ba/eol_website_alt/config/routes.rb:66)
+DEPRECATION WARNING: Using a dynamic :action segment in a route is deprecated and will be removed in Rails 5.2. (called from block in <top (required)> at /home/ba/eol_website_alt/config/routes.rb:67)
+DEPRECATION WARNING: Using a dynamic :action segment in a route is deprecated and will be removed in Rails 5.2. (called from block in <top (required)> at /home/ba/eol_website_alt/config/routes.rb:68)
+Started GET "/users/sign_in?locale=en" for 127.0.0.1 at 2019-02-26 11:17:55 +0200
+  [1m[35m (0.2ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 300[0m
+  [1m[35m (18.7ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Processing by SessionsController#new as HTML
+  Parameters: {"locale"=>"en"}
+  Rendering devise/sessions/new.html.haml within layouts/application
+  Rendered devise/sessions/new.html.haml within layouts/application (670.5ms)
+  Rendered layouts/_flash.html.haml (7.5ms)
+Completed 200 OK in 6578ms (Views: 6490.8ms | ActiveRecord: 27.5ms)
+
+
+Started GET "/users/assets/js/jquery.js" for 127.0.0.1 at 2019-02-26 11:18:02 +0200
+Started GET "/users/assets/js/bootstrap.min.js" for 127.0.0.1 at 2019-02-26 11:18:02 +0200
+Processing by Refinery::PagesController#show as JS
+  Parameters: {"path"=>"users/assets/js/bootstrap.min", "locale"=>"en"}
+Processing by Refinery::PagesController#show as JS
+Started GET "/users/assets/js/jquery.prettyPhoto.js" for 127.0.0.1 at 2019-02-26 11:18:02 +0200
+Started GET "/users/assets/js/jquery.isotope.min.js" for 127.0.0.1 at 2019-02-26 11:18:02 +0200
+Started GET "/users/assets/js/main.js" for 127.0.0.1 at 2019-02-26 11:18:02 +0200
+  Parameters: {"path"=>"users/assets/js/jquery", "locale"=>"en"}
+Processing by Refinery::PagesController#show as JS
+  Parameters: {"path"=>"users/assets/js/jquery.prettyPhoto", "locale"=>"en"}
+Processing by Refinery::PagesController#show as JS
+  Parameters: {"path"=>"users/assets/js/main", "locale"=>"en"}
+Processing by Refinery::PagesController#show as JS
+  Parameters: {"path"=>"users/assets/js/jquery.isotope.min", "locale"=>"en"}
+  [1m[35m (0.3ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 300[0m
+  [1m[35m (0.6ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 300[0m
+  [1m[35m (0.7ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 300[0m
+  [1m[36mRefinery::Page Load (42.0ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'users' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (41.5ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'users' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (42.6ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'users' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (43.7ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'users' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (9.6ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (20.0ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (21.3ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (22.3ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  Rendering public/404.html
+  Rendered public/404.html (0.7ms)
+Filter chain halted as :find_page rendered or redirected
+  Rendering public/404.html
+  Rendered public/404.html (0.0ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 268ms (Views: 50.6ms | ActiveRecord: 108.9ms)
+
+
+  Rendering public/404.html
+  Rendered public/404.html (0.0ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 300ms (Views: 90.8ms | ActiveRecord: 94.4ms)
+
+
+  [1m[36mRefinery::Page Load (0.4ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'users' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+Started GET "/users/assets/js/multislider.js" for 127.0.0.1 at 2019-02-26 11:18:02 +0200
+Processing by Refinery::PagesController#show as JS
+  Rendering public/404.html
+  [1m[36mRefinery::Page Load (31.2ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+Completed 404 Not Found in 304ms (Views: 47.0ms | ActiveRecord: 110.8ms)
+
+
+  Parameters: {"path"=>"users/assets/js/multislider", "locale"=>"en"}
+  Rendered public/404.html (0.1ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 325ms (Views: 93.4ms | ActiveRecord: 106.6ms)
+
+
+  Rendering public/404.html
+  Rendered public/404.html (0.2ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 333ms (Views: 9.4ms | ActiveRecord: 31.7ms)
+
+
+  [1m[36mRefinery::Page Load (0.8ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'users' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (8.5ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  Rendering public/404.html
+  Rendered public/404.html (0.1ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 44ms (Views: 12.8ms | ActiveRecord: 9.3ms)
+
+
+Started GET "/users/assets/js/wow.min.js" for 127.0.0.1 at 2019-02-26 11:18:02 +0200
+Processing by Refinery::PagesController#show as JS
+  Parameters: {"path"=>"users/assets/js/wow.min", "locale"=>"en"}
+  [1m[36mRefinery::Page Load (2.7ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'users' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (1.7ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  Rendering public/404.html
+  Rendered public/404.html (0.3ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 69ms (Views: 30.7ms | ActiveRecord: 4.3ms)
+
+
+Started GET "/images/NetworkIcon.png" for 127.0.0.1 at 2019-02-26 11:18:03 +0200
+Processing by Refinery::PagesController#show as PNG
+  Parameters: {"path"=>"images/NetworkIcon", "locale"=>"en"}
+Started GET "/users/assets/js/jquery.js" for 127.0.0.1 at 2019-02-26 11:18:03 +0200
+Processing by Refinery::PagesController#show as JS
+  Parameters: {"path"=>"users/assets/js/jquery", "locale"=>"en"}
+  [1m[36mRefinery::Page Load (5.4ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'images' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (1.5ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (0.3ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'users' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (0.2ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  Rendering public/404.html
+  Rendered public/404.html (0.2ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 85ms (Views: 30.5ms | ActiveRecord: 6.8ms)
+
+
+  Rendering public/404.html
+  Rendered public/404.html (0.0ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 39ms (Views: 12.2ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/users/assets/js/bootstrap.min.js" for 127.0.0.1 at 2019-02-26 11:18:03 +0200
+Processing by Refinery::PagesController#show as JS
+  Parameters: {"path"=>"users/assets/js/bootstrap.min", "locale"=>"en"}
+  [1m[36mRefinery::Page Load (0.3ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'users' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (0.3ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  Rendering public/404.html
+  Rendered public/404.html (0.2ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 22ms (Views: 10.9ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/users/assets/js/jquery.prettyPhoto.js" for 127.0.0.1 at 2019-02-26 11:18:03 +0200
+Processing by Refinery::PagesController#show as JS
+  Parameters: {"path"=>"users/assets/js/jquery.prettyPhoto", "locale"=>"en"}
+  [1m[36mRefinery::Page Load (2.7ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'users' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (0.3ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  Rendering public/404.html
+  Rendered public/404.html (0.5ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 61ms (Views: 31.6ms | ActiveRecord: 3.0ms)
+
+
+Started GET "/users/assets/js/jquery.isotope.min.js" for 127.0.0.1 at 2019-02-26 11:18:03 +0200
+Processing by Refinery::PagesController#show as JS
+  Parameters: {"path"=>"users/assets/js/jquery.isotope.min", "locale"=>"en"}
+  [1m[36mRefinery::Page Load (3.0ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'users' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (0.3ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  Rendering public/404.html
+  Rendered public/404.html (0.4ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 29ms (Views: 7.6ms | ActiveRecord: 3.4ms)
+
+
+Started GET "/users/assets/js/main.js" for 127.0.0.1 at 2019-02-26 11:18:03 +0200
+Processing by Refinery::PagesController#show as JS
+  Parameters: {"path"=>"users/assets/js/main", "locale"=>"en"}
+  [1m[36mRefinery::Page Load (2.0ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'users' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (10.6ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  Rendering public/404.html
+  Rendered public/404.html (0.3ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 32ms (Views: 6.0ms | ActiveRecord: 12.6ms)
+
+
+Started GET "/users/assets/js/wow.min.js" for 127.0.0.1 at 2019-02-26 11:18:03 +0200
+Processing by Refinery::PagesController#show as JS
+  Parameters: {"path"=>"users/assets/js/wow.min", "locale"=>"en"}
+  [1m[36mRefinery::Page Load (0.3ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'users' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (0.2ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  Rendering public/404.html
+  Rendered public/404.html (0.2ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 13ms (Views: 9.6ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/users/assets/js/multislider.js" for 127.0.0.1 at 2019-02-26 11:18:03 +0200
+Processing by Refinery::PagesController#show as JS
+  Parameters: {"path"=>"users/assets/js/multislider", "locale"=>"en"}
+  [1m[36mRefinery::Page Load (7.9ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'users' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (3.5ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  Rendering public/404.html
+  Rendered public/404.html (0.2ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 28ms (Views: 7.1ms | ActiveRecord: 11.4ms)
+
+
+Started GET "/users/sign_in?locale=en" for 127.0.0.1 at 2019-02-26 11:18:03 +0200
+Processing by SessionsController#new as JSON
+  Parameters: {"locale"=>"en"}
+  Rendering devise/sessions/new.html.haml within layouts/application
+  Rendered devise/sessions/new.html.haml within layouts/application (35.1ms)
+  Rendered layouts/_flash.html.haml (3.5ms)
+Completed 200 OK in 474ms (Views: 472.3ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/sign_in?locale=en" for 127.0.0.1 at 2019-02-26 11:18:22 +0200
+Processing by SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"Nw6itw27Kves8oogEkLRw8PPGxJ2PnrWdAoe3UiwQ1oa/0RIC0k7HcyRl+TMUqupzHtgFfh7snR0zh4C3GU95w==", "user"=>{"email"=>"nadaeliba93@gmail.com", "password"=>"[FILTERED]"}, "locale"=>"en"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'nadaeliba93@gmail.com' ORDER BY `users`.`id` ASC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (30.2ms)[0m  [1m[33mUPDATE `users` SET `current_sign_in_at` = '2019-02-26 09:18:22', `last_sign_in_at` = '2019-02-25 12:22:04', `sign_in_count` = 130, `updated_at` = '2019-02-26 09:18:22' WHERE `users`.`id` = 1[0m
+  [1m[35m (70.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (2.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/?locale=en
+Completed 302 Found in 571ms (ActiveRecord: 103.6ms)
+
+
+Started GET "/?locale=en" for 127.0.0.1 at 2019-02-26 11:18:23 +0200
+Processing by HomePageController#index as HTML
+  Parameters: {"locale"=>"en"}
+  Rendering home_page/index.html.haml within layouts/application
+  [1m[35m (16.7ms)[0m  [1m[34mSELECT COUNT(*) FROM `users`[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM `collections`[0m
+  [1m[35m (9.7ms)[0m  [1m[34mSELECT COUNT(*) FROM `media`[0m
+  Rendered home_page/index.html.haml within layouts/application (206.0ms)
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  Rendered layouts/_flash.html.haml (7.4ms)
+Completed 200 OK in 715ms (Views: 623.0ms | ActiveRecord: 79.9ms)
+
+
+Started GET "/images/NetworkIcon.png" for 127.0.0.1 at 2019-02-26 11:18:24 +0200
+Processing by Refinery::PagesController#show as PNG
+  Parameters: {"path"=>"images/NetworkIcon", "locale"=>"en"}
+  [1m[36mRefinery::Page Load (0.9ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` INNER JOIN `refinery_page_translations` ON `refinery_page_translations`.`refinery_page_id` = `refinery_pages`.`id` WHERE `refinery_pages`.`parent_id` IS NULL AND `refinery_page_translations`.`locale` IN ('en', 'ar') AND `refinery_page_translations`.`slug` = 'images' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  [1m[36mRefinery::Page Load (0.2ms)[0m  [1m[34mSELECT  `refinery_pages`.`id`, `refinery_pages`.`parent_id`, `refinery_pages`.`path`, `refinery_pages`.`show_in_menu`, `refinery_pages`.`link_url`, `refinery_pages`.`menu_match`, `refinery_pages`.`deletable`, `refinery_pages`.`draft`, `refinery_pages`.`skip_to_first_child`, `refinery_pages`.`lft`, `refinery_pages`.`rgt`, `refinery_pages`.`depth`, `refinery_pages`.`view_template`, `refinery_pages`.`layout_template`, `refinery_pages`.`created_at`, `refinery_pages`.`updated_at`, `refinery_pages`.`children_count`, `refinery_pages`.`show_date` FROM `refinery_pages` WHERE `refinery_pages`.`menu_match` = '^/404$' ORDER BY `refinery_pages`.`id` ASC LIMIT 1[0m
+  Rendering public/404.html
+  Rendered public/404.html (0.0ms)
+Filter chain halted as :find_page rendered or redirected
+Completed 404 Not Found in 34ms (Views: 23.5ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/?locale=en" for 127.0.0.1 at 2019-02-26 11:18:25 +0200
+Processing by HomePageController#index as JSON
+  Parameters: {"locale"=>"en"}
+  Rendering home_page/index.html.haml within layouts/application
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM `users`[0m
+  [1m[35m (2.1ms)[0m  [1m[34mSELECT COUNT(*) FROM `collections`[0m
+  [1m[35m (2.0ms)[0m  [1m[34mSELECT COUNT(*) FROM `media`[0m
+  Rendered home_page/index.html.haml within layouts/application (146.1ms)
+  [1m[36mUser Load (3.7ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 1 ORDER BY `users`.`id` ASC LIMIT 1[0m
+  Rendered layouts/_flash.html.haml (7.1ms)
+Completed 200 OK in 597ms (Views: 575.5ms | ActiveRecord: 7.9ms)
+
+

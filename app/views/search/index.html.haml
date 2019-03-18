@@ -10,7 +10,7 @@
           .row
             .col-lg-12
               %h2.mainTitle
-                Search Results
+                #{t(:search_results)}
               %br/
           -@results.each do|result| 
             - if result.instance_of? Page
@@ -28,11 +28,11 @@
         .col-lg-3
           %article.card-group-item.well
             %header.card-header
-              %h2.mainTitle Filter by type
+              %h2.mainTitle #{t(:filter_by_type)}
               - unless @pages.size == 0
                 %label.form-check
                   %input.form-check-input{:type => "checkbox", :value => ""}/
                   %span.form-check-label
-                    pages
+                    #{t(:pages)}
               %br  
-              = submit_tag "filter", :id => "filter"
+              = submit_tag "#{t(:filter)}", :id => "filter"
