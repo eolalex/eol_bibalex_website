@@ -1,4 +1,4 @@
--# = javascript_include_tag 'verndor/assets/javascripts/jquery.lazyload.js'
+-# = javascript_include_tag 'vendor/assets/javascripts/jquery.lazyload.js'
 .row
   - @media.each do |medium|
     %div{ id: "#{medium.id}", onclick: 'showPopup(this)', onmouseover: "showOver(this)", :onmouseout=>"hideOver(this)"}
@@ -39,7 +39,7 @@
                     .widget.categories
                       %h3.Thumbnail_Title
                         = medium.name
-                        %span.btn.btn-success.btn-xs.btn-trusted.btn-trusted Trusted
+                        %span.btn.btn-success.btn-xs.btn-trusted.btn-trusted #{t(:trusted)}
                         %br/
                         %small
                           #{t(:in_this_image)}
