@@ -379,7 +379,7 @@ def main_method_3
   #tables = JSON.parse(File.read(file_path))
 
 
-    start_harvested_time = "1551795393000"
+    start_harvested_time = "1552495139000"
     end_harvested_time = get_end_time
 # # finish = 0
     while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
