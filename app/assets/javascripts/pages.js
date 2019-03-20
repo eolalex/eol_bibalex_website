@@ -14,6 +14,7 @@ $(document).ready(function() {
 $(function() {
 	$("img").lazyload();
 });
+
 function showPopup(item){
 	// alert($(item).attr("id"));
 	// document.getElementById("popup_"+$(item).attr("id")).show();

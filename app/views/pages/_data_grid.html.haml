@@ -10,23 +10,16 @@
       %th{:scope => "col"} #{t(:metadata)}
   %tbody
     -counter1 = 0
-    -# display predicates with same uri in sequence
-    - @predicates.each_with_index do |uri, index|
-      -# - predicate = @page.glossary[uri]
-      -# - if predicate.nil?
-        -# - Rails.logger.error("** ERROR: missing predicate #{uri}")
-        -# - next
-      -# returns resource, trait, predicate, object_term, units, sex_term, lifestage_term, statistical_method_term of page of predicate in form of predicate[:uri]
-      - @page.grouped_data[uri].each do |trait|
-        -counter1 = counter1 + 1
-        -# %trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => false), :id => trait[:id] } }
-        - predicate = trait[:predicate]
-        - uri = predicate[:uri].dup
-        - uri.sub! '/', '_'
-        %tr
-          %td
-            %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "#{t(:uri)}:  #{uri}\n#{t(:definition)}: #{predicate[:definition]} ", :type => "button"}
-              #{predicate[:name]}
+    - @traits.each do |trait|
+      -counter1 = counter1 + 1
+      -# %trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => false), :id => trait[:id] } }
+      - predicate = trait[:predicate]
+      - uri = predicate[:uri].dup
+      - uri.sub! '/', '_'
+      %tr
+        %td
+          %a{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "#{t(:uri)}:  #{uri}\n#{t(:definition)}: #{predicate[:definition]} ", :type => "button"}
+            #{predicate[:name]}
               
           -if trait[:object_term]
             %td
@@ -46,13 +39,12 @@
           - else
             %td{"data-label" => "Units"}
           %td{"data-label" => "#{t(:source)}"} #{show_source_segment(trait)}
-
-          %td
-            %div
-              -# modal view with additional information: 'Citation, Source, RecordURL, ScientificName, Statistical Method, URI, DEfinition'
-              %a.btn.btn{:id => "#{counter1}", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
-                -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}
-                #{t(:see_more)}
+        %td
+          %div
+            -# modal view with additional information: 'Citation, Source, RecordURL, ScientificName, Statistical Method, URI, DEfinition'
+            %a.btn.btn{:id => "#{counter1}", "aria-expanded" => "true", "aria-haspopup" => "true", "data-target" => "#edit", "data-toggle" => "modal", :onclick => "showPopup(this)", :role => "button"}
+              -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}
+              #{t(:see_more)}
 
           
           - if(TraitBank.has_meta?(trait[:id]))
@@ -84,7 +76,7 @@
                   .col-md-2.col-sm-2.col-xs-2
                     %button{ :id =>"#{counter1}", :class => "btn btn-primary pull-right", :tabindex => "1", :onclick=> 'hidePopup(this, event)'}x
               .modal-body.editCollection
-                %strong #{t(:scientific_name)}
+                %strong #{t(:scientific_name)}:
                 %nbsp #{@page.scientific_name}
                 %br
                 -if trait[:lifestage_term]
@@ -111,8 +103,8 @@
                     #{trait[:citation]}
                   %br
                 -if trait[:trait][:source]
-                  %strong #{t(:source)}
+                  %strong #{t(:source)}:
                   %nbsp
                     = link_to "#{trait[:source]}"
                   %br
-= will_paginate @predicates, :params => {:controller => 'pages', :action => 'data'}
+= will_paginate @traits, :params => {:controller => 'pages', :action => 'data'}

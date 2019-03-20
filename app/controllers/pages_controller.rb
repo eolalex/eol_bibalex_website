@@ -148,10 +148,19 @@ class PagesController < ApplicationController
   end
   
   def data_grid
+    traits =[]
     @page = Page.where(id: params[:page_id]).first
     @resources = TraitBank.resources(@page.data)
     predicates = @page.predicates
-    @predicates = predicates.paginate(:page => params[:page], :per_page => ENV['per_page'])
+    #display predicates with same uri in sequence
+    predicates.each_with_index do |uri, index|
+      # returns resource, trait, predicate, object_term, units, sex_term, lifestage_term, statistical_method_term of page of predicate in form of predicate[:uri]
+      @page.grouped_data[uri].each do |trait|
+        traits << trait
+      end
+    end
+    #@predicates = predicates.paginate(:page => params[:page], :per_page => ENV['per_page'])
+    @traits = traits.paginate(:page => params[:page], :per_page => ENV['per_page'])
     return render(status: :not_found) unless @page # 404
     respond_to do |format|
       format.html {}
