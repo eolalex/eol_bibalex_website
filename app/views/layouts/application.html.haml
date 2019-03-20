@@ -32,7 +32,7 @@
           .row
             .col-lg-7.col-md-6.col-sm-6.col-xs-12
               .navbar-header
-                %a.navbar-brand{:href => "/"}
+                %a.navbar-brand{:href => "/?locale=#{locale}"}
                   =image_tag "eol_logo.png", :alt => "logo"
                 %ul.topMenu
                   %li.dropdown
@@ -86,7 +86,7 @@
                         %li
                           %a{:href => "/users/#{current_user.id}?locale=#{locale}"} #{t(:show_user_profile)}
                         %li
-                          %a.signIn{:href => "/users/sign_out",:method => :delete} #{t(:sign_out)}
+                          %a.signIn{:href => "/users/sign_out?locale=#{locale}",:method => :delete} #{t(:sign_out)}
                 %li.dropdown
                   %a.dropdown-toggle.NetworksLink{"data-toggle" => "dropdown"}
                     #{t(:networks)}
@@ -111,6 +111,7 @@
                       = form_tag('/search', method: :get) do |f|
                         -#.form-control                     
                         = text_field_tag(:query, params[:query],:placeholder => t(:search_placeholder), :class => "modal-body searchBox")
+                        = hidden_field_tag('locale', params[:locale])
                         -# %input.form-control.input-lg{:name => "query", :placeholder => t(:search_placeholder), :tabindex => "1", :type => "text", :class => "form-control"} 
                         %button.searchButton
                           %i.fa.fa-search{"aria-hidden" => "true"}

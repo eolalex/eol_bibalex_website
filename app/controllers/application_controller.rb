@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   include  Devise::Controllers::StoreLocation
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :set_locale
+  # before_action :set_locale
   before_action :set_locale_direction
   helper_method :url_without_locale_params
   before_action :allow_cross_domain_ajax
@@ -19,8 +19,11 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
+    debugger
     I18n.locale = params[:locale] || I18n.default_locale
+    
   end
+  
 
   def nothing
     render text: '', content_type: 'text/plain'

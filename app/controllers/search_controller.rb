@@ -40,6 +40,7 @@ class SearchController < ApplicationController
       @results = @pages
     end
     unless @results.empty?
+      # debugger
       @results = @results.paginate(:page => params[:page], :per_page => ENV['per_page'])
       # @results =@results.uniq!
     else

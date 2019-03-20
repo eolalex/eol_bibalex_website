@@ -12,6 +12,7 @@
           = form_tag( collection_collected_pages_path(@collection), method: "get") do |form|
             = text_field_tag(:q, params[:q], :id =>"#{@collection.id}", class: "form-control", :placeholder => "#{t(:search_placeholder)}")
             = hidden_field_tag('collection_id', @collection.id)
+            = hidden_field_tag('locale', params[:locale])
             %button.searchButton
               %i.fa.fa-search{"aria-hidden" => "false"}
   = form_with(model: @collection, local: true) do |f|
