@@ -1,12 +1,12 @@
 = javascript_include_tag 'search'
-%content#Content1{ contentplaceholderid: "head", runat: "Server"}
-%content#Content2{ contentplaceholderid: "ContentPlaceHolder1", runat: "Server"}
+%content#Content1{:contentplaceholderid => "head", :runat => "Server"}
+%content#Content2{:contentplaceholderid => "ContentPlaceHolder1", :runat => "Server"}
   %section#main-slider.no-margin
     .carousel.slide
       %ol.carousel-indicators.hide
-        %li.active{"data-slide-to": "0", "data-target": "#main-slider"}
-        %li{"data-slide-to": "1", "data-target": "#main-slider"}
-        %li{"data-slide-to": "2", "data-target": "#main-slider"}
+        %li.active{"data-slide-to" => "0", "data-target" => "#main-slider"}
+        %li{"data-slide-to" => "1", "data-target" => "#main-slider"}
+        %li{"data-slide-to" => "2", "data-target" => "#main-slider"}
       .carousel-inner
         .item.active
           =image_tag "banner02.jpg", class: 'img-responsive'
@@ -14,9 +14,9 @@
           =image_tag "banner05.jpg", class: 'img-responsive'
         .item
           =image_tag "banner01.jpg", class: 'img-responsive'
-    %a.prev.hide{"data-slide": "prev", href: "#main-slider"}
+    %a.prev.hide{"data-slide" => "prev", :href => "#main-slider"}
       %i.fa.fa-chevron-left
-    %a.next.hide{"data-slide": "next", href: "#main-slider"}
+    %a.next.hide{"data-slide" => "next", :href => "#main-slider"}
       %i.fa.fa-chevron-right
     .container
       .GlobalSearch
@@ -29,10 +29,9 @@
                 .searchBox
                   .form-control
                     = form_tag('/search', method: :get) do
-                      = text_field_tag(:query, params[:query], required: "true", placeholder: t(:search_placeholder))
-                      = hidden_field_tag('locale', params[:locale])
+                      = text_field_tag(:query, params[:query], :required => "true", :placeholder => t(:search_placeholder))
                       %button.searchButton
-                        %i.fa.fa-search{"aria-hidden": "true"}
+                        %i.fa.fa-search{"aria-hidden" => "true"}
   :javascript
     $(document).ready(function () {
         $('#myCarousel').carousel({
@@ -43,10 +42,40 @@
     .separator
   %section.smallCarousel
     .container
-      .center.wow.fadeInDown.animated.hidden-lg.hidden-md.hidden-sm{ style: "visibility: visible; animation-name: fadeInDown; padding-bottom: 0; margin-bottom: -20px"}
+      .center.wow.fadeInDown.animated.hidden-lg.hidden-md.hidden-sm{:style => "visibility: visible; animation-name: fadeInDown; padding-bottom: 0; margin-bottom: -20px"}
         %h2 #{t(:explore_taxa)}
       #mixedSlider.carousel_Thumbnails
         .MS-content
+          .item
+            .imgTitle
+              %a{:href => "/pages/46570763"}
+                %h2.blogTitle
+                  = Page.find_by_id(46570763).try(:scientific_name)
+                = image_tag Page.find_by_id(46570763).try(:media).size > 0 && !Page.find_by_id(46570763).try(:media).first.base_url.nil? ? Page.find_by_id(46570763).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+          .item
+            .imgTitle
+              %a{:href => "/pages/46579654"}
+                %h2.blogTitle
+                  = Page.find_by_id(46579654).try(:scientific_name)
+                = image_tag Page.find_by_id(46579654) && Page.find_by_id(46579654).media.size > 0 && !Page.find_by_id(46579654).try(:media).first.base_url.nil? ? Page.find_by_id(46579654).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+          .item
+            .imgTitle
+              %a{:href => "/pages/45515245"}
+                %h2.blogTitle
+                  = Page.find_by_id(45515245).try(:scientific_name)
+                = image_tag Page.find_by_id(45515245) && Page.find_by_id(45515245).media.size > 0 && !Page.find_by_id(45515245).try(:media).first.base_url.nil? ? Page.find_by_id(45515245).try(:media).first.base_url : "assets/download.png", style: 'height:25%;width:auto;'
+          .item
+            .imgTitle
+              %a{:href => "/pages/45515099"}
+                %h2.blogTitle
+                  = Page.find_by_id(45515099).try(:scientific_name)
+                = image_tag Page.find_by_id(45515099) && Page.find_by_id(45515099).media.size > 0 && !Page.find_by_id(45515099).try(:media).first.base_url.nil? ? Page.find_by_id(45515099).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+          .item
+            .imgTitle
+              %a{:href => "/pages/767462"}
+                %h2.blogTitle
+                  = Page.find_by_id(767462).try(:scientific_name)
+                = image_tag Page.find_by_id(767462) && Page.find_by_id(767462).media.size > 0 && !Page.find_by_id(767462).try(:media).first.base_url.nil? ? Page.find_by_id(767462).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'                
 
   .container
     .separator
@@ -56,47 +85,47 @@
         %h2 #{t(:currently_in_eol)}
         -#%p.lead
           #{t(:more_in_deep)}
-          %a{ href: "/pages/1"} #{t(:see_more)}
+          %a{:href => "/pages/1"} #{t(:see_more)}
       .row
         .Home_statistics
-          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
             .feature-wrap
-              %i.fa.fa-user{"aria-hidden": "true"}
+              %i.fa.fa-user{"aria-hidden" => "true"}
               .number
                 = User.count
               %span
                 #{t(:members_like_you)}
-          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
             .feature-wrap
-              %i.fa.fa-files-o{"aria-hidden": "true"}
+              %i.fa.fa-files-o{"aria-hidden" => "true"}
               .number
                 = Collection.count
               %span
                 #{t(:collections)}
-          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
             .feature-wrap
-              %i.fa.fa-file-image-o{"aria-hidden": "true"}
+              %i.fa.fa-file-image-o{"aria-hidden" => "true"}
               .number
                 = Medium.count
               %span
                 #{t(:media)}
-          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
             .feature-wrap
-              %i.fa.fa-handshake-o{"aria-hidden": "true"}
+              %i.fa.fa-handshake-o{"aria-hidden" => "true"}
               .number
                 1
               %span
                 #{t(:content_partners)}
-          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
             .feature-wrap
-              %i.fa.fa-bar-chart{"aria-hidden": "true"}
+              %i.fa.fa-bar-chart{"aria-hidden" => "true"}
               .number
                 0
               %span
                 #{t(:data)}
-          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
             .feature-wrap
-              %i.fa.fa-bar-chart{"aria-hidden": "true"}
+              %i.fa.fa-bar-chart{"aria-hidden" => "true"}
               .number
                 2
               %span
@@ -107,22 +136,22 @@
         %h2 #{t(:institutional_sponsors)}
       .row
         .col-md-2.col-sm-2.col-xs-4.logo-item
-          %a{ href: "https://www.ala.org.au/"}
+          %a{:href => "https://www.ala.org.au/"}
             =image_tag "ala.jpg", class: 'img-responsive wow fadeInDown'
         .col-md-2.col-sm-2.col-xs-4.logo-item
-          %a{ href: "https://www.bibalex.org/en/default"}
+          %a{:href => "https://www.bibalex.org/en/default"}
             =image_tag "bibalex.jpg", class: 'img-responsive wow fadeInDown'
         .col-md-2.col-sm-2.col-xs-4.logo-item
-          %a{ href: "https://www.gob.mx/conabio"}
+          %a{:href => "https://www.gob.mx/conabio"}
             =image_tag "conabio.jpg", class: 'img-responsive wow fadeInDown'
         .col-md-2.col-sm-2.col-xs-4
-          %a{ href: "http://www.mbl.edu/"}
+          %a{:href => "http://www.mbl.edu/"}
             =image_tag "mbl.jpg", class: 'img-responsive wow fadeInDown'
         .col-md-2.col-sm-2.col-xs-4
-          %a{ href: "https://www.harvard.edu/"}
+          %a{:href => "https://www.harvard.edu/"}
             =image_tag "mcz.jpg", class: 'img-responsive wow fadeInDown'
         .col-md-2.col-sm-2.col-xs-4
-          %a{ href: "https://www.si.edu/"}
+          %a{:href => "https://www.si.edu/"}
             =image_tag "nmnh.jpg", class: 'img-responsive wow fadeInDown'
   .Donation
     .container
@@ -130,4 +159,4 @@
         %h2 #{t(:donate_online)}
         %p.lead #{t(:donate)}
         .Donate_Btn
-          %a{ href: "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_hl"} #{t(:donate_button)}
+          %a{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_hl"} #{t(:donate_button)}
