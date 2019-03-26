@@ -27,6 +27,7 @@ class PagesController < ApplicationController
       load: false,
       misspellings: false
     })
+
   end
 
   def media

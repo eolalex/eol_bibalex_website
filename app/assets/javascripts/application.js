@@ -11,11 +11,16 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.lazyload.js
 //= require turbolinks
 //= require jquery.turbolinks
 //= require rails-ujs
-//= require_tree .
-//= require bootstrap-sprockets
-//= require twitter/typeahead
+
+// require typeahead
+//= require typeahead.jquery
+//= require bloodhound
+
 //= require js-routes
-//= require jquery.lazyload.js
+//= require_tree .
+
+

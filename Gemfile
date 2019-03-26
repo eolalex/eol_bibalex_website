@@ -7,6 +7,8 @@ end
 gem 'ruby-ntlm'
 gem 'fog'
 gem 'neography'
+# gem 'sprockets-rails', require: 'sprockets/railtie'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.6'
 # This is used to locally have a copy of OpenSans. IF YOU STOP USING OPENSANS, YOU SHOULD REMOVE THIS GEM!
@@ -43,6 +45,7 @@ gem 'searchkick'
 gem 'elasticsearch-model'
 gem 'will_paginate'
 gem 'twitter-typeahead-rails'
+#gem 'rails4-autocomplete'
 gem "js-routes"
 gem 'record_tag_helper'
 # Use Capistrano for deployment

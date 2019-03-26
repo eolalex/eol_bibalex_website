@@ -3,4 +3,4 @@
   = form_tag("search?locale=#{locale}", method: :get) do 
     = text_field_tag(:query, params[:query], class: "form-control", placeholder: "#{t(:search_placeholder)}")
     %button.searchButton
-      %i.fa.fa-search{"aria-hidden": "true"}
+      %i.fa.fa-search{"aria-hidden": "true", remote: true}
