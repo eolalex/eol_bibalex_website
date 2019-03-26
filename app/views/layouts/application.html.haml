@@ -1,5 +1,9 @@
-= javascript_include_tag 'pages'
+= javascript_include_tag 'pages' 
+= javascript_include_tag 'jquery' 
 = javascript_include_tag 'search'
+
+
+
 - @url = request.original_url.split('?', 2).first
 %html
   %head
@@ -114,19 +118,19 @@
                         = hidden_field_tag('locale', params[:locale])
                         -# %input.form-control.input-lg{:name => "query", :placeholder => t(:search_placeholder), :tabindex => "1", :type => "text", :class => "form-control"} 
                         %button.searchButton
-                          %i.fa.fa-search{"aria-hidden" => "true"}
+                          %i.fa.fa-search{"aria-hidden" => "true", remote:true}
     %body
       = render("layouts/flash")
       .container-fluidd
         .content
           = yield
-      %script{:src => "assets/js/jquery.js"}
-      %script{:src => "assets/js/bootstrap.min.js"}
-      %script{:src => "assets/js/jquery.prettyPhoto.js"}
-      %script{:src => "assets/js/jquery.isotope.min.js"}
-      %script{:src => "assets/js/main.js"}
-      %script{:src => "assets/js/wow.min.js"}
-      %script{:src => "assets/js/multislider.js"}
+      -#= javascript_include_tag 'jquery'
+      = javascript_include_tag 'bootstrap.min'
+      = javascript_include_tag 'jquery.prettyPhoto'
+      = javascript_include_tag 'jquery.isotope.min'
+      = javascript_include_tag 'main'
+      = javascript_include_tag 'wow.min'
+      = javascript_include_tag 'multislider'
   %footer#footer.midnight-blue
     .container
       .row

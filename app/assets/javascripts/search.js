@@ -1,4 +1,5 @@
-$(document).ready(function () {
+$(document).ready(function () {	
+
 	$("#filter").on('click', function() {
 		var scientific_names_index = window.location.href.indexOf('&scientific_names=true');
 		var link = "";

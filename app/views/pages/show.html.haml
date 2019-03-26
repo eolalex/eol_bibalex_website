@@ -86,7 +86,8 @@
                 .col-sm-12
                   .single_comments
                     .col-lg-2.col-md-3.col-sm-1.col-xs-3.collectionImage.no-padding
-                      %img.img-responsive{:alt => "", :src => "/assets/download.png"}/
+                      -#%img.img-responsive{:alt => "", :src => "../app/assets/images/download.png"}/
+                      = image_tag "download.png"
                     .col-lg-10.col-md-9.col-sm-11.col-xs-9
                       %b 
                         #{@page.scientific_name}
