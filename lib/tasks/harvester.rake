@@ -529,12 +529,12 @@ def main_method_3
       # $meta.flush
       # $traits.flush
       #debugger
-      system('sh /home/a-amorad/traits_scripts/terms.sh')
-      system('sh /home/a-amorad/traits_scripts/traits.sh')
-      system('sh /home/a-amorad/traits_scripts/meta.sh')
-      # system('sh /home/ba/traits_scripts/terms.sh')
-      # system('sh /home/ba/traits_scripts/traits.sh')
-      # system('sh /home/ba/traits_scripts/meta.sh')
+      # system('sh /home/a-amorad/traits_scripts/terms.sh')
+      # system('sh /home/a-amorad/traits_scripts/traits.sh')
+      # system('sh /home/a-amorad/traits_scripts/meta.sh')
+      system('sh /home/ba/traits_scripts/terms.sh')
+      system('sh /home/ba/traits_scripts/traits.sh')
+      system('sh /home/ba/traits_scripts/meta.sh')
     end
 
     # create maps json file for occurrence_maps
@@ -739,6 +739,7 @@ end
 namespace :harvester do
   desc "TODO"  
   task get_latest_updates: :environment do
-    main_method_3
+
+     main_method_3
   end
 end
