@@ -3,7 +3,7 @@
 =render("collected_pages/show")
 .container
   .col-md-9.col-sm-12.col-xs-12
-    %h2 Search Results
+    %h2 #{t(:search_results)}
     -unless @result.nil?
       -@result.each do |result|
         -unless result.page.media.first.nil?

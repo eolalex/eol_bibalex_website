@@ -6,7 +6,7 @@ class CollectedPage < ActiveRecord::Base
   index_name Rails.application.class.parent_name.underscore+"_collectedpage"
   document_type self.name.downcase
   
-  settings index: { number_of_shards: 10, "index.blocks.read_only_allow_delete": :null } do
+  settings index: { number_of_shards: 10} do
   mapping dynamic: false do
     indexes :scientitfic_name, type: :varchar 
     indexes :suggest, {

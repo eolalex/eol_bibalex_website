@@ -27,6 +27,7 @@ class PagesController < ApplicationController
       load: false,
       misspellings: false
     })
+
   end
 
   def media
@@ -148,7 +149,7 @@ class PagesController < ApplicationController
   end
   
   def data_grid
-    traits = []
+    traits =[]
     @page = Page.where(id: params[:page_id]).first
     @resources = TraitBank.resources(@page.data)
     predicates = @page.predicates
@@ -159,7 +160,7 @@ class PagesController < ApplicationController
         traits << trait
       end
     end
-    # @predicates = predicates.paginate(:page => params[:page], :per_page => ENV['per_page'])
+    #@predicates = predicates.paginate(:page => params[:page], :per_page => ENV['per_page'])
     @traits = traits.paginate(:page => params[:page], :per_page => ENV['per_page'])
     return render(status: :not_found) unless @page # 404
     respond_to do |format|

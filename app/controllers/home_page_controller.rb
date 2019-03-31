@@ -1,4 +1,5 @@
 class HomePageController < ApplicationController
+  
   #include ApplicationHelper
   #helper_method :url_without_locale_params
   def index

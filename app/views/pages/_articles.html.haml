@@ -4,7 +4,7 @@
     %h2
       -name = article.name
       - name ||= t("untitled")
-      %a{:href => article_path(id: article.id)} #{name}
+      %a{ href: article_path(id: article.id)} #{name}
     -#%p
       -# %iframe{ :srcdoc => article.body.html_safe , :width => "100%",:height => "100%"}
       -#%object{:width => "100%",:height => "100%"}
@@ -13,4 +13,4 @@
       -#= succeed "." do
         -#%a{:href => article_path(id: article.id)} Continue reading...
     %hr/
-= will_paginate @articles, :params => {:controller => 'pages', :action => 'articles'}
+= will_paginate @articles, params: { controller: 'pages', action: 'articles'}

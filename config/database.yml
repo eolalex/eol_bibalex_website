@@ -15,13 +15,17 @@ development:
   # variables.
   database: ba_eol_development
   username: root
-  password: Luxor&Aswan@2o17
+  # password: Luxor&Aswan@2o17
   # password: pDy013UEjn7vU9zul
 
- #  password: root
+  password: root
 
   #password: admin
+  #pool: 10
+
+  # password: admin
   pool: 10
+
 
 test: &test
   <<: *common
@@ -41,12 +45,19 @@ staging:
   database: <%= ENV['EOL_DB_STAGING_NAME'] %>
   username: <%= ENV['EOL_DB_STAGING_USERNAME'] %>
   password: <%= ENV['EOL_DB_STAGING_PASSWORD'] %>
-
+#build
 production:
   <<: *common
-  host: <%= ENV['EOL_DB_HOST'] %>
-  port: <%= ENV['EOL_DB_PORT'] %>
-  database: <%= ENV['EOL_DB_PROD_NAME'] %>
-  username: <%= ENV['EOL_DB_PROD_USERNAME'] %>
-  password: <%= ENV['EOL_DB_PROD_PASSWORD'] %>
+  #host: <%= ENV['EOL_DB_HOST'] %>
+  #port: <%= ENV['EOL_DB_PORT'] %>
+  #database: <%= ENV['EOL_DB_PROD_NAME'] %>
+  #username: <%= ENV['EOL_DB_PROD_USERNAME'] %>
+  #password: <%= ENV['EOL_DB_PROD_PASSWORD'] %>
+  host: localhost
+  # PLEASE DON'T PUT YOUR USER / PASS HERE (e.g.: "root"). Set your environment
+  # variables.
+  database: ba_eol_development
+  username: root
+  password: root
+
   pool: 10

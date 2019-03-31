@@ -6,7 +6,7 @@
   %ul.meta-items.js-meta-items
     -if trait[:trait][:source]
       %li
-        %strong Source: 
+        %strong #{t(:source)}:
         %nbsp 
           = link_to "#{trait[:source]}"
         %br
@@ -14,7 +14,7 @@
       -# %li.meta-item
       %li
         %strong
-          Scientific Name:
+          #{t(:scientific_name)}:
         %nbsp
           #{trait[:scientific_name]}
     - Array(trait[:metadata]).each do |datum|
@@ -27,11 +27,11 @@
         %ul.desc-meta
           %li
             %strong
-              uri:
+              #{t(:uri)} :
             %nbsp
               #{datum[:predicate][:uri]}
           %li
             %strong
-              definition:
+              #{t(:definition)}:
             %nbsp
               #{datum[:predicate][:definition]}

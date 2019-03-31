@@ -16,7 +16,7 @@ Rails.application.configure do
     #config.action_mailer.delivery_method = :smtp
     #config.action_mailer.smtp_settings = {:address => "localhost", :port => 1025}
 
-    # Enable/disable caching. By default caching is disabled.
+    # Enable/disable cacurching. By default caching is disabled.
     #if Rails.root.join('tmp/caching-dev.txt').exist?
      # config.action_controller.perform_caching = true
 
@@ -45,11 +45,24 @@ Rails.application.configure do
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
-  config.assets.debug = true
-
+  config.assets.debug = false
+  # config.assets.debug = true
+  
   # Suppress logger output for asset requests.
   config.assets.quiet = true
   config.assets.compile = true
+  # config.assets.compile = false
+  # config.public_file_server.enabled = true
+  # config.serve_static_files = true
+  # config.serve_static_assets = false
+  config.assets.initialize_on_precompile = true
+  config.assets.digest = true
+  # config.assets.concat = true
+  config.assets.compress = false
+  # config.assets.css_compressor = nil
+  # config.assets.js_compressor = nil
+  config.assets.prefix = '/assets'
+  config.assets.enabled = true
 
 
   #config.action_mailer.raise_delivery_errors = true

@@ -16,6 +16,7 @@ Rails.application.config.assets.precompile += %w( animate.min.css bootstrap.min.
 Rails.application.config.assets.precompile += %w( prettyPhoto.css responsive.css responsive-ar.css responsive-en.css slick.css slick-theme.css slider.css Suzan.css )
 Rails.application.config.assets.precompile += %w( bootstrap.min.js html5shiv.js jquery.isotope.min.js jquery.js jquery.prettyPhoto.js main.js multislider.js multislider.min.js )
 Rails.application.config.assets.precompile += %w( respond.min.js slick.js slick.min.js wow.min.js )
+
 Rails.application.config.assets.precompile += %w( search.js )
 Rails.application.config.assets.precompile += %w( api.js )
 Rails.application.config.assets.precompile += %w( pages.js )
@@ -33,6 +34,9 @@ Rails.application.config.assets.precompile += %w( MarkerCluster.css )
 Rails.application.config.assets.precompile += %w( MarkerCluster.Default.css )
 Rails.application.config.assets.precompile += %w( leaflet.markercluster.js )
 # Rails.application.config.assets.precompile += %w(markerclusterer.js )
+
+Rails.application.config.assets.precompile += %w( bloodhound.js)
+Rails.application.config.assets.precompile += %w( typeahead.jquery.js)
 Rails.application.config.assets.precompile += %w( Control.FullScreen.css )
 Rails.application.config.assets.precompile += %w( Control.FullScreen.js)
 Rails.application.config.assets.precompile += %w( Control.Loading.css )
@@ -41,18 +45,20 @@ Rails.application.config.assets.precompile += %w( Leaflet.NavBar.css )
 Rails.application.config.assets.precompile += %w( Leaflet.NavBar.js )
 Rails.application.config.assets.precompile += %w( freezable.js )
 Rails.application.config.assets.precompile += %w( maps_leaflet.js )
+Rails.application.config.assets.precompile += %w( jquery.lazyload.js )
 Rails.application.config.assets.precompile += %w( signup.js )
-
 Rails.application.config.assets.precompile += %w( shared/data_row.js )
 
+# Rails.application.config.assets.precompile += %w( typeahead.bundle.js)
+# Rails.application.config.assets.precompile += %w( typeahead.bundle.min.js)
 
-# For leaflet maps
-%w( leaflet MarkerCluster MarkerCluster.Default Control.FullScreen Leaflet.NavBar Control.Loading ).each do |css_asset|
-  Rails.application.config.assets.precompile << "#{css_asset}.css"
-end
-
-# TODO: remove last entry (should be dynamically loaded json)
-%w( leaflet leaflet.markercluster Control.FullScreen Leaflet.NavBar freezable Control.Loading maps_leaflet 5169 ).each do |js_asset|
-  Rails.application.config.assets.precompile << "#{js_asset}.js"
-end
+# # For leaflet maps
+# %w( leaflet MarkerCluster MarkerCluster.Default Control.FullScreen Leaflet.NavBar Control.Loading ).each do |css_asset|
+  # Rails.application.config.assets.precompile << "#{css_asset}.css"
+# end
+# 
+# # TODO: remove last entry (should be dynamically loaded json)
+# %w( leaflet leaflet.markercluster Control.FullScreen Leaflet.NavBar freezable Control.Loading maps_leaflet 5169 ).each do |js_asset|
+  # Rails.application.config.assets.precompile << "#{js_asset}.js"
+# end
 
