@@ -12,7 +12,7 @@
           = form_tag( collection_collected_pages_path(@collection), method: "get") do |form|
             = text_field_tag(:q, params[:q], :id =>"#{@collection.id}", class: "form-control", :placeholder => "#{t(:search_placeholder)}")
             = hidden_field_tag('collection_id', @collection.id)
-            = hidden_field_tag('locale', params[:locale])
+            -# = hidden_field_tag('locale', params[:locale])
             %button.searchButton
               %i.fa.fa-search{"aria-hidden" => "false"}
   = form_with(model: @collection, local: true) do |f|
@@ -61,16 +61,15 @@
     .col-md-9.col-sm-12.col-xs-12
       .row
       - @collection.collected_pages.each do |collected_page|
-        .row
-          .col-lg-3.col-md-4.col-sm-4.col-xs-12
-            .collectionItem
-              -unless collected_page.page.scientific_name.nil?         
-                .collectionName
-                  %a{:href => page_path(collected_page.page_id), locale: params[:locale]} #{collected_page.page.scientific_name}
-              .deleteItem
-                =link_to 'x',collected_page_path(id: collected_page.id), method: :delete, data: { confirm: "#{t(:confirm_message)}"}, class: "btn btn-primary" 
-              .collectionImage
-                = image_tag Page.find_by_id(collected_page.page_id).try(:media).size > 0 && !Page.find_by_id(collected_page.page_id).try(:media).first.base_url.nil? ? Page.find_by_id(collected_page.page_id).try(:media).first.base_url : "download.png", style: 'height:100;width:100;'
+        .col-lg-3.col-md-4.col-sm-4.col-xs-12
+          .collectionItem
+            -unless collected_page.page.scientific_name.nil?         
+              .collectionName
+                %a{:href => page_path(collected_page.page_id)} #{collected_page.page.scientific_name}
+            .deleteItem
+              =link_to 'x',collected_page_path(id: collected_page.id), method: :delete, data: { confirm: "#{t(:confirm_message)}"}, class: "btn btn-primary" 
+            .collectionImage
+              = image_tag Page.find_by_id(collected_page.page_id).try(:media).size > 0 && !Page.find_by_id(collected_page.page_id).try(:media).first.base_url.nil? ? Page.find_by_id(collected_page.page_id).try(:media).first.base_url : "download.png", style: 'height:100;width:100;'
 
       .col-xs-12
       %br

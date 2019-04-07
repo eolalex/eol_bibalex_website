@@ -14,9 +14,9 @@ Refinery::Resources.configure do |config|
   # This includes all dragonfly config for Dragonfly v 1.1.1
 
   # config.dragonfly_verify_urls     = true
-  # config.dragonfly_secret          = "2bc17290fbba3bba4754d960e77ced2fa08f0744f9ccc121"
+  # config.dragonfly_secret          = "47af4075dd9b3bbec76aafca5daa26ba20a83e990fad8786"
   # config.dragonfly_url_host        = ""
-  # config.dragonfly_datastore_root_path = "/home/ba/work/eol_website_alt/public/system/refinery/resources"
+  # config.dragonfly_datastore_root_path = "/home/ba/eol_website_alt/public/system/refinery/resources"
   # config.dragonfly_url_format       = "/system/refinery/resources/:job/:basename.:ext"
 
   # Configure S3 (you can also use ENV for this)

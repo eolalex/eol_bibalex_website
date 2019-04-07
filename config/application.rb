@@ -15,6 +15,7 @@ module EolPublishingLayer
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
     config.i18n.available_locales = [:en, :ar]
+    config.i18n.default_locale = :en
     
     config.middleware.insert_before ActionDispatch::Static, Rack::Cors do
       allow do
@@ -27,6 +28,7 @@ module EolPublishingLayer
     'Access-Control-Request-Method' => 'GET, PATCH, PUT, POST, OPTIONS, DELETE',
     'Access-Control-Allow-Headers:' => 'Origin, X-Requested-With, Content-Type, Accept'
 }
+
 
 # Rails.application.config.public_file_server.enabled = true
   # Settings in config/environments/* take precedence over those specified here.

@@ -282,3 +282,6 @@ en:
   filter: "Filter"
   pages: "Pages"
   trusted: "Trusted"
+  citing_eol: "Citing EoL"
+  data_services: "Data Services"
+  edit_user: "Edit User Profile"
