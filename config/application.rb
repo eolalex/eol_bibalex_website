@@ -3,6 +3,7 @@ require_relative 'boot'
 
 require 'rails/all'
 require 'acts_as_list'
+
 # require 'sprockets/railtie'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -15,7 +16,7 @@ module EolPublishingLayer
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
     config.i18n.available_locales = [:en, :ar]
-    
+
     config.middleware.insert_before ActionDispatch::Static, Rack::Cors do
       allow do
         origins '*'
@@ -23,12 +24,13 @@ module EolPublishingLayer
       end
     end
     config.action_dispatch.default_headers = {
-    'Access-Control-Allow-Origin' => '*',
-    'Access-Control-Request-Method' => 'GET, PATCH, PUT, POST, OPTIONS, DELETE',
-    'Access-Control-Allow-Headers:' => 'Origin, X-Requested-With, Content-Type, Accept'
-}
+      'Access-Control-Allow-Origin' => '*',
+      'Access-Control-Request-Method' => 'GET, PATCH, PUT, POST, OPTIONS, DELETE',
+      'Access-Control-Allow-Headers:' => 'Origin, X-Requested-With, Content-Type, Accept'
+    }
+    # config.time_zone = 'Cairo'
 
-# Rails.application.config.public_file_server.enabled = true
+  # Rails.application.config.public_file_server.enabled = true
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.
