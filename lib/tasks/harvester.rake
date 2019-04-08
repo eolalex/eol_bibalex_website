@@ -60,7 +60,8 @@ end
 
 def get_latest_updates_from_hbase(last_harvested_time, start_key)
   hbase_uri = "#{HBASE_ADDRESS}#{HBASE_GET_LATEST_UPDATES_ACTION}"
-  start_harvested_time = "1510150973451"
+ start_harvested_time = "1510150973451"
+  
   # last_harvested_time = "#{DateTime.now.strftime('%Q')}"
   begin
     request =RestClient::Request.new(
@@ -80,7 +81,7 @@ end
  def get_latest_updates_from_mysql(start_harvested_time , end_harvested_time)
   mysql_uri = "#{MYSQL_ADDRESS}#{MYSQL_GET_LATEST_UPDATES_ACTION}"
   begin
-    request =RestClient::Request.new(
+    request = RestClient::Request.new(
       :method => :get,
       :timeout => -1,
       :url => "#{mysql_uri}/#{start_harvested_time}/#{end_harvested_time}"
@@ -97,7 +98,7 @@ end
 def get_end_time
   mysql_uri = "#{MYSQL_ADDRESS}#{MYSQL_GET_END_TIME}"
   begin
-    request =RestClient::Request.new(
+    request = RestClient::Request.new(
       :method => :get,
       :timeout => -1,
       :url => "#{mysql_uri}"
@@ -381,7 +382,14 @@ def main_method_3
   #tables = JSON.parse(File.read(file_path))
 
 
-    start_harvested_time = "1551795393000"
+    # start_harvested_time = "1551795393000"
+    # debugger
+    if HarvestTime.first.nil?
+      HarvestTime.create
+    end
+    
+    start_harvested_time = HarvestTime.first.last_harvest_time
+    # debugger
     end_harvested_time = get_end_time
 # # finish = 0
     while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
@@ -502,10 +510,10 @@ def main_method_3
         # node = Node.where(generated_node_id: generated_node_id).first
         # node_id = node.id
         # resource_id = node.resource_id
-        # scientific_name = node.scientific_name
+        # scientto_datetime.strftime("%Q")ific_name = node.scientific_name
         # page_id = PagesNode.where(node_id: node_id).first.page_id
         # load_occurrence(occurrences, page_id, resource_id)
-      # end
+      # eHarvestTime.first.update_attribute(:last_harvest_time, DateTime.now())nd
 
       traits.each do|trait|
         generated_node_id = trait["generated_node_id"]
@@ -558,7 +566,8 @@ def main_method_3
       start_harvested_time = (start_harvested_time.to_i + 30000).to_s
    end
    ActiveRecord::Base.logger.info "enddddddddd: #{Time.new}"
-
+   # debugger
+   HarvestTime.first.update_attribute(:last_harvest_time, DateTime.now().strftime("%Q"))
 end
 
  def write_to_json(taxon)
