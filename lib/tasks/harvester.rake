@@ -539,10 +539,7 @@ def main_method_3
       IO.write($terms, $terms_array.join("\n"))
       IO.write($traits, $traits_array.join("\n"))
       IO.write($meta, $meta_array.join("\n"))
-      # $terms.flush
-      # $meta.flush
-      # $traits.flush
-      #debugger
+
       system('sh /home/a-amorad/traits_scripts/terms.sh')
       system('sh /home/a-amorad/traits_scripts/traits.sh')
       system('sh /home/a-amorad/traits_scripts/meta.sh')
@@ -550,6 +547,7 @@ def main_method_3
       # system('sh /home/ba/traits_scripts/terms.sh')
       # system('sh /home/ba/traits_scripts/traits.sh')
       # system('sh /home/ba/traits_scripts/meta.sh')
+
 
     end
     
@@ -835,7 +833,9 @@ end
 namespace :harvester do
   desc "TODO"  
   task get_latest_updates: :environment do
+
     main_method_3
     # main_method_biuld_hierarchy
+
   end
 end
