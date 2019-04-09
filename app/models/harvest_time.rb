@@ -1,0 +1,2 @@
+class HarvestTime < ApplicationRecord
+end
