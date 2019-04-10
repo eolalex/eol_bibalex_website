@@ -239,3 +239,6 @@ ar:
   citing_eol: "النقل عن موسوعة الحياة"
   data_services: "خدمات البيانات"
   edit_user: "تعديل الملف الشخصي"
+  web: "الشبكة"
+  preferred: "مفضل"
+  not_preferred: "غير مفضل"

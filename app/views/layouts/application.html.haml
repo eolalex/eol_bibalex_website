@@ -4,13 +4,13 @@
 
 %html
   %head
-    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type", name:"turbolinks-visit-control", content:"reload"}/
+    %meta{content: "text/html; charset=UTF-8", "http-equiv": "Content-Type", name: "turbolinks-visit-control", content:"reload"}/
     %title EOL
-    %meta{:charset => "utf-8"}/
-    %meta{:content => "IE=edge,chrome=1", "http-equiv" => "X-UA-Compatible"}/
-    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
+    %meta{ charset: "utf-8"}/
+    %meta{ content: "IE=edge,chrome=1", "http-equiv": "X-UA-Compatible"}/
+    %meta{ content: "width=device-width, initial-scale=1", name: "viewport"}/
     / core CSS
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => "reload"
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': "reload"
     = stylesheet_link_tag 'Custom-ar'
     = stylesheet_link_tag 'Custom-en'
     = stylesheet_link_tag 'Custom'
@@ -25,19 +25,19 @@
     = stylesheet_link_tag 'Suzan'
     = stylesheet_link_tag 'slider'
     = stylesheet_link_tag 'haml'
-    = javascript_include_tag 'application', 'data-turbolinks-track' => "reload"
+    = javascript_include_tag 'application', 'data-turbolinks-track': "reload"
     = csrf_meta_tags
     %header#header
-      %nav.navbar.navbar-inverse{:role => "banner", :data-turbolinks => "false"}
+      %nav.navbar.navbar-inverse{ role: "banner", "data-turbolinks": "false"}
         .container
           .row
             .col-lg-7.col-md-6.col-sm-6.col-xs-12
               .navbar-header
-                %a.navbar-brand{:href => root_path}
-                  =image_tag "eol_logo.png", :alt => "logo"
+                %a.navbar-brand{ href: root_path}
+                  =image_tag "eol_logo.png", alt: "logo"
                 %ul.topMenu
                   %li.dropdown
-                    %a.dropdown-toggle{"data-toggle" => "dropdown"}
+                    %a.dropdown-toggle{"data-toggle": "dropdown"}
                       #{t(:language)}
                       %i.fa.fa-angle-down
                     %ul.dropdown-menu
@@ -47,9 +47,9 @@
                         = link_to "العربية", {locale: 'ar'}
                   .mainMenu
                     - unless current_page? root_path
-                      %button.btn-search{:id => "0","data-toggle" => "modal",:onclick => "showPopup(this)",:role => "button"}
-                        %i.fa.fa-search{"aria-hidden" => "false"}
-                    %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
+                      %button.btn-search{ id: "0","data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
+                        %i.fa.fa-search{"aria-hidden": "false"}
+                    %button.navbar-toggle{"data-target": ".navbar-collapse", "data-toggle": "collapse", type: "button"}
                       %span.sr-only Toggle navigation
                       %span.icon-bar
                       %span.icon-bar
@@ -57,58 +57,58 @@
               .collapse.navbar-collapse.navbar-left
                 %ul.nav.navbar-nav
                   %li
-                    %a{:href => "/#{locale}/docs/about"}
-                      %i.fa.fa-info-circle{"aria-hidden" => "true"}
+                    %a{href: "/#{locale}/docs/about"}
+                      %i.fa.fa-info-circle{"aria-hidden": "true"}
                       #{t(:about_eol)}
                   %li
-                    %a{:href => "/#{locale}/docs/about/what-is-new"}
-                      %i.fa.fa-newspaper-o{"aria-hidden" => "true"}
+                    %a{href: "/#{locale}/docs/about/what-is-new"}
+                      %i.fa.fa-newspaper-o{"aria-hidden": "true"}
                       #{t(:news)}
                   %li
-                    %a{:href => "https://discuss.eol.org/"}
-                      %i.fa.fa-question-circle{"aria-hidden" => "true"}
+                    %a{href: "https://discuss.eol.org/"}
+                      %i.fa.fa-question-circle{"aria-hidden": "true"}
                       #{t(:help)}
             .col-lg-5.col-md-6.col-sm-6.col-xs-12.coloredMenu
               %ul.topMenu
                 %li
                   - unless user_signed_in?
-                    %a.signIn{:href => main_app.new_user_session_path}
+                    %a.signIn{href: main_app.new_user_session_path}
                       %i.fa.fa-user-circle{"aria-hidden" => "true"}
                       #{t(:sign_in)}
                   - else
                     %li.dropdown
-                      %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                        %i.fa.fa-user-circle{"aria-hidden" => "true"}
+                      %a.dropdown-toggle{"data-toggle": "dropdown", href: "#"}
+                        %i.fa.fa-user-circle{"aria-hidden": "true"}
                         #{current_user.username}
                         %i.fa.fa-angle-down
                       %ul.dropdown-menu
                         %li
-                          %a{:href => main_app.user_path(current_user.id)} #{t(:show_user_profile)}
+                          %a{ href: main_app.user_path(current_user.id)} #{t(:show_user_profile)}
                         %li
-                          %a.signIn{:href => main_app.destroy_user_session_path} #{t(:sign_out)}
+                          %a.signIn{ href: main_app.destroy_user_session_path} #{t(:sign_out)}
                 %li.dropdown
-                  %a.dropdown-toggle.NetworksLink{"data-toggle" => "dropdown"}
+                  %a.dropdown-toggle.NetworksLink{"data-toggle": "dropdown"}
                     #{t(:networks)}
                     %i.fa.fa-angle-down
                   %ul.dropdown-menu
                     %li
-                      %a{:href => "https://education.eol.org/", :target => "_blank"} #{t(:learning_education)}
+                      %a{ href: "https://education.eol.org/", target: "_blank"} #{t(:learning_education)}
                 %li
-                  %a.DonateBtn{:href => "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} #{t(:donate_button)}
+                  %a.DonateBtn{ href: "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} #{t(:donate_button)}
           - unless current_page? root_path
-            .modal{:id => "popup_#{0}","aria-labelledby" => "popup_#{0}Label", :role => "dialog", :tabindex => "-1"}
-              .modal-dialog{:role => "document"}
+            .modal{ id: "popup_#{0}", "aria-labelledby": "popup_#{0}Label", role: "dialog", tabindex: "-1"}
+              .modal-dialog{ role: "document"}
                 .modal-content
                   .modal-header
                     .form-group.row.form-inline
                       .col-md-10.col-sm-10.col-xs-10
                         %h2.editLabel.modal-title #{t(:search_network)}
                       .col-md-2.col-sm-2.col-xs-2
-                        %button{ :id =>"0", :class => "btn btn-primary pull-right", :tabindex => "1", :onclick=> 'hidePopup(this, event)'}x
+                        %button{ id: "0", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'}x
                   .modal-body
                     .searchBox
                       = form_tag(main_app.search_path, method: :get) do |f|
-                        = text_field_tag(:query, params[:query],:placeholder => t(:search_placeholder), :class => "modal-body searchBox")
+                        = text_field_tag(:query, params[:query], placeholder: t(:search_placeholder), class: "modal-body searchBox")
                         %button.searchButton
                           %i.fa.fa-search{"aria-hidden" => "true", remote: true}
     %body
@@ -128,23 +128,23 @@
         .col-sm-6.col-xs-12
           %ul
             %li
-              %a{:href => "/#{locale}/docs/about/terms-of-use"} #{t(:terms_of_use)}
+              %a{href: "/#{locale}/docs/about/terms-of-use"} #{t(:terms_of_use)}
             %li
-              %a{:href => "https://support.si.edu/site/SPageS#{locale}/erver?pagename=api_eol_main\&s_src=web_eol_fl"} #{t(:donate_button)}
+              %a{href: "https://support.si.edu/site/SPageS#{locale}/erver?pagename=api_eol_main\&s_src=web_eol_fl"} #{t(:donate_button)}
             %li
-              %a{:href => "/#{locale}/discuss/contact-us"} #{t(:contact_us)}
+              %a{href: "/#{locale}/discuss/contact-us"} #{t(:contact_us)}
             %li
-              %a{:href => "/#{locale}/docs/about/terms-of-use/citing-eol"} #{t(:citing_eol)}
+              %a{href: "/#{locale}/docs/about/terms-of-use/citing-eol"} #{t(:citing_eol)}
             %li
-              %a{:href => "/#{locale}/docs/about/data-services"} #{t(:data_services)}
+              %a{href: "/#{locale}/docs/about/data-services"} #{t(:data_services)}
         .col-sm-6.col-xs-12
           .social
             %ul.social-share
               %li #{t(:follow_us)}
               %li
-                %a{:href => "https://www.facebook.com/encyclopediaoflife/"}
+                %a{href: "https://www.facebook.com/encyclopediaoflife/"}
                   %i.fa.fa-facebook
               %li
-                %a{:href => "https://twitter.com/eol"}
+                %a{href: "https://twitter.com/eol"}
                   %i.fa.fa-twitter
 = content_for :render_async

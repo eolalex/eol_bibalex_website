@@ -11,18 +11,18 @@
         %div.form-horizontal.formStyle
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
-              %span{:style => "color: red"}> *
+              %span{ style: "color: red"}> *
               #{t(:name)}
             .col-md-10.col-sm-9.col-xs-12
-              %input.form-control{:name => "resource[name]", :value => @resource.name, :tabindex => "1", :type => "text"}
+              %input.form-control{ name: "resource[name]", value: @resource.name, tabindex: "1", type: "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:abbreviation)}
             .col-md-10.col-sm-9.col-xs-12
-              %input.form-control{:name => "resource[origin_url]", :value => @resource.origin_url, :tabindex => "2", :type => "text"}
+              %input.form-control{ name: "resource[origin_url]", value: @resource.origin_url, tabindex: "2", type: "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
-              %span{:style => "color: red"}> *
+              %span{ style: "color: red"}> *
               #{t(:load_resource)}
             .col-md-10.col-sm-9.col-xs-12
               -#%label.radio-inline
@@ -32,25 +32,25 @@
                 = f.radio_button :type, "file",id: "radio2" ,onClick: "file_show();"
                 = label_tag "#{t(:from_file)}"
               .resource_url
-                #display1{:style => "display:none;"}
+                #display1{ style: "display:none;"}
                   .form-group
                     %div.row.form-inline
                       .topSpaceSeparator
                       %label.col-md-12.col-sm-12.col-xs-12
-                        %span{:style => "color: red"}> *
+                        %span{ style: "color: red"}> *
                         #{t(:uploaded_url)}
                       .col-md-10.col-sm-9.col-xs-12
-                        %input.form-control{:name => "resource[uploaded_url]", :value => @resource.uploaded_url,:tabindex => "1", :type => "text"}
+                        %input.form-control{ name: "resource[uploaded_url]", value: @resource.uploaded_url, tabindex: "1", type: "text"}
                     %div.row.form-inline
                       .topSpaceSeparator
                       %label.col-md-12.col-sm-12.col-xs-12
-                        %span{:style => "color: red"}> *
+                        %span{ style: "color: red"}> *
                         #{t(:harvest_frequency)}
                       .col-md-8.col-sm-8.col-xs-12
                         .selectStyle
                           = f.select :harvest_frequency, ['once','weekly','monthly','bimonthly','quarterly']
               .resource_file
-                #display2{:style => "display:none;"}
+                #display2{ style: "display:none;"}
                   = f.file_field :path
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
@@ -62,23 +62,23 @@
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:dataset_rights_holder)}
             .col-md-10.col-sm-9.col-xs-12
-              %input.form-control{:name => "resource[dataset_rights_holder]", :value => @resource.dataset_rights_holder, :tabindex => "1", :type => "text"}
+              %input.form-control{ name: "resource[dataset_rights_holder]", value: @resource.dataset_rights_holder, tabindex: "1", type: "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:dataset_rights_statement)}
             .col-md-10.col-sm-9.col-xs-12
-              %input.form-control{:name => "resource[dataset_rights_statement]", :value => @resource.dataset_rights_statement, :tabindex => "1", :type => "text"}
+              %input.form-control{ name:"resource[dataset_rights_statement]", value: @resource.dataset_rights_statement, tabindex: "1", type: "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:default_language)}
             .col-md-2.col-sm-8.col-xs-12
               .selectStyle
-                = f.collection_select :default_language_id , Language.all , :id, :code, {:selected => Language.where(code: "en").first.id}
+                = f.collection_select :default_language_id , Language.all , :id, :code, { selected: Language.where(code: "en").first.id}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:description)}
             .col-md-10.col-sm-9.col-xs-12
-            %input.form-control{:name => "resource[description]", :value => @resource.description, :tabindex => "1", :type => "text"}
+            %input.form-control{ name: "resource[description]", value: @resource.description, tabindex: "1", type: "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:default_license)}
@@ -89,4 +89,4 @@
             .row
               .col-xs-12
                 = resource_error_messages(@resource)
-                %input.btn.btn-primary.btn-lg{:tabindex => "5", :type => "submit", :value => "#{t(:update_button)}"}
+                %input.btn.btn-primary.btn-lg{ tabindex: "5", type: "submit", value: "#{t(:update_button)}"}

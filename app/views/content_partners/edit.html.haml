@@ -1,4 +1,4 @@
-%script{:src => "//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"}
+%script{ src: "//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"}
 -#%script{:src => "//code.jquery.com/jquery-1.11.1.min.js"}
 
 .container
@@ -14,26 +14,26 @@
         %div.form-horizontal.formStyle
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
-              %span{:style => "color: red"}> *
+              %span{ style: "color: red"}> *
               #{t(:name)}
             .col-md-10.col-sm-9.col-xs-12
-              %input.form-control.input-lg{:name => "content_partner[name]", :value => @content_partner.name, :tabindex => "1", :type => "text"}
+              %input.form-control.input-lg{ name: "content_partner[name]", value: @content_partner.name, tabindex: "1", type: "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:abbreviation)}
             .col-md-10.col-sm-9.col-xs-12
-              %input.form-control.input-lg{:name => "content_partner[abbreviation]", :value => @content_partner.abbreviation, :tabindex => "2", :type => "text"}
+              %input.form-control.input-lg{ name: "content_partner[abbreviation]", value: @content_partner.abbreviation, tabindex: "2", type: "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:url)}
             .col-md-10.col-sm-9.col-xs-12
-              %input.form-control.input-lg{:name => "content_partner[url]", :value => @content_partner.url, :tabindex => "3", :type => "text"}
+              %input.form-control.input-lg{ name: "content_partner[url]", value: @content_partner.url, tabindex: "3", type: "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
-              %span{:style => "color: red"}> *
+              %span{ style: "color: red"}> *
               #{t(:description)}
             .col-md-10.col-sm-9.col-xs-12
-              %input.form-control.input-lg{:name => "content_partner[description]", :value => @content_partner.description, :tabindex => "3", :type => "text"}
+              %input.form-control.input-lg{ name: "content_partner[description]", value: @content_partner.description, tabindex: "3", type: "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:logo)}
@@ -44,4 +44,4 @@
               .row
                 .col-xs-12
                   = resource_error_messages(@content_partner)
-                  %input.btn.btn-primary.btn-lg{:tabindex => "5", :type => "submit", :value => "#{t(:update_button)}"}/
+                  %input.btn.btn-primary.btn-lg{ tabindex: "5", type: "submit", value: "#{t(:update_button)}"}/

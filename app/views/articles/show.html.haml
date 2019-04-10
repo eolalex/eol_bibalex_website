@@ -17,23 +17,23 @@
                   dataset_rights_holder: result["dataset_rights_holder"],default_license_string: result["default_license_string"],
                   default_rights_statement: result["default_rights_statement"],default_rights_holder: result["default_rights_holder"],
                   default_language_id: result["default_language_id"])
-        %div{:style => "color: #8F8F8F; margin-bottom: 10px;"}
-          provided by 
+        %div{ style: "color: #8F8F8F; margin-bottom: 10px;"}
+          #{t(:provided by)} 
           -if !@resource.nil?
             = link_to(@resource.name, content_partner_resource_path(content_partner_id["id"], result["id"]))
           -else
             = t(:resource_missing)
         %p
-          %object{:width => "100%",:height => "100%"}
+          %object{ width: "100%", height: "100%"}
             %p
               =@article.body.html_safe
     .col-md-4.col-sm-4
       .well
         %p
-          %b license:
+          %b #{t(:license)}:
           = link_to(@license.name,@license.source_url)
           %br/
-          %b copyright:
+          %b #{t(:owner)}:
           = @article.owner
         %p
           - @article.attributions.each do |attribution|
@@ -42,11 +42,11 @@
             %b=":"
             = attribution.value
         %p
-          %b partner site:
+          %b #{t(:resource_label)}:
           -if !@resource.nil?
             = link_to(@resource.name, content_partner_resource_path(content_partner_id["id"], result["id"]))
           -else
             = t(:resource_missing)
           %br/
-          %b ID:
+          %b #{t(:resource_pk)}:
           = @article.resource_pk

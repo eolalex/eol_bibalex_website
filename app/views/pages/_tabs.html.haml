@@ -1,35 +1,35 @@
 = javascript_include_tag 'pages'
 %small
 %span.dropdown.pull-right
-  %a.dropdown-toggle.btn.btn-primary.exploreTaxonBtn{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+  %a.dropdown-toggle.btn.btn-primary.exploreTaxonBtn{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
     #{t(:explore_taxon)}
     %span.caret
-  %ul#menu1.dropdown-menu{"aria-labelledby" => "drop4"}
+  %ul#menu1.dropdown-menu{"aria-labelledby": "drop4"}
     %li
-      %a{:href => page_path(@page)} #{t(:overview)}
+      %a{ href: page_path(@page)} #{t(:overview)}
     %li
-      %a{:href => names_page_path(@page)} #{t(:names)}
+      %a{ href: names_page_path(@page)} #{t(:names)}
     -if @page.media.size > 0
       %li
-        %a{:href => page_media_path(@page)} #{t(:media)}
+        %a{ href: page_media_path(@page)} #{t(:media)}
     -if @page.referents.size > 0
       %li
-        %a{:href => page_literature_and_references_path(@page)} #{t(:literature_and_references_header)}
+        %a{ href: page_literature_and_references_path(@page)} #{t(:literature_and_references_header)}
     -if @page.data.size > 0
       %li
-        %a{:href => page_data_path(@page)} #{t(:data)}
+        %a{ href: page_data_path(@page)} #{t(:data)}
     -if @page.articles.size > 0
       %li
-        %a{:href => page_articles_path(@page)} #{t(:articles)}
+        %a{ href: page_articles_path(@page)} #{t(:articles)}
 
     -if @page.map?
       %li
-        %a{:href => page_maps_path(@page)} #{t(:maps)}
+        %a{ href: page_maps_path(@page)} #{t(:maps)}
 
 - if user_signed_in?
   %small
   %span.dropdown.pull-right
-    %a.btn.btn-primary{id: "#{@page.id}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
+    %a.btn.btn-primary{ id: "#{@page.id}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
       #{t(:collect_button)}
   .modal{id: "popup_#{@page.id}", "aria-labelledby": "popup_#{@page.id}Label", role: "dialog", tabindex: "-1"}
     .modal-dialog.modal-lg.extra_large{role: "document"}

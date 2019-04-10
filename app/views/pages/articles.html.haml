@@ -4,4 +4,4 @@
       %h2.mainTitle
         Articles
         = render("tabs")
-    = render_async articles_tab_path(:page_id => @page.id, :page => params[:page])
+    = render_async articles_tab_path( page_id: @page.id, page: params[:page])

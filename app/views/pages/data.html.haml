@@ -1,4 +1,3 @@
--# = javascript_include_tag 'terms'
 .container
   .row
     .col-md-12.blog
@@ -10,9 +9,9 @@
           = render "tabs"
       .row
         .col-md-8
-          = render_async data_grid_path(:page_id => @page.id, :page => params[:page]) do
+          = render_async data_grid_path( page_id: @page.id, page: params[:page]) do
             .col-md-offset-4
-              =image_tag "loading.gif", :alt => ""
+              = image_tag "loading.gif", alt: ""
         .col-md-4
           %aside
             .widget.categories
@@ -21,12 +20,12 @@
                 .col-sm-12
                   .single_comments
                     %b= @page.scientific_name
-                    =image_tag "avatar3.png", :alt => ""
+                    = image_tag "avatar3.png", alt: ""
 
             .widget.blog_gallery
               %h3 #{t(:refresh_memory)}
               %ul.sidebar-gallery
                 %li
-                  %a{:href => "http://fieldguides.eol.org/memory/"}
-                    =image_tag "memory-game-icon.png", :alt => ""
+                  %a{ href: "http://fieldguides.eol.org/memory/"}
+                    = image_tag "memory-game-icon.png", alt: ""
 

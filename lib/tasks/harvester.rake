@@ -46,10 +46,10 @@ def check_for_upadtes
   scheduler_uri = "#{SCHEDULER_ADDRESS}/#{CHECK_FOR_UPDATES}"
   last_harvested_time = "1536650663000"
   begin
-    request =RestClient::Request.new(
-      :method => :get,
-      :timeout => -1,
-      :url => "#{scheduler_uri}/#{last_harvested_time}"
+    request = RestClient::Request.new(
+      method: :get,
+      timeout: -1,
+      url: "#{scheduler_uri}/#{last_harvested_time}"
     )
     response = request.execute
     response.body
@@ -65,9 +65,9 @@ def get_latest_updates_from_hbase(last_harvested_time, start_key)
   # last_harvested_time = "#{DateTime.now.strftime('%Q')}"
   begin
     request =RestClient::Request.new(
-      :method => :get,
-      :timeout => -1,
-      :url => "#{hbase_uri}/#{start_harvested_time}/#{last_harvested_time}/#{start_key}"
+      method: :get,
+      timeout: -1,
+      url: "#{hbase_uri}/#{start_harvested_time}/#{last_harvested_time}/#{start_key}"
     )
     response = request.execute
     response.body
@@ -82,9 +82,9 @@ end
   mysql_uri = "#{MYSQL_ADDRESS}#{MYSQL_GET_LATEST_UPDATES_ACTION}"
   begin
     request = RestClient::Request.new(
-      :method => :get,
-      :timeout => -1,
-      :url => "#{mysql_uri}/#{start_harvested_time}/#{end_harvested_time}"
+      method: :get,
+      timeout: -1,
+      url: "#{mysql_uri}/#{start_harvested_time}/#{end_harvested_time}"
     )
     response = request.execute
     response.body
@@ -99,9 +99,9 @@ def get_end_time
   mysql_uri = "#{MYSQL_ADDRESS}#{MYSQL_GET_END_TIME}"
   begin
     request = RestClient::Request.new(
-      :method => :get,
-      :timeout => -1,
-      :url => "#{mysql_uri}"
+      method: :get,
+      timeout: -1,
+      url: "#{mysql_uri}"
     )
     response = request.execute
     response.body
