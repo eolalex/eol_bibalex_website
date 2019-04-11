@@ -6,9 +6,9 @@ class RegistrationsController < Devise::RegistrationsController
   before_action :check_captcha, only: [:create]
 
   # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+  def new
+    super
+  end
 
   # POST /resource
   # def create
@@ -19,9 +19,9 @@ class RegistrationsController < Devise::RegistrationsController
   #   super
   # end
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+    super
+  end
   # DELETE /resource
   # def destroy
   #   super
@@ -84,7 +84,8 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def set_locale
-    # I18n.locale = params[:locale] || I18n.default_locale
+    # debugger
+    I18n.locale = params[:locale] || I18n.default_locale
   end
   
 end

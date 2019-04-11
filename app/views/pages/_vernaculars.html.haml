@@ -1,8 +1,8 @@
 .row
   .col-md-12
     .Description
-    %p.alert-secondary{:role => "alert"}
-      %i.fa.fa-info-circle{"aria-hidden" => "false"}>
+    %p.alert-secondary{ role: "alert"}
+      %i.fa.fa-info-circle{"aria-hidden": "false"}>
       #{t(:vernaculars_description)}
     %br/
 .row
@@ -16,22 +16,22 @@
         %table.customTable
           %thead
             %tr
-              %th{:scope => "col"} #{t(:preferred_name)}
-              %th{:scope => "col"} #{t(:name)}
-              %th{:scope => "col"} #{t(:sources)}
+              %th{ scope: "col"} #{t(:preferred_name)}
+              %th{ scope: "col"} #{t(:name)}
+              %th{ scope: "col"} #{t(:sources)}
           %tbody
             -vernaculars_resources = get_resources(names)
             -vernaculars_resources.each do |name, resource|
               %tr
                 - preferred = Vernacular.where(string: name).pluck(:is_prefered_by_resource).include? true
-                %td{"data-label" => "#{t(:preferred_name)}"}
+                %td{"data-label": "#{t(:preferred_name)}"}
                   -if preferred
-                    preferred
+                    "#{t(:preferred)}"
                   -else
-                    not preferred
-                %td{"data-label" => "#{t(:name)}"} 
+                    "#{t(:not_preferred)}"
+                %td{"data-label": "#{t(:name)}"} 
                   = name
-                %td{"data-label" => "#{t(:sources)}"} 
+                %td{"data-label": "#{t(:sources)}"} 
                   -if !vernaculars_resources[name].nil?
                     - vernaculars_resources[name].each do |resource|
                       - if !resource.nil?

@@ -14,7 +14,7 @@
         %hr/
         .row
           .col-lg-2.col-md-2.col-sm-2
-            %img.img-responsive{:alt => "", :src => "/assets/avatar3.png"}/
+            %img.img-responsive{ alt: "", src: "/assets/avatar3.png"}/
           .col-lg-10.col-md-10.col-sm-10.col-xs-12
             .form-horizontal
               .form-group
@@ -42,9 +42,9 @@
                 -@collections.each do |collection|
                   %span.pull-right
                   .single_comments
-                    %img{:alt => "", :src => "/assets/download.png"}/
+                    %img{ alt: "", src: "/assets/download.png"}/
                     .collectionName
-                      %a{href: collection_path(id: collection.id)} #{collection.name}
+                      %a{ href: collection_path(id: collection.id)} #{collection.name}
                       %div    
                         %small
                           #{collection.collected_pages_count} #{t(:items)}; #{t(:last_updated_at)} #{time_ago_in_words(collection.updated_at)} #{t(:ago)}
@@ -70,8 +70,8 @@
                     -result = ContentPartnerApi.get_content_partner_without_resources(content_partner_id)
                     %span.pull-right
                       -if @user.id == current_user.id
-                        %a{href: "#{edit_content_partner_path(id: result["id"])}"} #{t(:edit_button)}
+                        %a{ href: edit_content_partner_path(id: result["id"])} #{t(:edit_button)}
                     .single_comments
-                      %img{:alt => "", :src => "/assets/avatar3.png"}/
-                      %a{href: content_partner_path(id: content_partner_id)}
+                      %img{ alt: "", src: "/assets/avatar3.png"}/
+                      %a{ href: content_partner_path(id: content_partner_id)}
                         =result["name"]

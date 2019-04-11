@@ -46,10 +46,10 @@ def check_for_upadtes
   scheduler_uri = "#{SCHEDULER_ADDRESS}/#{CHECK_FOR_UPDATES}"
   last_harvested_time = "1536650663000"
   begin
-    request =RestClient::Request.new(
-      :method => :get,
-      :timeout => -1,
-      :url => "#{scheduler_uri}/#{last_harvested_time}"
+    request = RestClient::Request.new(
+      method: :get,
+      timeout: -1,
+      url: "#{scheduler_uri}/#{last_harvested_time}"
     )
     response = request.execute
     response.body
@@ -60,13 +60,14 @@ end
 
 def get_latest_updates_from_hbase(last_harvested_time, start_key)
   hbase_uri = "#{HBASE_ADDRESS}#{HBASE_GET_LATEST_UPDATES_ACTION}"
-  start_harvested_time = "1510150973451"
+ start_harvested_time = "1510150973451"
+  
   # last_harvested_time = "#{DateTime.now.strftime('%Q')}"
   begin
     request =RestClient::Request.new(
-      :method => :get,
-      :timeout => -1,
-      :url => "#{hbase_uri}/#{start_harvested_time}/#{last_harvested_time}/#{start_key}"
+      method: :get,
+      timeout: -1,
+      url: "#{hbase_uri}/#{start_harvested_time}/#{last_harvested_time}/#{start_key}"
     )
     response = request.execute
     response.body
@@ -80,10 +81,10 @@ end
  def get_latest_updates_from_mysql(start_harvested_time , end_harvested_time)
   mysql_uri = "#{MYSQL_ADDRESS}#{MYSQL_GET_LATEST_UPDATES_ACTION}"
   begin
-    request =RestClient::Request.new(
-      :method => :get,
-      :timeout => -1,
-      :url => "#{mysql_uri}/#{start_harvested_time}/#{end_harvested_time}"
+    request = RestClient::Request.new(
+      method: :get,
+      timeout: -1,
+      url: "#{mysql_uri}/#{start_harvested_time}/#{end_harvested_time}"
     )
     response = request.execute
     response.body
@@ -97,10 +98,10 @@ end
 def get_end_time
   mysql_uri = "#{MYSQL_ADDRESS}#{MYSQL_GET_END_TIME}"
   begin
-    request =RestClient::Request.new(
-      :method => :get,
-      :timeout => -1,
-      :url => "#{mysql_uri}"
+    request = RestClient::Request.new(
+      method: :get,
+      timeout: -1,
+      url: "#{mysql_uri}"
     )
     response = request.execute
     response.body
@@ -336,8 +337,14 @@ def main_method_3
 
 
     start_harvested_time = "1553802010000"
+
+    if HarvestTime.first.nil?
+      HarvestTime.create
+    end
+    # start_harvested_time = HarvestTime.first.last_harvest_time
+    
     end_harvested_time = get_end_time
-# # finish = 0
+
     while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
       $terms=File.new("#{NEO4J_IMPORT_PATH}terms.csv", 'w')
       $meta=File.new("#{NEO4J_IMPORT_PATH}meta.csv", 'w')
@@ -496,7 +503,8 @@ def main_method_3
       start_harvested_time = (start_harvested_time.to_i + 420000).to_s
    end
    ActiveRecord::Base.logger.info "enddddddddd: #{Time.new}"
-
+   # debugger
+   HarvestTime.first.update_attribute(:last_harvest_time, DateTime.now().strftime("%Q"))
 end
 
  def write_to_json(taxon)
