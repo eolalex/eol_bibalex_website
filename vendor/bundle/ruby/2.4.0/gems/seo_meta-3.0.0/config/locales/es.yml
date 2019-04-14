@@ -1,0 +1,8 @@
+es:
+  seo_meta:
+    form:
+      seo: Optimización para motores de búsqueda (SEO)
+      seo_override_title: Título del navegador
+      seo_override_title_help: Introduce un título de 5-10 palabras que resuma los contenidos de la entrada.
+      meta_description_title: Meta-descripción
+      meta_description_help: Describe en dos o tres frases de qué tema trata esta entrada.

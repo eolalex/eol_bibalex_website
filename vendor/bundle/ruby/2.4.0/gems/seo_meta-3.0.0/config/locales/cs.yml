@@ -1,0 +1,8 @@
+cs:
+  seo_meta:
+    form:
+      seo: Optimalizace pro vyhledávače
+      seo_override_title: Titulek prohlížeče
+      seo_override_title_help: Vložte titulek délky 5-10 slov, který vystihuje obsah článek.
+      meta_description_title: Popisek
+      meta_description_help: Vložte 2-3 krátké věty shrnující obsah článek.

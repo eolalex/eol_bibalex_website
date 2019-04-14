@@ -1,0 +1,13 @@
+current directory: /var/www/eol_website_alt/vendor/bundle/ruby/2.4.0/gems/json-2.1.0/ext/json
+/usr/local/rvm/rubies/ruby-2.4.2/bin/ruby -r ./siteconf20190106-16938-1um5cc7.rb extconf.rb
+creating Makefile
+
+current directory: /var/www/eol_website_alt/vendor/bundle/ruby/2.4.0/gems/json-2.1.0/ext/json
+make "DESTDIR=" clean
+
+current directory: /var/www/eol_website_alt/vendor/bundle/ruby/2.4.0/gems/json-2.1.0/ext/json
+make "DESTDIR="
+make: Nothing to be done for 'all'.
+
+current directory: /var/www/eol_website_alt/vendor/bundle/ruby/2.4.0/gems/json-2.1.0/ext/json
+make "DESTDIR=" install

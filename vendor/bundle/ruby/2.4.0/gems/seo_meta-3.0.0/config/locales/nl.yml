@@ -1,0 +1,8 @@
+nl:
+  seo_meta:
+    form:
+      seo: Zoekmachine optimalisatie
+      seo_override_title: Browser titel
+      seo_override_title_help: Als u de standaard titel van het browservenster wilt wijzigen, kunt u hier een alternatief invullen.
+      meta_description_title: Meta omschrijving
+      meta_description_help: Voer een compacte (twee a drie zinnen) pagina beschrijving in.

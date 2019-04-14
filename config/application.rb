@@ -26,13 +26,15 @@ module EolPublishingLayer
       end
     end
     config.action_dispatch.default_headers = {
-      'Access-Control-Allow-Origin' => '*',
-      'Access-Control-Request-Method' => 'GET, PATCH, PUT, POST, OPTIONS, DELETE',
-      'Access-Control-Allow-Headers:' => 'Origin, X-Requested-With, Content-Type, Accept'
-    }
-    # config.time_zone = 'Cairo'
 
-  # Rails.application.config.public_file_server.enabled = true
+    'Access-Control-Allow-Origin' => '*',
+    'Access-Control-Request-Method' => 'GET, PATCH, PUT, POST, OPTIONS, DELETE',
+    'Access-Control-Allow-Headers:' => 'Origin, X-Requested-With, Content-Type, Accept'
+}
+RenderAsync.configure do |config|
+  config.turbolinks = true # Enable this option if you are using Turbolinks 5+
+end
+
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers

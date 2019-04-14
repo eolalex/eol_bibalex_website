@@ -1,0 +1,14 @@
+.nav-tabs {
+
+    padding-bottom: 11px !important;
+
+}
+.paddingLeft20 {
+	padding-left: 20px;
+}
+#Sponsors {
+    background: rgba(0, 0, 0, 0) url("partner_bg.png") no-repeat scroll 50% 50% / cover !important;
+   }
+.MainPath{
+   	display:none;
+   }

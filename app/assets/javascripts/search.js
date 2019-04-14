@@ -1,7 +1,6 @@
 
-// $(document).ready(function () {	
+//$(document).ready(function () {	
 function initialize(){
-
 	$("#filter").on('click', function() {
 		var scientific_names_index = window.location.href.indexOf('&scientific_names=true');
 		var link = "";
@@ -52,3 +51,4 @@ function initialize(){
 //});
 $(document).ready(initialize);
 $(document).on('turbolinks:load', initialize);
+

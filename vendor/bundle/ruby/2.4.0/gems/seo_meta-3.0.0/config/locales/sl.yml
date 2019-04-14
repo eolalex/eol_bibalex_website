@@ -1,0 +1,8 @@
+sl:
+  seo_meta:
+    form:
+      seo: Optimitizacija za spletne iskalnike
+      seo_override_title: Naslov brskalnika
+      seo_override_title_help: "Če želite povoziti privzeti naslov brskalnika, ga spremenite tukaj."
+      meta_description_title: Meta opis
+      meta_description_help: V dveh do treh stavkih jedernato opišite kaj ta stran predstavlja.

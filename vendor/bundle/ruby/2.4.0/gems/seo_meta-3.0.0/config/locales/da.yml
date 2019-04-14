@@ -1,0 +1,8 @@
+da:
+  seo_meta:
+    form:
+      seo: Søgemaskineoptimering
+      seo_override_title: Browser titel
+      seo_override_title_help: Indtast en titel på 5-10 ord, der summerer sidens indhold.
+      meta_description_title: Meta description
+      meta_description_help: Indtast to eller tre sætninger, der beskriver siden.
