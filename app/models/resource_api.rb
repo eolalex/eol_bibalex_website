@@ -17,13 +17,13 @@ class ResourceApi
     
     begin
       request =RestClient::Request.new(
-        :method => :post,
-        :url => "#{@base_schedular_uri}/#{content_partner_id}/resources",
+        method: :post,
+        url: "#{@base_schedular_uri}/#{content_partner_id}/resources",
         headers: {
           'Accept' => 'application/json',
           'Content-Type' => 'application/json'
           },
-        :payload=> resource_params.to_json
+        payload: resource_params.to_json
       )
       response_scheduler = request.execute
       resource_id = response_scheduler.body
@@ -31,9 +31,9 @@ class ResourceApi
         begin
           resource_data_set_file.seek 0
           request =RestClient::Request.new(
-            :method => :post,
-            :url => "#{@base_storage_uri}/uploadResource/#{resource_id}/1",
-            :payload => {resId: resource_id, file: resource_data_set_file, isOrg: 1 }
+            method: :post,
+            url: "#{@base_storage_uri}/uploadResource/#{resource_id}/1",
+            payload: {resId: resource_id, file: resource_data_set_file, isOrg: 1 }
           )
         response_storage = request.execute
         resource_id
@@ -46,13 +46,13 @@ class ResourceApi
           resource_params = params
           begin
             request =RestClient::Request.new(
-              :method => :post,
-              :url => "#{@base_schedular_uri}/#{content_partner_id}/resources/#{resource_id}",
+              method: :post,
+              url: "#{@base_schedular_uri}/#{content_partner_id}/resources/#{resource_id}",
               headers: {
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json'
                 },
-              :payload=> resource_params.to_json
+              payload: resource_params.to_json
             )
             response = request.execute
             resource_id
@@ -74,9 +74,9 @@ class ResourceApi
       params[:path]=""
       begin
         request =RestClient::Request.new(
-          :method => :post,
-          :url => "#{@base_storage_uri}/uploadResource/#{resource_id}/1",
-          :payload => {resId: resource_id, file: resource_data_set_file, isOrg: 1 }
+          method: :post,
+          url: "#{@base_storage_uri}/uploadResource/#{resource_id}/1",
+          payload: {resId: resource_id, file: resource_data_set_file, isOrg: 1 }
         )
         response_storage = request.execute
         resource_id
@@ -90,13 +90,13 @@ class ResourceApi
     resource_params = params
     begin
       request =RestClient::Request.new(
-        :method => :post,
-        :url => "#{@base_schedular_uri}/#{content_partner_id}/resources/#{resource_id}",
+        method: :post,
+        url: "#{@base_schedular_uri}/#{content_partner_id}/resources/#{resource_id}",
         headers: {
           'Accept' => 'application/json',
           'Content-Type' => 'application/json'
           },
-        :payload=> resource_params.to_json
+        payload: resource_params.to_json
       )
       response = request.execute
       resource_id
@@ -108,9 +108,8 @@ class ResourceApi
   def self.get_resource(content_partner_id, resource_id)
     begin
       request =RestClient::Request.new(
-        :method => :get,
-        #:url => "#{@base_uri}/contentPartners?ids=#{ids}"
-        :url => "#{@base_schedular_uri}/#{content_partner_id}/resources/#{resource_id}"
+        method: :get,
+        url: "#{@base_schedular_uri}/#{content_partner_id}/resources/#{resource_id}"
       )
       response = JSON.parse(request.execute)
     rescue => e
@@ -121,26 +120,13 @@ class ResourceApi
    def self.get_resource_using_id(resource_id)
     begin
       request =RestClient::Request.new(
-        :method => :get,
-        :url => "#{@base_schedular_uri}/resources/#{resource_id}"
+        method: :get,
+        url: "#{@base_schedular_uri}/resources/#{resource_id}"
       )
       response = JSON.parse(request.execute)
     rescue => e
       nil
     end
   end
-  
-  # def self.get_content_partnerid_using_resourceid(resource_id)
-    # begin
-      # request =RestClient::Request.new(
-        # :method => :get,
-        # :url => "#{@base_schedular_uri}/resources/#{resource_id}/contentPartner"
-      # )
-      # response = JSON.parse(request.execute)
-    # rescue => e
-      # nil
-    # end
-  # end
-  
 end
 

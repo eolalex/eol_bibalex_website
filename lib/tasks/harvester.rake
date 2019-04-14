@@ -46,10 +46,10 @@ def check_for_upadtes
   scheduler_uri = "#{SCHEDULER_ADDRESS}/#{CHECK_FOR_UPDATES}"
   last_harvested_time = "1536650663000"
   begin
-    request =RestClient::Request.new(
-      :method => :get,
-      :timeout => -1,
-      :url => "#{scheduler_uri}/#{last_harvested_time}"
+    request = RestClient::Request.new(
+      method: :get,
+      timeout: -1,
+      url: "#{scheduler_uri}/#{last_harvested_time}"
     )
     response = request.execute
     response.body
@@ -60,13 +60,14 @@ end
 
 def get_latest_updates_from_hbase(last_harvested_time, start_key)
   hbase_uri = "#{HBASE_ADDRESS}#{HBASE_GET_LATEST_UPDATES_ACTION}"
-  start_harvested_time = "1510150973451"
+ start_harvested_time = "1510150973451"
+  
   # last_harvested_time = "#{DateTime.now.strftime('%Q')}"
   begin
     request =RestClient::Request.new(
-      :method => :get,
-      :timeout => -1,
-      :url => "#{hbase_uri}/#{start_harvested_time}/#{last_harvested_time}/#{start_key}"
+      method: :get,
+      timeout: -1,
+      url: "#{hbase_uri}/#{start_harvested_time}/#{last_harvested_time}/#{start_key}"
     )
     response = request.execute
     response.body
@@ -80,10 +81,10 @@ end
  def get_latest_updates_from_mysql(start_harvested_time , end_harvested_time)
   mysql_uri = "#{MYSQL_ADDRESS}#{MYSQL_GET_LATEST_UPDATES_ACTION}"
   begin
-    request =RestClient::Request.new(
-      :method => :get,
-      :timeout => -1,
-      :url => "#{mysql_uri}/#{start_harvested_time}/#{end_harvested_time}"
+    request = RestClient::Request.new(
+      method: :get,
+      timeout: -1,
+      url: "#{mysql_uri}/#{start_harvested_time}/#{end_harvested_time}"
     )
     response = request.execute
     response.body
@@ -97,10 +98,10 @@ end
 def get_end_time
   mysql_uri = "#{MYSQL_ADDRESS}#{MYSQL_GET_END_TIME}"
   begin
-    request =RestClient::Request.new(
-      :method => :get,
-      :timeout => -1,
-      :url => "#{mysql_uri}"
+    request = RestClient::Request.new(
+      method: :get,
+      timeout: -1,
+      url: "#{mysql_uri}"
     )
     response = request.execute
     response.body
@@ -278,54 +279,8 @@ object_page_id = target_occurrences[association["targetOccurrenceId"]]
             # $meta.write("#{options[:units_term_uri]}")
             options_units_term_uri=options[:units_term_uri]
           end
-          # $meta.write("\t") 
-          # $meta.write("#{measurement["occurrenceId"]}\n")
-          # $meta.write("M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}\t#{options_measurement}\t#{options_literal}\t#{parent_eol_pk}\t#{node_params[:resource_id]}\t#{options[:predicate_uri]}\t#{options_object_term_uri}\to#{ptions_units_term_uri}\t#{measurement["occurrenceId"]}\n")
           $meta_array << "M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}\t#{options_measurement}\t#{options_literal}\t#{parent_eol_pk}\t#{node_params[:resource_id]}\t#{options[:predicate_uri]}\t#{options_object_term_uri}\t#{options_units_term_uri}\t#{measurement["occurrenceId"]}"
-        # else
-          # options = create_measurement(occurrence_of_measurement , measurement)
-          # # $meta.write("M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}\t")
-          # # if options[:measurement]
-            # # $meta.write("#{options[:measurement]}")
-          # # end
-          # # $meta.write("\t")
-          # # if options[:literal] 
-            # # $meta.write("#{options[:literal]}") 
-          # # end
-          # # $meta.write("\t")
-          # # $meta.write("\t#{node_params[:resource_id]}\t#{options[:predicate_uri]}\t")
-          # # if options[:object_term_uri]
-            # # $meta.write("#{options[:object_term_uri]}")
-          # # end
-          # # $meta.write("\t") 
-          # # if options[:units_term_uri]
-            # # $meta.write("#{options[:units_term_uri]}")
-          # # end
-          # # $meta.write("\t") 
-          # # $meta.write("#{measurement["occurrenceId"]}\n")
-          # if options[:measurement]
-            # # $meta.write("#{options[:measurement]}")
-            # options_measurement=options[:measurement] 
-          # end
-          # # $meta.write("\t")
-          # if options[:literal] 
-            # # $meta.write("#{options[:literal]}")
-            # options_literal = options[:literal] 
-          # end
-          # # $meta.write("\t")
-          # # $meta.write("#{parent_eol_pk}\t#{node_params[:resource_id]}\t#{options[:predicate_uri]}\t")
-          # if options[:object_term_uri]
-            # # $meta.write("#{options[:object_term_uri]}")
-            # options_object_term_uri=options[:object_term_uri]
-          # end
-          # # $meta.write("\t") 
-          # if options[:units_term_uri]
-            # # $meta.write("#{options[:units_term_uri]}")
-            # options_units_term_uri=options[:units_term_uri]
-          # end
-          # # $meta.write("\t") 
-          # # $meta.write("#{measurement["occurrenceId"]}\n")
-          # $meta.write("M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}\t#{options_measurement}\t#{options_literal}\t#{parent_eol_pk}\t#{node_params[:resource_id]}\t#{options[:predicate_uri]}\t#{options_object_term_uri}\toptions_units_term_uri\n")
+        
         end
       end
     end
@@ -381,9 +336,16 @@ def main_method_3
   #tables = JSON.parse(File.read(file_path))
 
 
+
     start_harvested_time = "1554737562000"
+
+    if HarvestTime.first.nil?
+      HarvestTime.create
+    end
+    # start_harvested_time = HarvestTime.first.last_harvest_time
+    
     end_harvested_time = get_end_time
-# # finish = 0
+
     while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
       $terms=File.new("#{NEO4J_IMPORT_PATH}terms.csv", 'w')
       $meta=File.new("#{NEO4J_IMPORT_PATH}meta.csv", 'w')
@@ -411,6 +373,7 @@ def main_method_3
     references = tables["references"]
     traits = tables["traits"]
     taxa = tables["taxa"]
+
     unless licenses.empty?
       License.bulk_insert(licenses, :validate => true, :use_provided_primary_key => true)
     end
@@ -517,7 +480,7 @@ def main_method_3
       IO.write($terms, $terms_array.join("\n"))
       IO.write($traits, $traits_array.join("\n"))
       IO.write($meta, $meta_array.join("\n"))
-      
+
       system('sh /home/a-amorad/traits_scripts/terms.sh')
       system('sh /home/a-amorad/traits_scripts/traits.sh')
       system('sh /home/a-amorad/traits_scripts/meta.sh')
@@ -525,6 +488,7 @@ def main_method_3
       ## system('sh /home/ba/traits_scripts/terms.sh')
       ## system('sh /home/ba/traits_scripts/traits.sh')
       ## system('sh /home/ba/traits_scripts/meta.sh')
+
 
     end
     
@@ -541,7 +505,8 @@ def main_method_3
       start_harvested_time = (start_harvested_time.to_i + 420000).to_s
    end
    ActiveRecord::Base.logger.info "enddddddddd: #{Time.new}"
-
+   # debugger
+   HarvestTime.first.update_attribute(:last_harvest_time, DateTime.now().strftime("%Q"))
 end
 
  def write_to_json(taxon)
@@ -727,31 +692,87 @@ def validate_coordinates (coord)
   coord =degrees+"°"+minutes.to_s+"'"+seconds.to_s+"\""+coord
 end
 
-def main_method_biuld_hierarchy
+def main_method_build_hierarchy
    start_harvested_time = "1547663631000"
     end_harvested_time = get_end_time
 # finish = 0
   while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
     # start_harvested_time is included 
     # end_harvested_time is excluded therefore we keep it to next loop
-   json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+30000).to_s)
+   json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+420000).to_s)
    tables = JSON.parse(json_content)
    nodes = tables["nodes"]
    unless nodes.nil?
       Node.bulk_insert(nodes,:validate => true ,:use_provided_primary_key => true)
     end
    nodes_ids = nodes.map { |p| p["generated_node_id"] }
-   debugger
    build_hierarchy(nodes_ids)
-   debugger
-   start_harvested_time = (start_harvested_time.to_i + 30000).to_s
+   start_harvested_time = (start_harvested_time.to_i + 420000).to_s
   end
 
 end
 
 def build_hierarchy(nodes_ids)
-  set_ancestors(nodes_ids)
+  # set_ancestors(nodes_ids)
+  set_ancestors_and_parents(nodes_ids)
+end 
+
+def set_ancestors_and_parents(nodes_ids)
+  neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_ANCESTORS_OF_NODES_ACTION}"
+    begin    
+      request =RestClient::Request.new(
+          :method => :post,
+          :timeout => -1,
+          :url => "#{neo4j_uri}",
+          headers: { content_type: 'application/json', accept: 'application/json'},
+          :payload =>  nodes_ids.to_json
+
+        )
+        
+        response = request.execute
+        nodes_ids_ancestors = JSON.parse(response.body)
+    rescue => e
+      false
+    end
+    unless nodes_ids_ancestors.nil?
+      node_ancestors_flattened_array = Array.new()
+      node_ancestors_flattened_count = 0
+      node_direct_parent_array = Array.new()
+      node_direct_parent_count = 0
+      nodes_ids_ancestors.each do |group|
+        ancestors_ids = nil
+        current_node_id = 0 
+        current_node = nil
+        group.each do |key,value|
+          if key.to_i == 0 
+           current_node_id = value.to_i
+           res = Node.where(generated_node_id: value.to_i)
+           if  res.count > 0 
+              current_node = res.first 
+           end
+          else
+            if ancestors_ids.nil?
+              ancestors_ids = "#{value.to_i}"
+            else
+              ancestors_ids = ancestors_ids + ",#{value.to_i}"
+            end
+          end
+          if key.to_i == 1
+            direct_parent_id = value.to_i
+            node_direct_parent_array.insert(node_direct_parent_count,{:generated_node_id => current_node.generated_node_id, :resource_id => current_node.resource_id,
+                                                                  :direct_parent_id => direct_parent_id})
+            node_direct_parent_count = node_direct_parent_count + 1
+          end 
+        end
+        node_ancestors_flattened_array.insert(node_ancestors_flattened_count,{:generated_node_id => current_node.generated_node_id, :resource_id => current_node.resource_id,
+                                                                              :node_ancestors_ids => ancestors_ids})
+        node_ancestors_flattened_count = node_ancestors_flattened_count + 1
+      end
+      NodeAncestorsFlattened.bulk_insert(node_ancestors_flattened_array, :validate => true)
+      NodeDirectParent.bulk_insert(node_direct_parent_array, :validate => true)
+    end
 end
+
 
 def set_ancestors(nodes_ids)
   # get nodes_parents from neo4j  
@@ -773,9 +794,8 @@ def set_ancestors(nodes_ids)
     rescue => e
       false
     end
-    
     unless nodes_ids_ancestors.nil?
-      
+      # $occurrence_maps_array = Array.new()
       node_ancestors_count=0
       nodes_ids_ancestors.each do |group|
         current_node = nil
@@ -787,18 +807,10 @@ def set_ancestors(nodes_ids)
               current_node = res.first 
             end
           else
-            # if res.count > 0 
-              # ancestor_node = res.first
-              # NodeAncestor.find_or_create_by(node: current_node, ancestor: ancestor_node, depth: key.to_i, resource_id: current_node.resource_id)
-            # else
-              # node_ancestor = NodeAncestor.where(node_generated_node_id: current_node.generated_node_id, ancestor_generated_node_id: value.to_i, depth: key.to_i, resource_id: current_node.resource_id)
-              # unless node_ancestor.count >0
-                # NodeAncestor.create(node_generated_node_id: current_node.generated_node_id, ancestor_generated_node_id: value.to_i, depth: key.to_i, resource_id: current_node.resource_id)
-              # end
-              # NodeAncestor.find_or_create_by(node_generated_node_id: current_node.generated_node_id, ancestor_generated_node_id: value.to_i, depth: key.to_i, resource_id: current_node.resource_id)
+
               $node_ancestors_array.insert(node_ancestors_count,{:node_generated_node_id => current_node.generated_node_id, :ancestor_generated_node_id => value.to_i, :depth => key.to_i, :resource_id => current_node.resource_id})
               node_ancestors_count = node_ancestors_count + 1
-            # end
+
           end 
         end      
       end
@@ -810,7 +822,9 @@ end
 namespace :harvester do
   desc "TODO"  
   task get_latest_updates: :environment do
-    main_method_3
-    # main_method_biuld_hierarchy
+
+     main_method_3
+    # main_method_build_hierarchy
+
   end
 end

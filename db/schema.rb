@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190327091204) do
+ActiveRecord::Schema.define(version: 20190410100859) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.text "owner"
@@ -132,6 +132,10 @@ ActiveRecord::Schema.define(version: 20190327091204) do
     t.datetime "last_harvest_time"
   end
 
+  create_table "harvest_times", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.timestamp "last_harvest_time", default: "2018-10-22 14:41:00", null: false
+  end
+
   create_table "image_info", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "resource_id"
     t.string "original_size"
@@ -232,6 +236,25 @@ ActiveRecord::Schema.define(version: 20190327091204) do
     t.index ["node_resource_pk"], name: "index_node_ancestors_on_node_resource_pk"
     t.index ["resource_id", "depth", "node_generated_node_id", "ancestor_generated_node_id"], name: "build_hierarchy"
     t.index ["resource_id"], name: "index_node_ancestors_on_resource_id"
+  end
+
+  create_table "node_ancestors_flatteneds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "generated_node_id", null: false
+    t.integer "resource_id", null: false
+    t.string "node_ancestors_ids"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["generated_node_id", "resource_id"], name: "ancestors_index"
+  end
+
+  create_table "node_direct_parents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "generated_node_id", null: false
+    t.integer "resource_id", null: false
+    t.integer "direct_parent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["direct_parent_id", "resource_id"], name: "child_index"
+    t.index ["generated_node_id", "resource_id"], name: "parent_index"
   end
 
   create_table "nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|

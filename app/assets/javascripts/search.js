@@ -1,3 +1,4 @@
+
 //$(document).ready(function () {	
 function initialize(){
 	$("#filter").on('click', function() {
@@ -50,3 +51,4 @@ function initialize(){
 //});
 $(document).ready(initialize);
 $(document).on('turbolinks:load', initialize);
+

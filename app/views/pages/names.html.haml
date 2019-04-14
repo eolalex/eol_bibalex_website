@@ -1,6 +1,6 @@
-%content#Content1{:contentplaceholderid => "head", :runat => "Server"}
+%content#Content1{ contentplaceholderid: "head", runat: "Server"}
   / ---- Include the above in your HEAD tag --------
-%content#Content2{:contentplaceholderid => "ContentPlaceHolder1", :runat => "Server"}
+%content#Content2{ contentplaceholderid: "ContentPlaceHolder1", runat: "Server"}
   .MainPath
   .container
     .row
@@ -13,21 +13,21 @@
           / Only required for left/right tabs
           %ul.nav.nav-tabs
             %li.nav-item.active
-              %a.nav-link.active{"data-toggle" => "tab", :href => "#ScientificNames"} #{t(:scientific_names)}
+              %a.nav-link.active{"data-toggle": "tab", href: "#ScientificNames"} #{t(:scientific_names)}
             %li.nav-item
-              %a.nav-link{"data-toggle" => "tab", :href => "#CommonNames"} #{t(:vernaculars)}
+              %a.nav-link{"data-toggle": "tab", href: "#CommonNames"} #{t(:vernaculars)}
             %li.nav-item
-              %a.nav-link{"data-toggle" => "tab", :href => "#Classifications"} #{t(:classifications)}
+              %a.nav-link{"data-toggle": "tab", href: "#Classifications"} #{t(:classifications)}
           .tab-content
             #CommonNames.tab-pane
-              = render_async vernaculars_tab_path(:page_id => @page.id) do
+              = render_async vernaculars_tab_path( page_id: @page.id) do
                 .col-md-offset-5
-                  =image_tag "loading.gif", :alt => ""
+                  = image_tag "loading.gif", alt: ""
             #Classifications.tab-pane
-              = render_async classification_tab_path(:page_id => @page.id) do
+              = render_async classification_tab_path( page_id: @page.id) do
                 .col-md-offset-5
-                  =image_tag "loading.gif", :alt => ""
+                  = image_tag "loading.gif", alt: ""
             #ScientificNames.tab-pane.active
-              = render_async scientific_names_tab_path(:page_id => @page.id) do
+              = render_async scientific_names_tab_path( page_id: @page.id) do
                 .col-md-offset-5
-                  =image_tag "loading.gif", :alt => ""
+                  = image_tag "loading.gif", alt: ""

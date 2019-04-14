@@ -1,5 +1,5 @@
-%content#Content1{:contentplaceholderid => "head", :runat => "Server"}
-%content#Content2{:contentplaceholderid => "ContentPlaceHolder1", :runat => "Server"}
+%content#Content1{ contentplaceholderid: "head", runat: "Server"}
+%content#Content2{ contentplaceholderid: "ContentPlaceHolder1", runat: "Server"}
   .MainPath
   .container
     .row
@@ -9,7 +9,7 @@
           %span.pull-right
             -content_partner_user = User.find(ContentPartnerUser.find_by_content_partner_id(params[:id]).user_id)
             -if(content_partner_user==current_user)
-              %a.btn.btn-primary{:href => "#{edit_content_partner_path(id: @content_partner.id)}", :role => "button"}
+              %a.btn.btn-primary{ href: "#{edit_content_partner_path(id: @content_partner.id)}", role: "button"}
                 #{t(:edit_button)}
       .col-md-8
         .part
@@ -20,7 +20,7 @@
             %hr/
             -if !@content_partner.url.nil?
               %strong web:
-              %a{:href => "#{@content_partner.url}"} 
+              %a{ href: "#{@content_partner.url}"} 
                 = @content_partner.url
       .col-md-4
         %aside
@@ -30,8 +30,8 @@
             .row
               .col-sm-12
                 .single_comments
-                  %img{:alt => "", :src => "/assets/avatar3.png"}/
-                  %p{:style => ""}
+                  %img{ alt: "", src: "/assets/avatar3.png"}/
+                  %p{ style: ""}
                     -#%a{:href => "#"}
                     = @content_partner.user.username
           .widget.categories.Resources
@@ -46,6 +46,6 @@
               %ul
                 - @content_partner.resources.each do |resource|
                   %li
-                    %a{:href => "#{content_partner_resource_path(@content_partner.id, resource.id)}"} 
+                    %a{ href: "#{content_partner_resource_path(@content_partner.id, resource.id)}"} 
                       = resource.name
                   

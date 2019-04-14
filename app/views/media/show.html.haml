@@ -56,6 +56,6 @@
           = link_to(@resource.name, content_partner_resource_path(content_partner_id["id"], result["id"]))
         -else
           = t(:resource_missing)
-      %dt= "ID"
+      %dt= "#{t(:id)}"
       %dd.uk-text-meta.uk-overflow-hidden.uk-margin-remove-top= @medium.resource_pk
 

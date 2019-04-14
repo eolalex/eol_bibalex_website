@@ -11,9 +11,9 @@ class ContentPartnerApi
     logo.write(input_logo.read.force_encoding(Encoding::UTF_8))
     begin
       request =RestClient::Request.new(
-        :method => :post,
-        :url => "#{@schedular_uri}/contentPartners",
-        :payload => { name: params[:name], description: params[:description], url: params[:url], abbreviation: params[:abbreviation], logo: logo , logoPath: "path"}
+        method: :post,
+        url: "#{@schedular_uri}/contentPartners",
+        payload: { name: params[:name], description: params[:description], url: params[:url], abbreviation: params[:abbreviation], logo: logo , logoPath: "path"}
       )
       response = request.execute
       content_partner_id = response.body
@@ -27,9 +27,9 @@ class ContentPartnerApi
       logo.open
       logo.seek 0
       logo_request =RestClient::Request.new(
-        :method => :post,
-        :url => "#{@storage_uri}/uploadCpLogo/#{content_partner_id}",
-        :payload => { logo: logo }
+        method: :post,
+        url: "#{@storage_uri}/uploadCpLogo/#{content_partner_id}",
+        payload: { logo: logo }
       )
       logo_response = logo_request.execute
       content_partner_id
@@ -42,9 +42,9 @@ class ContentPartnerApi
       begin
         logo.open
         request = RestClient::Request.new(
-          :method => :post,
-          :url => "#{@schedular_uri}/contentPartners/#{content_partner_id}",
-          :payload => { name: params[:name], description: params[:description], url: params[:url], abbreviation: params[:abbreviation], logo: logo , logoPath: "/eol_workspace/contentPartners/#{content_partner_id}/"}
+          method: :post,
+          url: "#{@schedular_uri}/contentPartners/#{content_partner_id}",
+          payload: { name: params[:name], description: params[:description], url: params[:url], abbreviation: params[:abbreviation], logo: logo , logoPath: "/eol_workspace/contentPartners/#{content_partner_id}/"}
           )
         response_update = request.execute
         content_partner_id
@@ -66,9 +66,9 @@ class ContentPartnerApi
         logo.open
         logo.seek 0
         logo_request =RestClient::Request.new(
-          :method => :post,
-          :url => "#{@storage_uri}/uploadCpLogo/#{content_partner_id}",
-          :payload => { logo: logo }
+          method: :post,
+          url: "#{@storage_uri}/uploadCpLogo/#{content_partner_id}",
+          payload: { logo: logo }
           )
       logo_response = logo_request.execute
       content_partner_id
@@ -94,8 +94,8 @@ class ContentPartnerApi
   def self.get_content_partner_without_resources(content_partner_id)
     begin
       request =RestClient::Request.new(
-        :method => :get,
-        :url => "#{@schedular_uri}/contentPartners/#{content_partner_id}"
+        method: :get,
+        url: "#{@schedular_uri}/contentPartners/#{content_partner_id}"
       )
       response = JSON.parse(request.execute)
     rescue => e
@@ -106,8 +106,8 @@ class ContentPartnerApi
     def self.get_content_partner_with_resources(content_partner_id)
     begin
       request =RestClient::Request.new(
-        :method => :get,
-        :url => "#{@schedular_uri}/contentPartners/contentPartnerWithResources/#{content_partner_id}"
+        method: :get,
+        url: "#{@schedular_uri}/contentPartners/contentPartnerWithResources/#{content_partner_id}"
       )
       response = JSON.parse(request.execute)
     rescue => e
@@ -119,9 +119,9 @@ class ContentPartnerApi
   def self.get_content_partner_resource_id(id)
     begin
       request =RestClient::Request.new(
-        :method => :post,
-        :url => "#{@schedular_uri}/contentPartners/contentPartnerOfResource",
-        :payload=>{resId: id}
+        method: :post,
+        url: "#{@schedular_uri}/contentPartners/contentPartnerOfResource",
+        payload: {resId: id}
 
       )
       response = JSON.parse(request.execute)

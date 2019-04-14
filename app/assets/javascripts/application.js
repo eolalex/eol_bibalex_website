@@ -16,7 +16,7 @@
 //= require jquery.turbolinks
 //= require rails-ujs
 
-// require typeahead
+//= require typeahead
 //= require typeahead.jquery
 //= require bloodhound
 
