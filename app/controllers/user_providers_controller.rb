@@ -30,7 +30,7 @@ class UserProvidersController < ApplicationController
        redirect_to new_user_registration_path, flash: { notice:  flash_msg }
      else
        sign_in_and_redirect @user, event: :authentication
-       flash.now[:notice] = flash_msg
+       flash[:notice] = flash_msg
      end
   end
 end

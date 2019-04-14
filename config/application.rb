@@ -27,6 +27,10 @@ module EolPublishingLayer
     'Access-Control-Request-Method' => 'GET, PATCH, PUT, POST, OPTIONS, DELETE',
     'Access-Control-Allow-Headers:' => 'Origin, X-Requested-With, Content-Type, Accept'
 }
+RenderAsync.configure do |config|
+  config.turbolinks = true # Enable this option if you are using Turbolinks 5+
+end
+
 
 # Rails.application.config.public_file_server.enabled = true
   # Settings in config/environments/* take precedence over those specified here.

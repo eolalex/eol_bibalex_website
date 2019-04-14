@@ -1,0 +1,8 @@
+fr:
+  seo_meta:
+    form:
+      seo: Optimisations pour les moteurs de recherche (SEO)
+      seo_override_title: Titre du navigateur
+      seo_override_title_help: Entrez entre 5 et 10 mots qui résument votre article.
+      meta_description_title: Description
+      meta_description_help: Entrez deux ou trois phrases concises décrivants le sujet de votre article.

@@ -7,13 +7,15 @@
 - @url = request.original_url.split('?', 2).first
 %html
   %head
-    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type", name:"turbolinks-visit-control", content:"reload"}/
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    -#, name:"turbolinks-visit-control", content:"reload"}/
     %title EOL
     %meta{:charset => "utf-8"}/
     %meta{:content => "IE=edge,chrome=1", "http-equiv" => "X-UA-Compatible"}/
     %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
     / core CSS
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => "reload"
+    = stylesheet_link_tag 'application', media: 'all'
+    -#, 'data-turbolinks-track' => "reload"
     = stylesheet_link_tag 'Custom-ar'
     = stylesheet_link_tag 'Custom-en'
     = stylesheet_link_tag 'Custom'
@@ -28,10 +30,11 @@
     = stylesheet_link_tag 'Suzan'
     = stylesheet_link_tag 'slider'
     = stylesheet_link_tag 'haml'
-    = javascript_include_tag 'application', 'data-turbolinks-track' => "reload"
+    = javascript_include_tag 'application'
+    -#, 'data-turbolinks-track' => "reload"
     = csrf_meta_tags
     %header#header
-      %nav.navbar.navbar-inverse{:role => "banner", :data-turbolinks => "false"}
+      %nav.navbar.navbar-inverse{:role => "banner", :data-turbolinks => "true"}
         .container
           .row
             .col-lg-7.col-md-6.col-sm-6.col-xs-12
