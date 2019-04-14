@@ -6,13 +6,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   include  Devise::Controllers::StoreLocation
 
-  before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :configure_permitted_params, if: :devise_controller?
   # before_action :set_locale
   before_action :set_locale_direction
   helper_method :url_without_locale_params
   before_action :allow_cross_domain_ajax
   before_action :store_user_location!, if: :storable_location?
-
   def allow_cross_domain_ajax
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Request-Method'] = 'POST, OPTIONS'
@@ -21,9 +20,8 @@ class ApplicationController < ActionController::Base
   def set_locale
     debugger
     I18n.locale = params[:locale] || I18n.default_locale
-    
+
   end
-  
 
   def nothing
     render text: '', content_type: 'text/plain'
@@ -35,12 +33,21 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def configure_permitted_parameters
-    added_attrs = [:username, :email, :password, :password_confirmation, :recaptcha]
-    update_attrs = [:username, :email, :password, :password_confirmation, :current_password]
-    devise_parameter_sanitizer.permit :create, keys: added_attrs
-    devise_parameter_sanitizer.permit :account_update, keys: update_attrs
+  # def configure_permitted_parameters
+  # added_attrs = [:username, :email, :password, :password_confirmation, :recaptcha]
+  # update_attrs = [:username, :email, :password, :password_confirmation, :current_password]
+  # devise_parameter_sanitizer.permit :create, keys: added_attrs
+  # devise_parameter_sanitizer.permit :account_update, keys: update_attrs
+  def configure_permitted_params
+    devise_parameter_sanitizer.permit(:sign_up) do |u|
+      u.permit(:username, :email, :password, :password_confirmation, :recaptcha, :failed_attempts)
+    end
+    devise_parameter_sanitizer.permit(:edit) do |u|
+      u.permit(:username, :email, :password, :password_confirmation, :current_password)
+    end
+
   end
+  # end
 
   def storable_location?
     request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
@@ -54,7 +61,7 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource_or_scope)
     stored_location_for(resource_or_scope) || super
   end
-  
+
   def after_sign_out_path_for(resource_or_scope)
     if current_user
       request.referrer
