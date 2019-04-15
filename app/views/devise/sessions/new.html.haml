@@ -24,7 +24,7 @@
                   %input#login-remember{ name: "user[remember]", type: "checkbox"}/
                 #{t(:remember_me)}
                 .pull-right.text-right
-                  %a{ href: "/users/password/new?locale=#{locale}"} #{t(:forgot_your_password)}
+                  %a{  id: "PW_100","data-toggle": "modal", onclick: "showPopup(this)", role: "button"} #{t(:forgot_your_password)}
             -unless params[:user].nil?
               -user = User.where("email = ? ", params[:user][:email]).first
               - if (!user.nil?) && (user.failed_attempts>=2)
@@ -59,10 +59,48 @@
 
             .col-md-12
               %p
-                %a{ href: "/users/confirmation/new?locale=#{locale}"} #{t(:no_confirmation_instructions)}
+                %a{ id: "CONF_100","data-toggle": "modal", onclick: "showPopup(this)", role: "button"} #{t(:no_confirmation_instructions)}
         .row
           %div
           .col-xs-12.col-sm-8
-            %p
+            %p.col-md-10.col-sm-10.col-xs-10
               #{t(:no_account)}
-              %a{ href: "#{new_user_registration_path}"} #{t(:sign_up)}
+              %a{ href: new_user_registration_path} #{t(:sign_up)}
+
+.modal{ id: "popup_PW_#{100}", "aria-labelledby": "popup_PW_#{100}Label", role: "dialog", tabindex: "-1"}
+  .modal-dialog{ role: "document"}
+    .modal-content
+      .modal-header
+        .form-group.row.form-inline
+          .col-md-10.col-sm-10.col-xs-10
+            %h2.editLabel.modal-title #{t(:resend_pw)}
+          .col-md-2.col-sm-2.col-xs-2
+            %button{ id: "PW_100", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'}x
+      .modal-body
+        .container
+          = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+            .form-group.row
+              .col-md-6.col-sm-6.col-xs-6
+                %input.form-control.input-lg{ name: "user[email]", placeholder: "#{t(:enter_email)}", tabindex: "1", type: "text", required: true}
+            .form-group.row.form-inline
+              .col-md-6.col-sm-6.col-xs-6
+                = f.button("#{t(:resend_pw)}", class: "btn btn-primary pull-right")
+
+.modal{ id: "popup_CONF_#{100}", "aria-labelledby": "popup_CONF_#{100}Label", role: "dialog", tabindex: "-1"}
+  .modal-dialog{ role: "document"}
+    .modal-content
+      .modal-header
+        .form-group.row.form-inline
+          .col-md-10.col-sm-10.col-xs-10
+            %h2.editLabel.modal-title #{t(:resend_confirmation_instructions)}
+          .col-md-2.col-sm-2.col-xs-2
+            %button{ id: "CONF_100", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'}x
+      .modal-body
+        .container
+          = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+            .form-group.row
+              .col-md-6.col-sm-6.col-xs-6
+                %input.form-control.input-lg{ name: "user[email]", placeholder: "#{t(:enter_email)}", tabindex: "1", type: "text", required: true}
+            .form-group.row.form-inline
+              .col-md-6.col-sm-6.col-xs-6
+                = f.button("#{t(:resend_confirmation_email)}", class: "btn btn-primary pull-right")
