@@ -1,17 +1,28 @@
 .container
-  .col-md-30.col-sm-12.col-xs-12
-    = form_for(@user,  url: user_providers_path, html: {method: :post}) do |f|
-      .col-md-20.col-sm-12.col-xs-12
-        %h2
-          #{t(:complete_registration)}
-          %br/
-        .form-group.row.form-inline
-          %label.col-md-10.col-sm-12.col-xs-12.control-label
-            %h3
-              #{t(:email)}
-        .form-group.row.form-inline
-          .col-md-20.col-sm-6.col-xs-6
-            %input.form-control.input-lg{ name: "user[email]"}
-        .form-group.row.form-inline
-          .col-md-5.col-sm-3.col-xs-3
-            = f.button("#{t(:create_account)}", class: "btn btn-primary")
+  = render ("/devise/registrations/new")
+  :javascript
+    $(document).ready(function () {
+      $('#popup_OMNI_100').show(); });
+  .modal{ id: "popup_OMNI_#{100}", "aria-labelledby": "popup_OMNI_#{100}Label", role: "dialog", tabindex: "-1"}
+    .modal-dialog{ role: "document"}
+      .modal-content
+        .modal-header
+          .form-group.row.form-inline
+            .col-md-10.col-sm-10.col-xs-10
+              %h2.editLabel.modal-title #{t(:complete_registration)}
+            .col-md-2.col-sm-2.col-xs-2
+              %button{ id: "OMNI_100", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'}x
+        .modal-body
+          .container
+            = form_for(@user, url: user_providers_path, method: :post) do |f|
+              -#|= hidden_field_tag('email', params[:info][:email])
+              = hidden_field_tag('provider', params[:provider])
+              = hidden_field_tag('uid', params[:uid])
+              = hidden_field_tag('username', params[:username])
+              -#= hidden_field_tag('password', password)
+              .form-group.row
+                .col-md-6.col-sm-6.col-xs-6
+                  %input.form-control.input-lg{ name: "user[email]", placeholder: "#{t(:enter_email)}",tabindex: "1", type: "text", required: true}
+              .form-group.row
+                .col-md-6.col-sm-6.col-xs-6
+                  = f.button("#{t(:create_account)}", class: "btn btn-primary pull-right")

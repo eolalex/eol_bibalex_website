@@ -2,13 +2,16 @@ require 'devise'
 class UserProvidersController < ApplicationController
   include ApplicationHelper
   def new
+    # debugger
     password = Devise.friendly_token[0,16]
     @user = User.new(email: params[:info][:email], password: password, 
                      username:  params[:info][:name], provider: params[:provider], uid: params[:uid])
+    # @user.save!
     session[:new_user] = params
   end
 
   def create
+    debugger
      password = Devise.friendly_token[0,20]
      user = session[:new_user]
      @user = User.new(email: params[:user][:email], password: password, 
@@ -30,7 +33,9 @@ class UserProvidersController < ApplicationController
        redirect_to new_user_registration_path, flash: { notice:  flash_msg }
      else
        sign_in_and_redirect @user, event: :authentication
+       # redirect_to root_path
        flash[:notice] = flash_msg
      end
+     
   end
 end

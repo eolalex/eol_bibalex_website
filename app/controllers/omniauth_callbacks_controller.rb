@@ -21,7 +21,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     auth = request.env["omniauth.auth"]
     intent = request.env["omniauth.params"]["intent"] 
     user = UserProvider.oauth_user_exists?(auth)
-   # debugger 
     if intent == "sign_up"
       if user.blank?
         redirect_to new_user_provider_path(info: auth[:info],
