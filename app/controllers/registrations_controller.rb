@@ -2,13 +2,13 @@ class RegistrationsController < Devise::RegistrationsController
   include ApplicationHelper
   helper_method :url_without_locale_params
   before_action :set_locale
-  before_action :configure_permitted_params, only: [:create, :edit]
+  # before_action :configure_permitted_params, only: [:create, :edit]
   before_action :check_captcha, only: [:create]
 
   # GET /resource/sign_up
-  def new
-    super
-  end
+  # def new
+    # super
+  # end
 
   # POST /resource
   # def create
@@ -18,10 +18,10 @@ class RegistrationsController < Devise::RegistrationsController
   # def edit
   #   super
   # end
-  # PUT /resource
-  def update
-    super
-  end
+   # PUT /resource
+  # def update
+    # super
+  # end
   # DELETE /resource
   # def destroy
   #   super

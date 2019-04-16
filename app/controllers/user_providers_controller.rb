@@ -11,7 +11,7 @@ class UserProvidersController < ApplicationController
   end
 
   def create
-    debugger
+    # debugger
      password = Devise.friendly_token[0,20]
      user = session[:new_user]
      @user = User.new(email: params[:user][:email], password: password, 
