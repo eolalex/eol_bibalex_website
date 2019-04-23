@@ -337,8 +337,8 @@ def main_method_3
 
 
 
-    start_harvested_time = "1554737562000"
-
+    # start_harvested_time = "1554737562000"
+    start_harvested_time = "1540303737000"
     if HarvestTime.first.nil?
       HarvestTime.create
     end
@@ -373,7 +373,7 @@ def main_method_3
     references = tables["references"]
     traits = tables["traits"]
     taxa = tables["taxa"]
-
+debugger
     unless licenses.empty?
       License.bulk_insert(licenses, :validate => true, :use_provided_primary_key => true)
     end
