@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190410100859) do
+ActiveRecord::Schema.define(version: 20190414232950) do
 
-  create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.text "owner"
+  create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
+    t.text "owner", limit: 16777215
     t.integer "resource_id"
     t.string "guid"
     t.string "resource_pk"
@@ -35,18 +35,18 @@ ActiveRecord::Schema.define(version: 20190410100859) do
     t.index ["location_id"], name: "index_articles_on_location_id"
   end
 
-  create_table "articles_collected_pages", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "articles_collected_pages", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
     t.bigint "collected_page_id", null: false
     t.bigint "article_id", null: false
     t.integer "position"
     t.index ["collected_page_id"], name: "index_articles_collected_pages_on_collected_page_id"
   end
 
-  create_table "attributions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "attributions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
     t.integer "content_id"
     t.string "content_type"
     t.string "role_name"
-    t.text "value"
+    t.text "value", limit: 16777215
     t.string "url"
     t.integer "resource_id"
     t.string "resource_pk"
@@ -58,9 +58,9 @@ ActiveRecord::Schema.define(version: 20190410100859) do
     t.index ["value", "content_id", "content_type"], name: "unique_attributions", unique: true, length: { value: 100 }
   end
 
-  create_table "bibliographic_citations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "bibliographic_citations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
     t.integer "resource_id"
-    t.text "body"
+    t.text "body", limit: 16777215
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
