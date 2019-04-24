@@ -5,7 +5,7 @@
   .container
     .row
       .col-xs-12.col-sm-8.col-md-6
-        = form_for(resource, as: resource_name, url: user_session_path(resource_name), validate: true, html: { class: "eol-userform recaptchad uk-form-stacked" },
+        = form_for(resource, as: resource_name, url: user_session_path, validate: true, html: { class: "eol-userform recaptchad uk-form-stacked" },
           defaults: { input_html: { class: 'uk-input' },
           wrapper_html: { class: 'field' },
           label_html: { class: 'uk-form-label' } }) do |f| 
