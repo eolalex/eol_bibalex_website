@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190418092145) do
+
+ActiveRecord::Schema.define(version: 20190418112736) do
+
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
     t.text "owner", limit: 16777215
@@ -229,7 +231,7 @@ ActiveRecord::Schema.define(version: 20190418092145) do
   create_table "node_ancestors_flatteneds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
     t.integer "generated_node_id", null: false
     t.integer "resource_id", null: false
-    t.string "node_ancestors_ids"
+    t.text "node_ancestors_ids"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["generated_node_id", "resource_id"], name: "ancestors_index"

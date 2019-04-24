@@ -4,6 +4,7 @@
 #test.tree
   -nodes.each do |page_node|
     -tree = classification(page_node)
+    -children = classification_children(page_node)
     -resource_info = get_resource_info(page_node.resource_id)
     - if !resource_info.nil?
       %span
@@ -12,6 +13,25 @@
       %span #{t(:unknown_resource)} 
     - x = 0 
     -tree.each do |node|
+      %ul.treeNode{ style: "padding-left: #{x}px;"}
+        %li.parent_li
+          - unless node.nil?
+            %ul
+              - x = x + 40
+              %li.parent_li
+                -unless node.pages.empty?
+                  %a{href:  "/pages/#{node.pages.first.id}"} 
+                    =node.scientific_name
+                -else
+                  =node.scientific_name 
+            %ul
+    - level = -1
+    -children.each do |child|
+      -prev_level = level
+      -node = child[0]
+      -level = child[1]
+      -if prev_level == level
+        -x = x - 40
       %ul.treeNode{ style: "padding-left: #{x}px;"}
         %li.parent_li
           - unless node.nil?
