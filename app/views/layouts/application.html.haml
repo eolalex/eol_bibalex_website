@@ -5,7 +5,11 @@
 %html
   %head
     %meta{content: "text/html; charset=UTF-8", "http-equiv": "Content-Type"}/
-    %title EOL
+    %title 
+      - if defined?(@page_title)
+        = strip_tags(sanitize(@page_title))
+      - else
+        = t(:encyclopedia_of_life)
     %meta{ charset: "utf-8"}/
     %meta{ content: "IE=edge,chrome=1", "http-equiv": "X-UA-Compatible"}/
     %meta{ content: "width=device-width, initial-scale=1", name: "viewport"}/
@@ -137,6 +141,7 @@
               %a{href: "/#{locale}/docs/about/terms-of-use/citing-eol"} #{t(:citing_eol)}
             %li
               %a{href: "/#{locale}/docs/about/data-services"} #{t(:data_services)}
+             
         .col-sm-6.col-xs-12
           .social
             %ul.social-share
