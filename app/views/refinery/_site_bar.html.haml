@@ -1,0 +1,17 @@
+= stylesheet_link_tag 'font-awesome', media: 'all'
+%html
+  %head    
+    #site_bar
+      #site_bar_content.clearfix
+        %meta{ content: "text/html; charset=UTF-8", "http-equiv": "Content-Type" }/
+        %meta{ charset: "utf-8"}/
+        %meta{ content: "IE=edge,chrome=1", "http-equiv": "X-UA-Compatible"}/
+        %meta{ content: "width=device-width, initial-scale=1", name: "viewport"}/
+        %header#header
+          %nav.navbar.navbar-inverse{ role: "banner", "data-turbolinks": "true"}
+            .container
+              .row
+                .col-lg-7.col-md-6.col-sm-6.col-xs-12
+                  .navbar-header
+                    %a.navbar-brand{ href: "#{main_app.root_path}"}
+                      =image_tag "eol_logo.png", alt: "logo"

@@ -242,3 +242,5 @@ ar:
   web: "الشبكة"
   preferred: "مفضل"
   not_preferred: "غير مفضل"
+  admin_account_required: "ليس لديك إذن لعرض هذه الصفحة"
+  view_admin_panel: "عرض صفحة المسؤول"

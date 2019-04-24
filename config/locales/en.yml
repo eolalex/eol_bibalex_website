@@ -288,3 +288,5 @@ en:
   web: "Web"
   preferred: "Preferred"
   not_preferred: "Not Preferred"
+  admin_account_required: "You do not have permission to view this page"
+  view_admin_panel: "View Admin Panel"

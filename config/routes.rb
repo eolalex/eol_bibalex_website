@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       omniauth_callbacks: "omniauth_callbacks",
       sessions: "sessions" }
 
-  scope "(:locale)", locale: /en|ar/ do
+  scope "(:locale)", :locale => /en|ar/ do
 
     get 'pages/index'
     devise_for :users, skip: [:omniauth_callbacks]

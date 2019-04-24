@@ -16,7 +16,7 @@
           =image_tag "banner01.jpg", class: 'img-responsive'
     %a.prev.hide{"data-slide": "prev", href: "#main-slider"}
       %i.fa.fa-chevron-left
-    %a.next.hide{"data-slide" => "next", href: "#main-slider"}
+    %a.next.hide{"data-slide": "next", href: "#main-slider"}
       %i.fa.fa-chevron-right
     .container
       .GlobalSearch
@@ -31,7 +31,7 @@
                     = form_tag(search_path, method: :get) do
                       = text_field_tag(:query, params[:query], required: "true", placeholder: t(:search_placeholder))
                       %button.searchButton
-                        %i.fa.fa-search{"aria-hidden" => "true", remote: true}
+                        %i.fa.fa-search{"aria-hidden": "true", remote: true}
   :javascript
     $(document).ready(function () {
         $('#myCarousel').carousel({
@@ -46,36 +46,36 @@
         %h2 #{t(:explore_taxa)}
       #mixedSlider.carousel_Thumbnails
         .MS-content
-          .item
-            .imgTitle
-              %a{href: "/pages/46570763"}
-                %h2.blogTitle
-                  = Page.find_by_id(46570763).try(:scientific_name)
-                = image_tag Page.find_by_id(46570763).try(:media).size > 0 && !Page.find_by_id(46570763).try(:media).first.base_url.nil? ? Page.find_by_id(46570763).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
-          .item
-            .imgTitle
-              %a{href: "/pages/46579654"}
-                %h2.blogTitle
-                  = Page.find_by_id(46579654).try(:scientific_name)
-                = image_tag Page.find_by_id(46579654) && Page.find_by_id(46579654).media.size > 0 && !Page.find_by_id(46579654).try(:media).first.base_url.nil? ? Page.find_by_id(46579654).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
-          .item
-            .imgTitle
-              %a{href: "/pages/45515245"}
-                %h2.blogTitle
-                  = Page.find_by_id(45515245).try(:scientific_name)
-                = image_tag Page.find_by_id(45515245) && Page.find_by_id(45515245).media.size > 0 && !Page.find_by_id(45515245).try(:media).first.base_url.nil? ? Page.find_by_id(45515245).try(:media).first.base_url : "assets/download.png", style: 'height:25%;width:auto;'
-          .item
-            .imgTitle
-              %a{href: "/pages/45515099"}
-                %h2.blogTitle
-                  = Page.find_by_id(45515099).try(:scientific_name)
-                = image_tag Page.find_by_id(45515099) && Page.find_by_id(45515099).media.size > 0 && !Page.find_by_id(45515099).try(:media).first.base_url.nil? ? Page.find_by_id(45515099).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
-          .item
-            .imgTitle
-              %a{href: "/pages/767462"}
-                %h2.blogTitle
-                  = Page.find_by_id(767462).try(:scientific_name)
-                = image_tag Page.find_by_id(767462) && Page.find_by_id(767462).media.size > 0 && !Page.find_by_id(767462).try(:media).first.base_url.nil? ? Page.find_by_id(767462).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'                
+          -# .item
+            -# .imgTitle
+              -# %a{href: "/pages/46570763"}
+                -# %h2.blogTitle
+                  -# = Page.find_by_id(46570763).try(:scientific_name)
+                -# = image_tag Page.find_by_id(46570763).try(:media).size > 0 && !Page.find_by_id(46570763).try(:media).first.base_url.nil? ? Page.find_by_id(46570763).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+          -# .item
+            -# .imgTitle
+              -# %a{href: "/pages/46579654"}
+                -# %h2.blogTitle
+                  -# = Page.find_by_id(46579654).try(:scientific_name)
+                -# = image_tag Page.find_by_id(46579654) && Page.find_by_id(46579654).media.size > 0 && !Page.find_by_id(46579654).try(:media).first.base_url.nil? ? Page.find_by_id(46579654).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+          -# .item
+            -# .imgTitle
+              -# %a{href: "/pages/45515245"}
+                -# %h2.blogTitle
+                  -# = Page.find_by_id(45515245).try(:scientific_name)
+                -# = image_tag Page.find_by_id(45515245) && Page.find_by_id(45515245).media.size > 0 && !Page.find_by_id(45515245).try(:media).first.base_url.nil? ? Page.find_by_id(45515245).try(:media).first.base_url : "assets/download.png", style: 'height:25%;width:auto;'
+          -# .item
+            -# .imgTitle
+              -# %a{href: "/pages/45515099"}
+                -# %h2.blogTitle
+                  -# = Page.find_by_id(45515099).try(:scientific_name)
+                -# = image_tag Page.find_by_id(45515099) && Page.find_by_id(45515099).media.size > 0 && !Page.find_by_id(45515099).try(:media).first.base_url.nil? ? Page.find_by_id(45515099).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+          -# .item
+            -# .imgTitle
+              -# %a{href: "/pages/767462"}
+                -# %h2.blogTitle
+                  -# = Page.find_by_id(767462).try(:scientific_name)
+                -# = image_tag Page.find_by_id(767462) && Page.find_by_id(767462).media.size > 0 && !Page.find_by_id(767462).try(:media).first.base_url.nil? ? Page.find_by_id(767462).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'                
 
   .container
     .separator
@@ -88,44 +88,44 @@
           %a{href: "/pages/1"} #{t(:see_more)}
       .row
         .Home_statistics
-          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
             .feature-wrap
-              %i.fa.fa-user{"aria-hidden" => "true"}
+              %i.fa.fa-user{"aria-hidden": "true"}
               .number
                 = User.count
               %span
                 #{t(:members_like_you)}
-          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
             .feature-wrap
-              %i.fa.fa-files-o{"aria-hidden" => "true"}
+              %i.fa.fa-files-o{"aria-hidden": "true"}
               .number
                 = Collection.count
               %span
                 #{t(:collections)}
-          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
             .feature-wrap
-              %i.fa.fa-file-image-o{"aria-hidden" => "true"}
+              %i.fa.fa-file-image-o{"aria-hidden": "true"}
               .number
                 = Medium.count
               %span
                 #{t(:media)}
-          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
             .feature-wrap
-              %i.fa.fa-handshake-o{"aria-hidden" => "true"}
+              %i.fa.fa-handshake-o{"aria-hidden": "true"}
               .number
                 1
               %span
                 #{t(:content_partners)}
-          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
             .feature-wrap
-              %i.fa.fa-bar-chart{"aria-hidden" => "true"}
+              %i.fa.fa-bar-chart{"aria-hidden": "true"}
               .number
                 0
               %span
                 #{t(:data)}
-          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay" => "600ms", "data-wow-duration" => "1000ms"}
+          .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
             .feature-wrap
-              %i.fa.fa-bar-chart{"aria-hidden" => "true"}
+              %i.fa.fa-bar-chart{"aria-hidden": "true"}
               .number
                 2
               %span

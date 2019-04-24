@@ -4,14 +4,16 @@ module Refinery
 
     before_action :find_page, :set_canonical
     before_action :error_404, unless: :current_user_can_view_page?
+    before_action :check_if_admin
 
     # Save whole Page after delivery
     after_action :write_cache?
-
+    
+ 
     # This action is usually accessed with the root path, normally '/'
-    def home
-      render_with_templates?
-    end
+    # def home
+      # render_with_templates?
+    # end
 
     # This action can be accessed normally, or as nested pages.
     # Assuming a page named "mission" that is a child of "about",
@@ -42,6 +44,18 @@ module Refinery
       # Sessions.new
     # end
   protected
+     def check_if_admin
+      if ((request.original_fullpath == refinery.admin_root_path) || (request.original_fullpath == "#{refinery.admin_root_path}/pages"))
+        if current_user.nil?
+          authenticate_user!
+        else 
+          unless current_user.admin? 
+            flash[:notice] = "#{t(:admin_account_required)}"
+            redirect_to root_path
+           end
+        end
+      end
+     end
 
     def requested_friendly_id
       if ::Refinery::Pages.scope_slug_by_parent

@@ -4,8 +4,8 @@
 
 %html
   %head
-    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %title EOL
+    %meta{content: "text/html; charset=UTF-8", "http-equiv": "Content-Type"}/
+    -# %title EOL
     %meta{ charset: "utf-8"}/
     %meta{ content: "IE=edge,chrome=1", "http-equiv": "X-UA-Compatible"}/
     %meta{ content: "width=device-width, initial-scale=1", name: "viewport"}/
@@ -28,7 +28,7 @@
     = javascript_include_tag 'application'
     = csrf_meta_tags
     %header#header
-      %nav.navbar.navbar-inverse{:role => "banner", :data-turbolinks => "true"}
+      %nav.navbar.navbar-inverse{ role: "banner", "data-turbolinks": "true"}
         .container
           .row
             .col-lg-7.col-md-6.col-sm-6.col-xs-12
@@ -46,7 +46,7 @@
                       %li
                         = link_to "العربية", {locale: 'ar'}
                   .mainMenu
-                    - unless current_page? root_path
+                    - unless ((current_page? "#{main_app.root_path}") || (current_page? "/"))
                       %button.btn-search{ id: "0","data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
                         %i.fa.fa-search{"aria-hidden": "false"}
                     %button.navbar-toggle{"data-target": ".navbar-collapse", "data-toggle": "collapse", type: "button"}
@@ -73,7 +73,7 @@
                 %li
                   - unless user_signed_in?
                     %a.signIn{href: main_app.new_user_session_path}
-                      %i.fa.fa-user-circle{"aria-hidden" => "true"}
+                      %i.fa.fa-user-circle{"aria-hidden": "true"}
                       #{t(:sign_in)}
                   - else
                     %li.dropdown
@@ -110,7 +110,7 @@
                       = form_tag(main_app.search_path, method: :get) do |f|
                         = text_field_tag(:query, params[:query], placeholder: t(:search_placeholder), class: "modal-body searchBox")
                         %button.searchButton
-                          %i.fa.fa-search{"aria-hidden" => "true", remote: true}
+                          %i.fa.fa-search{"aria-hidden": "true", remote: true}
     %body
       = render("layouts/flash")
       .container-fluidd

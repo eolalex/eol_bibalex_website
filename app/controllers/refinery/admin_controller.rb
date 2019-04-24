@@ -6,5 +6,6 @@ module Refinery
     helper Refinery::Core::Engine.helpers
     include Refinery::Admin::BaseController
 
+
   end
 end
