@@ -98,7 +98,7 @@
                     %li
                       %a{ href: "https://education.eol.org/", target: "_blank"} #{t(:learning_education)}
                 %li
-                  %a.DonateBtn{ href: "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} #{t(:donate_button)}
+                  %a.DonateBtn{ href: "https://eol.org/docs/what-is-eol/donate"} #{t(:donate_button)}
           - unless current_page? root_path
             .modal{ id: "popup_#{0}", "aria-labelledby": "popup_#{0}Label", role: "dialog", tabindex: "-1"}
               .modal-dialog{ role: "document"}
@@ -134,7 +134,7 @@
             %li
               %a{href: "/#{locale}/docs/about/terms-of-use"} #{t(:terms_of_use)}
             %li
-              %a{href: "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_fl"} #{t(:donate_button)}
+              %a{href: "https://eol.org/docs/what-is-eol/donate"} #{t(:donate_button)}
             %li
               %a{href: "/#{locale}/discuss/contact-us"} #{t(:contact_us)}
             %li
