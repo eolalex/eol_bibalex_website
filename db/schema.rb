@@ -10,9 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20190418112736) do
-
+ActiveRecord::Schema.define(version: 20190424100409) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
     t.text "owner", limit: 16777215
@@ -31,6 +29,7 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.bigint "location_id"
     t.text "body", limit: 4294967295
     t.index ["bibliographic_citation_id"], name: "index_articles_on_bibliographic_citation_id"
+    t.index ["guid"], name: "unique_articles", unique: true
     t.index ["language_id"], name: "index_articles_on_language_id"
     t.index ["license_id"], name: "index_articles_on_license_id"
     t.index ["location_id"], name: "index_articles_on_location_id"
@@ -54,7 +53,9 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.string "content_resource_fk"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "guid"
     t.index ["content_type"], name: "index_attributions_on_content_type"
+    t.index ["value", "content_id", "content_type"], name: "unique_attributions", unique: true, length: { value: 100 }
   end
 
   create_table "bibliographic_citations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
@@ -127,6 +128,10 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.index ["section_id"], name: "index_content_sections_on_section_id"
   end
 
+  create_table "harvest_time", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
+    t.datetime "last_harvest_time"
+  end
+
   create_table "harvest_times", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
     t.timestamp "last_harvest_time", default: "2018-10-22 14:41:00", null: false
   end
@@ -150,6 +155,7 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "group"
+    t.index ["code"], name: "code", unique: true
   end
 
   create_table "licenses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
@@ -157,6 +163,7 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["source_url"], name: "source_url", unique: true
   end
 
   create_table "links", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
@@ -182,6 +189,7 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.text "spatial_location", limit: 16777215
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["location", "longitude", "latitude", "altitude", "spatial_location"], name: "unique_location", unique: true, length: { spatial_location: 100 }
   end
 
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
@@ -205,6 +213,7 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.bigint "license_id"
     t.bigint "location_id"
     t.index ["bibliographic_citation_id"], name: "index_media_on_bibliographic_citation_id"
+    t.index ["guid"], name: "unique_media", unique: true
     t.index ["language_id"], name: "index_media_on_language_id"
     t.index ["license_id"], name: "index_media_on_license_id"
     t.index ["location_id"], name: "index_media_on_location_id"
@@ -225,13 +234,14 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.index ["ancestor_resource_pk"], name: "index_node_ancestors_on_ancestor_resource_pk"
     t.index ["node_id"], name: "index_node_ancestors_on_node_id"
     t.index ["node_resource_pk"], name: "index_node_ancestors_on_node_resource_pk"
+    t.index ["resource_id", "depth", "node_generated_node_id", "ancestor_generated_node_id"], name: "build_hierarchy"
     t.index ["resource_id"], name: "index_node_ancestors_on_resource_id"
   end
 
   create_table "node_ancestors_flatteneds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
     t.integer "generated_node_id", null: false
     t.integer "resource_id", null: false
-    t.text "node_ancestors_ids"
+    t.text "node_ancestors_ids", limit: 16777215
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["generated_node_id", "resource_id"], name: "ancestors_index"
@@ -257,8 +267,17 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.datetime "updated_at", null: false
     t.integer "parent_id"
     t.bigint "rank_id"
+    t.index ["generated_node_id"], name: "genrated_node_id", unique: true
     t.index ["generated_node_id"], name: "index_nodes_on_generated_node_id"
     t.index ["rank_id"], name: "index_nodes_on_rank_id"
+  end
+
+  create_table "occurrence_maps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
+    t.integer "resource_id"
+    t.integer "page_id"
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "occurrence_page_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
@@ -267,6 +286,7 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.integer "page_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["resource_id", "occurrence_id"], name: "resource_occurrence_index"
   end
 
   create_table "page_contents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
@@ -282,7 +302,10 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.boolean "is_duplicate"
     t.bigint "page_id"
     t.integer "source_page_id", null: false
+    t.string "guid"
+    t.index ["content_id"], name: "index_page_contents_on_content_id"
     t.index ["content_type"], name: "index_page_contents_on_content_type"
+    t.index ["page_id", "content_id", "content_type"], name: "unique_page_contents", unique: true
     t.index ["page_id"], name: "index_page_contents_on_page_id"
   end
 
@@ -292,7 +315,9 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.bigint "medium_id"
     t.integer "page_richness"
     t.bigint "node_id"
+    t.boolean "updated", default: false
     t.index ["medium_id"], name: "index_pages_on_medium_id"
+    t.index ["updated"], name: "update_index"
   end
 
   create_table "pages_nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
@@ -301,8 +326,10 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.boolean "is_native"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "updated", default: false
     t.index ["node_id"], name: "index_pages_nodes_on_node_id"
     t.index ["page_id"], name: "index_pages_nodes_on_page_id"
+    t.index ["updated"], name: "update_index"
   end
 
   create_table "pages_referents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
@@ -317,6 +344,7 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "rank_name", unique: true
   end
 
   create_table "references", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
@@ -326,6 +354,8 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "referent_id"
+    t.string "guid"
+    t.index ["parent_id", "parent_type", "referent_id"], name: "unique_references", unique: true
     t.index ["parent_type"], name: "index_references_on_parent_type"
   end
 
@@ -347,6 +377,7 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.string "resource_pk"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["resource_id", "body"], name: "unique_referents", unique: true, length: { body: 200 }
   end
 
   create_table "refinery_image_translations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
@@ -462,10 +493,13 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.bigint "node_id"
     t.bigint "page_id"
     t.bigint "taxonomic_status_id"
+    t.boolean "updated", default: false
+    t.index ["generated_node_id"], name: "genrated_node_id", unique: true
     t.index ["generated_node_id"], name: "index_scientific_names_on_generated_node_id"
     t.index ["node_id"], name: "index_scientific_names_on_node_id"
     t.index ["page_id"], name: "index_scientific_names_on_page_id"
     t.index ["taxonomic_status_id"], name: "index_scientific_names_on_taxonomic_status_id"
+    t.index ["updated"], name: "update_index"
   end
 
   create_table "sections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
@@ -487,6 +521,19 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.index ["seo_meta_id", "seo_meta_type"], name: "id_type_index_on_seo_meta"
   end
 
+  create_table "taxa", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
+    t.integer "generated_node_id", null: false
+    t.integer "page_eol_id"
+    t.string "dataset_id"
+    t.string "source"
+    t.text "occurrences", limit: 16777215
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string "scientific_name"
+    t.integer "resource_id"
+    t.index ["generated_node_id"], name: "index_on_generated_node_id", unique: true
+  end
+
   create_table "taxonomic_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
     t.string "name"
     t.boolean "is_preferred"
@@ -495,6 +542,14 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.boolean "can_merge"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "traits", primary_key: "generated_node_id", id: :integer, default: 0, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
+    t.text "occurrences", limit: 4294967295
+    t.text "associations", limit: 4294967295
+    t.text "measurement_or_facts", limit: 4294967295
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "user_providers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
@@ -545,10 +600,13 @@ ActiveRecord::Schema.define(version: 20190418112736) do
     t.bigint "node_id"
     t.bigint "page_id"
     t.bigint "language_id"
+    t.boolean "updated", default: false
+    t.index ["generated_node_id", "string"], name: "unique_vernacular", unique: true
     t.index ["generated_node_id"], name: "index_vernaculars_on_generated_node_id"
     t.index ["language_id"], name: "index_vernaculars_on_language_id"
     t.index ["node_id"], name: "index_vernaculars_on_node_id"
     t.index ["page_id"], name: "index_vernaculars_on_page_id"
+    t.index ["updated"], name: "update_index"
   end
 
   add_foreign_key "articles", "bibliographic_citations"
