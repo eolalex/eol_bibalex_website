@@ -3,15 +3,19 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   # protect_from_forgery with: :exception
-  protect_from_forgery
+  # protect_from_forgery
+  # protect_from_forgery with: :null_session
+  protect_from_forgery prepend: true, with: :exception
   include  Devise::Controllers::StoreLocation
+  include Devise::Controllers::Rememberable
 
   before_action :configure_permitted_params, if: :devise_controller?
+  # before_action :remember_user, if: :devise_controller?, only: [:create]
   before_action :set_locale_direction
   helper_method :url_without_locale_params
   before_action :allow_cross_domain_ajax
   before_action :store_user_location!, if: :storable_location?
-
+  # skip_before_action :verify_authenticity_token, if: :devise_controller?, only: [:create]
   def allow_cross_domain_ajax
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Request-Method'] = 'POST, OPTIONS'
@@ -36,6 +40,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def remember_user
+    debugger
+    if params[:user][:remember] == "on"
+      remember_me current_user
+    end
+  end
+
   def storable_location?
     request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
   end
@@ -46,6 +57,12 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource_or_scope)
+    unless params[:user].nil?
+      if params[:user][:remember] == "on"
+        remember_me current_user
+      end
+    end
+
     if ((request.referer.nil?) || (request.referer.include? "/user_providers/"))
       root_path
     else
