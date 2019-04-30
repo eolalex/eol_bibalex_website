@@ -1,6 +1,7 @@
 require 'devise'
 class UserProvidersController < ApplicationController
   include ApplicationHelper
+
   def new
     # debugger
     password = Devise.friendly_token[0,16]
@@ -12,10 +13,13 @@ class UserProvidersController < ApplicationController
 
   def create
     # debugger
-     password = Devise.friendly_token[0,20]
+     password = Devise.friendly_token[6,20]
      user = session[:new_user]
+     # debugger
      @user = User.new(email: params[:user][:email], password: password, 
                       username: user["info"]["name"], provider: user["provider"], uid: user["uid"])
+     # @user = User.new(email: user["info"]["email"], password: password, 
+                      # username: user["info"]["name"], provider: user["provider"], uid: user["uid"])
      # return render :new  unless @user.valid?
     # debugger
      if user["info"]["email"] != params[:user][:email]
