@@ -1,6 +1,7 @@
 .container
   = render ("/devise/registrations/new")
-  - if (params[:info][:email]).nil?
+  -#- if (params[:email].empty?)
+  - if (params[:provider] == "twitter")
     :javascript
       $(document).ready(function () {
         $('#popup_OMNI_100').show(); });

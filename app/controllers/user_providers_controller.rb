@@ -3,11 +3,16 @@ class UserProvidersController < ApplicationController
   include ApplicationHelper
 
   def new
-    # debugger
+    #debugger
     password = Devise.friendly_token[0,16]
+    unless params[:provider] == "twitter"
     @user = User.new(email: params[:info][:email], password: password, 
                      username:  params[:info][:name], provider: params[:provider], uid: params[:uid])
     # @user.save!
+    else
+    @user = User.new(password: password,
+                     username:  params[:info][:name], provider: params[:provider], uid: params[:uid])
+   end
     session[:new_user] = params
   end
 
@@ -15,7 +20,7 @@ class UserProvidersController < ApplicationController
     # debugger
      password = Devise.friendly_token[6,20]
      user = session[:new_user]
-     # debugger
+     #debugger
      @user = User.new(email: params[:user][:email], password: password, 
                       username: user["info"]["name"], provider: user["provider"], uid: user["uid"])
      # @user = User.new(email: user["info"]["email"], password: password, 
