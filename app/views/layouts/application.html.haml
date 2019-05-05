@@ -88,6 +88,9 @@
                       %ul.dropdown-menu
                         %li
                           %a{ href: main_app.user_path(current_user.id)} #{t(:show_user_profile)}
+                        - if current_user.admin?
+                          %li
+                            %a{ href: refinery.admin_root_path} #{t(:view_admin_panel)}
                         %li
                           %a.signIn{ href: main_app.destroy_user_session_path} #{t(:sign_out)}
                 %li.dropdown
