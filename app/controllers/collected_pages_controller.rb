@@ -57,21 +57,24 @@ class CollectedPagesController < ApplicationController
     @collection_id = params[:collection_id]
     @collected_pages = CollectedPage.where(collection_id: @collection_id)
     @canonical_form = params[:q]
+    #debugger
     @collected_pages.each do |collected_page|
+      #debugger
     # assuming scientific name has only one page
-      @scientific_names = collected_page.page.scientific_names
-      @scientific_names.each do|scientific_name|
-        if scientific_name[:canonical_form].downcase.start_with?(@canonical_form.downcase)
+      @scientific_names = collected_page.page.scientific_names.first
+      #@scientific_names.each do|scientific_name|
+        if @scientific_names[:canonical_form].downcase.start_with?(@canonical_form.downcase)
           if @result.nil?
             @result= Array.new
           end
-        @result << scientific_name
+        @result << @scientific_names
         end
       end
     end
+    #debugger
     unless @result.nil?
       @result = @result.sort_by{|collected_page| collected_page.page.scientific_name.downcase}
-      @result = @result.paginate(:page => params[:page], :per_page => ENV['per_page'])
+      @result = @result.paginate( page: params[:page], per_page: ENV['per_page'])
     else
       flash[:notice] = t(:no_results)+" "+ params[:q]
       redirect_to collection_path(id: @collection_id)
