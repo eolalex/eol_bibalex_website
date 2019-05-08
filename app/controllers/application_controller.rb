@@ -8,6 +8,11 @@ class ApplicationController < ActionController::Base
   helper_method :url_without_locale_params
   before_action :allow_cross_domain_ajax
   before_action :store_user_location!, if: :storable_location?
+  before_action :set_action_mailer_default_url
+
+  def set_action_mailer_default_url
+   ActionMailer::Base.default_url_options = { host: request.host_with_port}
+  end
 
   def allow_cross_domain_ajax
     headers['Access-Control-Allow-Origin'] = '*'
