@@ -7,10 +7,10 @@
     - unless @result.nil?
       -@result.each do |result|
         - @page = Page.find(result.id)
-        -# -unless result.page.media.first.nil?
-        - unless @page.media.first.nil?
-          %img{ src: @page.media.first.base_url, width: "100", height: "100"}  
-        -# - unless result.page.scientific_name.nil?  
+        - @medium = @page.media.first
+        - @sci_name = @page.scientific_name
+        - unless @medium.nil?
+          %img{ src: @medium.base_url, width: "100", height: "100"}  
         - unless @page.scientific_name.nil?       
-          %h3= link_to @page.scientific_name , page_path(@page) 
+          %h3= link_to @sci_name , page_path(@page) 
           %br
