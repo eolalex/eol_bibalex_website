@@ -1,6 +1,6 @@
 .container
   = render ("/devise/registrations/new")
-  -#- if (params[:email].empty?)
+  -# - if (params[:info][:email].empty?)
   - if (params[:provider] == "twitter")
     :javascript
       $(document).ready(function () {
@@ -32,7 +32,7 @@
         = hidden_field_tag('email', params[:info][:email])
         = hidden_field_tag('provider', params[:provider])
         = hidden_field_tag('uid', params[:uid])
-        = hidden_field_tag('username', params[:username])
+        = hidden_field_tag('username', params[:name])
         .form-group.row
           .col-md-6.col-sm-6.col-xs-6
             %input.form-control.input-lg{ name: "user[email]", placeholder: "#{t(:enter_email)}", tabindex: "1", type: "text", required: true, style: "display: none;", id: "userName"}
