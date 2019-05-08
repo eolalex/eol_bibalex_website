@@ -71,7 +71,7 @@ Rails.application.configure do
   #config.action_mailer_sender = 'nada.eliba@bibalex.org'
   #config.action_mailer.perform_deliveries = true
   #config.action_mailer.delivery_method = :sendmail
-  config.action_mailer.default_url_options = { :host => 'eol.bibalex.org'}
+  # config.action_mailer.default_url_options = { host: 'eol.bibalex.org'}
 
 
   # Raises error for missing translations

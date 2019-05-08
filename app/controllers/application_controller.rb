@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
   helper_method :url_without_locale_params
   before_action :allow_cross_domain_ajax
   before_action :store_user_location!, if: :storable_location?
-
   def allow_cross_domain_ajax
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Request-Method'] = 'POST, OPTIONS'
@@ -59,5 +58,4 @@ class ApplicationController < ActionController::Base
       new_user_session_url
     end
   end
-
 end
