@@ -61,7 +61,6 @@ class CollectedPagesController < ApplicationController
     @pages = Page.find_by_sql("select id from pages where node_id in (select node_id from scientific_names where canonical_form like \"%#{@canonical_form}%\")")
     @pages.each do |p|
       @collected_pages.each do |collected_page|
-      # debugger
         if collected_page.page.id == p.id
           if @result.nil?
             @result = Array.new
@@ -77,33 +76,6 @@ class CollectedPagesController < ApplicationController
       flash[:notice] = t(:no_results)+" "+ @canonical_form
       redirect_to collection_path(id: @collection_id)
     end
-
-  #debugger
-  # @collected_pages.each do |collected_page|
-  # #debugger
-  # # assuming scientific name has only one page
-  # @scientific_names = collected_page.page.scientific_names.first
-  # #@scientific_names.each do|scientific_name|
-  # if @scientific_names[:canonical_form].downcase.start_with?(@canonical_form.downcase)
-  # if @result.nil?
-  # @result= Array.new
-  # end
-  # @result << @scientific_names
-  # end
-  # end
-  # end
-  # #debugger
-  # unless @result.nil?
-  # @result = @result.sort_by{|collected_page| collected_page.page.scientific_name.downcase}
-  # @result = @result.paginate( page: params[:page], per_page: ENV['per_page'])
-  # else
-  # flash[:notice] = t(:no_results)+" "+ params[:q]
-  # redirect_to collection_path(id: @collection_id)
-  # end
-
-  # @scientific_names= if params[:canonical_form]
-  # ScientificName.where('canonical_form LIKE ?', "#{params[:canonical_form]}%")
-  # end
   end
 
   private
