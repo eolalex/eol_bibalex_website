@@ -13,7 +13,6 @@ class UserProvidersController < ApplicationController
     @user = User.new(password: password,
                     username:  params[:info][:name], provider: params[:provider], uid: params[:uid])
    end
-    #debugger
     session[:new_user] = params
   end
 
@@ -28,6 +27,7 @@ class UserProvidersController < ApplicationController
                       #username: user["info"]["name"], provider: user["provider"], uid: user["uid"])
      # return render :new  unless @user.valid?
     #debugger
+    #@user.save!
      if user["info"]["email"] != params[:user][:email]
        Devise::Mailer.confirmation_instructions(@user, @user.confirmation_token).deliver_now
        flash_msg = I18n.t(:signed_up_but_inactive, scope: 'devise.registrations')

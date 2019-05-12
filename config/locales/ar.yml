@@ -245,3 +245,8 @@ ar:
   admin_account_required: "ليس لديك إذن لعرض هذه الصفحة"
   view_admin_panel: "عرض صفحة المسؤول"
   encyclopedia_of_life: "موسوعة الحياة"
+  license: "الترخيص"
+  resource_pk: "المعرف"
+  resource_missing: "المورد غير موجود"
+  resource_label: "موقع الشريك"
+

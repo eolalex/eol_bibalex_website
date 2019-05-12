@@ -23,7 +23,7 @@ end
   require 'acts_as_list'
   validates_presence_of :collection
   validates_presence_of :page
-  validates_uniqueness_of :page_id, :scope => :collection_id
+  validates_uniqueness_of :page_id, scope: :collection_id
 
   has_many :collected_pages_media, inverse_of: :collected_page
   has_many :media, through: :collected_pages_media

@@ -64,5 +64,4 @@ class ApplicationController < ActionController::Base
       new_user_session_url
     end
   end
-
 end
