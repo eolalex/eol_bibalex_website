@@ -3,7 +3,7 @@ module PagesHelper
     ancestors = []
     tree = []
     res = NodeAncestorsFlattened.where(generated_node_id: node.generated_node_id,resource_id: node.resource_id)
-    if res.count > 0
+    if res.count > 0 && !res.first.node_ancestors_ids.nil?
       ancestors_ids_string = res.first.node_ancestors_ids
       ancestors_ids_array = ancestors_ids_string.split(",").map{ |s| s.to_i }
       ancestors_ids_array_depth_desc = ancestors_ids_array.reverse
