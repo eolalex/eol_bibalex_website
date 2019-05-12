@@ -2,7 +2,7 @@
   = render ("/devise/registrations/new")
   -# - if (params[:info][:email].empty?)
   - if (params[:provider] == "twitter")
-    = javascript_include_tag "user_providers_registration_modal"
+    -#= javascript_include_tag "user_providers_registration_modal"
     :javascript
       $(document).ready(function () {
         $('#popup_OMNI_100').show(); });
