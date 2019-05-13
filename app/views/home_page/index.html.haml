@@ -60,16 +60,16 @@
                 = image_tag Page.find_by_id(46579654) && Page.find_by_id(46579654).media.size > 0 && !Page.find_by_id(46579654).try(:media).first.base_url.nil? ? Page.find_by_id(46579654).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
           .item          
             .imgTitle
-              %a{href: "/#{locale}/pages/46570763"}
+              %a{href: "/#{locale}/pages/328672"}
                 %h2.blogTitle
-                  = Page.find_by_id(46570763).try(:scientific_name)
-                = image_tag Page.find_by_id(46570763).try(:media).size > 0 && !Page.find_by_id(46570763).try(:media).first.base_url.nil? ? Page.find_by_id(46570763).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+                  = Page.find_by_id(328672).try(:scientific_name)
+                = image_tag Page.find_by_id(328672).try(:media).size > 0 && !Page.find_by_id(328672).try(:media).first.base_url.nil? ? Page.find_by_id(328672).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
           .item
             .imgTitle
-              %a{href: "/#{locale}/pages/46579654"}
+              %a{href: "/#{locale}/pages/8002"}
                 %h2.blogTitle
-                  = Page.find_by_id(46579654).try(:scientific_name)
-                = image_tag Page.find_by_id(46579654) && Page.find_by_id(46579654).media.size > 0 && !Page.find_by_id(46579654).try(:media).first.base_url.nil? ? Page.find_by_id(46579654).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+                  = Page.find_by_id(8002).try(:scientific_name)
+                = image_tag Page.find_by_id(8002) && Page.find_by_id(8002).media.size > 0 && !Page.find_by_id(8002).try(:media).first.base_url.nil? ? Page.find_by_id(8002).try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
           .item
             .imgTitle
               %a{href: "/#{locale}/pages/45515245"}
@@ -142,7 +142,7 @@
             .feature-wrap
               %i.fa.fa-handshake-o{"aria-hidden": "true"}
               .number
-                1
+                = ContentPartnerUser.count
               %span
                 #{t(:content_partners)}
           .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}

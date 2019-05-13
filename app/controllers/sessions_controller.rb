@@ -6,7 +6,7 @@ class SessionsController < Devise::SessionsController
   end
 
   def after_sign_in_remember_me
-    if params[:user][:remember] == "on"
+    if (current_user.present? and params[:user][:remember] == "on")
       remember_me current_user
     end
   end
