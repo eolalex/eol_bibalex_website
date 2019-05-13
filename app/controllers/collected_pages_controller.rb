@@ -69,6 +69,7 @@ class CollectedPagesController < ApplicationController
         end
       end
     end
+#debugger
     unless @result.nil?
       @result = @result.sort_by{|p| Page.find(p.id).scientific_name.downcase}
       @result = @result.paginate( page: params[:page], per_page: ENV['per_page'])
@@ -92,3 +93,4 @@ class CollectedPagesController < ApplicationController
     params.permit(:page_id, :collection_id)
   end
 end
+

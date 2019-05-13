@@ -7,7 +7,7 @@ module Refinery
     include Refinery::Admin::BaseController
     before_action :check_if_admin
     def check_if_admin
-      # debugger
+      #debugger
       if ((request.original_fullpath == refinery.admin_root_path) || (request.original_fullpath == "#{refinery.admin_root_path}/pages"))
         if current_user.nil?
           authenticate_user!
