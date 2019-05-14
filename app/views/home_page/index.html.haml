@@ -82,7 +82,7 @@
                   = page5.try(:scientific_name)
                 = image_tag page5 && page5.media.size > 0 && !page5.try(:media).first.base_url.nil? ? page5.try(:media).first.base_url : "assets/download.png", style: 'height:25%;width:auto;'
 
-   .container
+  .container
     .separator
   %section#Home_Statistics
     .container
