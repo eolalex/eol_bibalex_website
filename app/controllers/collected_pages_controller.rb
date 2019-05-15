@@ -79,7 +79,7 @@ class CollectedPagesController < ApplicationController
           end
         end
       end
-     unless @result.nil?
+    unless @result.nil?
       @result = @result.sort_by{|page_result| Page.find(page_result.id).scientific_name.downcase}
       @result = @result.paginate( page: params[:page], per_page: ENV['per_page'])
     else
