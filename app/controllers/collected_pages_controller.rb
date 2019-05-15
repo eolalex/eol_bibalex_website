@@ -80,7 +80,7 @@ class CollectedPagesController < ApplicationController
         end
       end
     end
-    unless (@result.nil || @result.empty?)
+    unless (@result.nil? || @result.empty?)
       @result = @result.sort_by{|result| Page.find(result.id).scientific_name.downcase}
       @result = @result.paginate( page: params[:page], per_page: ENV['per_page'])
     else
