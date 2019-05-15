@@ -10,7 +10,7 @@
           #{t(:search_collection)}
         .searchBox
           = form_tag( collection_collected_pages_path(@collection), method: "get") do |form|
-            = text_field_tag(:q, params[:q], id:"#{@collection.id}", class: "form-control", placeholder: "#{t(:search_placeholder)}")
+            = text_field_tag(:query, params[:query], id:"#{@collection.id}", class: "form-control", placeholder: "#{t(:search_placeholder)}")
             = hidden_field_tag('collection_id', @collection.id)
             %button.searchButton
               %i.fa.fa-search{"aria-hidden": "false"}
