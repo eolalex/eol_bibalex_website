@@ -79,14 +79,15 @@ class CollectedPagesController < ApplicationController
           end
         end
       end
-    unless @result.nil?
-      @result = @result.sort_by{|page_result| Page.find(page_result.id).scientific_name.downcase}
-      @result = @result.paginate( page: params[:page], per_page: ENV['per_page'])
+end
+    unless @page_results.empty?
+      @result = @page_results.sort_by{|page_result| Page.find(page_result.id).scientific_name.downcase}
+      @result = @page_results.paginate( page: params[:page], per_page: ENV['per_page'])
     else
-      flash[:notice] = t(:no_results)+" "+ @canonical_form
+      flash[:notice] = t(:no_results)+" "+ params[:query]
       redirect_to collection_path(id: @collection_id)
     end
-    end
+
     # @canonical_form = params[:q]
 # 
     # @pages = Page.find_by_sql("select id from pages where node_id in (select node_id from scientific_names where canonical_form like \"%#{@canonical_form}%\")")
