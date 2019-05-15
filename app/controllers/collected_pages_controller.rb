@@ -82,7 +82,7 @@ class CollectedPagesController < ApplicationController
     end
     unless @result.empty?
       @result = @result.sort_by{|result| Page.find(result.id).scientific_name.downcase}
-      @result = @esult.paginate( page: params[:page], per_page: ENV['per_page'])
+      @result = @result.paginate( page: params[:page], per_page: ENV['per_page'])
     else
       flash[:notice] = t(:no_results)+" "+ params[:query]
       redirect_to collection_path(id: @collection_id)
