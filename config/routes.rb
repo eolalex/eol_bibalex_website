@@ -1,14 +1,13 @@
 Rails.application.routes.draw do
 
   match '(:anything)' => 'application#nothing', via: [:options]
-  devise_for :users, only: :omniauth_callbacks, controllers: {registrations: "registrations",
-      omniauth_callbacks: "omniauth_callbacks",
-      sessions: "sessions" }
 
-  scope "(:locale)", locale: /en|ar/ do
+  devise_for :users, only: :omniauth_callbacks, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+  scope "(:locale)", :locale => /en|ar/ do
 
     get 'pages/index'
-    devise_for :users, skip: [:omniauth_callbacks]
+    devise_for :users, skip: :omniauth_callbacks, controllers: {registrations: "registrations",
+  sessions: "sessions" }
     get '/users/:id', :to => 'users#show'
 
     resources :user_providers, only: [:new, :create]
@@ -85,9 +84,5 @@ Rails.application.routes.draw do
     match 'api/:action/:version/:id' => 'api', :constraints => {version:  /\d\.\d/}, via: [:get, :post]
 
   end
-  # devise_for :users, only: :omniauth_callbacks, controllers: {registrations: "registrations",
-  # omniauth_callbacks: "omniauth_callbacks",
-  # sessions: "sessions" }
-  # get '/users/:id', :to => 'users#show'
   mount Refinery::Core::Engine, at: '/'
 end

@@ -11,6 +11,7 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
     # @collection = Collection.new(id: 1)
     # @page_title = @page.name
+    @page_title = @page.scientific_name
     respond_to do |format|
       format.html {}
     end

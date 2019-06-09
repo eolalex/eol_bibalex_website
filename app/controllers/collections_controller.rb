@@ -54,7 +54,8 @@ class CollectionsController < ApplicationController
     @user = current_user
     if @collection.destroy
       flash[:notice] = t(:collection_deleted)
-      redirect_to root_path
+      # redirect_to root_path
+      redirect_to user_path(current_user)
     end
   end
 

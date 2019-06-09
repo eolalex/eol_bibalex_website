@@ -10,7 +10,7 @@
           #{t(:search_collection)}
         .searchBox
           = form_tag( collection_collected_pages_path(@collection), method: "get") do |form|
-            = text_field_tag(:q, params[:q], :id =>"#{@collection.id}", class: "form-control", placeholder: "#{t(:search_placeholder)}")
+            = text_field_tag(:query, params[:query], id:"#{@collection.id}", class: "form-control", placeholder: "#{t(:search_placeholder)}")
             = hidden_field_tag('collection_id', @collection.id)
             %button.searchButton
               %i.fa.fa-search{"aria-hidden": "false"}
@@ -19,7 +19,7 @@
     = hidden_field_tag 'user_id', '0'  
     .col-md-3.col-sm-12.col-xs-12
       .collectionInfo
-        .row =>
+        .row
           .col-md-12.col-sm-3.col-xs-12.collectionImage
             %img{ src: "/assets/download.png", width: "250", height: "250"}/
           .col-md-12.col-sm-9.col-xs-12

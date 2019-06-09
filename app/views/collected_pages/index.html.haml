@@ -1,13 +1,27 @@
 = javascript_include_tag 'search'
--@collection= Collection.find(@collection_id)
-=render("collected_pages/show")
+- @collection= Collection.find(@collection_id)
+= render("collected_pages/show")
 .container
   .col-md-9.col-sm-12.col-xs-12
     %h2 #{t(:search_results)}
     -unless @result.nil?
       -@result.each do |result|
-        -unless result.page.media.first.nil?
-          %img{:src => result.page.media.first.base_url, :width =>"100", :height =>"100"}  
-        -unless result.page.scientific_name.nil?         
-          %h3= link_to result.page.scientific_name , page_path(result.page_id) 
+        -unless result.media.first.nil?
+          %img{ src: result.media.first.base_url, width: "100", height: "100"}  
+        -unless result.scientific_name.nil?         
+          %h3= link_to result.scientific_name , page_path(result.id) 
           %br
+
+-# .container
+  -# .col-md-9.col-sm-12.col-xs-12
+    -# %h2 #{t(:search_results)}
+    -# - unless @result.nil?
+      -# -@result.each do |result|
+        -# - @page = Page.find(result.id)
+        -# - @medium = @page.media.first
+        -# - @sci_name = @page.scientific_name
+        -# - unless @medium.nil?
+          -# %img{ src: @medium.base_url, width: "100", height: "100"}  
+        -# - unless @page.scientific_name.nil?       
+          -# %h3= link_to @sci_name , page_path(@page) 
+          -# %br

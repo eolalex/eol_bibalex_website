@@ -3,18 +3,20 @@ module PagesHelper
     ancestors = []
     tree = []
     res = NodeAncestorsFlattened.where(generated_node_id: node.generated_node_id,resource_id: node.resource_id)
-    if res.count > 0
+    if res.count > 0 && !res.first.node_ancestors_ids.nil?
       ancestors_ids_string = res.first.node_ancestors_ids
       ancestors_ids_array = ancestors_ids_string.split(",").map{ |s| s.to_i }
       ancestors_ids_array_depth_desc = ancestors_ids_array.reverse
       ancestors = Node.where(generated_node_id:ancestors_ids_array_depth_desc,resource_id: node.resource_id).order("field(generated_node_id, #{ancestors_ids_array_depth_desc.join(',')})")
-       #ancestors=  node.node_ancestors.order('depth DESC')
-       #children = node.children.order('depth ASC')
+
+      #ancestors=  node.node_ancestors.order('depth DESC')
+      #children = node.children.order('depth ASC')
       ancestors.each do |node_ancestor|
         # tree.push(node_ancestor.ancestor)
-       tree.push(node_ancestor)
-      end 
-    end
+        tree.push(node_ancestor)
+      end
+    end 
+
     tree.push(node)
     # children.each do |child|
      # tree.push(child.node)
@@ -59,17 +61,17 @@ module PagesHelper
  def classification_overview(node)
     ancestors = []
     tree = []
-    res = NodeAncestorsFlattened.where(generated_node_id: node.generated_node_id,resource_id: node.resource_id)
+    res =  NodeAncestorsFlattened.where(generated_node_id: node.generated_node_id,resource_id: node.resource_id)
     if res.count > 0
-      ancestors_ids_string = res.first.node_ancestors_ids
-      ancestors_ids_array = ancestors_ids_string.split(",").map{ |s| s.to_i }
-      ancestors= Node.where(generated_node_id:ancestors_ids_array,resource_id: node.resource_id)
-      #ancestors=  node.node_ancestors.order('depth DESC')
-      ancestors.each do |node_ancestor|
-        #tree.push(node_ancestor.ancestor)
-        tree.push(node_ancestor)
-      end
-    end
+    	ancestors_ids_string = res.first.node_ancestors_ids
+    	ancestors_ids_array = ancestors_ids_string.split(",").map{ |s| s.to_i }
+    	ancestors= Node.where(generated_node_id:ancestors_ids_array,resource_id: node.resource_id)
+    	#ancestors=  node.node_ancestors.order('depth DESC')
+    	ancestors.each do |node_ancestor|
+      	#tree.push(node_ancestor.ancestor)
+      	tree.push(node_ancestor)
+    	end
+     end
     tree.push(node)
     tree
   end  

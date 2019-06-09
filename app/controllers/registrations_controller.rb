@@ -2,9 +2,13 @@ class RegistrationsController < Devise::RegistrationsController
   include ApplicationHelper
   helper_method :url_without_locale_params
   before_action :set_locale
-  # before_action :configure_permitted_params, only: [:create, :edit]
+  before_action :configure_permitted_params
   before_action :check_captcha, only: [:create]
-
+    # unless params[:user].nil?
+      # if params[:user][:remember] == "on"
+        # remember_me current_user
+      # end
+    # end
   # GET /resource/sign_up
   # def new
     # super
@@ -20,7 +24,7 @@ class RegistrationsController < Devise::RegistrationsController
   # end
    # PUT /resource
   # def update
-    # super
+    # super?locale=en
   # end
   # DELETE /resource
   # def destroy
@@ -38,7 +42,7 @@ class RegistrationsController < Devise::RegistrationsController
     devise_parameter_sanitizer.permit(:sign_up) do |u|
       u.permit(:username, :email, :password, :password_confirmation, :recaptcha, :failed_attempts)
     end
-    devise_parameter_sanitizer.permit(:edit) do |u|
+    devise_parameter_sanitizer.permit(:account_update) do |u|
       u.permit(:username, :email, :password, :password_confirmation, :current_password)
     end
    

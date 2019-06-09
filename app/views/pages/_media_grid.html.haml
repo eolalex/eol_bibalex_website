@@ -57,7 +57,7 @@
                                 #{t(:source_url)}
                                 = medium.source_url |
                             %br/
-                            - unless medium.owner.nil?
+                            - unless (medium.owner.nil? || medium.owner ="null")
                               %b 
                                 #{t(:owner)}
                                 = medium.owner

@@ -288,3 +288,11 @@ en:
   web: "Web"
   preferred: "Preferred"
   not_preferred: "Not Preferred"
+  admin_account_required: "You do not have permission to view this page"
+  view_admin_panel: "View Admin Panel"
+  encyclopedia_of_life: "Encyclopedia of Life"
+  license: "License"
+  resource_pk: "ID"
+  resource_label: "Partner Site"
+  resource_missing: "Resource Not Found"
+  
