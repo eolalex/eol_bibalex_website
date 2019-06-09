@@ -16,14 +16,22 @@
       - predicate = trait[:predicate]
       - uri = predicate[:uri].dup
       - uri.sub! '/', '_'
+      - p_title = "#{t(:uri)}:  #{uri}"
+      -if !(predicate[:definition].nil?) 
+        -p_title = p_title +  "\n#{t(:definition)}: #{predicate[:definition]} "
       %tr
         %td
-          %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{t(:uri)}:  #{uri}\n#{t(:definition)}: #{predicate[:definition]} ", type: "button"}
+          %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{p_title}", type: "button"}
             #{predicate[:name]}
-              
           -if trait[:object_term]
+            - object_term = trait[:object_term]
+            - uri = object_term[:uri].dup
+            - uri.sub! '/', '_'
+            - o_title = "#{t(:uri)}:  #{uri}"
+            -if !(object_term[:definition].nil?) 
+              -o_title = o_title +  "\n#{t(:definition)}: #{object_term[:definition]} "
             %td
-              %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{t(:uri)}: #{trait[:object_term][:uri]}\n#{t(:definition)}: #{trait[:object_term][:definition]} ", type: "button"}
+              %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{o_title} ", type: "button"}
                 #{trait[:object_term][:name]}
           - elsif trait[:normal_measurement]
             %td
@@ -33,8 +41,14 @@
             %td{"data-label": "#{t(:object)}"}
                
           -if trait[:units]
+            - units = trait[:units]
+            - uri = units[:uri].dup
+            - uri.sub! '/', '_'
+            - u_title = "#{t(:uri)}:  #{uri}"
+            -if !(units[:definition].nil?) 
+              -u_title = u_title +  "\n#{t(:definition)}: #{units[:definition]} "
             %td
-              %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{t(:uri)}: #{trait[:units][:uri]}\n#{t(:definition)}: #{trait[:units][:definition]} ", type: "button"}
+              %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{u_title}", type: "button"}
                 #{trait[:units][:name]}
           - else
             %td{"data-label": "#{t(:units)}"}
