@@ -338,14 +338,14 @@ def main_method_3
 
 
     # start_harvested_time = "1554737562000"
-    start_harvested_time = "1540303737000"
+    start_harvested_time = "1557222288000"
     if HarvestTime.first.nil?
       HarvestTime.create
     end
     # start_harvested_time = HarvestTime.first.last_harvest_time
     
-    #end_harvested_time = get_end_time
-    end_harvested_time = 1540307002000
+    end_harvested_time = get_end_time
+   # end_harvested_time = 1540307002000
 
     while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
       $terms=File.new("#{NEO4J_IMPORT_PATH}terms.csv", 'w')
