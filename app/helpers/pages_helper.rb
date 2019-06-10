@@ -8,6 +8,7 @@ module PagesHelper
       ancestors_ids_array = ancestors_ids_string.split(",").map{ |s| s.to_i }
       ancestors_ids_array_depth_desc = ancestors_ids_array.reverse
       ancestors = Node.where(generated_node_id:ancestors_ids_array_depth_desc,resource_id: node.resource_id).order("field(generated_node_id, #{ancestors_ids_array_depth_desc.join(',')})")
+
       #ancestors=  node.node_ancestors.order('depth DESC')
       #children = node.children.order('depth ASC')
       ancestors.each do |node_ancestor|
@@ -15,6 +16,7 @@ module PagesHelper
         tree.push(node_ancestor)
       end
     end 
+
     tree.push(node)
     # children.each do |child|
      # tree.push(child.node)

@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190424100409) do
+ActiveRecord::Schema.define(version: 20190526094913) do
+
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
     t.text "owner", limit: 16777215
@@ -542,6 +543,24 @@ ActiveRecord::Schema.define(version: 20190424100409) do
     t.boolean "can_merge"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+
+  create_table "terms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
+    t.string "uri"
+    t.string "name"
+    t.string "term_type"
+    t.text "definition"
+    t.text "comment"
+    t.text "attribution"
+    t.string "section_ids"
+    t.integer "position"
+    t.boolean "is_hidden_from_overview"
+    t.boolean "is_hidden_from_glossary"
+    t.boolean "is_hidden_from_select"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["uri"], name: "uri_index", length: { uri: 191 }
   end
 
   create_table "traits", primary_key: "generated_node_id", id: :integer, default: 0, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|

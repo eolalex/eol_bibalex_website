@@ -27,8 +27,9 @@
               #{t(:uri)} :
             %nbsp
               #{datum[:predicate][:uri]}
-          %li
-            %strong
-              #{t(:definition)}:
-            %nbsp
-              #{datum[:predicate][:definition]}
+          - if datum[:predicate][:definition]
+            %li
+              %strong
+                #{t(:definition)}:
+              %nbsp
+                #{datum[:predicate][:definition]}
