@@ -9,12 +9,12 @@ class HomePageController < ApplicationController
 
       #cache number of resources
       httpRes = Net::HTTP.new(ENV['SCHEDULER_IP'], ENV['SCHEDULER_PORT'])
-      reqRes = Net::HTTP::Get.new("http://#{ENV['schedular_ip']}/resources/count")
+      reqRes = Net::HTTP::Get.new("#{ENV['schedular_ip']}/resources/count")
       @res_count = httpRes.request(reqRes).body
       
       #cache number of content partners
       httpCP = Net::HTTP.new(ENV['SCHEDULER_IP'], ENV['SCHEDULER_PORT'])
-      reqCP = Net::HTTP::Get.new("http://#{ENV['schedular_ip']}/contentPartners/count")
+      reqCP = Net::HTTP::Get.new("#{ENV['schedular_ip']}/contentPartners/count")
       @cp_count = httpCP.request(reqCP).body
 
       # #cache number of resources
