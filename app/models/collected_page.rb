@@ -1,23 +1,23 @@
 class CollectedPage < ActiveRecord::Base
   
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
-  
-  index_name Rails.application.class.parent_name.underscore+"_collectedpage"
-  document_type self.name.downcase
-  
-  settings index: { number_of_shards: 10} do
-  mapping dynamic: false do
-    indexes :scientitfic_name, type: :varchar 
-    indexes :suggest, {
-      type: 'completion',
-      analyzer: 'lowercase',
-      search_analyzer: 'lowercase',
-      payloads: 'true',
-      }
-  end
-end
-  searchkick word_start: [:scientific_name]
+  # include Elasticsearch::Model
+  # include Elasticsearch::Model::Callbacks
+#   
+  # index_name Rails.application.class.parent_name.underscore+"_collectedpage"
+  # document_type self.name.downcase
+#   
+  # settings index: { number_of_shards: 10} do
+  # mapping dynamic: false do
+    # indexes :scientitfic_name, type: :varchar 
+    # indexes :suggest, {
+      # type: 'completion',
+      # analyzer: 'lowercase',
+      # search_analyzer: 'lowercase',
+      # payloads: 'true',
+      # }
+  # end
+# end
+  # searchkick word_start: [:scientific_name]
   belongs_to :page, inverse_of: :collected_pages
   belongs_to :collection, inverse_of: :collected_pages
   require 'acts_as_list'
