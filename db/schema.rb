@@ -12,7 +12,6 @@
 
 ActiveRecord::Schema.define(version: 20190526094913) do
 
-
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
     t.text "owner", limit: 16777215
     t.integer "resource_id"
@@ -545,7 +544,6 @@ ActiveRecord::Schema.define(version: 20190526094913) do
     t.datetime "updated_at", null: false
   end
 
-
   create_table "terms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
     t.string "uri"
     t.string "name"
@@ -560,7 +558,7 @@ ActiveRecord::Schema.define(version: 20190526094913) do
     t.boolean "is_hidden_from_select"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["uri"], name: "uri_index", length: { uri: 191 }
+    t.index ["uri"], name: "uri_index"
   end
 
   create_table "traits", primary_key: "generated_node_id", id: :integer, default: 0, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|

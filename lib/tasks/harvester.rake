@@ -398,7 +398,7 @@ def main_method_3
     references = tables["references"]
     traits = tables["traits"]
     taxa = tables["taxa"]
-
+    
     unless licenses.empty?
       License.bulk_insert(licenses, :validate => true, :use_provided_primary_key => true)
     end
