@@ -1,9 +1,9 @@
 Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
+# Settings specified here will take precedence over those in config/application.rb.
 
-  # In the development environment your application's code is reloaded on
-  # every request. This slows down response time but is perfect for development
-  # since you don't have to restart the web server when you make code changes.
+# In the development environment your application's code is reloaded on
+# every request. This slows down response time but is perfect for development
+# since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
   # Do not eager load code on boot.
@@ -11,25 +11,24 @@ Rails.application.configure do
 
   # Show full error reports.
   config.consider_all_requests_local = true
+  config.action_controller.enable_fragment_cache_logging = true
   #if config.respond_to?(:action_mailer)
-   # config.action_mailer.default_url_options = { host: '172.16.0.186', port: 80 }
-    #config.action_mailer.delivery_method = :smtp
-    #config.action_mailer.smtp_settings = {:address => "localhost", :port => 1025}
+  # config.action_mailer.default_url_options = { host: '172.16.0.186', port: 80 }
+  #config.action_mailer.delivery_method = :smtp
+  #config.action_mailer.smtp_settings = {:address => "localhost", :port => 1025}
 
-    # Enable/disable cacurching. By default caching is disabled.
-    #if Rails.root.join('tmp/caching-dev.txt').exist?
-     # config.action_controller.perform_caching = true
-
-      #config.cache_store = :memory_store
-      #config.public_file_server.headers = {
-       # 'Cache-Control' => "public, max-age=#{2.days.seconds.to_i}"
-      #}
-  #end
-  #else
-   # config.action_controller.perform_caching = false
-
-    #config.cache_store = :null_store
-  #end
+  # Enable/disable cacurching. By default caching is disabled.
+  if Rails.root.join('tmp/caching-dev.txt').exist?
+    config.action_controller.perform_caching = true
+    config.cache_store = :memory_store, { size: 64.megabytes }
+    # config.public_file_server.headers = {
+      # 'Cache-Control' => "public, max-age= 60"
+    # }
+  else
+    config.action_controller.perform_caching = false
+    config.cache_store = :null_store
+  end
+  config.cache_versioning = false
 
   # Don't care if the mailer can't send.
   #config.action_mailer.raise_delivery_errors = true
@@ -47,7 +46,7 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = false
   # config.assets.debug = true
-  
+
   # Suppress logger output for asset requests.
   config.assets.quiet = true
   config.assets.compile = true
@@ -63,7 +62,6 @@ Rails.application.configure do
   # config.assets.js_compressor = nil
   config.assets.prefix = '/assets'
   config.assets.enabled = true
-
 
   #config.action_mailer.raise_delivery_errors = true
 
