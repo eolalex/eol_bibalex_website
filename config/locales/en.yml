@@ -136,7 +136,7 @@ en:
   collections: "Collections"
   collection: "Collection"
   media: "Media"
-  data: "Traits"
+  data: "Data"
   institutional_sponsors: "Institutional Sponsors"
   donate_online: "Donate online to support the EOL Mission"
   donate: "To increase awareness and understanding of living nature through an Encyclopedia of Life that gathers, generates, and shares knowledge in an open, freely accessible and trusted digital resource."
@@ -295,4 +295,4 @@ en:
   resource_pk: "ID"
   resource_label: "Partner Site"
   resource_missing: "Resource Not Found"
-  
+  traits_stats: "Traits"

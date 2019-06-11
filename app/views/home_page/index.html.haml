@@ -1,7 +1,7 @@
 %content#Content1{ contentplaceholderid: "head", runat: "Server"}
 %content#Content2{ contentplaceholderid: "ContentPlaceHolder1", runat: "Server"}
   -# = javascript_include_tag "statisticsRequest"
-  - cache("#sectionMain", skip_digest: true, expires_in: ENV['CACHE_EXPIRES_IN']) do
+  - cache("#sectionMain", expires_in: ENV['CACHE_EXPIRES_IN']) do
     %section#main-slider.no-margin
       .carousel.slide
         %ol.carousel-indicators.hide
@@ -130,7 +130,7 @@
                   .number
                     = @traits_count
                   %span
-                    #{t(:data)}
+                    #{t(:traits_stats)}
               .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
                 .feature-wrap
                   %i.fa.fa-bar-chart{"aria-hidden": "true"}
