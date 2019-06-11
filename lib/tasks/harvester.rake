@@ -115,12 +115,14 @@ end
 def create_measurement(occurrence_of_measurement , measurement)
   options = {}
   # $terms.write("predicate_name_#{measurement["measurementId"]}\t#{measurement["measurementType"]}\t1,2,3\tpredicate definition\n")
-  $terms_array << "predicate_name_#{measurement["measurementId"]}\t#{measurement["measurementType"]}\t1,2,3\tpredicate definition"
-  options[:predicate_uri]=measurement["measurementType"]
+  get_term_data(measurement["measurementType"], "predicate_term_name", measurement["measurementId"])
+  # $terms_array << "predicate_name_#{measurement["measurementId"]}\t#{measurement["measurementType"]}\t1,2,3\tpredicate definition"
+  options[:predicate_uri] = measurement["measurementType"]
 
   if uri?(measurement["measurementValue"])
     # $terms.write("temp object term_#{measurement["measurementId"]}\t#{measurement["measurementValue"]}\t1,2,3\tobject_term definition\n")
-    $terms_array << "temp object term_#{measurement["measurementId"]}\t#{measurement["measurementValue"]}\t1,2,3\tobject_term definition"
+    get_term_data(measurement["measurementValue"], "object_term_name", measurement["measurementId"])
+    # $terms_array << "temp object term_#{measurement["measurementId"]}\t#{measurement["measurementValue"]}\t1,2,3\tobject_term definition"
     options[:object_term_uri]= measurement["measurementValue"]
   else
   #TODO update this part after discussing it with stakeholders
@@ -129,7 +131,8 @@ def create_measurement(occurrence_of_measurement , measurement)
 
   if measurement["unit"]
     # $terms.write("unit_#{measurement["measurementId"]}\t#{measurement["unit"]}\t1,2,3\ttest units\n")
-    $terms_array << "unit_#{measurement["measurementId"]}\t#{measurement["unit"]}\t1,2,3\ttest units"
+    get_term_data(measurement["unit"], "unit_term_name", measurement["measurementId"])
+    # $terms_array << "unit_#{measurement["measurementId"]}\t#{measurement["unit"]}\t1,2,3\ttest units"
     options[:units_term_uri]=measurement["unit"]
   end
 
@@ -149,7 +152,22 @@ def create_measurement(occurrence_of_measurement , measurement)
   options
 end
 
-def add_neo4j(node_params, occurrences, measurements, associations,target_occurrences,terms)
+def get_term_data(uri, term_type, id)
+  res = Term.where('binary uri = ?', uri)
+  if res.count > 0
+    term = res.first
+    $terms_array << "#{term.name}\t#{uri}\t#{term.section_ids}\t#{term.definition}"
+  else
+    if uri.include?('/')
+      name = uri.split('/').last
+    else
+      name = "#{term_type}_#{id}"
+    end
+    $terms_array << "#{name}\t#{uri}\t\t"
+  end
+end
+
+def add_neo4j(node_params, occurrences, measurements, associations, target_occurrences, terms)
   
   unless (occurrences.nil? || occurrences.empty?)
     # load occurrences
@@ -168,17 +186,20 @@ def add_neo4j(node_params, occurrences, measurements, associations,target_occurr
       # end
 object_page_id = target_occurrences[association["targetOccurrenceId"]]
       # $terms.write("predicate_name_#{association["associationId"]}\t#{association["associationType"]}\t1,2,3\tpredicate definition\n")
-      $terms_array << "predicate_name_#{association["associationId"]}\t#{association["associationType"]}\t1,2,3\tpredicate definition"
+      get_term_data(association["associationType"], "predicate_term_name", association["associationId"])
+      # $terms_array << "predicate_name_#{association["associationId"]}\t#{association["associationType"]}\t1,2,3\tpredicate definition"
       occurrence_of_association = occurrences_hash[association["occurrenceId"]]
       if occurrence_of_association && occurrence_of_association["sex"]
        # $terms.write("sex_#{association["associationId"]}\t#{occurrence_of_association["sex"]}\t1,2,3\tsex term object_term definition\n")
-       $terms_array << "sex_#{association["associationId"]}\t#{occurrence_of_association["sex"]}\t1,2,3\tsex term object_term definition"
+       get_term_data(occurrence_of_association["sex"], "sex_term_name", association["associationId"]) 
+       # $terms_array << "sex_#{association["associationId"]}\t#{occurrence_of_association["sex"]}\t1,2,3\tsex term object_term definition"
        sex_uri = occurrence_of_association["sex"]
       end
       
       if occurrence_of_association && occurrence_of_association["lifeStage"]
         # $terms.write("lifeStage_#{association["associationId"]}\t#{occurrence_of_association["lifeStage"]}\t1,2,3\tlifeStage term object_term definition\n")
-        $terms_array << "lifeStage_#{association["associationId"]}\t#{occurrence_of_association["lifeStage"]}\t1,2,3\tlifeStage term object_term definition"
+        get_term_data(occurrence_of_association["lifeStage"], "lifeStage_term_name", association["associationId"])
+        # $terms_array << "lifeStage_#{association["associationId"]}\t#{occurrence_of_association["lifeStage"]}\t1,2,3\tlifeStage term object_term definition"
         life_uri = occurrence_of_association["lifeStage"]
       end
        
@@ -236,17 +257,20 @@ object_page_id = target_occurrences[association["targetOccurrenceId"]]
           
           if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
             # $terms.write("lifeStage_#{measurement["measurementId"]}\t#{occurrence_of_measurement["lifeStage"]}\t1,1,2,3\tlifeStage term object_term definition\n")
-            $terms_array << "lifeStage_#{measurement["measurementId"]}\t#{occurrence_of_measurement["lifeStage"]}\t1,1,2,3\tlifeStage term object_term definition"
+            get_term_data(occurrence_of_measurement["lifeStage"], "lifeStage_term_name", measurement["measurementId"])
+            # $terms_array << "lifeStage_#{measurement["measurementId"]}\t#{occurrence_of_measurement["lifeStage"]}\t1,1,2,3\tlifeStage term object_term definition"
             life_uri = occurrence_of_measurement["lifeStage"]
           end
           if occurrence_of_measurement && occurrence_of_measurement["sex"]
             # $terms.write("sex_#{measurement["measurementId"]}\t#{occurrence_of_measurement["sex"]}\t1,2,3\tsex term object_term definition\n")
-            $terms_array << "sex_#{measurement["measurementId"]}\t#{occurrence_of_measurement["sex"]}\t1,2,3\tsex term object_term definition"
+            get_term_data(occurrence_of_measurement["sex"], "sex_term_name", measurement["measurementId"])
+            # $terms_array << "sex_#{measurement["measurementId"]}\t#{occurrence_of_measurement["sex"]}\t1,2,3\tsex term object_term definition"
             sex_uri = occurrence_of_measurement["sex"]
           end
           unless measurement["statisticalMethod"].nil?
             #$terms.write("statisticalMethod_#{measurement["measurementId"]}\t#{measurement["statisticalMethod"]}\t1,2,3\tstatisticalMethod term object_term definition\n")
-            $terms_array << "statisticalMethod_#{measurement["measurementId"]}\t#{measurement["statisticalMethod"]}\t1,2,3\tstatisticalMethod term object_term definition"
+            get_term_data(measurement["statisticalMethod"], "statisticalMethod_term_name", measurement["measurementId"])
+            # $terms_array << "statisticalMethod_#{measurement["measurementId"]}\t#{measurement["statisticalMethod"]}\t1,2,3\tstatisticalMethod term object_term definition"
             statisticalMethod_uri = measurement["statisticalMethod"]
           end
           # $traits.write("#{measurement["measurementId"]}\t#{measurement["occurrenceId"]}\tM_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}\t#{node_params[:scientific_name]}\t#{citation}\t#{source}\t#{measurementMethod}\t#{literal}\t#{normal_measurement}\t#{normal_units}\t#{o_measurement}\t#{node_params[:page_id].to_i}\t#{node_params[:resource_id].to_i}\t#{measurement["measurementType"]}\t#{object_term_uri}\t#{unit_term_uri}\t#{life_uri}\t#{sex_uri}\t#{statisticalMethod_uri}\t#{object_page_id}\n")
@@ -338,14 +362,14 @@ def main_method_3
 
 
     # start_harvested_time = "1554737562000"
-    start_harvested_time = "1540303737000"
+    start_harvested_time = "1557222288000"
     if HarvestTime.first.nil?
       HarvestTime.create
     end
     # start_harvested_time = HarvestTime.first.last_harvest_time
     
-    #end_harvested_time = get_end_time
-    end_harvested_time = 1540307002000
+    end_harvested_time = get_end_time
+   # end_harvested_time = 1540307002000
 
     while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
       $terms=File.new("#{NEO4J_IMPORT_PATH}terms.csv", 'w')
@@ -374,7 +398,7 @@ def main_method_3
     references = tables["references"]
     traits = tables["traits"]
     taxa = tables["taxa"]
-
+    
     unless licenses.empty?
       License.bulk_insert(licenses, :validate => true, :use_provided_primary_key => true)
     end
@@ -486,9 +510,9 @@ def main_method_3
       system('sh /home/a-amorad/traits_scripts/traits.sh')
       system('sh /home/a-amorad/traits_scripts/meta.sh')
 
-      ## system('sh /home/ba/traits_scripts/terms.sh')
-      ## system('sh /home/ba/traits_scripts/traits.sh')
-      ## system('sh /home/ba/traits_scripts/meta.sh')
+       # system('sh /home/ba/traits_scripts/terms.sh')
+       # system('sh /home/ba/traits_scripts/traits.sh')
+       # system('sh /home/ba/traits_scripts/meta.sh')
 
 
     end

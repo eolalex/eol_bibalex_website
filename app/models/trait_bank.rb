@@ -78,7 +78,7 @@ class TraitBank
       return string if string.is_a?(Numeric) || string =~ /\A[-+]?[0-9,]*\.?[0-9]+\Z/
       %Q{"#{string.gsub(/"/, "\\\"")}"}
     end
-
+    
     def count
       res = query("MATCH (trait:Trait)<-[:trait]-(page:Page) WITH count(trait) as count RETURN count")
       res["data"] ? res["data"].first.first : false
@@ -118,6 +118,11 @@ class TraitBank
       end
     end
 
+    def get_terms_from_api
+      q = "match(t:Term) return t"
+      res = query (q)
+      res["data"].empty? ? false : res["data"]
+    end
     def terms(page = 1, per = 50)
       q = "MATCH (term:Term) RETURN term ORDER BY LOWER(term.name), LOWER(term.uri)"
       q += limit_and_skip_clause(page, per)
