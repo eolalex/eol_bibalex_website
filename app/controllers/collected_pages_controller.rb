@@ -58,57 +58,31 @@ class CollectedPagesController < ApplicationController
     @collected_pages = CollectedPage.where(collection_id: @collection_id)
     @page_title = params[:query]+ "| "+ t(:search_results)
     regex = ".*"+params[:query].downcase+".*"    
-    page_result = Page.search params[:query] do |body|
+    page_result = CollectedPage.search params[:query] do |body|
       body[:query] = {
         regexp:{
-            scientific_name: regex
+            scientific_name_string: regex
         }
      }
     end
     @page_results = page_result.results
-
     unless @page_results.empty?
-      # @page_results = @result.paginate( page: params[:page], per_page: ENV['per_page'])
       @page_results.each do |page_result|
-        @collected_pages.each do |collected_page|
-          if collected_page.page.id == page_result.id
-            if @result.nil?
-              @result = Array.new
-            end
-            @result << page_result
+        if page_result.collection_id == @collection_id.to_i
+          if @result.nil?
+            @result = Array.new
           end
+          @result << page_result
         end
       end
     end
     unless (@result.nil? || @result.empty?)
-      @result = @result.sort_by{|result| Page.find(result.id).scientific_name.downcase}
+      @result = @result.sort_by{|result| CollectedPage.find(result.id).scientific_name_string.downcase}
       @result = @result.paginate( page: params[:page], per_page: ENV['per_page'])
     else
       flash[:notice] = t(:no_results)+" "+ params[:query]
       redirect_to collection_path(id: @collection_id)
     end
-
-    # @canonical_form = params[:q]
-# 
-    # @pages = Page.find_by_sql("select id from pages where node_id in (select node_id from scientific_names where canonical_form like \"%#{@canonical_form}%\")")
-    # @pages.each do |p|
-      # @collected_pages.each do |collected_page|
-        # if collected_page.page.id == p.id
-          # if @result.nil?
-            # @result = Array.new
-          # end
-        # @result << p
-        # end
-      # end
-    # end
-# #debugger
-    # unless @result.nil?
-      # @result = @result.sort_by{|p| Page.find(p.id).scientific_name.downcase}
-      # @result = @result.paginate( page: params[:page], per_page: ENV['per_page'])
-    # else
-      # flash[:notice] = t(:no_results)+" "+ @canonical_form
-      # redirect_to collection_path(id: @collection_id)
-    # end
   end
 
   private
