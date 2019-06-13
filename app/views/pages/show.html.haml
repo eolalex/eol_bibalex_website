@@ -44,15 +44,27 @@
                   #{t(:classification)}
                 %hr/
                 -page_node = @page.nodes.first
-                -tree = classification_overview(page_node)
-                -tree.each do |node|
+                -tree = classification(page_node)
+                -resource_info = get_resource_info(page_node.resource_id)
+                - if !resource_info.nil?
+                  %span
+                    %b
+                      From: 
+                    = resource_info.name
+                    %br
+                -else
+                  %span #{t(:unknown_resource)} 
+                  %br
+                -tree.each_with_index do |node, index|
                   - unless node.nil?
                     - unless node.pages.empty?
                       %a{href: "/pages/#{node.pages.first.id}"} 
                         =node.scientific_name
                     -else
                       =node.scientific_name 
-                \/
+                    - if (index) < (tree.size-1)
+                      \/
+
             .widget.categories
               -if @page.data.size > 0
                 %h3
