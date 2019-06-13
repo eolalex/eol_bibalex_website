@@ -368,8 +368,8 @@ def main_method_3
     end
     # start_harvested_time = HarvestTime.first.last_harvest_time
     
-    #end_harvested_time = get_end_time
-    end_harvested_time = 1540307002000
+    end_harvested_time = get_end_time
+   # end_harvested_time = 1540307002000
 
     while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
       $terms=File.new("#{NEO4J_IMPORT_PATH}terms.csv", 'w')
@@ -398,7 +398,7 @@ def main_method_3
     references = tables["references"]
     traits = tables["traits"]
     taxa = tables["taxa"]
-
+    
     unless licenses.empty?
       License.bulk_insert(licenses, :validate => true, :use_provided_primary_key => true)
     end

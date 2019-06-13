@@ -12,6 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20190526094913) do
 
+
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "owner"
     t.integer "resource_id"
@@ -515,7 +516,7 @@ ActiveRecord::Schema.define(version: 20190526094913) do
     t.boolean "is_hidden_from_select"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["uri"], name: "uri_index", length: { uri: 191 }
+    t.index ["uri"], name: "uri_index"
   end
 
   create_table "user_providers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

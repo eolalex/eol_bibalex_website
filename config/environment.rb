@@ -13,7 +13,8 @@ ENV["TWITTER_API_KEY"]= "nEfe27C3l8zIEovBQsyBpw67O"
 ENV["TWITTER_API_SECRET"] = "4KOIPSxUgj5aC5eVVWT3Y2nAGEUwWO074MG4Q4zfaOr2AyYaTB"
 ENV['schedular_ip'] = 'http://172.16.0.161:80/scheduler'
 ENV['storage_ip'] = 'http://172.16.0.99:80/eol/archiver'
-
+ENV['SCHEDULER_IP'] = "172.16.0.161"
+ENV['SCHEDULER_PORT'] = "80"
 
 #require 'ntlm/smtp'
 # Initialize the Rails application.

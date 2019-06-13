@@ -2,12 +2,12 @@
 def main_method
   # result = TraitBank.get_terms_from_api
   skip = 0;
-  returned_count_string = `wget --header "Authorization: JWT \`cat /home/ba/api.token\`" https://eol.org/service/cypher?query="MATCH (n:Term) RETURN count(n) LIMIT 1;" -O -`
+  returned_count_string = `wget --header "Authorization: JWT \`cat /var/www/eol_website_alt/api.token\`" https://eol.org/service/cypher?query="MATCH (n:Term) RETURN count(n) LIMIT 1;" -O -`
   returned_count_hash = eval(returned_count_string)
   terms_count = returned_count_hash[:data].first.first
   
     while (skip-5000) < terms_count do
-    returned_string = `wget --header "Authorization: JWT \`cat /home/ba/api.token\`" https://eol.org/service/cypher?query="MATCH (n:Term) RETURN n order by ID(n) SKIP #{skip} LIMIT 5000;" -O -`
+    returned_string = `wget --header "Authorization: JWT \`cat /var/www/eol_website_alt/api.token\`" https://eol.org/service/cypher?query="MATCH (n:Term) RETURN n order by ID(n) SKIP #{skip} LIMIT 5000;" -O -`
     returned_hash = eval(returned_string)
     data = returned_hash[:data]
     data.each do |term|

@@ -132,7 +132,7 @@ en:
   currently_in_eol: "Currently in Encyclopedia Of Life"
   more_in_deep:  "There is more in deep, "
   see_more: "see more..." 
-  members_like_you: "Members Like You"
+  members_like_you: "Members"
   collections: "Collections"
   collection: "Collection"
   media: "Media"
@@ -295,4 +295,4 @@ en:
   resource_pk: "ID"
   resource_label: "Partner Site"
   resource_missing: "Resource Not Found"
-  
+  traits_stats: "Traits"
