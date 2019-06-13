@@ -54,10 +54,12 @@ class CollectedPagesController < ApplicationController
   end
 
   def index
+    #debugger
     @collection_id = params[:collection_id]
     @collected_pages = CollectedPage.where(collection_id: @collection_id)
     @page_title = params[:query]+ "| "+ t(:search_results)
-    regex = ".*"+params[:query].downcase+".*"    
+    regex = ".*"+params[:query].downcase+".*"
+    #debugger    
     page_result = Page.search params[:query] do |body|
       body[:query] = {
         regexp:{
@@ -66,12 +68,14 @@ class CollectedPagesController < ApplicationController
      }
     end
     @page_results = page_result.results
-
+    #debugger
     unless @page_results.empty?
+      #debugger
       # @page_results = @result.paginate( page: params[:page], per_page: ENV['per_page'])
       @page_results.each do |page_result|
         @collected_pages.each do |collected_page|
           if collected_page.page.id == page_result.id
+            # debugger
             if @result.nil?
               @result = Array.new
             end
@@ -80,6 +84,7 @@ class CollectedPagesController < ApplicationController
         end
       end
     end
+    #debugger
     unless (@result.nil? || @result.empty?)
       @result = @result.sort_by{|result| Page.find(result.id).scientific_name.downcase}
       @result = @result.paginate( page: params[:page], per_page: ENV['per_page'])
