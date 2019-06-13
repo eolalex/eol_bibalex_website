@@ -54,6 +54,7 @@ class CollectedPagesController < ApplicationController
   end
 
   def index
+    #debugger
     @collection_id = params[:collection_id]
     @collected_pages = CollectedPage.where(collection_id: @collection_id)
     @page_title = params[:query]+ "| "+ t(:search_results)
@@ -76,6 +77,7 @@ class CollectedPagesController < ApplicationController
         end
       end
     end
+    #debugger
     unless (@result.nil? || @result.empty?)
       @result = @result.sort_by{|result| CollectedPage.find(result.id).scientific_name_string.downcase}
       @result = @result.paginate( page: params[:page], per_page: ENV['per_page'])

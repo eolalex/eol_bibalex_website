@@ -30,7 +30,7 @@ class SearchController < ApplicationController
      }
     end
     @pages = page_result.results
-    
+    #debugger
     # if params[:scientific_names]
       # @results = @scientific_names
     # end

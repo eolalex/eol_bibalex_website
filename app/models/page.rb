@@ -22,7 +22,6 @@ class Page < ActiveRecord::Base
 end
 
   searchkick word_start: [:scientific_name]
-  
 
 
   has_many :collected_pages
