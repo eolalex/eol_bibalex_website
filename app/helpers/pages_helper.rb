@@ -65,7 +65,7 @@ module PagesHelper
     if res.count > 0
     	ancestors_ids_string = res.first.node_ancestors_ids
     	ancestors_ids_array = ancestors_ids_string.split(",").map{ |s| s.to_i }
-    	ancestors= Node.where(generated_node_id:ancestors_ids_array,resource_id: node.resource_id)
+    	# ancestors= Node.where(generated_node_id:ancestors_ids_array,resource_id: node.resource_id)
     	#ancestors=  node.node_ancestors.order('depth DESC')
     	ancestors.each do |node_ancestor|
       	#tree.push(node_ancestor.ancestor)
