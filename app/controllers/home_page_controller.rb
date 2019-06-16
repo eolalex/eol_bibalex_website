@@ -5,7 +5,7 @@ class HomePageController < ApplicationController
   #helper_method :url_without_locale_params
   
   def index
-    unless fragment_exist?("#Home_Statistics")
+    unless fragment_exist?("#Home_Statistics-#{locale}")
 
       #cache number of resources
       httpRes = Net::HTTP.new(ENV['SCHEDULER_IP'], ENV['SCHEDULER_PORT'])

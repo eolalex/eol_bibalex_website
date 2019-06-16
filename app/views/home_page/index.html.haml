@@ -1,7 +1,7 @@
 %content#Content1{ contentplaceholderid: "head", runat: "Server"}
 %content#Content2{ contentplaceholderid: "ContentPlaceHolder1", runat: "Server"}
   -# = javascript_include_tag "statisticsRequest"
-  - cache("#sectionMain", skip_digest: true, expires_in: 1.day) do
+  - cache("#sectionMain-#{locale}", skip_digest: true, expires_in: 1.week) do
     %section#main-slider.no-margin
       .carousel.slide
         %ol.carousel-indicators.hide
@@ -44,45 +44,24 @@
     %section.smallCarousel
       .container
         .center.wow.fadeInDown.animated.hidden-lg.hidden-md.hidden-sm{ style: "visibility: visible; animation-name: fadeInDown; padding-bottom: 0; margin-bottom: -20px"}
-          %h2 #{t(:explore_taxa)}
+          %h2
+            #{t(:explore_taxa)}
         #mixedSlider.carousel_Thumbnails
           .MS-content
-            .item
-              .imgTitle
-                %a{href: page_path(46570763)}
-                  %h2.blogTitle
-                    - page1 = Page.find_by_id(46570763)
-                    = page1.try(:scientific_name)
-                  = image_tag page1.try(:media).size > 0 && !page1.try(:media).first.base_url.nil? ? page1.try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
-            .item
-              .imgTitle
-                %a{href: page_path(46579654)}
-                  %h2.blogTitle
-                    - page2 = Page.find_by_id(46579654)
-                    = page2.try(:scientific_name)
-                  = image_tag page2 && page2.media.size > 0 && !page2.try(:media).first.base_url.nil? ? page2.try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
-            .item          
-              .imgTitle
-                %a{href: page_path(328672)}
-                  %h2.blogTitle
-                    - page3 = Page.find_by_id(328672)
-                    = page3.try(:scientific_name)
-                  = image_tag page3.try(:media).size > 0 && !page3.try(:media).first.base_url.nil? ? page3.try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
-            .item
-              .imgTitle
-                %a{href: page_path(8002)}
-                  %h2.blogTitle
-                    - page4 = Page.find_by_id(8002)
-                    = page4.try(:scientific_name)
-                  = image_tag page4 && page4.media.size > 0 && !page4.try(:media).first.base_url.nil? ? page4.try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
-            .item
-              .imgTitle
-                %a{href: page_path(45515245)}
-                  %h2.blogTitle
-                    - page5 = Page.find_by_id(45515245)
-                    = page5.try(:scientific_name)
-                  = image_tag page5 && page5.media.size > 0 && !page5.try(:media).first.base_url.nil? ? page5.try(:media).first.base_url : "assets/download.png", style: 'height:25%;width:auto;'
-  - cache("#Home_Statistics", skip_digest: true, expires_in: 1.day) do  
+            - page_id_array = [46570763, 46579654, 328672, 8002, 45515245]
+            - page_id_array.each do |page_id|
+              .item
+                .imgTitle
+                  %a{href: page_path(page_id)}
+                    %h2.blogTitle
+                      - page = Page.find_by_id(page_id)
+                      = page.try(:scientific_name)
+                    = image_tag page.try(:media).size > 0 && !page.try(:media).first.base_url.nil? ? page.try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+        .center.wow.fadeInDown
+          %h3
+            %a{href: main_app.search_path(query:"*")} #{t(:see_more)}
+
+  - cache("#Home_Statistics-#{locale}", skip_digest: true, expires_in: 1.day) do  
     .container
       .separator
     %section#Home_Statistics
@@ -137,33 +116,34 @@
                     = @res_count
                   %span
                     #{t(:resources)}
-    %section#Sponsors
-      .container
-        .center.wow.fadeInDown
-          %h2 #{t(:institutional_sponsors)}
-        .row
-          .col-md-2.col-sm-2.col-xs-4.logo-item
-            %a{href: "https://www.ala.org.au/"}
-              =image_tag "ala.jpg", class: 'img-responsive wow fadeInDown'
-          .col-md-2.col-sm-2.col-xs-4.logo-item
-            %a{href: "https://www.bibalex.org/en/default"}
-              =image_tag "bibalex.jpg", class: 'img-responsive wow fadeInDown'
-          .col-md-2.col-sm-2.col-xs-4.logo-item
-            %a{href: "https://www.gob.mx/conabio"}
-              =image_tag "conabio.jpg", class: 'img-responsive wow fadeInDown'
-          .col-md-2.col-sm-2.col-xs-4
-            %a{href: "http://www.mbl.edu/"}
-              =image_tag "mbl.jpg", class: 'img-responsive wow fadeInDown'
-          .col-md-2.col-sm-2.col-xs-4
-            %a{href: "https://www.harvard.edu/"}
-              =image_tag "mcz.jpg", class: 'img-responsive wow fadeInDown'
-          .col-md-2.col-sm-2.col-xs-4
-            %a{href: "https://www.si.edu/"}
-              =image_tag "nmnh.jpg", class: 'img-responsive wow fadeInDown'
-    .Donation
-      .container
-        .get-started.center.wow.fadeInDown
-          %h2 #{t(:donate_online)}
-          %p.lead #{t(:donate)}
-          .Donate_Btn
-            %a{href: "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_hl"} #{t(:donate_button)}
+    - cache("#sectionSponsors-#{locale}", skip_digest: true, expires_in: 1.week) do
+      %section#Sponsors
+        .container
+          .center.wow.fadeInDown
+            %h2 #{t(:institutional_sponsors)}
+          .row
+            .col-md-2.col-sm-2.col-xs-4.logo-item
+              %a{href: "https://www.ala.org.au/"}
+                =image_tag "ala.jpg", class: 'img-responsive wow fadeInDown'
+            .col-md-2.col-sm-2.col-xs-4.logo-item
+              %a{href: "https://www.bibalex.org/en/default"}
+                =image_tag "bibalex.jpg", class: 'img-responsive wow fadeInDown'
+            .col-md-2.col-sm-2.col-xs-4.logo-item
+              %a{href: "https://www.gob.mx/conabio"}
+                =image_tag "conabio.jpg", class: 'img-responsive wow fadeInDown'
+            .col-md-2.col-sm-2.col-xs-4
+              %a{href: "http://www.mbl.edu/"}
+                =image_tag "mbl.jpg", class: 'img-responsive wow fadeInDown'
+            .col-md-2.col-sm-2.col-xs-4
+              %a{href: "https://www.harvard.edu/"}
+                =image_tag "mcz.jpg", class: 'img-responsive wow fadeInDown'
+            .col-md-2.col-sm-2.col-xs-4
+              %a{href: "https://www.si.edu/"}
+                =image_tag "nmnh.jpg", class: 'img-responsive wow fadeInDown'
+      .Donation
+        .container
+          .get-started.center.wow.fadeInDown
+            %h2 #{t(:donate_online)}
+            %p.lead #{t(:donate)}
+            .Donate_Btn
+              %a{href: "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_hl"} #{t(:donate_button)}
