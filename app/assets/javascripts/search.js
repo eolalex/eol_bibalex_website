@@ -1,7 +1,9 @@
 
 //$(document).ready(function () {	
-function initialize(){
+function initialize(locale){
+	var locale = document.getElementsByName("locale")[0].value;
 	$("#filter").on('click', function() {
+		
 		var scientific_names_index = window.location.href.indexOf('&scientific_names=true');
 		var link = "";
 		if (scientific_names_index != -1) {
@@ -43,7 +45,7 @@ function initialize(){
 			// if(datum._type == "scientific_name")
 				// window.location.href = Routes.page_path(datum.id);
 			if(datum._type == "page")
-				window.location.href = Routes.page_path(datum.id);
+				window.location.href = locale+Routes.page_path(datum.id);
 		});
 		;
 	});

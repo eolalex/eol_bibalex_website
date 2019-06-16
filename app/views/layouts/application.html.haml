@@ -120,6 +120,7 @@
                     .searchBox
                       = form_tag(main_app.search_path, method: :get) do |f|
                         = text_field_tag(:query, params[:query], placeholder: t(:search_placeholder), class: "modal-body searchBox")
+                        = hidden_field_tag('locale', "/#{params[:locale]}")
                         %button.searchButton
                           %i.fa.fa-search{"aria-hidden": "true", remote: true}
     %body

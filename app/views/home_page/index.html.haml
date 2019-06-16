@@ -31,6 +31,7 @@
                     .form-control
                       = form_tag(main_app.search_path, method: :get) do
                         = text_field_tag(:query, params[:query], required: "true", placeholder: t(:search_placeholder))
+                        = hidden_field_tag('locale', params[:locale])
                         %button.searchButton
                           %i.fa.fa-search{"aria-hidden": "true", remote: true}
     :javascript
