@@ -2,6 +2,7 @@
 = javascript_include_tag 'jquery' 
 = javascript_include_tag 'search'
 - @is_root = ((current_page? main_app.root_path) || (current_page? "/")) ? 1 : 0
+- @is_visitor = current_user.nil? ? "visitor" : current_user.username
 
 %html
   %head
@@ -33,7 +34,7 @@
     = javascript_include_tag 'application'
     = csrf_meta_tags
     
-    - cache("header-#{locale}-root-#{@is_root}", expires_in: 1.week) do
+    - cache("header-#{locale}-root-#{@is_root}-#{@is_visitor}", expires_in: 1.week) do
       %header#header
         %nav.navbar.navbar-inverse{ role: "banner", "data-turbolinks": "true"}
           .container
