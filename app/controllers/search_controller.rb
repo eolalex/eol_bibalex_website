@@ -11,7 +11,7 @@ class SearchController < ApplicationController
 
   def search
     # Page.reindex
-    @page_title = params[:query]+ "| "+ t(:search_results)
+    @page_title = params[:query] == "*" ? t(:see_more) : params[:query]+ "| "+ t(:search_results)
     regex = ".*"+params[:query].downcase+".*"
     # scientific_names_result = ScientificName.search params[:query] do |body|
       # body[:query] = {
