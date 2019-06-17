@@ -34,7 +34,7 @@
     = javascript_include_tag 'application'
     = csrf_meta_tags
     
-    - cache("header-#{locale}-root-#{@is_root}-#{@is_visitor}", expires_in: 1.week) do
+    - cache(["header-#{locale}-root-#{@is_root}-#{@is_visitor}", locale.to_s], expires_in: 1.week) do
       %header#header
         %nav.navbar.navbar-inverse{ role: "banner", "data-turbolinks": "true"}
           .container
@@ -135,7 +135,7 @@
         = javascript_include_tag 'wow.min'
         = javascript_include_tag 'multislider'
 
-  - cache("footer-#{locale}-root-#{@is_root}", expires_in: 1.week) do
+  - cache ["footer-#{locale}-root-#{@is_root}", locale.to_s], expires_in: 1.week do
     %footer#footer.midnight-blue
       .container
         .row
