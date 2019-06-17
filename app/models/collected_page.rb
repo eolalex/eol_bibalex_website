@@ -3,7 +3,7 @@ class CollectedPage < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
   
-  index_name Rails.application.class.parent_name.underscore
+  index_name "collected_pages"
   document_type self.name.downcase
   
   settings index: { number_of_shards: 10} do

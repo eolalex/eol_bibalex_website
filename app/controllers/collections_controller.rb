@@ -15,6 +15,7 @@ class CollectionsController < ApplicationController
     @page_id = request.referrer.split("/pages/")[1].split("?")[0].to_i
     @collection = Collection.new(collection_params)
     if @collection.save
+      $updated_at = DateTime.now().strftime("%Q")
       @collection.users << current_user
       respond_to do |format|
         format.html {}
@@ -26,6 +27,7 @@ class CollectionsController < ApplicationController
         flash[:notice] = t(:page_added_to_collection)
       end
     end
+ 
   end
 
   def edit
@@ -57,6 +59,7 @@ class CollectionsController < ApplicationController
       # redirect_to root_path
       redirect_to user_path(current_user)
     end
+    $updated_at = DateTime.now().strftime("%Q")
   end
 
   def collection_params

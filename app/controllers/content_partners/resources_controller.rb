@@ -28,6 +28,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
       if @resource.valid?
         result = ResourceApi.add_resource?(resource_params, params[:content_partner_id])
         if !result.nil?
+          $updated_at = DateTime.now().strftime("%Q")
           flash[:notice] = I18n.t(:successfuly_created_resource)
           redirect_to controller: 'resources', action: 'show', id: result
         else

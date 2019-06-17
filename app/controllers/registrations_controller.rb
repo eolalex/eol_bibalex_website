@@ -4,16 +4,16 @@ class RegistrationsController < Devise::RegistrationsController
   before_action :set_locale
   before_action :configure_permitted_params
   before_action :check_captcha, only: [:create]
-    # unless params[:user].nil?
-      # if params[:user][:remember] == "on"
-        # remember_me current_user
-      # end
-    # end
+  after_action :set_updated_at, only: [:create]
+  # unless params[:user].nil?
+  # if params[:user][:remember] == "on"
+  # remember_me current_user
+  # end
+  # end
   # GET /resource/sign_up
   # def new
-    # super
+  # super
   # end
-
   # POST /resource
   # def create
   #   super
@@ -22,9 +22,9 @@ class RegistrationsController < Devise::RegistrationsController
   # def edit
   #   super
   # end
-   # PUT /resource
+  # PUT /resource
   # def update
-    # super?locale=en
+  # super?locale=en
   # end
   # DELETE /resource
   # def destroy
@@ -38,6 +38,10 @@ class RegistrationsController < Devise::RegistrationsController
   # def cancel
   #   super
   # end
+  def set_updated_at
+    $updated_at = DateTime.now().strftime("%Q")
+  end
+
   def configure_permitted_params
     devise_parameter_sanitizer.permit(:sign_up) do |u|
       u.permit(:username, :email, :password, :password_confirmation, :recaptcha, :failed_attempts)
@@ -45,14 +49,14 @@ class RegistrationsController < Devise::RegistrationsController
     devise_parameter_sanitizer.permit(:account_update) do |u|
       u.permit(:username, :email, :password, :password_confirmation, :current_password)
     end
-   
+
   end
-  
+
   def update_resource(resource, params)
     if resource.provider.nil?
-      resource.update_with_password(params)
+    resource.update_with_password(params)
     else
-      resource.update_without_password(params)
+    resource.update_without_password(params)
     end
   end
 
@@ -91,5 +95,5 @@ class RegistrationsController < Devise::RegistrationsController
     # debugger
     I18n.locale = params[:locale] || I18n.default_locale
   end
-  
+
 end

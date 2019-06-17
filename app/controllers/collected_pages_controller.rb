@@ -44,6 +44,7 @@ class CollectedPagesController < ApplicationController
     @collection = @collected_page.collection
     if @collected_page.destroy
       if @collection.collected_pages_count == 1
+        $updated_at = DateTime.now().strftime("%Q")
         Collection.destroy(@collection.id)
         redirect_to @page
       else

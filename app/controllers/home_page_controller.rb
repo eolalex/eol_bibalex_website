@@ -5,7 +5,17 @@ class HomePageController < ApplicationController
   #helper_method :url_without_locale_params
   
   def index
-    unless fragment_exist?("#Home_Statistics-#{locale}")
+    unless fragment_exist?("#Home_Statistics-#{locale}-#{$updated_at}")
+      
+      # #cache number of resources
+      # httpRes = Net::HTTP.new('127.0.0.1', '8084')
+      # reqRes = Net::HTTP::Get.new("http://127.0.0.1:8084/scheduler/resources/count")
+      # @res_count = httpRes.request(reqRes).body
+# 
+      # #cache number of content partners
+      # httpCP = Net::HTTP.new('127.0.0.1', '8084')
+      # reqCP = Net::HTTP::Get.new("http://127.0.0.1:8084/scheduler/contentPartners/count")
+      # @cp_count = httpCP.request(reqCP).body
 
       #cache number of resources
       httpRes = Net::HTTP.new(ENV['SCHEDULER_IP'], ENV['SCHEDULER_PORT'])
@@ -16,16 +26,6 @@ class HomePageController < ApplicationController
       httpCP = Net::HTTP.new(ENV['SCHEDULER_IP'], ENV['SCHEDULER_PORT'])
       reqCP = Net::HTTP::Get.new("#{ENV['schedular_ip']}/contentPartners/count")
       @cp_count = httpCP.request(reqCP).body
-
-      # #cache number of resources
-      # httpRes = Net::HTTP.new('127.0.0.1', '8084')
-      # reqRes = Net::HTTP::Get.new("http://127.0.0.1:8084/scheduler/resources/count")
-      # @res_count = httpRes.request(reqRes).body
-# 
-      # #cache number of content partners
-      # httpCP = Net::HTTP.new('127.0.0.1', '8084')
-      # reqCP = Net::HTTP::Get.new("http://127.0.0.1:8084/scheduler/contentPartners/count")
-      # @cp_count = httpCP.request(reqCP).body
 
       #cache number of neo4j traits
       @traits_count = TraitBank.count
