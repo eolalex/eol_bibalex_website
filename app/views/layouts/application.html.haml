@@ -2,7 +2,7 @@
 = javascript_include_tag 'jquery' 
 = javascript_include_tag 'search'
 - @is_root = ((current_page? main_app.root_path) || (current_page? "/")) ? 1 : 0
-- @is_visitor = current_user.nil? ? "visitor" : current_user.username
+- @is_visitor = current_user.nil? ? "visitor" : "#{current_user.username}_#{current_user.id}"
 
 %html
   %head
