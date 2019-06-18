@@ -33,7 +33,7 @@
     = stylesheet_link_tag 'haml'
     = javascript_include_tag 'application'
     = csrf_meta_tags
-    - debugger
+    
     - cache_unless(controller_path=="pages",["header", @is_root, @is_visitor, request.original_fullpath, locale.to_s], expires_in: 1.day) do
       %header#header
         %nav.navbar.navbar-inverse{ role: "banner", "data-turbolinks": "true"}
