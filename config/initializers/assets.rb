@@ -51,6 +51,7 @@ Rails.application.config.assets.precompile += %w( refinery_reload.js )
 Rails.application.config.assets.precompile += %w( user_providers_registration_modal.js )
 Rails.application.config.assets.precompile += %w( user_providers_hidden_form.js )
 Rails.application.config.assets.precompile += %w( shared/data_row.js )
+Rails.application.config.assets.precompile += %w( collected_pages_search.js )
 
 # Rails.application.config.assets.precompile += %w( typeahead.bundle.js)
 # Rails.application.config.assets.precompile += %w( typeahead.bundle.min.js)

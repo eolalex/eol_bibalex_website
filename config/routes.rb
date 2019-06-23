@@ -53,14 +53,18 @@ Rails.application.routes.draw do
     resources :data, only: [:show]
 
     resources :collections do
+      get "/collections/:id(.:format)" => 'collections#show'
       get "logs"
       post '/collections/:id/edit(.:format)' => 'collections#edit'
       resources :collected_pages, only: [:index]
       post 'add_user'
       post 'remove_user'
+      get '/collected_pages/autocomplete' => 'collected_pages#autocomplete'
     end
-    resources :collected_pages
-    delete '/collected_pages/:id'=>'collected_pages#destroy'
+    resources :collected_pages do
+      delete '/collected_pages/:id'=>'collected_pages#destroy'
+
+    end
     #tabs
 
     get :media_grid, :controller => :pages

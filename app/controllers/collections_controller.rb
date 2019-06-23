@@ -24,7 +24,7 @@ class CollectionsController < ApplicationController
       @collected_page = CollectedPage.new(page_id: @page_id, collection_id: @collection.id)
       if @collected_page.save
         redirect_to @collected_page.page
-        flash[:notice] = t(:page_added_to_collection)
+        flash[:notice] = "#{@collected_page.scientific_name_string }: "+ t(:page_added_to_collection)+ ": #{@collected_page.collection.name}"
       end
     end
  
@@ -45,9 +45,10 @@ class CollectionsController < ApplicationController
   end
   
   def show
+    # debugger
     @collection = Collection.find(params[:id])
     @collected_pages = @collection.collected_pages
-    @collected_pages = @collected_pages.sort_by{|collected_page| collected_page.page.scientific_name.downcase} 
+    @collected_pages = @collected_pages.sort_by{|collected_page| collected_page.scientific_name_string.downcase} 
     @collected_pages = @collected_pages.paginate(:page => params[:page], :per_page => ENV['per_page'])
   end
 

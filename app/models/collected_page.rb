@@ -9,6 +9,7 @@ class CollectedPage < ActiveRecord::Base
   settings index: { number_of_shards: 10} do
   mapping dynamic: false do
     indexes :scientific_name_string, type: :varchar 
+    indexes :collection_id, type: :integer
     indexes :suggest, {
       type: 'completion',
       analyzer: 'lowercase',
@@ -54,10 +55,15 @@ end
 
   def search_data
     {
-     collection_id: collection.id,
+     page_id: page.id,
+     collection_id: collection_id,
      scientific_name_string: scientific_name_string.downcase
     }
   end
+ 
+ def collection_id
+   collection.id
+ end
  
   def self.find_pages(q, collection_id)
     CollectedPage.search do
