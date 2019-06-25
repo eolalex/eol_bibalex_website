@@ -18,7 +18,7 @@ module EolPublishingLayer
     config.load_defaults 5.1
     config.i18n.available_locales = [:en, :ar]
     config.i18n.default_locale = :en
-    config.force_ssl = true
+    config.force_ssl = false
 
     config.middleware.insert_before ActionDispatch::Static, Rack::Cors do
       allow do
