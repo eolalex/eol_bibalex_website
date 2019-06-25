@@ -1,7 +1,8 @@
-
-//$(document).ready(function () {	
-function initialize(){
+//$(document).ready(function () {
+function initialize(locale) {
+	var locale = document.getElementsByName("locale")[0].value;
 	$("#filter").on('click', function() {
+
 		var scientific_names_index = window.location.href.indexOf('&scientific_names=true');
 		var link = "";
 		if (scientific_names_index != -1) {
@@ -17,7 +18,7 @@ function initialize(){
 
 		var filters = "";
 		// if ($("#scientific_names").prop('checked')) {
-			// filters += "&scientific_names=true";
+		// filters += "&scientific_names=true";
 		// }
 		if ($("#pages").prop('checked')) {
 			filters += "&pages=true";
@@ -36,18 +37,21 @@ function initialize(){
 		});
 		pages.initialize();
 		$('#query').typeahead(null, {
-			displayKey: 'scientific_name',
-			source : pages
+			displayKey : 'scientific_name',
+			source : pages,
+			limit : 10,
+			minLength : 1
 		}).bind('typeahead:selected', function(evt, datum, name) {
 			console.log(datum);
 			// if(datum._type == "scientific_name")
-				// window.location.href = Routes.page_path(datum.id);
-			if(datum._type == "page")
-				window.location.href = Routes.page_path(datum.id);
+			// window.location.href = Routes.page_path(datum.id);
+			if (datum._type == "page")
+				window.location.href = locale + Routes.page_path(datum.id);
 		});
 		;
 	});
 }
+
 //});
 $(document).ready(initialize);
 $(document).on('turbolinks:load', initialize);

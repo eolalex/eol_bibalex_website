@@ -362,7 +362,7 @@ def main_method_3
 
 
     # start_harvested_time = "1554737562000"
-    start_harvested_time = "1557222288000"
+    start_harvested_time = "1560433733000"
     if HarvestTime.first.nil?
       HarvestTime.create
     end

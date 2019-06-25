@@ -24,11 +24,10 @@ class PagesController < ApplicationController
     render json: Page.search(params[:query], {
       fields: ["scientific_name^5"],
       match: :word_start,
-      limit: 10,
+      # limit: 10,
       load: false,
       misspellings: false
     })
-
   end
 
   def media

@@ -5,7 +5,8 @@ class CollectedPagesController < ApplicationController
   def show
     @collected_page = CollectedPage.find(params[:id])
     respond_to do |format|
-      format.js {}
+      format.html {}
+      # format.js {}
     end
   end
 
@@ -15,10 +16,10 @@ class CollectedPagesController < ApplicationController
     # @page = @collected_page.page
     # @collection = Collection.new(collected_pages_attributes: [@collected_page])
     @collected_page = CollectedPage.new
-  # respond_to do |format|
-  # format.html {}
-  # format.js {}
-  # end
+ respond_to do |format|
+      format.html {}
+      # format.js {}
+    end
   end
 
   def create
@@ -30,7 +31,7 @@ class CollectedPagesController < ApplicationController
           f.html {}
           f.js {}
         end
-        flash[:notice] = t(:page_added_to_collection)
+        flash[:notice] = "#{@collected_page.scientific_name_string }: "+ t(:page_added_to_collection)+ ": #{@collected_page.collection.name}"
       else
         flash[:notice] = t(:page_exists)
       end
@@ -44,6 +45,7 @@ class CollectedPagesController < ApplicationController
     @collection = @collected_page.collection
     if @collected_page.destroy
       if @collection.collected_pages_count == 1
+        $updated_at = DateTime.now().strftime("%Q")
         Collection.destroy(@collection.id)
         redirect_to @page
       else
@@ -54,63 +56,50 @@ class CollectedPagesController < ApplicationController
   end
 
   def index
+    #debugger
     @collection_id = params[:collection_id]
     @collected_pages = CollectedPage.where(collection_id: @collection_id)
-    @page_title = params[:query]+ "| "+ t(:search_results)
-    regex = ".*"+params[:query].downcase+".*"    
-    page_result = Page.search params[:query] do |body|
+    @page_title = params[:cp_query]+ "| "+ t(:search_results)
+    regex = ".*"+params[:cp_query].downcase+".*"
+    # debugger
+    page_result = CollectedPage.search params[:cp_query] do |body|
       body[:query] = {
         regexp:{
-            scientific_name: regex
+            scientific_name_string: regex
         }
      }
     end
     @page_results = page_result.results
-
     unless @page_results.empty?
-      # @page_results = @result.paginate( page: params[:page], per_page: ENV['per_page'])
       @page_results.each do |page_result|
-        @collected_pages.each do |collected_page|
-          if collected_page.page.id == page_result.id
-            if @result.nil?
-              @result = Array.new
-            end
-            @result << page_result
+        if page_result.collection_id == @collection_id.to_i
+          if @result.nil?
+            @result = Array.new
           end
+          @result << page_result
         end
       end
     end
+    #debugger
     unless (@result.nil? || @result.empty?)
-      @result = @result.sort_by{|result| Page.find(result.id).scientific_name.downcase}
+      @result = @result.sort_by{|result| CollectedPage.find(result.id).scientific_name_string.downcase}
       @result = @result.paginate( page: params[:page], per_page: ENV['per_page'])
     else
-      flash[:notice] = t(:no_results)+" "+ params[:query]
+      flash[:notice] = t(:no_results)+" "+ params[:cp_query]
       redirect_to collection_path(id: @collection_id)
     end
-
-    # @canonical_form = params[:q]
-# 
-    # @pages = Page.find_by_sql("select id from pages where node_id in (select node_id from scientific_names where canonical_form like \"%#{@canonical_form}%\")")
-    # @pages.each do |p|
-      # @collected_pages.each do |collected_page|
-        # if collected_page.page.id == p.id
-          # if @result.nil?
-            # @result = Array.new
-          # end
-        # @result << p
-        # end
-      # end
-    # end
-# #debugger
-    # unless @result.nil?
-      # @result = @result.sort_by{|p| Page.find(p.id).scientific_name.downcase}
-      # @result = @result.paginate( page: params[:page], per_page: ENV['per_page'])
-    # else
-      # flash[:notice] = t(:no_results)+" "+ @canonical_form
-      # redirect_to collection_path(id: @collection_id)
-    # end
   end
 
+  def autocomplete
+    render json: CollectedPage.search(params[:cp_query], {
+      fields: ["scientific_name_string^5"],
+      where: {collection_id: params[:collection_id].to_i},
+      match: :word_start,
+      load: false,
+      misspellings: false
+    })
+  end
+  
   private
 
   def collected_page_params

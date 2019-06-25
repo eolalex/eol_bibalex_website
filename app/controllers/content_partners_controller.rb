@@ -17,6 +17,7 @@ class ContentPartnersController < ApplicationController
       # result = ContentPartnerApi.add_content_partner?(content_partner_params, nil)
       
       if !result.nil?
+        $updated_at = DateTime.now().strftime("%Q")
         flash[:notice] = I18n.t(:successfuly_created_content_partner)
         redirect_to controller: 'content_partners', action: 'show', id: result
       else

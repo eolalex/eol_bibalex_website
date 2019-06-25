@@ -42,10 +42,11 @@ class UserProvidersController < ApplicationController
      if user["info"]["email"] != params[:user][:email]
        redirect_to new_user_registration_path, flash: { notice:  flash_msg }
      else
+       
        sign_in_and_redirect @user, event: :authentication
        # redirect_to root_path
        flash[:notice] = flash_msg
      end
-     
+     $updated_at = DateTime.now().strftime("%Q")
   end
 end

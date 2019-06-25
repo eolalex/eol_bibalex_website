@@ -1,23 +1,27 @@
 class CollectedPage < ActiveRecord::Base
   
-  # include Elasticsearch::Model
-  # include Elasticsearch::Model::Callbacks
-#   
-  # index_name Rails.application.class.parent_name.underscore+"_collectedpage"
-  # document_type self.name.downcase
-#   
-  # settings index: { number_of_shards: 10} do
-  # mapping dynamic: false do
-    # indexes :scientitfic_name, type: :varchar 
-    # indexes :suggest, {
-      # type: 'completion',
-      # analyzer: 'lowercase',
-      # search_analyzer: 'lowercase',
-      # payloads: 'true',
-      # }
-  # end
-# end
-  # searchkick word_start: [:scientific_name]
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+  
+  index_name "collected_pages"
+  document_type self.name.downcase
+  
+  settings index: { number_of_shards: 10} do
+  mapping dynamic: false do
+    indexes :scientific_name_string, type: :varchar 
+    indexes :collection_id, type: :integer
+    indexes :suggest, {
+      type: 'completion',
+      analyzer: 'lowercase',
+      search_analyzer: 'lowercase',
+      payloads: 'true',
+      }
+  end
+end
+
+  searchkick word_start: [:scientific_name_string]
+
+
   belongs_to :page, inverse_of: :collected_pages
   belongs_to :collection, inverse_of: :collected_pages
   require 'acts_as_list'
@@ -50,12 +54,17 @@ class CollectedPage < ActiveRecord::Base
   # end
 
   def search_data
-
     {
+     page_id: page.id,
+     collection_id: collection_id,
      scientific_name_string: scientific_name_string.downcase
     }
-
   end
+ 
+ def collection_id
+   collection.id
+ end
+ 
   def self.find_pages(q, collection_id)
     CollectedPage.search do
       q = "*#{q}.downcase" unless q[0] == "*"
