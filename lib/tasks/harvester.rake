@@ -378,7 +378,7 @@ def main_method_3
       
     # # start_harvested_time is included 
     # # end_harvested_time is excluded therefore we keep it to next loop
-       json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+420000).to_s)
+       json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+360000).to_s)
        tables = JSON.parse(json_content)
 
     licenses = tables["licenses"]
@@ -527,7 +527,7 @@ def main_method_3
       $occurrence_maps_count = 0
     end
      
-      start_harvested_time = (start_harvested_time.to_i + 420000).to_s
+      start_harvested_time = (start_harvested_time.to_i + 360000).to_s
    end
    ActiveRecord::Base.logger.info "enddddddddd: #{Time.new}"
    # debugger
@@ -744,14 +744,15 @@ end
 
 def set_ancestors_and_parents(nodes_ids)
   neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_ANCESTORS_OF_NODES_ACTION}"
+  nodes_ids.each_slice(10000) do |sub_arr|
     begin    
       request =RestClient::Request.new(
           :method => :post,
           :timeout => -1,
           :url => "#{neo4j_uri}",
           headers: { content_type: 'application/json', accept: 'application/json'},
-          :payload =>  nodes_ids.to_json
-
+          # :payload =>  nodes_ids.to_json
+          :payload => sub_arr.to_json
         )
         
         response = request.execute
@@ -796,6 +797,7 @@ def set_ancestors_and_parents(nodes_ids)
       NodeAncestorsFlattened.bulk_insert(node_ancestors_flattened_array, :validate => true)
       NodeDirectParent.bulk_insert(node_direct_parent_array, :validate => true)
     end
+  end
 end
 
 

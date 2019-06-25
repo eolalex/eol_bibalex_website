@@ -67,23 +67,23 @@
 
             .widget.categories
               -if @page.data.size > 0
-                %h3
-                  #{t(:selective_traits)}
-                %table.table.table-striped
-                  -if @page.data.size() > 2
-                    - @page.data.first(3).each do |trait|  
-                      %tr
-                        %td.text-right
-                          %b 
-                            = trait[:predicate][:name]
-                          = trait[:predicate][:definition]
-                  -else
-                    - @page.data.each do |trait|  
-                      %tr
-                        %td.text-right
-                          %b 
-                            = trait[:predicate][:name]
-                          = trait[:predicate][:definition]
+                -# %h3
+                  -# #{t(:selective_traits)}
+                -# %table.table.table-striped
+                  -# -if @page.data.size() > 2
+                    -# - @page.data.first(3).each do |trait|  
+                      -# %tr
+                        -# %td.text-right
+                          -# %b 
+                            -# = trait[:predicate][:name]
+                          -# = trait[:predicate][:definition]
+                  -# -else
+                    -# - @page.data.each do |trait|  
+                      -# %tr
+                        -# %td.text-right
+                          -# %b 
+                            -# = trait[:predicate][:name]
+                          -# = trait[:predicate][:definition]
               -else
                 %h3
                   #{t(:selective_traits)}
