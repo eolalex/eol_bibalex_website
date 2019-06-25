@@ -1,0 +1,240 @@
+﻿.MainPath {
+    padding: 16px;
+    background-color: #f7f7f7;
+    margin-bottom: 30px;
+}
+.blog .blog-item .entry-meta {
+    border-radius: 0 !important;
+    overflow: hidden;
+}
+.TaxonName, .mainTitle {
+    margin-top: 0 !important;
+    font-weight: 400;
+    font-size: 24px;
+    margin-bottom: 20px;
+    border-bottom: 1px dotted #d1d1d1;
+    padding-bottom: 20px;
+}
+.TaxonName .dropdown {
+    font-size: 15px;
+    margin-top: -10px;
+}
+.widget h3 {
+    margin-top: 0 !important;
+}
+.widget.categories h3 small {
+    margin-top: 5px;
+    font-size: 14px;
+    text-transform: none;
+}
+.graybg {
+    background-color: #ebebeb;
+}
+#publish_date {
+    text-align: left !important;
+    padding-left: 10px;
+    font-weight: bold;
+    border-bottom: none !important;
+    background: rgba(0,0,0,.6);
+    border-color: #b7cc2b;
+    border-bottom-color: rgb(183, 204, 43);
+    border-width: 1px;
+    border-bottom-width: 2px;
+    font-size: 16px;
+    padding: 10px 15px;
+}
+.ImgMetaData {
+    margin-top: -42px;
+}
+span.TaxonMentaData {
+    color: #5D5D5D !important;
+    font-size: 14px !important;
+}
+span.TaxonMentaData a {
+    color: #c52d2f !important;
+}
+.form-group .form-control {
+    border-color: #e8e8e8 !important;
+}
+.btn-primary {
+    margin-top: 0 !important;
+}
+.login-or {
+    position: relative;
+    color: #aaa;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.hr-or {
+    height: 1px;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+.span-or {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: -2px;
+    margin-left: -25px;
+    background-color: #fff;
+    width: 50px;
+    text-align: center;
+}
+.g-button {
+    color: #fff !important;
+    border: 1px solid #EA4335;
+    background: #ea4335 !important;
+    width: 100%;
+    font-weight: 600;
+    color: #fff;
+    padding: 8px 25px;
+}
+.BGwhite {
+    background-color: #fff !important;
+}
+h3.Special {
+    color: #515151;
+    font-weight: 600;
+}
+.marginTop0 {
+    margin-top: 0 !important;
+}
+.marginBtm0 {
+    margin-bottom: 0 !important;
+}
+.form-check-label {
+    font-weight: normal !important;
+}
+/* ----- alerts style ----- */
+.alert {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-radius: .25rem;
+}
+.alert-primary {
+    color: #004085;
+    background-color: #cce5ff;
+    border-color: #b8daff;
+}
+.alert-secondary {
+    color: #383d41;
+    background-color: #e2e3e5;
+    border-color: #d6d8db;
+}
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+.alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+.alert-light {
+    color: #818182;
+    background-color: #fefefe;
+    border-color: #fdfdfe;
+}
+.alert-dark {
+    color: #1b1e21;
+    background-color: #d6d8d9;
+    border-color: #c6c8ca;
+}
+/* ----- end of alerts style ----- */
+.mrgnTopBtm10 li, .mrgnTopBtm10 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+/*------ tree style ------*/
+.tree {
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: #fbfbfb;
+    border: 1px solid #999;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05)
+}
+
+    .tree li {
+        list-style-type: none;
+        margin: 0;
+        /*padding: 10px 5px 0 5px;*/
+        padding: 3px 0 0; /*edited by shaimaa*/
+        position: relative
+    }
+
+        .tree li::before, .tree li::after {
+            content: '';
+            left: -20px;
+            position: absolute;
+            right: auto
+        }
+
+        .tree li::before {
+            border-left: 1px solid #999;
+            bottom: 50px;
+            height: 100%;
+            top: 0;
+            width: 1px
+        }
+
+        .tree li::after {
+            border-top: 1px solid #999;
+            height: 20px;
+            top: 25px;
+            /*width: 25px;*/
+            width:20px; /*Edited by shaimaa*/
+        }
+
+        .tree li span:not(.glyphicon) {
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+            display: inline-block;
+            padding: 4px 9px;
+            text-decoration: none
+        }
+
+        .tree li.parent_li > span:not(.glyphicon) {
+            cursor: pointer
+        }
+
+    .tree > ul > li::before, .tree > ul > li::after {
+        border: 0
+    }
+
+    .tree li:last-child::before {
+        height: 30px
+    }
+
+    .tree li.parent_li > span:not(.glyphicon):hover, .tree li.parent_li > span:not(.glyphicon):hover + ul li span:not(.glyphicon) {
+        background: #eee;
+        border: 1px solid #999;
+        padding: 3px 8px;
+        color: #000
+    }
+/*------ end of tree style ------*/

@@ -107,11 +107,11 @@ a:focus {
 }
 
 .media>.pull-left{
-  margin-right: 20px;
+  margin-left: 20px;
 }
 
 .media>.pull-right{
-  margin-left: 20px;
+  margin-right: 20px;
 }
 
 body > section {
@@ -179,7 +179,7 @@ body > section {
 }
 
 .navbar>.container .navbar-brand{
-  margin-left: 0;
+  margin-right: 0;
 }
 
 .top-bar {
@@ -198,7 +198,7 @@ body > section {
 }
 
 .social{
-  text-align: right;
+  text-align: left;
 }
 
 .social-share{
@@ -275,7 +275,7 @@ input.search-form:hover {
  }
 
 .navbar-nav>li{
-  margin-left: 35px;
+  margin-right: 35px;
   padding-bottom: 28px;
 }
 
@@ -323,7 +323,7 @@ input.search-form:hover {
   margin-top: 0;
   border-top: 0;
   border-radius: 0;
-  left: 0;
+  right: 0;
 }
 
 .navbar-inverse .navbar-nav .dropdown-menu:before{
@@ -344,7 +344,7 @@ input.search-form:hover {
 }
 
 .navbar-inverse .navbar-nav .dropdown-menu > li:last-child > a {
-  border-radius: 0 0 3px 3px;
+  border-radius: 0 3px 3px 0;
 }
 
 .navbar-inverse .navbar-nav .dropdown-menu > li.divider {
@@ -394,7 +394,7 @@ input.search-form:hover {
 }
 
 #main-slider .carousel .slider-img{
-  text-align: right;
+  text-align: left;
   position: absolute;
 }
 
@@ -403,7 +403,7 @@ input.search-form:hover {
   background-position: 50%;
   background-repeat: no-repeat;
   background-size: cover;
-  left: 0 !important;
+  right: 0 !important;
   opacity: 0;
   top: 0;
   position: absolute;
@@ -453,18 +453,18 @@ input.search-form:hover {
 }
 
 #main-slider .prev {
-  left: 10px;
+  right: 10px;
 }
 
 #main-slider .next {
-  right: 10px;
+  left: 10px;
 }
 
 #main-slider .carousel-indicators li {
   width: 20px;
   height: 20px;
   background-color: #fff;
-  margin: 0 15px 0 0;
+  margin: 0 0 0 15px;
   position: relative;
 }
 
@@ -476,7 +476,7 @@ input.search-form:hover {
   border-radius: 100%;
   background: rgba(0, 0, 0, 0);
   border: 1px solid #FFF;
-  left: -3px;
+  right: -3px;
   top: -3px;
 }
 
@@ -497,7 +497,7 @@ input.search-form:hover {
   border-radius: 100%;
   background: #c52d2f;
   border: 1px solid #c52d2f;
-  left: -3px;
+  right: -3px;
   top: -3px;
 }
 
@@ -552,7 +552,7 @@ input.search-form:hover {
 }
 
 .feature-wrap .pull-left {
-  margin-right: 25px;
+  margin-left: 25px;
 }
 
 .feature-wrap i{
@@ -572,8 +572,8 @@ input.search-form:hover {
   -moz-transition: 500ms;
   -o-transition: 500ms;
   transition: 500ms;
-  float: left;
-  margin-right: 25px;
+  float: right;
+  margin-left: 25px;
 }
 
 .feature-wrap i:hover {
@@ -621,7 +621,7 @@ input.search-form:hover {
 .recent-work-wrap .overlay {
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   width: 100%;
   height: 100%;
   opacity: 0;
@@ -674,7 +674,7 @@ input.search-form:hover {
 }
 
 .services-wrap .pull-left {
-  margin-right: 20px;
+  margin-left: 20px;
 }
 
 #middle {
@@ -719,7 +719,7 @@ input.search-form:hover {
   box-shadow: none;
   border-radius: 0;
   overflow: visible;
-  text-align: right;
+  text-align: left;
 }
 
 .progress{
@@ -736,7 +736,7 @@ input.search-form:hover {
   font-weight: 700;
   top: -30px;
   border-radius: 2px;
-  margin-left: -30px;
+  margin-right: -30px;
 }
 
 .progress span{
@@ -751,7 +751,7 @@ input.search-form:hover {
   border-width: 8px 5px;
   border-style: solid;
   bottom: -15px;
-  right: 8px;
+  left: 8px;
 }
 
 .progress .color1 span:before{
@@ -833,7 +833,7 @@ a.accordion-toggle  i{
   font-size: 20px;
   margin-top: -10px;
   text-align: center;
-  margin-right: -15px;
+  margin-left: -15px;
   background: #c9c9c9;
 }
 
@@ -867,7 +867,7 @@ a.accordion-toggle  i{
     border-radius: 0;
     border: 0 none;
     line-height: 24px;
-    margin-right: 0;
+    margin-left: 0;
     padding: 13px 15px;
 }
 
@@ -931,8 +931,8 @@ a.accordion-toggle  i{
 }
 
 .testimonial-inner .pull-left{
-  border-right: 1px solid #e7e7e7;
-  padding-right: 15px;
+  border-left: 1px solid #e7e7e7;
+  padding-left: 15px;
   position: relative;
 }
 
@@ -946,8 +946,8 @@ a.accordion-toggle  i{
   background: #FFF;
   -webkit-transform: rotate(45deg);
   border: 1px solid #e7e7e7;
-  right: -5px;
-  border-left: 0 none;
+  left: -5px;
+  border-right: 0 none;
   border-bottom: 0 none;
 }
 
@@ -974,7 +974,7 @@ a.accordion-toggle  i{
 
 .partners ul li{
   display: inline-block;
-  float: left;
+  float: right;
   width: 20%;
 }
 
@@ -1059,11 +1059,11 @@ a.accordion-toggle  i{
 }
 
 #carousel-slider .carousel-control.left i {
-  left:-25px
+  right:-25px
 }
 
 #carousel-slider .carousel-control.right i {
-  right: -25px;
+  left: -25px;
 }
 
 #carousel-slider
@@ -1202,7 +1202,7 @@ a.accordion-toggle  i{
   padding: 1px 5px;
   text-transform: uppercase;
   border:1px solid#ddd;
-  margin-right: 3px;
+  margin-left: 3px;
 }
 
 
@@ -1217,7 +1217,7 @@ ul.tag {
 ul.social_icons li,
 ul.tag li {
   display: inline-block;
-  margin-right: 5px;
+  margin-left: 5px;
 }
 
 ul.social_icons li  a i{
@@ -1263,34 +1263,34 @@ ul.social_icons li  a i{
 
 
 .team-bar .first-one-arrow {
-  float: left;
-  margin-right: 30px;
+  float: right;
+  margin-left: 30px;
   width: 2%;
 }
 
 .team-bar .first-arrow {
-  float: left;
-  margin-left: 5px;
-  margin-right: 35px;
+  float: right;
+  margin-right: 5px;
+  margin-left: 35px;
   width: 22%;
 }
 
 .team-bar .second-arrow {
-  float: left;
-  margin-left: 5px;
+  float: right;
+  margin-right: 5px;
   width: 21%;
 }
 
 .team-bar .third-arrow {
-  float: left;
-  margin-left: 40px;
-  margin-right: 12px;
+  float: right;
+  margin-right: 40px;
+  margin-left: 12px;
   width: 22%;
 }
 
 .team-bar .fourth-arrow {
-  float: left;
-  margin-left: 25px;
+  float: right;
+  margin-right: 25px;
   width: 20%;
 }
 
@@ -1342,22 +1342,22 @@ ul.social_icons li  a i{
 
 .team-bar .first-arrow .fa-angle-up {
   background:#2D7DA4;
-  margin-left:-33px
+  margin-right:-33px
  }
 
 .team-bar .second-arrow .fa-angle-down {
   background:#6AA42F;
-  margin-left: -33px;
+  margin-right: -33px;
 }
 
 .team-bar .third-arrow .fa-angle-up {
   background:#FFBD20;
-  margin-left: -32px;
+  margin-right: -32px;
 }
 
 .team-bar .fourth-arrow .fa-angle-down {
   background:#db3615;
-  margin-left: -32px;
+  margin-right: -32px;
 }
 
 .team .single-profile-top:before, 
@@ -1370,7 +1370,7 @@ ul.social_icons li  a i{
 }
 
 .team .single-profile-top:before {
-  left:26px;
+  right:26px;
   bottom: -20px;
   border-width: 10px;
   border-color:#fff transparent transparent transparent;
@@ -1379,7 +1379,7 @@ ul.social_icons li  a i{
 
 
 .team .single-profile-top:after {
-  left: 25px;
+  right: 25px;
   bottom: -22px;
   border-style: solid;
   border-width: 11px;
@@ -1397,7 +1397,7 @@ ul.social_icons li  a i{
 }
 
 .team .single-profile-bottom:before {
-  left:30px;
+  right:30px;
   top: -20px;
   border-width: 10px;
   border-color: transparent transparent #fff transparent;
@@ -1405,7 +1405,7 @@ ul.social_icons li  a i{
 }
 
 .team .single-profile-bottom:after {
-  left: 29px;
+  right: 29px;
   top: -22px;
   border-style: solid;
   border-width: 11px;
@@ -1437,9 +1437,9 @@ ul.social_icons li  a i{
 
 .request {
   bottom: -15px;
-  left: 50%;
+  right: 50%;
   position: absolute;
-  margin-left: -110px;
+  margin-right: -110px;
 }
 
 .request h4 {
@@ -1465,7 +1465,7 @@ ul.social_icons li  a i{
   content: "";
   height: 0;
   position: absolute;
-  right: 13px;
+  left: 13px;
   z-index: -99999;
 }
 
@@ -1476,7 +1476,7 @@ ul.social_icons li  a i{
   bottom: -18px;
   content: "";
   height: 0;
-  left: 13px;
+  right: 13px;
   position: absolute;
   z-index: -99999;
 }
@@ -1562,7 +1562,7 @@ ul.social_icons li  a i{
   background: none repeat scroll 0 0 #FFFFFF;
   font-size: 14px;
   font-weight: 400;
-  margin-right: 20px;
+  margin-left: 20px;
   text-transform: uppercase;
   transition: all 0.9s ease 0s;
   -moz-transition: all 0.9s ease 0s;
@@ -1583,7 +1583,7 @@ ul.social_icons li  a i{
 }
 
 .portfolio-items > li {
-  float: left;
+  float: right;
   padding: 0;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1708,7 +1708,7 @@ ul.social_icons li  a i{
 .pricing-area .price-three img, 
 .pricing-area .price-six img {
   position: absolute;
-  right: 15px;
+  left: 15px;
   top: 0;
 }
 
@@ -1716,7 +1716,7 @@ ul.social_icons li  a i{
 .pricing-area .heading-two, 
 .pricing-area .heading-three {
   padding:17px 0;
-  border-radius:2px 2px 0 0;
+  border-radius:2px 0 0 2px;
 } 
 
 .pricing-area .heading-one, 
@@ -1726,7 +1726,7 @@ ul.social_icons li  a i{
 .pricing-area .heading-five, 
 .pricing-area .heading-six, 
 .pricing-area .heading-seven {
-  margin-left: -10px
+  margin-right: -10px
 }
 
 
@@ -1805,7 +1805,7 @@ ul.social_icons li  a i{
   border-width: 12px;
   content: "";
   height: 0;
-  left: 4px;
+  right: 4px;
   position: absolute;
   top: 78px;
   width: 0;
@@ -1840,7 +1840,7 @@ ul.social_icons li  a i{
   bottom: -12px;
   content: "";
   height: 0;
-  left: -9px;
+  right: -9px;
   position: absolute;
   width: 0;
   z-index: -1;
@@ -1855,7 +1855,7 @@ ul.social_icons li  a i{
   content: "";
   height: 0;
   position: absolute;
-  right: -9px;
+  left: -9px;
   width: 0;
   z-index: -1;
 }
@@ -1877,13 +1877,13 @@ ul.social_icons li  a i{
 .pricing-area .price-seven .plan-action .btn-primary:before, 
 .pricing-area .price-seven .plan-action .btn-primary:after  {
   border-color: #424242 transparent transparent;
-  right: -9px;
+  left: -9px;
 }
 
 .pricing-area .price-six .plan-action .btn-primary:before, 
 .pricing-area .price-six .plan-action .btn-primary:after {
   border-color: #bf4539 transparent transparent;
-  right: -9px;
+  left: -9px;
 }
 
 
@@ -1957,7 +1957,7 @@ textarea#message{
 
 .widget {
   margin-bottom: 60px;
-  padding-left: 0;
+  padding-right: 0;
 }
 
 .single_comments {
@@ -1965,8 +1965,8 @@ textarea#message{
 }
 
 .single_comments img {
-  float: left;
-  margin-right: 10px;
+  float: right;
+  margin-left: 10px;
   margin-top: 5px;
 }
 
@@ -1976,7 +1976,7 @@ textarea#message{
 
 .widget .entry-meta span {
   display: inline-block;
-  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .widget h3 {
@@ -2016,7 +2016,7 @@ textarea#message{
   bottom: -8px;
   content: "";
   height: 0;
-  left: 5px;
+  right: 5px;
   position: absolute;
   z-index: -99999;
 }
@@ -2027,7 +2027,7 @@ textarea#message{
   color: #fff;
   padding: 8px;
   position: relative;
-  left: 60px;
+  right: 60px;
   top: -18px;
   font-weight: normal;
 }
@@ -2058,7 +2058,7 @@ ul.gallery li {
   width: 60px;
   padding: 0;
   margin: 0 4px 4px 0;
-  float: left;
+  float: right;
 }
 
 ul.faq {
@@ -2076,7 +2076,7 @@ ul.faq li:first-child {
 
 ul.faq li span.number {
   display: block;
-  float: left;
+  float: right;
   width: 50px;
   height: 50px;
   line-height: 50px;
@@ -2087,7 +2087,7 @@ ul.faq li span.number {
 }
 
 ul.faq li > div {
-  margin-left: 70px;
+  margin-right: 70px;
 }
 
 ul.faq li > div h3 {
@@ -2108,7 +2108,7 @@ ul.faq li > div h3 {
 .embed-container embed {
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   width: 100%;
   height: 100%;
 }
@@ -2162,7 +2162,7 @@ ul.faq li > div h3 {
   font-size: 12px;
   overflow: hidden;
   padding: 5px;
-  text-align: left;
+  text-align: right;
 }
 
 #publish_date {
@@ -2179,14 +2179,14 @@ ul.faq li > div h3 {
 
 .blog .blog-item .entry-meta > span a {
   font-size: 12px;
-  margin-left: 3px;
+  margin-right: 3px;
   font-weight: 300;
   color: #888;
 }
 
 ul.pagination > li > a {
   border: 1px solid #F1F1F1;
-  margin-right:5px;
+  margin-left:5px;
   border-radius: 5px;
   font-size: 16px;
   padding: 5px 14px;
@@ -2247,7 +2247,7 @@ ul.sidebar-gallery {
 
 .sidebar-gallery li{
   display: inline-block;
-  margin: 0 10px 10px 0;
+  margin: 0 0 10px 10px;
 }
 
 .sidebar-gallery li a {
@@ -2266,7 +2266,7 @@ ul.sidebar-gallery {
 }
 
 .post_reply {
-  margin-left: 10px;
+  margin-right: 10px;
   margin-top: 45px;
 }
 
@@ -2284,7 +2284,7 @@ ul.sidebar-gallery {
 }
 
 .post_reply ul li{
-  float:left;
+  float:right;
 }
 
 .post_reply ul li a {
@@ -2297,7 +2297,7 @@ ul.sidebar-gallery {
   color: #FFFFFF;
   font-size: 20px;
   height: 30px;
-  margin-right: 3px;
+  margin-left: 3px;
   padding-top: 7px;
   text-align: center;
   width: 30px;
@@ -2369,7 +2369,7 @@ ul.sidebar-gallery {
   border-width: 15px;
   content: " ";
   height: 0;
-  left: 75px;
+  right: 75px;
   position: absolute;
   top: 20px;
 }
@@ -2395,7 +2395,7 @@ ul.sidebar-gallery {
 .post_reply_comments a {
   bottom: 15px;
   position: absolute;
-  right: 30px;
+  left: 30px;
   background: #c52d2f;
   color: #fff;
   border-radius: 5px;
@@ -2409,7 +2409,7 @@ ul.sidebar-gallery {
   bottom: -11px;
   content: "";
   height: 0;
-  left: -12px;
+  right: -12px;
   position: absolute;
   z-index: 99999;
 }
@@ -2529,16 +2529,15 @@ shortcodes page css
 
 #footer ul > li {
   display: inline-block;
-  margin-left: 5px;
+  margin-right: 5px;
 }
 
 #footer ul.social-share > li a:hover,
 #footer ul.social-share > li a:focus{
     color:white;
 }
-.container.static section#body {
-    width: 100%;
-    padding-left: 0;
+
+
 
 
 

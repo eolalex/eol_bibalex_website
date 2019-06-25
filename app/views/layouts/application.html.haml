@@ -17,20 +17,26 @@
     %meta{ content: "width=device-width, initial-scale=1", name: "viewport"}/
     / core CSS
     = stylesheet_link_tag 'application', media: 'all'
-    = stylesheet_link_tag 'Custom-ar'
-    = stylesheet_link_tag 'Custom-en'
-    = stylesheet_link_tag 'Custom'
-    = stylesheet_link_tag 'responsive-ar'
-    = stylesheet_link_tag 'responsive-en'
-    = stylesheet_link_tag 'responsive'
-    = stylesheet_link_tag 'bootstrap.min'
-    = stylesheet_link_tag 'animate.min'
-    = stylesheet_link_tag 'font-awesome'
-    = stylesheet_link_tag 'main'
-    = stylesheet_link_tag 'prettyPhoto'
-    = stylesheet_link_tag 'Suzan'
-    = stylesheet_link_tag 'slider'
-    = stylesheet_link_tag 'haml'
+    
+    - core_stylesheets = ['Custom', 'responsive', 'bootstrap.min', 'animate.min',
+      'font-awesome', 'main', 'prettyPhoto', 'Suzan', 'slider', 'haml']
+      
+    - english_stylesheets = ['Custom-en', 'responsive-en']
+    
+    - arabic_stylesheets = ['Custom-ar', 'responsive-ar', 'animate.min-ar', 'Suzan-ar',
+      'bootstrap.rtl.min', 'font-awesome.min-ar', 'main-ar', 'slider-ar', 'prettyPhoto-ar']
+      
+    - core_stylesheets.each do |css_file|
+      = stylesheet_link_tag css_file
+      
+    - if params[:locale] == "en"
+      - english_stylesheets.each do |css_file|
+        = stylesheet_link_tag css_file
+        
+    - elsif params[:locale] == "ar"
+      - arabic_stylesheets.each do |css_file|
+        = stylesheet_link_tag css_file
+
     = javascript_include_tag 'application'
     = csrf_meta_tags
     
@@ -42,7 +48,10 @@
               .col-lg-7.col-md-6.col-sm-6.col-xs-12
                 .navbar-header
                   %a.navbar-brand{ href: root_path}
-                    =image_tag "eol_logo.png", alt: "logo"
+                    - if params[:locale] == "en"
+                      = image_tag "eol_logo.png", alt: "logo"
+                    - else
+                      = image_tag "ar_logo.png", alt: "logo", "height": "85"
                   %ul.topMenu
                     %li.dropdown
                       %a.dropdown-toggle{"data-toggle": "dropdown"}
@@ -157,9 +166,9 @@
               %ul.social-share
                 %li #{t(:follow_us)}
                 %li
-                  %a{href: "https://www.facebook.com/encyclopediaoflife/"}
+                  %a{href: "https://www.facebook.com/encyclopediaoflife/", onmouseover: "this.style.background= '#3b5998'", onmouseout: "this.style.background= '#404040'"}
                     %i.fa.fa-facebook
                 %li
-                  %a{href: "https://twitter.com/eol"}
+                  %a{href: "https://twitter.com/eol", onmouseover: "this.style.background= '#1da1f2'", onmouseout: "this.style.background= '#404040'"}
                     %i.fa.fa-twitter
 = content_for :render_async
