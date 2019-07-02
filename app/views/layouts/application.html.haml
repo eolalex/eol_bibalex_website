@@ -1,8 +1,12 @@
+= hidden_field_tag("locale", "/#{params[:locale]}")
 = javascript_include_tag 'pages' 
 = javascript_include_tag 'jquery' 
 = javascript_include_tag 'search'
+= javascript_include_tag 'localeStyling'
+
 - @is_root = ((current_page? main_app.root_path) || (current_page? "/")) ? 1 : 0
 - @is_visitor = current_user.nil? ? "visitor" : "#{current_user.username}_#{current_user.id}_#{current_user.admin}"
+
 
 %html
   %head
@@ -17,41 +21,44 @@
     %meta{ content: "width=device-width, initial-scale=1", name: "viewport"}/
     / core CSS
     = stylesheet_link_tag 'application', media: 'all'
-    
-    - core_stylesheets = ['Custom', 'responsive', 'bootstrap.min', 'animate.min',
-      'font-awesome', 'main', 'prettyPhoto', 'Suzan', 'slider', 'haml']
-      
-    - english_stylesheets = ['Custom-en', 'responsive-en']
-    
-    - arabic_stylesheets = ['Custom-ar', 'responsive-ar', 'animate.min-ar', 'Suzan-ar',
-      'bootstrap.rtl.min', 'font-awesome.min-ar', 'main-ar', 'slider-ar', 'prettyPhoto-ar']
-      
-    - core_stylesheets.each do |css_file|
-      = stylesheet_link_tag css_file
-      
-    - if params[:locale] == "en"
-      - english_stylesheets.each do |css_file|
-        = stylesheet_link_tag css_file
-        
-    - elsif params[:locale] == "ar"
-      - arabic_stylesheets.each do |css_file|
-        = stylesheet_link_tag css_file
+    %link{rel: "stylesheet", href: "/assets/bootstrap.min.css"}
+    %link{rel: "stylesheet", href: "/assets/font-awesome.css"}
+    %link{rel: "stylesheet", href: "/assets/main-ar.css"}
+    %link{rel: "stylesheet", href: "/assets/slider-ar.css"}
+    %link{rel: "stylesheet", href: "/assets/Suzan-ar.css"}
+    %link{rel: "stylesheet", href: "/assets/animate.min-ar.css"}
+    %link{rel: "stylesheet", href: "/assets/prettyPhoto-ar.css"}
+    %link{rel: "stylesheet", href: "/assets/bootstrap.rtl.min.css"}
+    %link{rel: "stylesheet", href: "/assets/font-awesome.min-ar.css"}
+    %link{rel: "stylesheet", href: "/assets/responsive-ar.css"}
+    %link{rel: "stylesheet", href: "/assets/Custom-ar.css"}
+    %link{rel: "stylesheet", href: "/assets/Custom-en.css"}
+    %link{rel: "stylesheet", href: "/assets/responsive-en.css"}
+    %link{rel: "stylesheet", href: "/assets/Suzan-en.css"}
+    %link{rel: "stylesheet", href: "/assets/main.css"}
+    %link{rel: "stylesheet", href: "/assets/prettyPhoto.css"}
+    %link{rel: "stylesheet", href: "/assets/Suzan.css"}
+    %link{rel: "stylesheet", href: "/assets/slider.css"}
+    %link{rel: "stylesheet", href: "/assets/haml.css"}
+    %link{rel: "stylesheet", href: "/assets/Custom.css"}
+    %link{rel: "stylesheet", href: "/assets/responsive.css"}
+    %link{rel: "stylesheet", href: "/assets/animate.min.css"}
 
-    = javascript_include_tag 'application'
+    = javascript_include_tag 'application'    
     = csrf_meta_tags
-    
+          
     - cache_unless(controller_path=="pages",["header", @is_root, @is_visitor, request.original_fullpath, locale.to_s], expires_in: 1.day) do
       %header#header
         %nav.navbar.navbar-inverse{ role: "banner", "data-turbolinks": "true"}
           .container
             .row
               .col-lg-7.col-md-6.col-sm-6.col-xs-12
-                .navbar-header
-                  %a.navbar-brand{ href: root_path}
-                    - if params[:locale] == "en"
-                      = image_tag "eol_logo.png", alt: "logo"
-                    - else
+                .navbar-header{id: "header123"}
+                  %a.navbar-brand{href: root_path}
+                    - if params[:locale] == "ar"
                       = image_tag "ar_logo.png", alt: "logo", "height": "85"
+                    - else
+                      = image_tag "eol_logo.png", alt: "logo"
                   %ul.topMenu
                     %li.dropdown
                       %a.dropdown-toggle{"data-toggle": "dropdown"}
@@ -70,7 +77,7 @@
                         %span.sr-only Toggle navigation
                         %span.icon-bar
                         %span.icon-bar
-                        %span.icon-bar
+                        %span.icon-bar   
                 .collapse.navbar-collapse.navbar-left
                   %ul.nav.navbar-nav
                     %li
@@ -115,6 +122,7 @@
                         %a{ href: "https://education.eol.org/", target: "_blank"} #{t(:learning_education)}
                   %li
                     %a.DonateBtn{ href: "https://eol.org/docs/what-is-eol/donate"} #{t(:donate_button)}
+                    
           - unless ((current_page? "#{main_app.root_path}") || (current_page? "/"))
             .modal{ id: "popup_#{0}", "aria-labelledby": "popup_#{0}Label", role: "dialog", tabindex: "-1"}
               .modal-dialog{ role: "document"}
@@ -129,7 +137,6 @@
                     .searchBox
                       = form_tag(main_app.search_path, method: :get) do |f|
                         = text_field_tag(:query, params[:query], placeholder: t(:search_placeholder), class: "modal-body searchBox", required: "true")
-                        = hidden_field_tag('locale', "/#{params[:locale]}")
                         %button.searchButton
                           %i.fa.fa-search{"aria-hidden": "true", remote: true}
     %body
