@@ -38,8 +38,18 @@ h1, h2, h3, h4, h5, h6{
     width: 100% !important;
 }
 
+.NetworksLink {
+    background: rgba(0, 0, 0, 0) url("NetworkIcon.png") no-repeat scroll right center;
+    padding-right: 30px !important;
+}
 
+.mainMenu .navbar-toggle{
+    margin-left:10px!important;
+}
 
+.mainMenu .btn-search{
+    height:35px!important;
+}
 .smallTitle {
     font-weight: bold;
     color: #333;
@@ -653,14 +663,6 @@ select {
 .signIn .fa {
     font-size: 20px;
 }
-
-
-
-.NetworksLink {
-    background: rgba(0, 0, 0, 0) url("../images/NetworkIcon.png") no-repeat scroll left center;
-    padding-right: 30px !important;
-}
-
 
 
 .DonateBtn {
@@ -2181,10 +2183,7 @@ select {
     font-size: 20px;
 }
 
-.NetworksLink {
-    background: rgba(0, 0, 0, 0) url("../images/NetworkIcon.png") no-repeat scroll left center;
-    padding-right: 30px !important;
-}
+
 
 .DonateBtn {
     background-color: #c52d2f !important;
@@ -2373,7 +2372,7 @@ body > form {
     }
 
 #Home_Statistics h2 {
-    margin-bottom: 5px;
+    margin-bottom: 50px;
 }
 
 /*====== Sponsers ======*/
@@ -2803,6 +2802,14 @@ ul.thumbnails {
 .editCollection .form-control {
     width: 100% !important;
 }
+
+#footer a {
+        font-size: 12px;
+    }
+
+    .social {
+        text-align: left!important;
+    }
 /*==== Table Style ====*/
 
 /* Mobile only
