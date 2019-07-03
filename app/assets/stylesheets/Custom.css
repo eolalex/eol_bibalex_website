@@ -1080,7 +1080,6 @@ body > form {
 
     }
 
- 
 
 .modal-body .searchButton {
 
@@ -1138,6 +1137,11 @@ body > form {
 
     position: relative;
 
+}
+
+.searchBox form span,
+.twitter-typeahead{
+    display: block !important;
 }
 
  
