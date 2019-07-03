@@ -296,3 +296,5 @@ en:
   resource_label: "Partner Site"
   resource_missing: "Resource Not Found"
   traits_stats: "Traits"
+  content_partner_missing: "Content partner Not Found"
+  Back_to_Articles_List: "Back to Articles List"

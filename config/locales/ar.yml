@@ -254,4 +254,5 @@ ar:
   articles: "المقالات"
   article: "المقال"
   maps: "الخرائط"
-
+  content_partner_missing: "شريك المحتوى غير موجود"
+  Back_to_Articles_List: "الرجوع الى قائمه المقالات"
