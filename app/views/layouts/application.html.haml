@@ -2,6 +2,7 @@
 = javascript_include_tag 'pages' 
 = javascript_include_tag 'jquery' 
 = javascript_include_tag 'search'
+
 - @is_root = ((current_page? main_app.root_path) || (current_page? "/")) ? 1 : 0
 - @is_visitor = current_user.nil? ? "visitor" : "#{current_user.username}_#{current_user.id}_#{current_user.admin}"
 
@@ -159,7 +160,6 @@
                         %button{ id: "0", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'}x
                   .modal-body
                     .searchBox
-                      %i.fa.fa-search{"aria-hidden": "true", remote: true}
                       = form_tag(main_app.search_path, method: :get) do |f|
                         = text_field_tag(:query, params[:query], placeholder: t(:search_placeholder), class: "modal-body searchBox", required: "true")
                         %button.searchButton
