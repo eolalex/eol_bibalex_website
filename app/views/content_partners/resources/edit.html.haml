@@ -73,7 +73,7 @@
               #{t(:default_language)}
             .col-md-2.col-sm-8.col-xs-12
               .selectStyle
-                = f.collection_select :default_language_id , Language.all , :id, :code, { selected: Language.where(code: "en").first.id}
+                = f.collection_select :default_language_id , Language.all , :id, :code, { selected:  @resource.default_language_id}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:description)}

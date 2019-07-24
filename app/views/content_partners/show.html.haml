@@ -33,7 +33,9 @@
                   %img{ alt: "", src: "/assets/avatar3.png"}/
                   %p{ style: ""}
                     -#%a{:href => "#"}
-                    = @content_partner.user.username
+                    %a{ href: "#{user_path(@content_partner.user.id)}"} 
+                      = @content_partner.user.username
+                    -# = @content_partner.user.username
           .widget.categories.Resources
             .greyBox
               %h3.ResourcesIcon

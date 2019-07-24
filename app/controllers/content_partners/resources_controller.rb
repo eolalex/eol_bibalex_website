@@ -44,6 +44,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
     content_partner_user = User.find(ContentPartnerUser.find_by_content_partner_id(params[:content_partner_id]).user_id)
     if(content_partner_user==current_user)
       result= ResourceApi.get_resource(params[:content_partner_id], params[:id])
+      debugger
       # mappings = {"paused" => "is_paused", "approved" => "is_approved" , "trusted" => "is_trusted" , "autopublished" => "is_autopublished" , "forced" => "is_forced"}
       # result.keys.each { |k| result[ mappings[k] ] = result.delete(k) if mappings[k] }
       @resource = Resource.new(name: result["name"],origin_url: result["originalUrl"],uploaded_url: result["uploadedUrl"],
