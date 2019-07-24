@@ -1,9 +1,7 @@
-= hidden_field_tag("locale", "/#{params[:locale]}")
+= hidden_field_tag("locale", "#{params[:locale]}")
 = javascript_include_tag 'pages' 
 = javascript_include_tag 'jquery' 
 = javascript_include_tag 'search'
-= javascript_include_tag 'localeStyling'
-
 - @is_root = ((current_page? main_app.root_path) || (current_page? "/")) ? 1 : 0
 - @is_visitor = current_user.nil? ? "visitor" : "#{current_user.username}_#{current_user.id}_#{current_user.admin}"
 
@@ -21,33 +19,59 @@
     %meta{ content: "width=device-width, initial-scale=1", name: "viewport"}/
     / core CSS
     = stylesheet_link_tag 'application', media: 'all'
-    %link{rel: "stylesheet", href: "/assets/bootstrap.min.css"}
-    %link{rel: "stylesheet", href: "/assets/font-awesome.css"}
-    %link{rel: "stylesheet", href: "/assets/main-ar.css"}
-    %link{rel: "stylesheet", href: "/assets/slider-ar.css"}
-    %link{rel: "stylesheet", href: "/assets/Suzan-ar.css"}
-    %link{rel: "stylesheet", href: "/assets/animate.min-ar.css"}
-    %link{rel: "stylesheet", href: "/assets/prettyPhoto-ar.css"}
-    %link{rel: "stylesheet", href: "/assets/bootstrap.rtl.min.css"}
-    %link{rel: "stylesheet", href: "/assets/font-awesome.min-ar.css"}
-    %link{rel: "stylesheet", href: "/assets/responsive-ar.css"}
-    %link{rel: "stylesheet", href: "/assets/Custom-ar.css"}
-    %link{rel: "stylesheet", href: "/assets/Custom-en.css"}
-    %link{rel: "stylesheet", href: "/assets/responsive-en.css"}
-    %link{rel: "stylesheet", href: "/assets/Suzan-en.css"}
-    %link{rel: "stylesheet", href: "/assets/main.css"}
-    %link{rel: "stylesheet", href: "/assets/prettyPhoto.css"}
-    %link{rel: "stylesheet", href: "/assets/Suzan.css"}
-    %link{rel: "stylesheet", href: "/assets/slider.css"}
-    %link{rel: "stylesheet", href: "/assets/haml.css"}
-    %link{rel: "stylesheet", href: "/assets/Custom.css"}
-    %link{rel: "stylesheet", href: "/assets/responsive.css"}
-    %link{rel: "stylesheet", href: "/assets/animate.min.css"}
+    -#%link{rel: "stylesheet", href: "/assets/bootstrap.min.css"}
+    -#%link{rel: "stylesheet", href: "/assets/font-awesome.css"}
+    -#%link{rel: "stylesheet", href: "/assets/main-ar.css"}
+    -#%link{rel: "stylesheet", href: "/assets/slider-ar.css"}
+    -#%link{rel: "stylesheet", href: "/assets/Suzan-ar.css"}
+    -#%link{rel: "stylesheet", href: "/assets/animate.min-ar.css"}
+    -#%link{rel: "stylesheet", href: "/assets/prettyPhoto-ar.css"}
+    -#%link{rel: "stylesheet", href: "/assets/bootstrap.rtl.min.css"}
+    -#%link{rel: "stylesheet", href: "/assets/font-awesome.min-ar.css"}
+    -#%link{rel: "stylesheet", href: "/assets/responsive-ar.css"}
+    -#%link{rel: "stylesheet", href: "/assets/Custom-ar.css"}
+    -#%link{rel: "stylesheet", href: "/assets/Custom-en.css"}
+    -#%link{rel: "stylesheet", href: "/assets/responsive-en.css"}
+    -#%link{rel: "stylesheet", href: "/assets/Suzan-en.css"}
+    -#%link{rel: "stylesheet", href: "/assets/main.css"}
+    -#%link{rel: "stylesheet", href: "/assets/prettyPhoto.css"}
+    -#%link{rel: "stylesheet", href: "/assets/Suzan.css"}
+    -#%link{rel: "stylesheet", href: "/assets/slider.css"}
+    -#%link{rel: "stylesheet", href: "/assets/haml.css"}
+    -#%link{rel: "stylesheet", href: "/assets/Custom.css"}
+    -#%link{rel: "stylesheet", href: "/assets/responsive.css"}
+    -#%link{rel: "stylesheet", href: "/assets/animate.min.css"}
 
+    = stylesheet_link_tag 'bootstrap.min.css'
+    = stylesheet_link_tag 'font-awesome.css'
+    = stylesheet_link_tag 'main.css'
+    = stylesheet_link_tag 'prettyPhoto.css'
+    = stylesheet_link_tag 'Suzan.css'
+    = stylesheet_link_tag 'slider.css'
+    = stylesheet_link_tag 'haml.css'
+    = stylesheet_link_tag 'Custom.css'    
+    = stylesheet_link_tag 'responsive.css'
+    = stylesheet_link_tag 'animate.min.css'
+    
+    - if params[:locale] == "ar"
+      = stylesheet_link_tag 'bootstrap.rtl.min.css'
+      = stylesheet_link_tag 'Custom-ar.css'
+      = stylesheet_link_tag 'responsive-ar.css'
+      = stylesheet_link_tag 'prettyPhoto-ar.css'
+      = stylesheet_link_tag 'animate.min-ar.css'
+      = stylesheet_link_tag 'main-ar.css'
+      = stylesheet_link_tag 'slider-ar.css'
+      = stylesheet_link_tag 'font-awesome.min-ar.css'
+      = stylesheet_link_tag 'Suzan-ar.css'
+    - else
+      = stylesheet_link_tag 'Custom-en.css'
+      = stylesheet_link_tag 'responsive-en.css'
+      = stylesheet_link_tag 'Suzan-en.css'
     = javascript_include_tag 'application'    
     = csrf_meta_tags
-          
-    - cache_unless(controller_path=="pages",["header", @is_root, @is_visitor, request.original_fullpath, locale.to_s], expires_in: 1.day) do
+ 
+      
+    - cache_unless(controller_path=="pages",["header", @is_root, @is_visitor, request.original_fullpath, locale.to_s], expires_in: 1.day) do    
       %header#header
         %nav.navbar.navbar-inverse{ role: "banner", "data-turbolinks": "true"}
           .container
@@ -135,6 +159,7 @@
                         %button{ id: "0", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'}x
                   .modal-body
                     .searchBox
+                      %i.fa.fa-search{"aria-hidden": "true", remote: true}
                       = form_tag(main_app.search_path, method: :get) do |f|
                         = text_field_tag(:query, params[:query], placeholder: t(:search_placeholder), class: "modal-body searchBox", required: "true")
                         %button.searchButton

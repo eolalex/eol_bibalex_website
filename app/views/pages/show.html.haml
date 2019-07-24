@@ -49,7 +49,7 @@
                 - if !resource_info.nil?
                   %span
                     %b
-                      From: 
+                      #{t(:from)} 
                     = resource_info.name
                     %br
                 -else
@@ -87,7 +87,7 @@
               -else
                 %h3
                   #{t(:selective_traits)}
-                  %small.pull-right traits
+                  -#%small.pull-right traits
                 %table.table.table-striped
                   %tr
                     %td.text-center

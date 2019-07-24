@@ -46,4 +46,4 @@
             %br/
         = f.submit "#{t(:update_button)}", class: "btn btn-primary"
       %span  
-        = link_to "#{t(:back)}", :back
+        = link_to "#{t(:back)}", user_path(:id=>resource.id)

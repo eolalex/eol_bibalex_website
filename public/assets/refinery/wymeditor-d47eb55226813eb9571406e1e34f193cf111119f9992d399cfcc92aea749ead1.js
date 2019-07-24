@@ -5371,7 +5371,7 @@ var wymeditor_boot_options = $.extend({
       + "</form>"
     + "</div>"
 
-  , dialogPath: "/cms/dialogs/"
+  , dialogPath: "/admin/dialogs/"
   , dialogFeatures: {
       width: 866
     , height: 455
