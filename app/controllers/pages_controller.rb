@@ -50,7 +50,8 @@ class PagesController < ApplicationController
       maps
     else
       media = @page.media_without_maps
-      @media = media.paginate(:page => params[:page], :per_page => ENV['per_page'])
+      media_without_tif=media.reject { |hash| hash[:base_url].include?(".tif") }
+      @media = media_without_tif.paginate(:page => params[:page], :per_page => ENV['per_page'])
     end
     
     render :partial => "media_grid"
