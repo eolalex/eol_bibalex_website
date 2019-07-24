@@ -1,9 +1,9 @@
 ﻿﻿body {
     background-color: #2E2E2E !important;
-  font-family: 'DroidArabicKufi'!important;
-  font-size:16px!important;
-  line-height: 22px;
-  direction:rtl;
+    font-family: 'DroidArabicKufi' !important;
+    font-size: 16px !important;
+    line-height: 22px;
+    direction: rtl;
 }
 
 /* ==========================================================================
@@ -25,8 +25,8 @@
     font-style: normal;
 }
 
-h1, h2, h3, h4, h5, h6{
-    font-family: 'DroidArabicKufi'!important;
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: 'DroidArabicKufi' !important;
 }
 
 .content {
@@ -37,19 +37,28 @@ h1, h2, h3, h4, h5, h6{
     max-width: 100% !important;
     width: 100% !important;
 }
+.collectionInfo .Edit_Delete a {
+    width: 47%!important;
+    margin: 0 auto;
+        margin-top: 0px;
+}
 
+.topMenu {
+        float: right;
+    }
 .NetworksLink {
-    background: rgba(0, 0, 0, 0) url("NetworkIcon.png") no-repeat scroll right center;
+    background: rgba(0, 0, 0, 0) url("NetworkIcon.png") no-repeat scroll right center !important;
     padding-right: 30px !important;
 }
 
-.mainMenu .navbar-toggle{
-    margin-left:10px!important;
+.mainMenu .navbar-toggle {
+    margin-left: 10px !important;
 }
 
-.mainMenu .btn-search{
-    height:35px!important;
+.mainMenu .btn-search {
+    height: 35px !important;
 }
+
 .smallTitle {
     font-weight: bold;
     color: #333;
@@ -1863,6 +1872,8 @@ h3.Thumbnail_Title {
 
 .navbar-inverse .navbar-nav > li > a {
     display: block;
+    padding-left:0!important;
+    padding-right:0!important;
 }
 
     .navbar-inverse .navbar-nav > li > a:hover,
@@ -2002,19 +2013,21 @@ h3.Thumbnail_Title {
         color: #fff;
     }
 
-.mainMenu {
+.topMenu .mainMenu {
     border-right: 1px solid #2d2d2d;
     display: inline-block;
     padding-right: 20px;
     /*position: absolute;
     top: 10px;*/
-    width: 170px !important;
-    border-left: none;
+    width: 150px !important;
+    border-left: none !important;
 }
 
-    .mainMenu .navbar-toggle {
-        float: right;
-    }
+.mainMenu .navbar-toggle {
+    float: right !important;
+    margin-right: 0 !important;
+    margin-left: 10px !important;
+}
 
 .navbar-toggle {
     background-color: transparent !important;
@@ -2257,8 +2270,8 @@ body > form {
     }
 
 .navbar > .container .navbar-brand {
-    margin-left: 0!important;
-    margin-right:-15px!important;
+    margin-left: 0 !important;
+    margin-right: -15px !important;
 }
 
 .searchbox .modal-title {
@@ -2804,12 +2817,12 @@ ul.thumbnails {
 }
 
 #footer a {
-        font-size: 12px;
-    }
+    font-size: 12px;
+}
 
-    .social {
-        text-align: left!important;
-    }
+.social {
+    text-align: left !important;
+}
 /*==== Table Style ====*/
 
 /* Mobile only

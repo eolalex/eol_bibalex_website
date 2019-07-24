@@ -2,35 +2,23 @@
 .row
   - @media.each do |medium|
     %div{ id: "#{medium.id}", onclick: 'showPopup(this)', onmouseover: "showOver(this)", onmouseout:"hideOver(this)"}
-      -url = URI.parse(URI.encode(medium.base_url))
-      -http = Net::HTTP.start(url.host, url.port)
-      -image = http.head(url.request_uri)['Content-Type'].start_with? 'image'
-      -if image
-        -# =image_tag "#{medium.base_url}", alt:"", lazy: true, width: '260', height: '190'
-        -file_extension = File.extname(medium.base_url)
-        -unless file_extension==".tif"
-          .col-md-4.col-sm-3.col-xs-12
-            .imageThumbnail
-              %img{ src: medium.base_url, width: '260', height: '190', "data-original": medium.base_url }
-              - content = medium.page_contents.find { |c| c.content_id == medium.id }
-              - unless content.trust.nil?
-                %span.btn.btn-success.btn-xs.btn-trusted.btn-trusted
-                  = content.trust
-            .Taxon_Name
-              .commonName
-                = medium.name
-      -else
-        .col-md-4.col-sm-3.col-xs-12
-          .imageThumbnail
+      .col-md-4.col-sm-3.col-xs-12
+        .imageThumbnail
+          -url = URI.parse(URI.encode(medium.base_url))
+          -http = Net::HTTP.start(url.host, url.port)
+          -image = http.head(url.request_uri)['Content-Type'].start_with? 'image'
+          -if image
+            -# =image_tag "#{medium.base_url}", alt:"", lazy: true, width: '260', height: '190'
+            %img{ src: medium.base_url, width: '260', height: '190', "data-original": medium.base_url }
+          -else
             %video{ src: medium.base_url, width: '260', height: '190', controls: true}
-            - content = medium.page_contents.find { |c| c.content_id == medium.id }
-            - unless content.trust.nil?
-              %span.btn.btn-success.btn-xs.btn-trusted.btn-trusted
-                = content.trust
-          .Taxon_Name
-            .commonName
-              = medium.name
-      
+          - content = medium.page_contents.find { |c| c.content_id == medium.id }
+          - unless content.trust.nil?
+            %span.btn.btn-success.btn-xs.btn-trusted.btn-trusted
+              = content.trust
+        .Taxon_Name
+          .commonName
+            = medium.name
       .modal{ id: "popup_#{medium.id}", tabindex: "-1", role: "dialog", "aria-labelledby": "popup_#{medium.id}Label"}
         .modal-dialog.modal-lg.extra_large{role: "document"}
           .modal-content

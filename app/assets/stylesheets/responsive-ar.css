@@ -13,9 +13,7 @@
         left: 10%;
     }
 
-    .topMenu {
-        float: left;
-    }
+
 
     #portfolio .row {
         margin-left: -10px;
@@ -389,9 +387,12 @@
 
     /*===== Edited by Shaimaa =======*/
 
-    .nav.navbar-nav,
-    .topMenu {
+    .nav.navbar-nav{
         margin: 20px 0 !important;
+    }
+
+    .coloredMenu .topMenu{
+        margin:5px 0!important;
     }
 
     .DonateBtn {
@@ -683,7 +684,7 @@
     .container {
         padding: 0 !important;
     }
-    
+
     .social {
         text-align: center !important;
         margin-top: 10px !important;
@@ -702,9 +703,10 @@
     .btn-search {
         float: left;
     }
-    .navbar-header .mainMenu .btn-search{
-        margin-right: 0!important;
-        margin-left: 0!important;
+
+    .navbar-header .mainMenu .btn-search {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
     }
 
 
@@ -1120,6 +1122,10 @@
 
     #Home_Statistics h2 {
         margin-bottom: 30px !important;
+    }
+
+    .topMenu .dropdown {
+        float: right;
     }
 }
 

@@ -171,6 +171,7 @@ en:
   new_resource: "New Resource"
   abbreviation: "Abbreviation"
   load_resource: "Load Resource"
+  from: "From: "
   from_url: "From URL: "
   from_file: "From File: "
   browse: "Browse"

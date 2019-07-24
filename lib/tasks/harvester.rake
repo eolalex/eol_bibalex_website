@@ -361,14 +361,14 @@ def main_method_3
 
 
 
-    # start_harvested_time = "1554737562000"
-    start_harvested_time = "1560433733000"
+   
+    start_harvested_time = "1562678473000"
     if HarvestTime.first.nil?
       HarvestTime.create
     end
     # start_harvested_time = HarvestTime.first.last_harvest_time
     
-    end_harvested_time = get_end_time
+     end_harvested_time = get_end_time
    # end_harvested_time = 1540307002000
 
     while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
@@ -790,6 +790,7 @@ def set_ancestors_and_parents(nodes_ids)
             node_direct_parent_count = node_direct_parent_count + 1
           end 
         end
+        
         node_ancestors_flattened_array.insert(node_ancestors_flattened_count,{:generated_node_id => current_node.generated_node_id, :resource_id => current_node.resource_id,
                                                                               :node_ancestors_ids => ancestors_ids})
         node_ancestors_flattened_count = node_ancestors_flattened_count + 1
