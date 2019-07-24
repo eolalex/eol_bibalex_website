@@ -19,7 +19,7 @@ function ChangeStyle() {
 		$('link[href= "/assets/Custom-ar.css"]').prop('disabled', false);
 		$('link[href= "/assets/bootstrap.min.css"]').prop('disabled', false);
 		$('link[href= "/assets/bootstrap.rtl.min.css"]').prop('disabled', false);
-		document.getElementById("header123").style["float"] = 'right';
+		//document.getElementById("header123").style["float"] = 'right';
 	} else {
 		$('link[href= "/assets/responsive-ar.css"]').prop('disabled', true);
 		// $('link[href= "/assets/responsive.css"]').prop('disabled', true);
@@ -37,8 +37,9 @@ function ChangeStyle() {
 		$('link[href= "/assets/Custom.css"]').prop('disabled', false);
 		$('link[href= "/assets/Suzan-en.css"]').prop('disabled', false);
 		$('link[href= "/assets/responsive-en.css"]').prop('disabled', false);
+                $('link[href= "/assets/custom-en.css"]').prop('disabled', false);
 		$('link[href= "/assets/responsive.css"]').prop('disabled', false);
-		document.getElementById("header123").style["float"] = 'left';
+		//document.getElementById("header123").style["float"] = 'left';
 	}
 }
 
