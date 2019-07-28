@@ -2948,6 +2948,6 @@ table.customTable {
 .tt-menu {
 	position: absolute;
     right: 0px;
-    left:100% !important;
+    left:auto !important;
     text-align: right;
 }
