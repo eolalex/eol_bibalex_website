@@ -715,7 +715,7 @@ body > form {
 #main-slider {
     position: relative;
     margin-top: 0;
-    z-index: 2;
+    /*z-index: 2;*/
 }
 
 
@@ -2230,7 +2230,7 @@ body > form {
 #main-slider {
     position: relative;
     margin-top: 0;
-    z-index: 2;
+    /*z-index: 2;*/
 }
 
     #main-slider .carousel {
@@ -2939,4 +2939,15 @@ table.customTable {
             table.customTable td:last-child {
                 border-bottom: 0;
             }
+}
+
+.modal-header .btn-primary.pull-right {
+    padding: 0 8px 5px;
+}
+
+.tt-menu {
+	position: absolute;
+    right: 0px;
+    left:100% !important;
+    text-align: right;
 }

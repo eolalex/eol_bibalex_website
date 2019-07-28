@@ -94,6 +94,7 @@
                           = link_to "English", request.params.merge(locale: 'en')
                         %li
                           = link_to "العربية", request.params.merge(locale: 'ar')
+                  %ul.topMenu
                     .mainMenu
                       - unless ((current_page? "#{main_app.root_path}") || (current_page? "/"))
                         %button.btn-search{ id: "0","data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
