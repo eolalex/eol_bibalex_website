@@ -880,7 +880,7 @@ table tr td {
 
 .smallCarousel {
     position: relative;
-    z-index: 3;
+    z-index: 1;
 }
 
 
@@ -2326,7 +2326,7 @@ body > form {
 
 .smallCarousel {
     position: relative;
-    z-index: 3;
+    z-index: 1;
 }
 
 .carousel_Thumbnails {
