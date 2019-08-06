@@ -5,12 +5,18 @@
     .row
       .col-lg-12
         %h2.mainTitle
+          -# logo is set to "path" in case failed to upload logo in strorage layer therefore we add a placeholder
+          -if @content_partner.logo == "path"
+            %img{ src:  "/assets/avatar3.png", width: '120', height: '100', "data-original":  "/assets/avatar3.png"}
+          -else
+            %img{ src: @content_partner.logo, width: '120', height: '100', "data-original": @content_partner.logo}
           = @content_partner.name
           %span.pull-right
             -content_partner_user = User.find(ContentPartnerUser.find_by_content_partner_id(params[:id]).user_id)
             -if(content_partner_user==current_user)
               %a.btn.btn-primary{ href: "#{edit_content_partner_path(id: @content_partner.id)}", role: "button"}
                 #{t(:edit_button)}
+            
       .col-md-8
         .part
           .subtitle
@@ -19,9 +25,10 @@
             = @content_partner.description
             %hr/
             -if !@content_partner.url.nil?
-              %strong web:
-              %a{ href: "#{@content_partner.url}"} 
-                = @content_partner.url
+              .subtitle
+                %strong #{t(:web)}
+                %a{ href: "#{@content_partner.url}"} 
+                  = @content_partner.url
       .col-md-4
         %aside
           .widget.categories.contentManger

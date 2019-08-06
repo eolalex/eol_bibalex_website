@@ -1,12 +1,12 @@
 class ContentPartnersController < ApplicationController
   include ApplicationHelper
   before_action :authenticate_user!
+  require 'uri'
   def new
     @content_partner = ContentPartner.new
   end
   
   def create
-    
 #logoType attribute need to be used
     logo = params[:content_partner][:logo].nil? ? nil : params[:content_partner][:logo]
     content_partner_params = { name: params[:content_partner][:name], description: params[:content_partner][:description],
@@ -35,7 +35,10 @@ class ContentPartnersController < ApplicationController
       returned_content_partner  = ContentPartnerApi.get_content_partner_without_resources(params[:id])
       @content_partner = ContentPartner.new(name: returned_content_partner["name"], abbreviation: returned_content_partner["abbreviation"],
                                             url: returned_content_partner["url"], description: returned_content_partner["description"],
-                                            logo: returned_content_partner["logo"])
+                                            logo: returned_content_partner["logoPath"])
+     logo_path = @content_partner.logo
+     logo_path_array = logo_path.split("/")
+     @logo_name = logo_path_array.last
     else
       flash[:notice]=I18n.t(:edit_content_partner)
       redirect_to content_partner_path(params[:id])
@@ -76,14 +79,15 @@ class ContentPartnersController < ApplicationController
                                   default_rights_holder: resource["default_rights_holder"], default_language_id: resource["default_language_id"],
                                   harvests: resource["harvests"])
       end
-      
+
       #TODO check if user of the content partner is the manager or not
       content_partner_user = User.find(ContentPartnerUser.find_by_content_partner_id(returned_content_partner["id"].to_i).user_id)
       # content_partner_user = nil
       @content_partner = ContentPartner.new(id: returned_content_partner["id"].to_i, name: returned_content_partner["name"],
                                             abbreviation: returned_content_partner["abbreviation"],url: returned_content_partner["url"],
-                                            description: returned_content_partner["description"],logo: returned_content_partner["logo"],
+                                            description: returned_content_partner["description"],logo: returned_content_partner["logoPath"],
                                             created_at: returned_content_partner["returned_content_partner"], resources: resources, user: content_partner_user)
+
 
   end
 end

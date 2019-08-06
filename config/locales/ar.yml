@@ -241,7 +241,7 @@ ar:
   citing_eol: "النقل عن موسوعة الحياة"
   data_services: "خدمات البيانات"
   edit_user: "تعديل الملف الشخصي"
-  web: "الشبكة"
+  web: "الرابط : "
   preferred: "مفضل"
   not_preferred: "غير مفضل"
   admin_account_required: "ليس لديك إذن لعرض هذه الصفحة"
@@ -257,3 +257,4 @@ ar:
   maps: "الخرائط"
   content_partner_missing: "شريك المحتوى غير موجود"
   Back_to_Articles_List: "الرجوع الى قائمه المقالات"
+  this_page: "(هذه الصفحة)"

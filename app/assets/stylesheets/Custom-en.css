@@ -5,3 +5,9 @@
 .topMenu {
         float: left;
     }
+.selectedFile{
+	text-align:left!important;
+}
+.input-lg{
+	font-size:16px!important;
+}

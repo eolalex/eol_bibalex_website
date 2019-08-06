@@ -286,7 +286,7 @@ en:
   citing_eol: "Citing EoL"
   data_services: "Data Services"
   edit_user: "Edit User Profile"
-  web: "Web"
+  web: "Web : "
   preferred: "Preferred"
   not_preferred: "Not Preferred"
   admin_account_required: "You do not have permission to view this page"
@@ -299,3 +299,4 @@ en:
   traits_stats: "Traits"
   content_partner_missing: "Content partner Not Found"
   Back_to_Articles_List: "Back to Articles List"
+  this_page: "(this page)"

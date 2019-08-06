@@ -12,18 +12,32 @@
     -else
       %span #{t(:unknown_resource)} 
     - x = 0 
-    -tree.each do |node|
-      %ul.treeNode{ style: "padding-left: #{x}px;"}
+    - if params[:locale] == "ar"
+      -direction = "right"
+    - else
+      -direction ="left"
+    -tree.each_with_index do |node, index|
+      %ul.treeNode{ style: "padding-#{direction}: #{x}px;"}
         %li.parent_li
           - unless node.nil?
             %ul
-              - x = x + 40
+              - x = x + 5
               %li.parent_li
-                -unless node.pages.empty?
-                  %a{href:  "/pages/#{node.pages.first.id}"} 
-                    =node.scientific_name
-                -else
-                  =node.scientific_name 
+                -if index == tree.size - 1
+                  %b
+                    -unless node.pages.empty?
+                      %a{href:  "/pages/#{node.pages.first.id}"} 
+                        =node.scientific_name
+                    -else
+                      =node.scientific_name 
+                  #{t(:this_page)}
+                -else 
+                  -unless node.pages.empty?
+                    %a{href:  "/pages/#{node.pages.first.id}"} 
+                      =node.scientific_name
+                  -else
+                    =node.scientific_name 
+                    
             %ul
     - level = -1
     -children.each do |child|
@@ -31,12 +45,12 @@
       -node = child[0]
       -level = child[1]
       -if prev_level == level
-        -x = x - 40
+        -x = x - 5
       %ul.treeNode{ style: "padding-left: #{x}px;"}
         %li.parent_li
           - unless node.nil?
             %ul
-              - x = x + 40
+              - x = x + 5
               %li.parent_li
                 -unless node.pages.empty?
                   %a{href:  "/pages/#{node.pages.first.id}"} 
