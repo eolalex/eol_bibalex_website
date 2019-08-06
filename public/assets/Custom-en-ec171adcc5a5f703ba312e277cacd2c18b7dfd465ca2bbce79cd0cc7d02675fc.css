@@ -1,4 +1,4 @@
-﻿.NetworksLink {
+.NetworksLink {
     background: rgba(0, 0, 0, 0) url("NetworkIcon.png") no-repeat scroll left center;
     padding-left: 30px !important;
 }
@@ -10,16 +10,4 @@
 }
 .input-lg{
 	font-size:16px!important;
-}
-    
-.modal-body .searchButton {
-    right: 0;
-}
-
-.modal-header .btn-primary.pull-right {
-    padding: 0 8px 5px;
-}
- 
-.modal-header .form-group.row.form-inline {
-    margin-bottom: 0;
 }

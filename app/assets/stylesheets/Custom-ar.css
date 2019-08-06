@@ -717,7 +717,7 @@ body > form {
 #main-slider {
     position: relative;
     margin-top: 0;
-    z-index: 2;
+    /*z-index: 2;*/
 }
 
 
@@ -882,7 +882,7 @@ table tr td {
 
 .smallCarousel {
     position: relative;
-    z-index: 3;
+    z-index: 1;
 }
 
 
@@ -2232,7 +2232,7 @@ body > form {
 #main-slider {
     position: relative;
     margin-top: 0;
-    z-index: 2;
+    /*z-index: 2;*/
 }
 
     #main-slider .carousel {
@@ -2328,7 +2328,7 @@ body > form {
 
 .smallCarousel {
     position: relative;
-    z-index: 3;
+    z-index: 1;
 }
 
 .carousel_Thumbnails {
@@ -2941,4 +2941,15 @@ table.customTable {
             table.customTable td:last-child {
                 border-bottom: 0;
             }
+}
+
+.modal-header .btn-primary.pull-right {
+    padding: 0 8px 5px;
+}
+
+.tt-menu {
+	position: absolute;
+    right: 0px;
+    left:auto !important;
+    text-align: right;
 }
