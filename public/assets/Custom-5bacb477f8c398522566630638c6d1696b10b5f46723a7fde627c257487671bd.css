@@ -1,10 +1,7 @@
-﻿body {
+body {
     background-color: #2E2E2E !important;
 }
-.note {
-    display: inline-block;
-    margin: 6px 15px 0 15px;
-}
+
 .modal{
     background-color:rgba(0,0,0,0.5);
     padding-top:100px;
