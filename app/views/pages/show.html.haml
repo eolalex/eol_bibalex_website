@@ -49,7 +49,7 @@
                 - if !resource_info.nil?
                   %span
                     %b
-                      From: 
+                      #{t(:from)} 
                     = resource_info.name
                     %br
                 -else
@@ -76,7 +76,7 @@
                       -if !(predicate_unique.include? trait[:predicate][:uri])
                         -predicate_unique << trait[:predicate][:uri]
                         %tr
-                          %td.text-right
+                          %td
                             %b 
                               = trait[:predicate][:name]
                             -if trait[:object_term]
@@ -94,7 +94,7 @@
                   -else
                     - @page.data.each do |trait|  
                       %tr
-                        %td.text-right
+                        %td
                           %b 
                             = trait[:predicate][:name]
                           -if trait[:object_term]
@@ -110,7 +110,7 @@
               -else
                 %h3
                   #{t(:selective_traits)}
-                  %small.pull-right traits
+                  -#%small.pull-right traits
                 %table.table.table-striped
                   %tr
                     %td.text-center

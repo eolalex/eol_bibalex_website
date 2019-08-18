@@ -41,13 +41,19 @@
           %br/
           %b #{t(:owner)}:
           = @article.owner
-        %p
-          - @article.attributions.each do |attribution|
-             
-            %b= attribution.role_name
-            %b=":"
-            = attribution.value
-        %p
+          -unless @article.attributions.empty?
+            -attributions = @article.attributions
+            -attributions = attributions.sort_by{ |hsh| hsh[:role_name] }
+            - attributions = attributions.group_by { |t| t[:role_name] }
+            - attributions.each do |key, values|
+              %br/
+              %b= key
+              %b=":"
+              -values.each_with_index do |value, index|
+                = value.value
+                -if index != values.size-1
+                  =", "
+          %br/
           %b #{t(:resource_label)}:
           -if !@resource.nil?
             = link_to(@resource.name, content_partner_resource_path(content_partner_id["id"], result["id"]))
