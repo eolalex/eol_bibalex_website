@@ -15,7 +15,7 @@ ENV['schedular_ip'] = 'http://172.16.0.161:80/scheduler'
 ENV['storage_ip'] = 'http://172.16.0.99:80/eol/archiver'
 ENV['SCHEDULER_IP'] = "172.16.0.161"
 ENV['SCHEDULER_PORT'] = "80"
-
+ENV['logo_ip'] = "http://172.16.0.99"
 #require 'ntlm/smtp'
 # Initialize the Rails application.
 Rails.application.initialize!
