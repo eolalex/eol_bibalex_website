@@ -7,6 +7,7 @@
           -url = URI.parse(URI.encode(medium.base_url))
           -http = Net::HTTP.start(url.host, url.port)
           -image = http.head(url.request_uri)['Content-Type'].start_with? 'image'
+          -name = medium.name
           -if image
             -# =image_tag "#{medium.base_url}", alt:"", lazy: true, width: '260', height: '190'
             %img{ src: medium.base_url, width: '260', height: '190', "data-original": medium.base_url }
@@ -18,7 +19,7 @@
               = content.trust
         .Taxon_Name
           .commonName
-            #{name[0..ENV['MAX_USERNAME_LENGTH'].to_i]}... #{name[-4..name.length]}
+            #{name[0..ENV['MAX_NAME_LENGTH'].to_i]}... #{name[-4..name.length]}
       .modal{ id: "popup_#{medium.id}", tabindex: "-1", role: "dialog", "aria-labelledby": "popup_#{medium.id}Label"}
         .modal-dialog.modal-lg.extra_large{role: "document"}
           .modal-content
