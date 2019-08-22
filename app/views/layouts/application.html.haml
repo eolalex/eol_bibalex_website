@@ -129,7 +129,10 @@
                       %li.dropdown
                         %a.dropdown-toggle{"data-toggle": "dropdown", href: "#"}
                           %i.fa.fa-user-circle{"aria-hidden": "true"}
-                          #{current_user.username}
+                          - if (current_user.username.length>(ENV['MAX_USERNAME_LENGTH'].to_i+2))
+                           #{current_user.username[0..ENV['MAX_USERNAME_LENGTH'].to_i]}...
+                         - else
+                            #{current_user.username}
                           %i.fa.fa-angle-down
                         %ul.dropdown-menu
                           %li

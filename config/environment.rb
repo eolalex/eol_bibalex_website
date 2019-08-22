@@ -1,6 +1,7 @@
 # Load the Rails application.
 require_relative 'application'
 ENV['per_page']='30'
+ENV['MAX_USERNAME_LENGTH'] = '9'
 #ENV['FACEBOOK_APP_ID']="1070956589720890"
 #ENV['FACEBBOK_APP_SECRET']="4e880b866b921c067d9f0838e50b548f"
 ENV['FACEBOOK_APP_ID']="2050909461893269"
