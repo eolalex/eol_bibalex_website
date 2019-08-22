@@ -18,7 +18,7 @@
               = content.trust
         .Taxon_Name
           .commonName
-            = medium.name
+            #{name[0..ENV['MAX_USERNAME_LENGTH'].to_i]}... #{name[-4..name.length]}
       .modal{ id: "popup_#{medium.id}", tabindex: "-1", role: "dialog", "aria-labelledby": "popup_#{medium.id}Label"}
         .modal-dialog.modal-lg.extra_large{role: "document"}
           .modal-content
