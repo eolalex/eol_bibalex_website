@@ -18,8 +18,8 @@ Rails.application.routes.draw do
       resources :resources, :controller => 'content_partners/resources'
     end
 
-    match '/404', :to => 'errors#not_found', :via => :all
-    match '/500', :to => 'errors#internal_server_error', :via => :all
+    match '/404', :to => 'errors#not_found', via: :all
+    get '/500', :to => 'errors#internal_server_error'
 
     devise_scope :user do
       get '/omniauth' => 'omniauth_callbacks#twitter_add_data', :as =>"omniauth"
