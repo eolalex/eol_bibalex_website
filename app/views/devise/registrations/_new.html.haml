@@ -10,7 +10,10 @@
           %hr.colorgraph
             .row
               .col-xs-12
-                = resource_error_messages(@user)
+                -errors = resource_error_messages(@user)
+                - if errors != ""
+                  =errors
+                  = javascript_tag "reset_recaptcha()"
           %h2
             #{t(:sign_up)}
             %small #{t(:always_free)}
