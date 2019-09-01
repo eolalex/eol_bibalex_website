@@ -1,0 +1,84 @@
+.container
+  .row
+    .col-lg-12
+      %h2.mainTitle.resurceTitle
+        %img{ alt: "", src: "/assets/collection.png"}/
+        = @resource_name
+        %span.pull-right
+          %a.btn.btn-primary{ href: content_partner_resource_path(@content_partner_id, @resource_id), role: "button"}
+            #{t(:show_resource_details)}
+
+    .col-md-6
+      .part
+        .subtitle
+          %strong
+            #{t(:resource_statistics)}
+        %p
+          %strong #{t(:nodes)}:
+          #{@nodes_count}      
+        %p
+          %strong #{t(:scientific_names)}: 
+          #{@scientific_names_count}
+        %p
+          %strong #{t(:vernaculars)}: 
+          #{@vernaculars_count}
+        %p
+          %strong #{t(:media)}: 
+          #{@media_count}
+        %p
+          %strong #{t(:articles)}: 
+          #{@articles_count}
+        %p
+          %strong #{t(:occurrences)}: 
+          #{@occurrences_count}
+        %p
+          %strong #{t(:measurements_or_facts)}: 
+          #{@measurements_count}
+        %p
+          %strong #{t(:associations)}: 
+          #{@associations_count}
+
+    .col-md-6
+      .part
+        .subtitle
+          %strong
+            #{t(:last_harvest_details)}
+        %p
+          %strong #{t(:start_time)}: 
+          #{@start_time}
+        %p
+          %strong #{t(:end_time)}: 
+          #{@end_time}
+        %p
+          %strong #{t(:harvested_in)}: 
+          #{number_with_precision(@harvest_duration, precision: 2)} #{t(:hours)}
+        %p
+          %strong  #{t(:harvest_status)}: 
+          #{@status}
+          
+  .subtitle
+    %strong
+      #{t(:harvest_history)}
+    .part
+      %table.customTable
+        %thead
+          %tr
+            %th{ scope:  "col"} #{t(:start_time)}
+            %th{ scope:  "col"} #{t(:end_time)}
+            %th{ scope:  "col"} #{t(:harvested_in)}
+            %th{ scope:  "col"} #{t(:harvest_status)}
+    
+        %tbody
+          - @harvest_logs.each do |row|
+            %tr
+              %td
+                = row["startTime"]
+              %td
+                = row["endTime"]
+              %td
+                #{number_with_precision((DateTime.parse(row["endTime"]) - DateTime.parse(row["startTime"]))*24.to_f, precision: 2)} #{t(:hours)}
+              %td
+                = row["status"]
+    
+      = will_paginate(@harvest_logs)
+

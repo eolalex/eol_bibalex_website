@@ -137,6 +137,8 @@
                           - if current_user.admin?
                             %li
                               %a{ href: refinery.admin_root_path} #{t(:view_admin_panel)}
+                            %li
+                              %a{ href: main_app.resources_index_path} #{t(:view_all_resources)}
                           %li
                             %a.signIn{ href: main_app.destroy_user_session_path} #{t(:sign_out)}
                   %li.dropdown

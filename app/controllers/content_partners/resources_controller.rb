@@ -1,5 +1,10 @@
+require 'date'
+
 class ContentPartners::ResourcesController < ContentPartnersController
+  
   before_action :authenticate_user!
+  before_action :check_if_admin, only: [:index, :info]
+  
   def new
     content_partner_user = User.find(ContentPartnerUser.find_by_content_partner_id(params[:content_partner_id]).user_id)
     if(content_partner_user==current_user)
@@ -116,4 +121,81 @@ class ContentPartners::ResourcesController < ContentPartnersController
     #@resource = Resource.new(result)
   end
   
+  def index
+    resource_boundary_ids = ResourceApi.get_resource_boundaries
+    unless resource_boundary_ids.nil?
+      lower_boundary_resource_id = resource_boundary_ids["firstResourceId"]
+      upper_boundary_resource_id = resource_boundary_ids["lastResourceId"]
+      end_resource_id = lower_boundary_resource_id + ENV['resource_batch_size'].to_i
+      @rows = Array.new
+      while( end_resource_id < upper_boundary_resource_id)
+        resources = ResourceApi.get_all_resources_with_full_data(lower_boundary_resource_id, end_resource_id)
+        unless resources.nil?
+          @rows = @rows + resources
+        else
+          internal_server_error
+        end
+        lower_boundary_resource_id = end_resource_id + 1
+        end_resource_id = end_resource_id + ENV['resource_batch_size'].to_i < upper_boundary_resource_id ? 
+          end_resource_id + ENV['resource_batch_size'].to_i : upper_boundary_resource_id
+      end
+      @rows = @rows.paginate(page: params[:page], per_page: ENV['per_page_resources'])
+    else
+      internal_server_error
+    end
+  end
+  
+  def info
+    @resource_id = params[:id]
+    show_statistics(@resource_id)
+    show_harvest_history(@resource_id)
+  end
+  
+  def show_statistics(resource_id)
+    statistics = ResourceApi.get_resource_statistics(resource_id)
+    unless (statistics.nil? || statistics.empty?)
+      @scientific_names_count = statistics["scientificNames"]
+      @nodes_count = statistics["nodes"]
+      @vernaculars_count = statistics["vernaculars"]
+      @media_count = statistics["media"]
+      @articles_count = statistics["articles"]
+      @occurrences_count = statistics["occurrences"]
+      @associations_count = statistics["associations"]
+      @measurements_count = statistics["measurementsOrFacts"]
+    else
+      internal_server_error
+    end
+  end
+  
+  def show_harvest_history(resource_id)
+    harvest_history = ResourceApi.get_harvest_history(resource_id)
+    unless (harvest_history.nil? || harvest_history.empty?)
+      @resource_name = harvest_history["resourceName"]
+      @content_partner_id = harvest_history["contentPartnerId"]
+      harvest_history_sorted = JSON.parse(harvest_history["harvestHistory"]).sort_by {|harv| harv["startTime"]}.reverse!
+      @harvest_logs = harvest_history_sorted.paginate(page: params[:page], per_page: ENV['per_page_harvest'])
+      last_harvest = harvest_history_sorted.first
+      @start_time = last_harvest["startTime"]
+      @end_time = last_harvest["endTime"]
+      @status = last_harvest["status"]
+      @harvest_duration = ((DateTime.parse(@end_time) - DateTime.parse(@start_time))*24.to_f)
+    else
+      internal_server_error
+    end
+  end
+  
+  def check_if_admin
+    unless current_user.admin?
+      flash[:notice] = "#{t(:admin_account_required)}"
+      redirect_back(fallback_location: root_path)
+    end
+  end
+
+  def internal_server_error
+    # to be replaced with internal server error view when the branches are merged
+    flash[:notice] = t(:no_results) + " resources/index"
+    redirect_to main_app.root_path
+  end
+  
 end
+

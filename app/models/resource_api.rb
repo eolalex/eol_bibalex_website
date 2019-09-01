@@ -128,5 +128,54 @@ class ResourceApi
       nil
     end
   end
+  
+  def self.get_all_resources_with_full_data(start_id, end_id)
+    begin
+      request = RestClient::Request.new(
+        method: :get,
+        url: "#{ENV['schedular_ip']}/#{ENV['get_all_resources']}/#{start_id}/#{end_id}"
+      )
+      response = JSON.parse(request.execute)
+    rescue => e
+      nil
+    end
+  end
+
+  def self.get_resource_statistics(resource_id)
+    begin
+      request = RestClient::Request.new(
+        method: :get,
+        url: "#{MYSQL_ADDRESS}/#{ENV['get_resource_info']}/#{resource_id}"
+      )
+      response = JSON.parse(request.execute)
+    rescue => e
+      nil
+    end
+  end  
+
+  def self.get_harvest_history(resource_id)
+    begin
+      request = RestClient::Request.new(
+        method: :get,
+        url: "#{ENV['schedular_ip']}/#{ENV['get_harvest_history']}/#{resource_id}"
+      )
+      response = JSON.parse(request.execute)
+    rescue => e
+      nil
+    end
+  end  
+  
+  def self.get_resource_boundaries
+    begin
+      request = RestClient::Request.new(
+        method: :get,
+        url: "#{ENV['schedular_ip']}/#{ENV['get_resource_boundaries']}"
+      )
+      response = JSON.parse(request.execute)
+    rescue => e
+      nil
+    end
+  end
+  
 end
 

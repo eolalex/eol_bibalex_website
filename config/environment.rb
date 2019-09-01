@@ -12,10 +12,20 @@ ENV["GOOGLE_CLIENT_SECRET"]="rNEjKnDzSQ-Py3TfUZvJ7b6K"
 ENV["TWITTER_API_KEY"]= "nEfe27C3l8zIEovBQsyBpw67O"
 ENV["TWITTER_API_SECRET"] = "4KOIPSxUgj5aC5eVVWT3Y2nAGEUwWO074MG4Q4zfaOr2AyYaTB"
 ENV['schedular_ip'] = 'http://172.16.0.161:80/scheduler'
+# ENV['schedular_ip'] = 'http://localhost:8084/scheduler'
 ENV['storage_ip'] = 'http://172.16.0.99:80/eol/archiver'
 ENV['SCHEDULER_IP'] = "172.16.0.161"
 ENV['SCHEDULER_PORT'] = "80"
 ENV['logo_ip'] = "http://172.16.0.99"
+ENV['get_all_resources'] ="getAllResourcesWithFullData"
+ENV['get_resource_info'] = 'getResourceStatistics'
+ENV['get_harvest_history'] = 'getHarvestHistory'
+ENV['get_resource_boundaries'] = 'getResourceBoundaries'
+ENV['per_page_resources'] = '10'
+ENV['per_page_harvest'] = '2'
+ENV['resource_batch_size'] = '100'
+
+
 #require 'ntlm/smtp'
 # Initialize the Rails application.
 Rails.application.initialize!

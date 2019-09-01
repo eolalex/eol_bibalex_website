@@ -87,6 +87,10 @@ Rails.application.routes.draw do
     match "api/:action/:version" => "api", :constraints => {version:  /\d\.\d/}, via: [:get, :post]
     match 'api/:action/:version/:id' => 'api', :constraints => {version:  /\d\.\d/}, via: [:get, :post]
 
+    #harvesterUI
+    get '/resources/index' => 'content_partners/resources#index'
+    get '/resources/:id/info', :to => 'content_partners/resources#info'
+    
   end
   mount Refinery::Core::Engine, at: '/'
 end
