@@ -369,6 +369,7 @@ def main_method_3
     # start_harvested_time = HarvestTime.first.last_harvest_time
     
      end_harvested_time = get_end_time
+     
    # end_harvested_time = 1540307002000
 
     while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
@@ -380,7 +381,7 @@ def main_method_3
     # # end_harvested_time is excluded therefore we keep it to next loop
        json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+360000).to_s)
        tables = JSON.parse(json_content)
-
+        
     licenses = tables["licenses"]
     ranks = tables["ranks"]
     nodes = tables["nodes"]
