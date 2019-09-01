@@ -1,7 +1,7 @@
 -# = javascript_include_tag 'vendor/assets/javascripts/jquery.lazyload.js'
 .row
   - @media.each do |medium|
-    %div{ id: "#{medium.id}", onclick: 'showPopup(this)', onmouseover: "showOver(this)", onmouseout:"hideOver(this)"}
+    %div{ id: "#{medium.id}", onclick: 'showPopup(this)', onmouseover: "showOver(this)", onmouseout:"hideOver(this)", style: "cursor: pointer;"}
       .col-md-4.col-sm-3.col-xs-12
         .imageThumbnail
           -url = URI.parse(URI.encode(medium.base_url))
