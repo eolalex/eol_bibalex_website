@@ -63,7 +63,9 @@
                     #{term.first.name}
           - else
             %td{"data-label": "#{t(:units)}"}
-          %td{"data-label": "#{t(:source)}"} #{show_source_segment(trait)}
+          - resource_content_partner = @resources_content_partners[trait[:resource][:resource_id]]
+          %td{"data-label": "#{t(:source)}"} 
+            =link_to(resource_content_partner[0]["name"], content_partner_resource_path(resource_content_partner[1]["id"], resource_content_partner[0]["id"]))
         %td
           %div
             -# modal view with additional information: 'Citation, Source, RecordURL, ScientificName, Statistical Method, URI, DEfinition'
