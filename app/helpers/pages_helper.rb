@@ -58,7 +58,7 @@ module PagesHelper
     children
   end
   
- def classification_overview(node)
+  def classification_overview(node)
     ancestors = []
     tree = []
     res =  NodeAncestorsFlattened.where(generated_node_id: node.generated_node_id,resource_id: node.resource_id)
@@ -94,6 +94,20 @@ module PagesHelper
         resource_info =  Resource.new(id: resource["id"].to_i, name: resource["name"], origin_url: resource["origin_url"], type: resource["type"], path: resource["path"])
       end
       resource_info
-   end   
+  end
+  
+  def get_content_partner_of_resources()
+    unless @resources.nil?
+      resource_content_partner_hash = Hash.new
+      @resources.each do |resource|
+        resource_content_partner = Array.new
+        resource_content_partner << resource
+        resource_content_partner << ContentPartnerApi.get_content_partner_resource_id(resource["id"])
+        resource_content_partner_hash[resource["id"]] = resource_content_partner
+      end
+      resource_content_partner_hash
+    end
+  end
+  
 end
 

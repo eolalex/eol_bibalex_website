@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
   include ApplicationHelper
+  include PagesHelper
   before_action :authenticate_user!, only: [:index, :new]
   def index
   end
@@ -41,7 +42,7 @@ class PagesController < ApplicationController
   # media = media.where(subclass: params[:subclass])
   # end
   # @media = media.paginate(:page => params[:page], :per_page => ENV['per_page'])
-# @media=media
+  # @media=media
   end
 
   def media_grid
@@ -53,7 +54,7 @@ class PagesController < ApplicationController
       media_without_tif=media.reject { |hash| hash[:base_url].include?(".tif") }
       @media = media_without_tif.paginate(:page => params[:page], :per_page => ENV['per_page'])
     end
-    
+
     render :partial => "media_grid"
   end
 
@@ -70,37 +71,36 @@ class PagesController < ApplicationController
     render :partial => "articles"
   end
 
-  
   def maps
     @page = Page.where(id: params[:page_id]).first
     @maps = @page.maps
     @media = @maps
     @media = @media.paginate(:page => params[:page], :per_page => ENV['per_page'])
   end
-  
-  # def maps
-    # @page = Page.where(id: params[:page_id]).first
-    # # NOTE: sorry, no, you cannot choose the page size for maps.
-    # @media = @page.maps
-    # unless @media.nil?
-    # @media = @media.paginate(:page => params[:page], :per_page => ENV['per_page'])
-    # end
-    # @subclass = "map"
-    # @subclass_id = Medium.subclasses[:map]
-    # return render(status: :not_found) unless @page # 404
 
-    # respond_to do |format|
-      # format.html {}
-      # format.js {}
-    # end
+  # def maps
+  # @page = Page.where(id: params[:page_id]).first
+  # # NOTE: sorry, no, you cannot choose the page size for maps.
+  # @media = @page.maps
+  # unless @media.nil?
+  # @media = @media.paginate(:page => params[:page], :per_page => ENV['per_page'])
+  # end
+  # @subclass = "map"
+  # @subclass_id = Medium.subclasses[:map]
+  # return render(status: :not_found) unless @page # 404
+
+  # respond_to do |format|
+  # format.html {}
+  # format.js {}
+  # end
   # end
   # def show
-    # @page = Page.find_by_id(params[:id])
+  # @page = Page.find_by_id(params[:id])
 
-    # respond_to do |format|
-      # format.html {}
-      # format.js {}
-    # end
+  # respond_to do |format|
+  # format.html {}
+  # format.js {}
+  # end
   # end
 
   def literature_and_references
@@ -111,6 +111,7 @@ class PagesController < ApplicationController
     @page = Page.where(id: params[:page_id]).first
     render :partial => "literature_and_references"
   end
+
   def names
     @page = Page.find(params[:id])
     # @scientific_names = @page.scientific_names
@@ -139,24 +140,25 @@ class PagesController < ApplicationController
 
   def data
     @page = Page.where(id: params[:page_id]).first
-   # @resources = TraitBank.resources(@page.data)
-    # predicates = @page.predicates
-    # return render(status: :not_found) unless @page # 404
-    # respond_to do |format|
-      # format.html {}
-      # format.js {}
-    # end
-    # @predicates = predicates.paginate(:page => params[:page], :per_page => ENV['per_page'])
+  # @resources = TraitBank.resources(@page.data)
+  # predicates = @page.predicates
+  # return render(status: :not_found) unless @page # 404
+  # respond_to do |format|
+  # format.html {}
+  # format.js {}
+  # end
+  # @predicates = predicates.paginate(:page => params[:page], :per_page => ENV['per_page'])
   end
-  
+
   def data_grid
     traits =[]
     @page = Page.where(id: params[:page_id]).first
     @resources = TraitBank.resources(@page.data)
+    @resources_content_partners = get_content_partner_of_resources()
     predicates = @page.predicates
     #display predicates with same uri in sequence
     predicates.each_with_index do |uri, index|
-      # returns resource, trait, predicate, object_term, units, sex_term, lifestage_term, statistical_method_term of page of predicate in form of predicate[:uri]
+    # returns resource, trait, predicate, object_term, units, sex_term, lifestage_term, statistical_method_term of page of predicate in form of predicate[:uri]
       @page.grouped_data[uri].each do |trait|
         traits << trait
       end
