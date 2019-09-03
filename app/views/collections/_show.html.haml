@@ -55,7 +55,6 @@
                 %i.fa.fa-search{"aria-hidden": "false"}
               = text_field_tag(:cp_query, params[:cp_query], class: "form-control", placeholder: "#{t(:search_placeholder)}", required: "true")
               = hidden_field_tag('collection_id', @collection.id)
-              = hidden_field_tag('locale_coll', params[:locale])
               
 
       - @collection.collected_pages.each do |collected_page|

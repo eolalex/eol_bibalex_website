@@ -1,7 +1,7 @@
 function initialize() {
 	$(function() {
 		var collection_id = document.getElementsByName("collection_id")[0].value;
-		var locale = "/"+document.getElementsByName("locale_coll")[0].value;
+		var locale = document.getElementsByName("locale")[0].value;
 		var collected_pages = new Bloodhound({
 			datumTokenizer : Bloodhound.tokenizers.whitespace,
 			queryTokenizer : Bloodhound.tokenizers.whitespace,
@@ -24,7 +24,6 @@ function initialize() {
 		;
 	});
 }
-
 
 $(document).ready(initialize);
 $(document).on('turbolinks:load', initialize);

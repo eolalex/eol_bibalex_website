@@ -1,5 +1,5 @@
 //$(document).ready(function () {
-function initialize(locale) {
+function initialize() {
 	var locale = document.getElementsByName("locale")[0].value;
 	$("#filter").on('click', function() {
 
@@ -53,6 +53,6 @@ function initialize(locale) {
 }
 
 //});
-$(document).ready(initialize);
-$(document).on('turbolinks:load', initialize);
+$(document).ready(initialize());
+$(document).on('turbolinks:load', initialize());
 
