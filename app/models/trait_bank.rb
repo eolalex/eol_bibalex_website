@@ -723,14 +723,12 @@ class TraitBank
     end
 
     def resources(traits)
-      #resources will be array=># of resources?
-      #resources = ResourceApi.get_resource_using_id(id: traits.map { |t| t[:resource_id] }.compact.uniq)
-      
-      resources = ResourceApi.get_resource_using_id(traits.map { |t| t[:resource_id] }.compact.uniq.first)
- 
-      # A little magic to index an array as a hash:
-      #!!!!!!!!!!
-      #Hash[ *resources.map { |r| [ r.id, r ] }.flatten ]
+      resource_ids = traits.map { |t| t[:resource_id] }.compact.uniq
+      resources = Array.new()
+      resource_ids.each do |resource_id|
+        resources << ResourceApi.get_resource_using_id(resource_id)
+      end
+      resources
     end
 
     def create_page(id)

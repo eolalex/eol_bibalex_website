@@ -60,7 +60,7 @@ end
 
 def get_latest_updates_from_hbase(last_harvested_time, start_key)
   hbase_uri = "#{HBASE_ADDRESS}#{HBASE_GET_LATEST_UPDATES_ACTION}"
- start_harvested_time = "1510150973451"
+  start_harvested_time = "1510150973451"
   
   # last_harvested_time = "#{DateTime.now.strftime('%Q')}"
   begin
@@ -78,7 +78,7 @@ def get_latest_updates_from_hbase(last_harvested_time, start_key)
   end
 end
 
- def get_latest_updates_from_mysql(start_harvested_time , end_harvested_time)
+def get_latest_updates_from_mysql(start_harvested_time , end_harvested_time)
   mysql_uri = "#{MYSQL_ADDRESS}#{MYSQL_GET_LATEST_UPDATES_ACTION}"
   begin
     request = RestClient::Request.new(
@@ -168,64 +168,83 @@ def get_term_data(uri, term_type, id)
 end
 
 def add_neo4j(node_params, occurrences, measurements, associations, target_occurrences, terms)
-  
+
   unless (occurrences.nil? || occurrences.empty?)
     # load occurrences
-    occurrences_hash = {}    
+    occurrences_hash = {}
     occurrences.each do |occurrence|
       occurrences_hash[occurrence["occurrenceId"]] = occurrence
-  end
-    
-  unless (associations.nil? || associations.empty?)
-    object_page_id=""
-    associations.each do |association|
+    end
+
+    unless (associations.nil? || associations.empty?)
+      object_page_id=""
+      associations.each do |association|
       # res = OccurrencePageMapping.where(resource_id: node_params[:resource_id], occurrence_id: association["targetOccurrenceId"])
       # unless res.empty?
-        # occurrence_mapping = res.first
-        # object_page_id = occurrence_mapping.page_id
+      # occurrence_mapping = res.first
+      # object_page_id = occurrence_mapping.page_id
       # end
-object_page_id = target_occurrences[association["targetOccurrenceId"]]
-      # $terms.write("predicate_name_#{association["associationId"]}\t#{association["associationType"]}\t1,2,3\tpredicate definition\n")
-      get_term_data(association["associationType"], "predicate_term_name", association["associationId"])
-      # $terms_array << "predicate_name_#{association["associationId"]}\t#{association["associationType"]}\t1,2,3\tpredicate definition"
-      occurrence_of_association = occurrences_hash[association["occurrenceId"]]
-      if occurrence_of_association && occurrence_of_association["sex"]
-       # $terms.write("sex_#{association["associationId"]}\t#{occurrence_of_association["sex"]}\t1,2,3\tsex term object_term definition\n")
-       get_term_data(occurrence_of_association["sex"], "sex_term_name", association["associationId"]) 
-       # $terms_array << "sex_#{association["associationId"]}\t#{occurrence_of_association["sex"]}\t1,2,3\tsex term object_term definition"
-       sex_uri = occurrence_of_association["sex"]
-      end
-      
-      if occurrence_of_association && occurrence_of_association["lifeStage"]
-        # $terms.write("lifeStage_#{association["associationId"]}\t#{occurrence_of_association["lifeStage"]}\t1,2,3\tlifeStage term object_term definition\n")
-        get_term_data(occurrence_of_association["lifeStage"], "lifeStage_term_name", association["associationId"])
-        # $terms_array << "lifeStage_#{association["associationId"]}\t#{occurrence_of_association["lifeStage"]}\t1,2,3\tlifeStage term object_term definition"
-        life_uri = occurrence_of_association["lifeStage"]
-      end
-       
-      unless association["citation"].nil?
-        citation = association["citation"].gsub('"','\"')
-      end
-      unless association["source"].nil?
-        source = association["source"].gsub('"','\"')
-      end
-      unless association["measurementMethod"].nil?
-        measurementMethod = association["measurementMethod"].gsub('"','\"')
-      end
+        object_page_id = target_occurrences[association["targetOccurrenceId"]]
+        # $terms.write("predicate_name_#{association["associationId"]}\t#{association["associationType"]}\t1,2,3\tpredicate definition\n")
+        get_term_data(association["associationType"], "predicate_term_name", association["associationId"])
+        # $terms_array << "predicate_name_#{association["associationId"]}\t#{association["associationType"]}\t1,2,3\tpredicate definition"
+        occurrence_of_association = occurrences_hash[association["occurrenceId"]]
+        if occurrence_of_association && occurrence_of_association["sex"]
+          # $terms.write("sex_#{association["associationId"]}\t#{occurrence_of_association["sex"]}\t1,2,3\tsex term object_term definition\n")
+          get_term_data(occurrence_of_association["sex"], "sex_term_name", association["associationId"])
+          # $terms_array << "sex_#{association["associationId"]}\t#{occurrence_of_association["sex"]}\t1,2,3\tsex term object_term definition"
+          sex_uri = occurrence_of_association["sex"]
+        end
+
+        if occurrence_of_association && occurrence_of_association["lifeStage"]
+          # $terms.write("lifeStage_#{association["associationId"]}\t#{occurrence_of_association["lifeStage"]}\t1,2,3\tlifeStage term object_term definition\n")
+          get_term_data(occurrence_of_association["lifeStage"], "lifeStage_term_name", association["associationId"])
+          # $terms_array << "lifeStage_#{association["associationId"]}\t#{occurrence_of_association["lifeStage"]}\t1,2,3\tlifeStage term object_term definition"
+          life_uri = occurrence_of_association["lifeStage"]
+        end
+
+        if occurrence_of_association && occurrence_of_association["eventDate"]
+          event_date = occurrence_of_association["eventDate"]
+        end
+
+        if occurrence_of_association && occurrence_of_association["decimalLongitude"]
+          longitude = occurrence_of_association["decimalLongitude"]
+        end
+
+        if occurrence_of_association && occurrence_of_association["decimalLatitude"]
+          latitude = occurrence_of_association["decimalLatitude"]
+        end
+
+        if occurrence_of_association && occurrence_of_association["verbatimElevation"]
+          elevation = occurrence_of_association["verbatimElevation"]
+        end
+
+        unless association["citation"].nil?
+          citation = association["citation"].gsub('"','\"')
+        end
+        unless association["source"].nil?
+          source = association["source"].gsub('"','\"')
+        end
+        unless association["measurementMethod"].nil?
+          measurementMethod = association["measurementMethod"].gsub('"','\"')
+        end
+        unless association["contributor"].nil?
+          contributor = association["contributor"]
+        end
         # $traits.write("#{association["associationId"]}\t#{association["occurrenceId"]}\tA_#{association["occurrenceId"]}_#{association["associationId"]}\t#{node_params[:scientific_name]}\t#{citation}\t#{source}\t#{measurementMethod}\t\t\t\t\t#{node_params[:page_id].to_i}\t#{node_params[:resource_id].to_i}\t#{association["associationType"]}\t\t\t#{life_uri}\t#{sex_uri}\t\t#{object_page_id}\n")
-        $traits_array << "#{association["associationId"]}\t#{association["occurrenceId"]}\tA_#{association["occurrenceId"]}_#{association["associationId"]}\t#{node_params[:scientific_name]}\t#{citation}\t#{source}\t#{measurementMethod}\t\t\t\t\t#{node_params[:page_id].to_i}\t#{node_params[:resource_id].to_i}\t#{association["associationType"]}\t\t\t#{life_uri}\t#{sex_uri}\t\t#{object_page_id}"
+        $traits_array << "#{association["associationId"]}\t#{association["occurrenceId"]}\tA_#{association["occurrenceId"]}_#{association["associationId"]}\t#{node_params[:scientific_name]}\t#{citation}\t#{source}\t#{measurementMethod}\t\t\t\t\t#{node_params[:page_id].to_i}\t#{node_params[:resource_id].to_i}\t#{association["associationType"]}\t\t\t#{life_uri}\t#{sex_uri}\t\t#{object_page_id}\t#{event_date}\t#{contributor}\t#{longitude}\t#{latitude}\t#{elevation}"
       end
     end
-    
+
     unless (measurements.nil? || measurements.empty?)
       measurements_array = []
       measurements.each do |measurement|
         occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
-        
-        if (!measurement["measurementOfTaxon"].nil?) && (VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase))  
-          object_page_id=""  
+
+        if (!measurement["measurementOfTaxon"].nil?) && (VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase))
+          object_page_id=""
           options = create_measurement(occurrence_of_measurement , measurement)
-          
+
           unless options[:measurementMethod].nil?
             measurementMethod = options[:measurementMethod]
           end
@@ -237,7 +256,7 @@ object_page_id = target_occurrences[association["targetOccurrenceId"]]
           end
           unless options[:citation].nil?
             citation = options[:citation]
-            
+
           end
           unless options[:source].nil?
             source = options[:source]
@@ -254,7 +273,10 @@ object_page_id = target_occurrences[association["targetOccurrenceId"]]
           unless options[:normal_units].nil?
             normal_units = options[:normal_units]
           end
-          
+          unless measurement["contributor"].nil?
+            contributor = measurement["contributor"]
+          end
+
           if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
             # $terms.write("lifeStage_#{measurement["measurementId"]}\t#{occurrence_of_measurement["lifeStage"]}\t1,1,2,3\tlifeStage term object_term definition\n")
             get_term_data(occurrence_of_measurement["lifeStage"], "lifeStage_term_name", measurement["measurementId"])
@@ -267,6 +289,23 @@ object_page_id = target_occurrences[association["targetOccurrenceId"]]
             # $terms_array << "sex_#{measurement["measurementId"]}\t#{occurrence_of_measurement["sex"]}\t1,2,3\tsex term object_term definition"
             sex_uri = occurrence_of_measurement["sex"]
           end
+
+          if occurrence_of_measurement && occurrence_of_measurement["eventDate"]
+            event_date = occurrence_of_measurement["eventDate"]
+          end
+
+          if occurrence_of_measurement && occurrence_of_measurement["decimalLongitude"]
+            longitude = occurrence_of_measurement["decimalLongitude"]
+          end
+
+          if occurrence_of_measurement && occurrence_of_measurement["decimalLatitude"]
+            latitude = occurrence_of_measurement["decimalLatitude"]
+          end
+
+          if occurrence_of_measurement && occurrence_of_measurement["verbatimElevation"]
+            elevation = occurrence_of_measurement["verbatimElevation"]
+          end
+
           unless measurement["statisticalMethod"].nil?
             #$terms.write("statisticalMethod_#{measurement["measurementId"]}\t#{measurement["statisticalMethod"]}\t1,2,3\tstatisticalMethod term object_term definition\n")
             get_term_data(measurement["statisticalMethod"], "statisticalMethod_term_name", measurement["measurementId"])
@@ -274,23 +313,23 @@ object_page_id = target_occurrences[association["targetOccurrenceId"]]
             statisticalMethod_uri = measurement["statisticalMethod"]
           end
           # $traits.write("#{measurement["measurementId"]}\t#{measurement["occurrenceId"]}\tM_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}\t#{node_params[:scientific_name]}\t#{citation}\t#{source}\t#{measurementMethod}\t#{literal}\t#{normal_measurement}\t#{normal_units}\t#{o_measurement}\t#{node_params[:page_id].to_i}\t#{node_params[:resource_id].to_i}\t#{measurement["measurementType"]}\t#{object_term_uri}\t#{unit_term_uri}\t#{life_uri}\t#{sex_uri}\t#{statisticalMethod_uri}\t#{object_page_id}\n")
-          $traits_array << "#{measurement["measurementId"]}\t#{measurement["occurrenceId"]}\tM_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}\t#{node_params[:scientific_name]}\t#{citation}\t#{source}\t#{measurementMethod}\t#{literal}\t#{normal_measurement}\t#{normal_units}\t#{o_measurement}\t#{node_params[:page_id].to_i}\t#{node_params[:resource_id].to_i}\t#{measurement["measurementType"]}\t#{object_term_uri}\t#{unit_term_uri}\t#{life_uri}\t#{sex_uri}\t#{statisticalMethod_uri}\t#{object_page_id}"
-        
+          $traits_array << "#{measurement["measurementId"]}\t#{measurement["occurrenceId"]}\tM_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}\t#{node_params[:scientific_name]}\t#{citation}\t#{source}\t#{measurementMethod}\t#{literal}\t#{normal_measurement}\t#{normal_units}\t#{o_measurement}\t#{node_params[:page_id].to_i}\t#{node_params[:resource_id].to_i}\t#{measurement["measurementType"]}\t#{object_term_uri}\t#{unit_term_uri}\t#{life_uri}\t#{sex_uri}\t#{statisticalMethod_uri}\t#{object_page_id}\t#{event_date}\t#{contributor}\t#{longitude}\t#{latitude}\t#{elevation}"
+
         else
           options = create_measurement(occurrence_of_measurement , measurement)
 
           if (measurement["measurementOfTaxon"].nil? ||NON_VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase)) && !(measurement["parentMeasurementId"].nil?)
             parent_eol_pk = "M_#{measurement["occurrenceId"]}_#{measurement["parentMeasurementId"]}"
           end
-          # $meta.write("M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}\t")          
+          # $meta.write("M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}\t")
           if options[:measurement]
             # $meta.write("#{options[:measurement]}")
-            options_measurement=options[:measurement] 
+            options_measurement=options[:measurement]
           end
           # $meta.write("\t")
-          if options[:literal] 
+          if options[:literal]
             # $meta.write("#{options[:literal]}")
-            options_literal = options[:literal] 
+            options_literal = options[:literal]
           end
           # $meta.write("\t")
           # $meta.write("#{parent_eol_pk}\t#{node_params[:resource_id]}\t#{options[:predicate_uri]}\t")
@@ -298,13 +337,13 @@ object_page_id = target_occurrences[association["targetOccurrenceId"]]
             # $meta.write("#{options[:object_term_uri]}")
             options_object_term_uri=options[:object_term_uri]
           end
-          # $meta.write("\t") 
+          # $meta.write("\t")
           if options[:units_term_uri]
             # $meta.write("#{options[:units_term_uri]}")
             options_units_term_uri=options[:units_term_uri]
           end
           $meta_array << "M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}\t#{options_measurement}\t#{options_literal}\t#{parent_eol_pk}\t#{node_params[:resource_id]}\t#{options[:predicate_uri]}\t#{options_object_term_uri}\t#{options_units_term_uri}\t#{measurement["occurrenceId"]}"
-        
+
         end
       end
     end
@@ -348,7 +387,7 @@ end
 
 def main_method_3
   ActiveRecord::Base.logger.info "starttttttt: #{Time.new}"
-  
+
   # hashof terms key is uri value is term itself
   terms = {}
 
@@ -359,27 +398,24 @@ def main_method_3
   #file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
   #tables = JSON.parse(File.read(file_path))
 
+  start_harvested_time = "1567332275000"
+  if HarvestTime.first.nil?
+    HarvestTime.create
+  end
+  # start_harvested_time = HarvestTime.first.last_harvest_time
 
+  end_harvested_time = get_end_time
+  # end_harvested_time = 1540307002000
 
-   
-    start_harvested_time = "1562678473000"
-    if HarvestTime.first.nil?
-      HarvestTime.create
-    end
-    # start_harvested_time = HarvestTime.first.last_harvest_time
-    
-     end_harvested_time = get_end_time
-   # end_harvested_time = 1540307002000
+  while (start_harvested_time.to_i <= end_harvested_time.to_i) do
+    $terms=File.new("#{NEO4J_IMPORT_PATH}terms.csv", 'w')
+    $meta=File.new("#{NEO4J_IMPORT_PATH}meta.csv", 'w')
+    $traits=File.new("#{NEO4J_IMPORT_PATH}traits.csv", 'w')
 
-    while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
-      $terms=File.new("#{NEO4J_IMPORT_PATH}terms.csv", 'w')
-      $meta=File.new("#{NEO4J_IMPORT_PATH}meta.csv", 'w')
-      $traits=File.new("#{NEO4J_IMPORT_PATH}traits.csv", 'w')
-      
-    # # start_harvested_time is included 
+    # # start_harvested_time is included
     # # end_harvested_time is excluded therefore we keep it to next loop
-       json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+360000).to_s)
-       tables = JSON.parse(json_content)
+    json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+360000).to_s)
+    tables = JSON.parse(json_content)
 
     licenses = tables["licenses"]
     ranks = tables["ranks"]
@@ -398,7 +434,7 @@ def main_method_3
     references = tables["references"]
     traits = tables["traits"]
     taxa = tables["taxa"]
-    
+
     unless licenses.empty?
       License.bulk_insert(licenses, :validate => true, :use_provided_primary_key => true)
     end
@@ -461,11 +497,11 @@ def main_method_3
     unless references.empty?
       Reference.bulk_insert(references,:validate => true , :use_provided_primary_key => true)
     end
-   
+
     nodes_ids=[]
     nodes_ids = nodes.map { |p| p["generated_node_id"] }
     build_hierarchy(nodes_ids)
-    
+
     unless traits.empty?
       File.open("#{NEO4J_IMPORT_PATH}terms.csv", 'w'){}
       File.open("#{NEO4J_IMPORT_PATH}traits.csv", 'w'){}
@@ -475,7 +511,7 @@ def main_method_3
       $meta_array.clear
 
       terms = "name\turi\tsection_ids\tdefinition"
-      traits_header = "resource_pk\tocc_id\teol_pk\tscientific_name\tcitation\tsource\tmeasurementMethod\tliteral\tnormal_measurement\tnormal_units\tmeasurement\tpage_id\tresource_id\tp_uri\tob_uri\tunit_uri\tlifestage_uri\tsex_uri\tstatisticalMethod_uri\tobject_page_id"
+      traits_header = "resource_pk\tocc_id\teol_pk\tscientific_name\tcitation\tsource\tmeasurementMethod\tliteral\tnormal_measurement\tnormal_units\tmeasurement\tpage_id\tresource_id\tp_uri\tob_uri\tunit_uri\tlifestage_uri\tsex_uri\tstatisticalMethod_uri\tobject_page_id\tevent_date\tcontributer\tlongitude\tlatitude\televation"
       meta = "eol_pk\tmeasurement\tliteral\tparent_eol_pk\tresource_id\tp_uri\tob_uri\tunit_uri\tocc_id"
       $terms_array << terms
       $traits_array << traits_header
@@ -501,7 +537,7 @@ def main_method_3
         node_params = { page_id: page_id, resource_id: resource_id, scientific_name: scientific_name}
         add_neo4j(node_params, occurrences, measurements, associations,target_occurrences,terms)
       end
-      
+
       IO.write($terms, $terms_array.join("\n"))
       IO.write($traits, $traits_array.join("\n"))
       IO.write($meta, $meta_array.join("\n"))
@@ -510,13 +546,12 @@ def main_method_3
       system('sh /home/a-amorad/traits_scripts/traits.sh')
       system('sh /home/a-amorad/traits_scripts/meta.sh')
 
-       # system('sh /home/ba/traits_scripts/terms.sh')
-       # system('sh /home/ba/traits_scripts/traits.sh')
-       # system('sh /home/ba/traits_scripts/meta.sh')
-
+    # system('sh /home/ba/traits_scripts/terms.sh')
+    # system('sh /home/ba/traits_scripts/traits.sh')
+    # system('sh /home/ba/traits_scripts/meta.sh')
 
     end
-    
+
     # create maps json file for occurrence_maps
 
     unless taxa.empty?
@@ -524,17 +559,17 @@ def main_method_3
         write_to_json(taxon)
       end
       OccurrenceMap.bulk_insert($occurrence_maps_array, :validate => true)
-      $occurrence_maps_count = 0
+    $occurrence_maps_count = 0
     end
-     
-      start_harvested_time = (start_harvested_time.to_i + 360000).to_s
-   end
-   ActiveRecord::Base.logger.info "enddddddddd: #{Time.new}"
-   # debugger
-   HarvestTime.first.update_attribute(:last_harvest_time, DateTime.now().strftime("%Q"))
+
+    start_harvested_time = (start_harvested_time.to_i + 360000).to_s
+  end
+  ActiveRecord::Base.logger.info "enddddddddd: #{Time.new}"
+  # debugger
+  HarvestTime.first.update_attribute(:last_harvest_time, DateTime.now().strftime("%Q"))
 end
 
- def write_to_json(taxon)
+def write_to_json(taxon)
   page_eol_id = taxon["page_eol_id"]
   occurrences = "["+taxon["occurrences"]+"]"
   occurrences = JSON.parse(occurrences)
@@ -596,7 +631,7 @@ end
       json_path.write("],\"count\":#{actual_count},\"actual\":#{actual_count}}")
       if (actual_count>0)
         $occurrence_maps_array.insert($occurrence_maps_count,{:resource_id => taxon["resource_id"],:page_id => taxon["page_eol_id"]})
-        $occurrence_maps_count+=1
+      $occurrence_maps_count+=1
       end
     end
 
@@ -636,56 +671,56 @@ end
         end
       end
       geoLocations = Array.new()
-        occurrences.each do |occ|
-        #check if the coordinates are in Degree, Minute, Hemisphere and convert into decimal format
-          if(!occ["decimalLatitude"].nil? && !occ["decimalLongitude"].nil?)
-            geoLocation=nil
-            if ((!numeric?(occ["decimalLongitude"])) && (!numeric?(occ["decimalLatitude"])))
-              unless (occ["decimalLatitude"].include?('-') || occ["decimalLongitude"].include?('-'))
-                latitude = validate_coordinates(occ["decimalLatitude"])
-                longitude = validate_coordinates(occ["decimalLongitude"])
-                geoLocation = Geo::Coord.parse_dms(latitude+','+longitude)
-              end
-            else
-              geoLocation = Geo::Coord.parse_ll("#{occ["decimalLatitude"]},#{occ["decimalLongitude"]}")
+      occurrences.each do |occ|
+      #check if the coordinates are in Degree, Minute, Hemisphere and convert into decimal format
+        if(!occ["decimalLatitude"].nil? && !occ["decimalLongitude"].nil?)
+          geoLocation=nil
+          if ((!numeric?(occ["decimalLongitude"])) && (!numeric?(occ["decimalLatitude"])))
+            unless (occ["decimalLatitude"].include?('-') || occ["decimalLongitude"].include?('-'))
+              latitude = validate_coordinates(occ["decimalLatitude"])
+              longitude = validate_coordinates(occ["decimalLongitude"])
+              geoLocation = Geo::Coord.parse_dms(latitude+','+longitude)
             end
-            unless geoLocation.nil?
-              tempHash = {
-                "a" => (occ["catalogNumber"].nil? ? nil : "#{occ["catalogNumber"]}"), #catalog number
-                "b" => (taxon["scientific_name"] == "null" ? nil : "#{taxon["scientific_name"]}"), #scientific_name
-                "c" => nil, #publisher
-                "d" => nil, #publisherId
-                "e" => nil, #dataset
-                "f" => (taxon["dataset_id"] == "null" ? nil : "#{taxon["dataset_id"]}"), #datasetId
-                "g" => (taxon["source"] == "null" ? nil : "#{taxon["source"]}"), #gbifId
-                "h" => (occ["decimalLatitude"].nil? ? nil : geoLocation.lat),
-                "i" => (occ["decimalLongitude"].nil? ? nil : geoLocation.lng),
-                "j" => (occ["recordedBy"].nil? ? nil : "#{occ["recordedBy"]}"), #recordedBy
-                "k" => (occ["identifiedBy"].nil? ? nil : "#{occ["identifiedBy"]}"), #identifiedBy
-                "l" => nil, #pic_url
-                "m" => (occ["eventDate"].nil? ? nil : "#{occ["eventDate"]}") #eventDate
-              }
-              if first
-              json_path_temp.write(tempHash.to_json)
-              first = false
-              else
-                json_path_temp.write(","+tempHash.to_json)
-              end
-              if (!tempHash["h"].nil?)&&(!tempHash["i"].nil?) #validate decimal longitude and latitude existence
-                actual_count +=1
-                actual +=1
-              end
+          else
+            geoLocation = Geo::Coord.parse_ll("#{occ["decimalLatitude"]},#{occ["decimalLongitude"]}")
+          end
+          unless geoLocation.nil?
+            tempHash = {
+              "a" => (occ["catalogNumber"].nil? ? nil : "#{occ["catalogNumber"]}"), #catalog number
+              "b" => (taxon["scientific_name"] == "null" ? nil : "#{taxon["scientific_name"]}"), #scientific_name
+              "c" => nil, #publisher
+              "d" => nil, #publisherId
+              "e" => nil, #dataset
+              "f" => (taxon["dataset_id"] == "null" ? nil : "#{taxon["dataset_id"]}"), #datasetId
+              "g" => (taxon["source"] == "null" ? nil : "#{taxon["source"]}"), #gbifId
+              "h" => (occ["decimalLatitude"].nil? ? nil : geoLocation.lat),
+              "i" => (occ["decimalLongitude"].nil? ? nil : geoLocation.lng),
+              "j" => (occ["recordedBy"].nil? ? nil : "#{occ["recordedBy"]}"), #recordedBy
+              "k" => (occ["identifiedBy"].nil? ? nil : "#{occ["identifiedBy"]}"), #identifiedBy
+              "l" => nil, #pic_url
+              "m" => (occ["eventDate"].nil? ? nil : "#{occ["eventDate"]}") #eventDate
+            }
+            if first
+            json_path_temp.write(tempHash.to_json)
+            first = false
+            else
+              json_path_temp.write(","+tempHash.to_json)
+            end
+            if (!tempHash["h"].nil?)&&(!tempHash["i"].nil?) #validate decimal longitude and latitude existence
+            actual_count +=1
+            actual +=1
             end
           end
         end
-        json_path_temp.write("],\"count\":#{actual},\"actual\":#{actual}}")
-        File.rename(json_path_temp, "#{maps_path}#{page_eol_id}.json")
-        #add entries to occurrence_maps table if the page has valid occurrence plottings for the maps
-        if (actual_count>0)
-          $occurrence_maps_array.insert($occurrence_maps_count,{:resource_id => taxon["resource_id"],:page_id => taxon["page_eol_id"]})
-          $occurrence_maps_count+=1
-        end
       end
+      json_path_temp.write("],\"count\":#{actual},\"actual\":#{actual}}")
+      File.rename(json_path_temp, "#{maps_path}#{page_eol_id}.json")
+      #add entries to occurrence_maps table if the page has valid occurrence plottings for the maps
+      if (actual_count>0)
+        $occurrence_maps_array.insert($occurrence_maps_count,{:resource_id => taxon["resource_id"],:page_id => taxon["page_eol_id"]})
+      $occurrence_maps_count+=1
+      end
+    end
   end
 end
 
@@ -718,21 +753,21 @@ def validate_coordinates (coord)
 end
 
 def main_method_build_hierarchy
-   start_harvested_time = "1547663631000"
-    end_harvested_time = get_end_time
-# finish = 0
-  while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
-    # start_harvested_time is included 
+  start_harvested_time = "1547663631000"
+  end_harvested_time = get_end_time
+  # finish = 0
+  while (start_harvested_time.to_i <= end_harvested_time.to_i) do
+    # start_harvested_time is included
     # end_harvested_time is excluded therefore we keep it to next loop
-   json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+420000).to_s)
-   tables = JSON.parse(json_content)
-   nodes = tables["nodes"]
-   unless nodes.nil?
+    json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+420000).to_s)
+    tables = JSON.parse(json_content)
+    nodes = tables["nodes"]
+    unless nodes.nil?
       Node.bulk_insert(nodes,:validate => true ,:use_provided_primary_key => true)
     end
-   nodes_ids = nodes.map { |p| p["generated_node_id"] }
-   build_hierarchy(nodes_ids)
-   start_harvested_time = (start_harvested_time.to_i + 420000).to_s
+    nodes_ids = nodes.map { |p| p["generated_node_id"] }
+    build_hierarchy(nodes_ids)
+    start_harvested_time = (start_harvested_time.to_i + 420000).to_s
   end
 
 end
@@ -801,7 +836,6 @@ def set_ancestors_and_parents(nodes_ids)
   end
 end
 
-
 def set_ancestors(nodes_ids)
   # get nodes_parents from neo4j  
   neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_ANCESTORS_OF_NODES_ACTION}"
@@ -848,11 +882,11 @@ def set_ancestors(nodes_ids)
 end
 
 namespace :harvester do
-  desc "TODO"  
+  desc "TODO"
   task get_latest_updates: :environment do
 
-     main_method_3
-    # main_method_build_hierarchy
+    main_method_3
+  # main_method_build_hierarchy
 
   end
 end

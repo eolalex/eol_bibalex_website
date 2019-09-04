@@ -43,3 +43,4 @@ var ValidateForm = function() {
 function reset_recaptcha(){
 	grecaptcha.reset();
 }
+;

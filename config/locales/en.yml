@@ -41,6 +41,7 @@ en:
   forgot_pw: "Forgot Your Password?"
   resend_pw: "Resend Password Reset Instructions"
   complete_registration: "Please continue your registration"
+  contributer: "Contributer:"
   content_appears_on: "Included On The Following Pages: "
   content_associations: "Taxa Shown"
   content_attributions_header: "Source Information"
@@ -88,11 +89,20 @@ en:
   edit_resource: "you don't have permission to edit this resource"
   elevation: "elevation"
   email: "Email"
+<<<<<<< HEAD
   event_date: "Event Date"
   hello: "Hello world"
   literature_and_references_header: "Literature and References"
   maps: "Maps"
   measurementMethod: "Measurement Method"
+=======
+  event_date: "Event Date:"
+  elevation: "Elevation:"
+  hello: "Hello world"
+  literature_and_references_header: "Literature and References"
+  maps: "Maps"
+  measurementMethod: "MeasurementMethod:"
+>>>>>>> b34c9dbcd44b6505eab0754eabd77eb245cf1dc1
   medium_collect_button: "collect media"
   medium_description_blank: "There is no description provided for this object."
   medium_header_title: "Title: "
