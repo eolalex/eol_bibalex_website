@@ -26,6 +26,7 @@ ar:
     photographer: "المصور"
     publisher: "الناشر"
     project: "المشروع"
+    provided_by: "المصدر"
     resource_label: "موقع الشريك"
     resource_missing: "المورد غير موجود"
     resource_pk: "(id: %{key})"

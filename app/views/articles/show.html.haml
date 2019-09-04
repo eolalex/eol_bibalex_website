@@ -2,7 +2,7 @@
   .row
     .col-md-12
       %h3.mainTitle{style: "font-size: 17;"}
-        = link_to t(:Back_to_Articles_List), :back 
+        = link_to t(:Back_to_Articles_List), page_articles_path(@page_id) 
       %h2.mainTitle
         - name = @article.name
         - name ||= t("untitled")
