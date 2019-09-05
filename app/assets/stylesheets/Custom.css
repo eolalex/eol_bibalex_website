@@ -1,4 +1,4 @@
-﻿body {
+﻿﻿body {
     background-color: #2E2E2E !important;
 }
 .note {
@@ -1943,7 +1943,7 @@ h3.Thumbnail_Title {
 #header {
     border-bottom: 2px solid #c1d72c !important;
     position: relative;
-    z-index: 10;
+    z-index: 110;
 }
 
     #header .navbar-inverse .nav li {
@@ -2979,5 +2979,4 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .tt-menu .tt-dataset .tt-suggestion {
     cursor: pointer;
 }
-
 

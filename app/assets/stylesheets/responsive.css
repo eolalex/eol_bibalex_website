@@ -104,9 +104,9 @@
         background-color: white;
     }
 
-    .navbar-collapse.navbar-left.collapsing, 
-    .navbar-collapse.navbar-left.in{
-        width:auto!important;
+    .navbar-collapse.navbar-left.collapsing,
+    .navbar-collapse.navbar-left.in {
+        width: auto !important;
     }
 
     .navbar-collapse {
@@ -116,7 +116,7 @@
 
         .navbar-collapse.navbar-left.collapsing,
         .navbar-collapse.navbar-left.in {
-            left: 270px;
+            left: 245px;
             top: 69px;
         }
     /*-----------------------------------*/
@@ -159,7 +159,7 @@
         min-height: 600px;
     }
     /*===== Edited by Shaimaa =======*/
-  
+
     .nav.navbar-nav,
     .topMenu {
         margin: 20px 0 !important;
@@ -167,7 +167,7 @@
 
     .navbar-collapse.navbar-left.collapsing,
     .navbar-collapse.navbar-left.in {
-        left: 270px;
+        left: 245px;
         top: 69px;
     }
 
@@ -357,9 +357,10 @@
     .mainMenu {
         /*width: 70px;*/
         padding-left: 0;
-        width: 0;
+        /*width: 0;*/
         padding-top: 15px;
         border: none;
+        top:0;
     }
 
     h1.slogan {
@@ -371,7 +372,9 @@
         font-size: 30px !important;
     }
 
-    
+    .smallCarousel .center h2 {
+        font-size: 20px !important;
+    }
 
     #Sponsors .center h2 {
         padding-bottom: 0 !important;
@@ -379,7 +382,7 @@
 
     .navbar-collapse.navbar-left.collapsing,
     .navbar-collapse.navbar-left.in {
-        left: 230px;
+        left: 185px;
         top: 69px;
         width: 150px;
     }
@@ -862,7 +865,7 @@
     .navbar-collapse.navbar-left.collapsing,
     .navbar-collapse.navbar-left.in {
         left: 0;
-        top: 93px;
+        top: 88px;
         width: 100%;
     }
 
@@ -1157,6 +1160,7 @@
 
     .navbar-header .topMenu .mainMenu {
         width: 125px !important;
+        top: 0;
     }
 
     .topMenu {

@@ -1,43 +1,56 @@
-﻿body {
+﻿﻿body {
 }
 /* lg */
 @media (min-width: 1200px) {
- .GlobalSearch .form-control {
+    .GlobalSearch .form-control {
         font-size: 16px;
         height: 45px;
         margin: 25px auto;
         width: 80%;
-    }   
+    }
 }
 
-@media (min-width: 768px) and (max-width: 991px){
-    .collectionInfo .collectionName{
-        text-align:left!important; 
+@media (min-width: 768px) and (max-width: 991px) {
+    .collectionInfo .collectionName {
+        text-align: left !important;
     }
-    .collectionInfo .Edit_Delete a{
-        width:100px;
+
+    .collectionInfo .Edit_Delete a {
+        width: 100px;
+    }
+    .btn-search{
+        margin-left:10px;
     }
 }
 
 /* xs */
 @media (max-width: 767px) {
-    .navbar > .container .navbar-brand{
-        margin-left:15px!important;
+    .navbar > .container .navbar-brand {
+        margin-left: 15px !important;
     }
-    .navbar-header{
-            height:50px;
-        }
-    .GlobalSearch .carousel-content .slogan{
-        font-size:20px!important;
-        margin-bottom:10px!important;
+
+    .navbar-header {
+        height: 50px;
     }
+
+    .GlobalSearch .carousel-content .slogan {
+        font-size: 20px !important;
+        margin-bottom: 10px !important;
+    }
+
     .mainMenu .btn-search {
-        margin-top:10px;
+        margin-top: 10px;
         margin-top: 7px !important;
     }
+
     .topMenu .dropdown,
     .mainMenu {
-        float: left!important;
+        float: left !important;
+    }
+
+    .navbar-header .topMenu .mainMenu {
+        position: absolute;
+        right: 0;
+        top: -5px;
     }
 }
-
