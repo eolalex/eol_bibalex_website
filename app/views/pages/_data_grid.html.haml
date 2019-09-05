@@ -23,6 +23,9 @@
         %td
           %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{p_title}", type: "button"}
             #{predicate[:name]}
+          - if trait[:normal_measurement] && (trait[:normal_measurement] != trait[:measurement])
+            %h6
+              normalized value
           -if trait[:object_term]
             - object_term = trait[:object_term]
             - uri = object_term[:uri].dup
@@ -33,10 +36,13 @@
             %td
               %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{o_title} ", type: "button"}
                 #{trait[:object_term][:name]}
-          - elsif trait[:normal_measurement]
+          - elsif trait[:measurement] 
             %td
               %a{ "data-placement": "bottom", "data-toggle": "tooltip", type: "button"}
-                #{trait[:normal_measurement]}
+                #{trait[:measurement]}
+              - if trait[:normal_measurement] && (trait[:normal_measurement] != trait[:measurement])
+                %h6
+                  #{trait[:normal_measurement]}
           - else
             %td{"data-label": "#{t(:object)}"}
                
@@ -50,9 +56,16 @@
             %td
               %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{u_title}", type: "button"}
                 #{trait[:units][:name]}
+              - if trait[:normal_measurement] && (trait[:normal_measurement] != trait[:measurement])
+                - term = Term.where('binary uri = ?', trait[:normal_units])
+                - if term.count > 0
+                  %h6
+                    #{term.first.name}
           - else
             %td{"data-label": "#{t(:units)}"}
-          %td{"data-label": "#{t(:source)}"} #{show_source_segment(trait)}
+          - resource_content_partner = @resources_content_partners[trait[:resource][:resource_id]]
+          %td{"data-label": "#{t(:source)}"} 
+            =link_to(resource_content_partner[0]["name"], content_partner_resource_path(resource_content_partner[1]["id"], resource_content_partner[0]["id"]))
         %td
           %div
             -# modal view with additional information: 'Citation, Source, RecordURL, ScientificName, Statistical Method, URI, DEfinition'
@@ -116,7 +129,37 @@
                   %nbsp
                     #{trait[:citation]}
                   %br
-                -if trait[:trait][:source]
+                -if trait[:measurementMethod]
+                  %strong #{t(:measurementMethod)}
+                  %nbsp
+                    #{trait[:measurementMethod]}
+                  %br
+                -if trait[:contributer]
+                  %strong #{t(:contributer)}
+                  %nbsp
+                    #{trait[:contributer]}
+                  %br
+                -if trait[:event_date]
+                  %strong #{t(:event_date)}
+                  %nbsp
+                    #{trait[:event_date]}
+                  %br
+                -if trait[:longitude]
+                  %strong #{t("content_attributions_labels.longitude")}
+                  %nbsp
+                    #{trait[:longitude]}
+                  %br
+                -if trait[:latitude]
+                  %strong #{t("content_attributions_labels.latitude")}
+                  %nbsp
+                    #{trait[:latitude]}
+                  %br
+                -if trait[:elevation]
+                  %strong #{t(:elevation)}
+                  %nbsp
+                    #{trait[:elevation]}
+                  %br
+                -if trait[:source]
                   %strong #{t(:source)}:
                   %nbsp
                     = link_to "#{trait[:source]}"

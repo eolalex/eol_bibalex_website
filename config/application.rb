@@ -32,9 +32,9 @@ module EolPublishingLayer
     'Access-Control-Request-Method' => 'GET, PATCH, PUT, POST, OPTIONS, DELETE',
     'Access-Control-Allow-Headers:' => 'Origin, X-Requested-With, Content-Type, Accept'
 }
-RenderAsync.configure do |config|
-  config.turbolinks = true # Enable this option if you are using Turbolinks 5+
-end
+#RenderAsync.configure do |config|
+#  config.turbolinks = true # Enable this option if you are using Turbolinks 5+
+#end
 
 
   # Settings in config/environments/* take precedence over those specified here.

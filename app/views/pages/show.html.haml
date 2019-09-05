@@ -9,23 +9,27 @@
             = render("tabs")
         .col-md-8
           .blog-item
-            - image = @page.media.first
-            - unless image.nil?
-              %img.img-responsive{ alt: "", src: image.base_url, width: "100%"}/
             .row.ImgMetaData
               .col-xs-12
-                .entry-meta
-                  %span#publish_date
-                    = @page.scientific_name
-                    - unless image.nil?
-                      - content = image.page_contents.find { |c| c.content_id == image.id }
-                    - unless content.trust.nil?   
-                      %span.btn.btn-success.btn-xs
-                        = content.trust 
-                  %span.TaxonMetaData
-                    - unless image.nil? || image.owner.nil? || image.owner == "null"
-                      %b #{t(:photographed_by)}
-                      = image.owner
+                - image = @page.media.first
+                - if !(image.nil?)
+                  .entry-meta
+                    %img.img-responsive{ alt: "", src: image.base_url, width: "100%"}/
+                    %span#publish_date
+                      = @page.scientific_name
+                      - unless image.nil?
+                        - content = image.page_contents.find { |c| c.content_id == image.id }
+                      - unless content.trust.nil?   
+                        %span.btn.btn-success.btn-xs
+                          = content.trust 
+                    %span.TaxonMetaData
+                      - unless image.nil? || image.owner.nil? || image.owner == "null"
+                        %b #{t(:photographed_by)}
+                        = image.owner
+                - else
+                  %br/
+                  %br/
+                  %h5 #{t(:no_media)}
               .col-xs-12.blog-content
                 %br/
                 - if @page.articles.size > 0

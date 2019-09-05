@@ -1,4 +1,4 @@
-﻿body {
+body {
     background-color: #2E2E2E !important;
 }
 .note {
@@ -2980,8 +2980,4 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     cursor: pointer;
 }
 
-
-.tt-menu .tt-dataset .tt-suggestion {
-    cursor: pointer;
-}
 
