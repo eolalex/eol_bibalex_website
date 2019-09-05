@@ -2977,3 +2977,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 
 }
 
+.tt-menu .tt-dataset .tt-suggestion {
+    cursor: pointer;
+}
+

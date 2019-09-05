@@ -1,7 +1,7 @@
 -# = javascript_include_tag 'vendor/assets/javascripts/jquery.lazyload.js'
 .row
   - @media.each do |medium|
-    %div{ id: "#{medium.id}", onclick: 'showPopup(this)', onmouseover: "showOver(this)", onmouseout:"hideOver(this)"}
+    %div{ id: "#{medium.id}", onclick: 'showPopup(this)', onmouseover: "showOver(this)", onmouseout:"hideOver(this)", style:"cursor: pointer;"}
       .col-md-4.col-sm-3.col-xs-12
         .imageThumbnail
           -url = URI.parse(URI.encode(medium.base_url))
@@ -18,7 +18,10 @@
               = content.trust
         .Taxon_Name
           .commonName
-            = medium.name
+            - if medium.name.length > 34
+              #{medium.name[0...33]}...
+            - else
+              #{medium.name}
       .modal{ id: "popup_#{medium.id}", tabindex: "-1", role: "dialog", "aria-labelledby": "popup_#{medium.id}Label"}
         .modal-dialog.modal-lg.extra_large{role: "document"}
           .modal-content

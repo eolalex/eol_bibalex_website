@@ -21,7 +21,7 @@
                     default_rights_statement: result["default_rights_statement"],default_rights_holder: result["default_rights_holder"],
                     default_language_id: result["default_language_id"])
           %div{ style: "color: #8F8F8F; margin-bottom: 10px;"}
-            #{t(:provided_by)} 
+            = t("content_attributions_labels.provided_by") 
         -else
           = t(:content_partner_missing)
           %br
@@ -38,7 +38,7 @@
         %p
           %b #{t(:license)}:
           = link_to(@license.name,@license.source_url)
-          %br/
+          %br
           %b #{t(:owner)}:
           = @article.owner
           -unless @article.attributions.empty?
