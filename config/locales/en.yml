@@ -89,20 +89,12 @@ en:
   edit_resource: "you don't have permission to edit this resource"
   elevation: "elevation"
   email: "Email"
-<<<<<<< HEAD
-  event_date: "Event Date"
-  hello: "Hello world"
-  literature_and_references_header: "Literature and References"
-  maps: "Maps"
-  measurementMethod: "Measurement Method"
-=======
   event_date: "Event Date:"
   elevation: "Elevation:"
   hello: "Hello world"
   literature_and_references_header: "Literature and References"
   maps: "Maps"
   measurementMethod: "MeasurementMethod:"
->>>>>>> b34c9dbcd44b6505eab0754eabd77eb245cf1dc1
   medium_collect_button: "collect media"
   medium_description_blank: "There is no description provided for this object."
   medium_header_title: "Title: "
@@ -233,6 +225,7 @@ en:
   photographed_by: "Photographed By:"
   comprehensive_description: "Comprehensive Description"
   no_articles: "No Articles Associated"
+  no_media: "No Media Associated"
   classification: "Classification"
   selective_traits: "Selective Traits"
   no_traits: "No Traits Associated to This Page"
@@ -314,4 +307,3 @@ en:
   content_partner_missing: "Content partner Not Found"
   Back_to_Articles_List: "Back to Articles List"
   this_page: "(this page)"
-  

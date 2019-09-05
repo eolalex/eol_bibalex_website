@@ -184,6 +184,7 @@ ar:
   photographed_by: "المصور"
   comprehensive_description: "وصف شامل"
   no_articles: "لا توجد مقالات حول هذا الصنف"
+  no_media: "لا توجد وسائط لهذا الكائن"
   classification: "التصنيف"
   selective_traits: "الصفات الانتقائية"
   no_traits: "لا توجد صفات لهذا الصنف"
