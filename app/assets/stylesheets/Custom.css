@@ -1368,7 +1368,7 @@ ul.thumbnails {
     border-radius: 4px;
     margin-bottom: 18px;
     border-color: #D6E9C6;
-    width: 350px;
+    width: 40%;
     color: rgb(0, 0, 0);
     z-index: 2000;
     position: absolute !important;
@@ -2579,7 +2579,7 @@ ul.thumbnails {
     border-radius: 4px;
     margin-bottom: 18px;
     border-color: #D6E9C6;
-    width: 350px;
+    width: 40%;
     color: rgb(0, 0, 0);
     z-index: 2000;
     position: absolute !important;

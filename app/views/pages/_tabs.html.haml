@@ -32,19 +32,11 @@
     %a.btn.btn-primary{ id: "#{@page.id}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
       #{t(:collect_button)}
   .modal{id: "popup_#{@page.id}", "aria-labelledby": "popup_#{@page.id}Label", role: "dialog", tabindex: "-1"}
-    .modal-dialog.modal-lg.extra_large{role: "document"}
+    .modal-dialog{role: "document"}
       .modal-content
         .modal-header
-          .form-group.row.form-inline
-            .col-md-10.col-sm-10.col-xs-10
-              .editLabel.modal-title #{t(:add_page_to_collection)} 
-            .col-md-2.col-sm-2.col-xs-2
-              %button{ id: "#{@page.id}", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'}x
-        .modal-body.editCollection
-          = render("collected_pages/new", page_id: @page.id)
-  
-        .modal-footer
-          .form-group.row.form-inline
-            .col-md-12.col-sm-12.col-xs-12
+          %button{ id: "#{@page.id}", class: "close", "data-dismiss": "modal", tabindex: "1", onclick: 'hidePopup(this, event)'}x
+          %h4.modal-title #{t(:add_page_to_collection)} 
+        = render("collected_pages/new", page_id: @page.id)
 
 .page_topics{ data: { id: @page.id } }    

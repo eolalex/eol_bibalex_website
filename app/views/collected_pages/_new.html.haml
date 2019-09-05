@@ -1,50 +1,37 @@
 - count = 1
 - $exists_in_all_collections = true
-.container
-  .form-group.row.form-inline
-    .col-md-10.col-sm-9.col-xs-9
-      .row
-        - if current_user.collections.empty?
-          #{t(:no_collections_yet)}
-        - else
-          .form-group.row.form-inline
-            %label.col-md-12.col-sm-12.col-xs-12.control-label
-              #{t(:add_to_existing_collection)}
-          .container
-            .col-md-10.col-sm-9.col-xs-9
-              %h2
-                = form_for(CollectedPage.create, html: { class: "form" }) do |f|
-                  - current_user.collections.each do |collection|
-                    .col-md-10.col-sm-9.col-xs-9
-                      - unless CollectedPage.where(collection_id: collection.id, page_id: @page.id).exists?
-                        - $exists_in_all_collections = false
-                        = f.hidden_field(:page_id, value: page_id)
-                        = f.radio_button(:collection_id, collection.id, class: "uk-radio", checked: count==1 ? "checked" : false)
-                        = f.label(:collection_id, collection.name)
-                        - count+=1
-                  - if ($exists_in_all_collections)
-                    .row
-                      .col-md-10.col-sm-9.col-xs-9
-                        #{t(:exists_in_all_collections)}
-                  - else
-                    .col-md-10.col-sm-9.col-xs-9
-                      = f.button("#{t(:add_button)}", class: "btn btn-primary")
-.container
-  .form-group.row.form-inline
-    %label.col-md-12.col-sm-12.col-xs-12.control-label
-      #{t(:add_to_new_collection)}
-.container
-  .col-md-10.col-sm-9.col-xs-9
-    = form_for(Collection.create) do |f|
-      %h2
-        .form-group.row.form-inline
-          %label.col-md-2.col-sm-3.col-xs-3.control-label
-            #{t(:name)}
-          .col-md-10.col-sm-9.col-xs-9
-            %input.form-control.input-lg{name: "collection[name]", tabindex: "1", type: "text", required: true}
-        .form-group.row.form-inline
-          %label.col-md-2.col-sm-3.col-xs-3.control-label
-            #{t(:description)}
-          .col-md-10.col-sm-9.col-xs-9
-            %textarea.form-control.input-lg{name: "collection[description]", rows: "3", tabindex: "1", type: "text"}
-        = f.button("#{t(:create_collection_button)}", class: "btn btn-primary")
+.modal-body{style: "padding-bottom:0;"}
+  = form_for(CollectedPage.create, html: { class: "form" }) do |f|
+    - if current_user.collections.empty?
+      #{t(:no_collections_yet)}
+    - else
+      %h4
+        #{t(:add_to_existing_collection)}
+      - current_user.collections.each do |collection|
+        - unless CollectedPage.where(collection_id: collection.id, page_id: @page.id).exists?
+          - $exists_in_all_collections = false
+          %h4
+            = f.hidden_field(:page_id, value: page_id)
+            = f.radio_button(:collection_id, collection.id, class: "uk-radio", checked: count==1 ? "checked" : false)
+            = f.label(:collection_id, collection.name)
+          - count+=1
+    - if ($exists_in_all_collections)
+      %h4
+        #{t(:exists_in_all_collections)}
+    - else
+      .modal-footer{style: "padding-bottom:0; margin-top:0;"}
+        = f.button("#{t(:add_button)}", class: "btn btn-primary")
+
+  .row
+    .col-md-12
+      %h3.login-or
+        %hr.hr-or/
+        %span.span-or.BGwhite #{t(:or)}
+.modal-body{style: "padding-bottom:0;"}
+  %h4
+    #{t(:add_to_new_collection)}
+  = form_for(Collection.create) do |f|
+    %input.form-control{name: "collection[name]", tabindex: "1", type: "text", required: true, placeholder: "#{t(:name)}"}
+    %textarea.form-control{name: "collection[description]", rows: "3", tabindex: "1", type: "text", placeholder: "#{t(:description)}", style: "margin-top: 5%"}
+    .modal-footer{style: "padding-bottom:0; margin-top:0;"}
+      = f.button("#{t(:create_collection_button)}", class: "btn btn-primary")
