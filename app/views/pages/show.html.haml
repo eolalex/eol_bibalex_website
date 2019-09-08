@@ -9,6 +9,7 @@
   - image = @page.media.first
   - unless image.nil?
     %img.img-responsive{ alt: "", src: image.base_url, width: "100%"}/
+    %br
   .row.ImgMetaData
     .col-xs-12
       .entry-meta
@@ -23,6 +24,8 @@
           - unless image.nil? || image.owner.nil? || image.owner == "null"
             %b #{t(:photographed_by)}
             = image.owner
+            %br
+      %br
     .col-xs-12.blog-content
       - if @page.articles.size > 0
         %h5 #{t(:comprehensive_description)}

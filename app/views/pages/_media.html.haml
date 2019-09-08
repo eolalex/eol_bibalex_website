@@ -1,31 +1,29 @@
 = javascript_include_tag 'pages'
 = javascript_include_tag 'jquery.lazyload'
 .container
-  .row
-    .col-md-12.blog
-      .row
-        .col-lg-12
-          %br
-          %h2.TaxonName
-            = @page.scientific_name
-            = render("tabs")
-        .col-md-8
-          -if @maps
-            %h3.smallTitle #{t(:maps)}
-          -else
-            %h3.smallTitle #{t(:media)}
-          = render_async media_grid_path( page_id: @page.id, page: params[:page], maps: !@maps.nil?) do
-            .col-md-offset-4
-              =image_tag "loading.gif", alt: ""
-        .col-md-4
-          %aside
-            .widget.categories
-              %h3 #{t(:taxon_card)}
-              .row
-                .col-sm-12
-                  .single_comments
-                    %b= @page.scientific_name
-                    =image_tag "avatar3.png", alt: ""
+  %h2.mainTitle
+    %span{ style: "padding-bottom: 10px; display: inline-block"}
+      = @page.scientific_name
+    .pull-right
+      = render("tabs")
+    .clearfix
+  .col-md-8
+    -if @maps
+      %h3.smallTitle #{t(:maps)}
+    -else
+      %h3.smallTitle #{t(:media)}
+    = render_async media_grid_path( page_id: @page.id, page: params[:page], maps: !@maps.nil?) do
+      .col-md-offset-4
+        =image_tag "loading.gif", alt: ""
+  .col-md-4
+    %aside
+      .widget.categories
+        %h3 #{t(:taxon_card)}
+        .row
+          .col-sm-12
+            .single_comments
+              %b= @page.scientific_name
+              =image_tag "avatar3.png", alt: ""
 
             -#.widget.blog_gallery
               -#%h3 #{t(:refresh_memory)}
