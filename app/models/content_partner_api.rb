@@ -23,7 +23,6 @@ class ContentPartnerApi
       ContentPartnerUser.create(user_id: current_user_id , content_partner_id: response.body.to_i)
       content_partner_id 
     rescue => e
-      debugger
       nil
     end
     begin
@@ -37,7 +36,6 @@ class ContentPartnerApi
       logo_response = logo_request.execute
       content_partner_id
     rescue => e
-      debugger
       nil
     end
     
@@ -52,7 +50,6 @@ class ContentPartnerApi
         response_update = request.execute
         content_partner_id
         rescue => e
-          debugger
           nil
       end
     end
@@ -90,7 +87,6 @@ class ContentPartnerApi
       logo_response = logo_request.execute
       content_partner_id
       rescue => e
-        debugger
         nil
       end
     end
@@ -102,7 +98,6 @@ class ContentPartnerApi
       )
       content_partner_id
     rescue => e
-      debugger
       nil
     end
   end
@@ -115,7 +110,6 @@ class ContentPartnerApi
       )
       response = JSON.parse(request.execute)
     rescue => e
-      debugger
       nil
     end
   end
@@ -128,7 +122,6 @@ class ContentPartnerApi
       )
       response = JSON.parse(request.execute)
     rescue => e
-      debugger
       nil
     end
   end
@@ -143,7 +136,6 @@ class ContentPartnerApi
       )
       response = JSON.parse(request.execute)
     rescue => e
-      debugger
       nil
     end
   end

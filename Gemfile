@@ -78,6 +78,7 @@ gem "active_record_bulk_insert"
 gem 'bulk_insert'
 gem "geo_coord"
 gem 'render_async'
+gem 'whenever', require: false
 # gem 'ar-extensions'
  
 
