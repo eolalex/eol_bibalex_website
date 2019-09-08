@@ -37,7 +37,7 @@
               %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{o_title} ", type: "button"}
                 #{trait[:object_term][:name]}
           - elsif trait[:measurement] 
-            %td
+            %td{"data-label": "#{t(:object)}"}
               %a{ "data-placement": "bottom", "data-toggle": "tooltip", type: "button"}
                 #{trait[:measurement]}
               - if trait[:normal_measurement] && (trait[:normal_measurement] != trait[:measurement])
@@ -67,11 +67,11 @@
           %td{"data-label": "#{t(:resource)}"} 
             =link_to(resource_content_partner[0]["name"], content_partner_resource_path(resource_content_partner[1]["id"], resource_content_partner[0]["id"]))
         %td{"data-label": "#{t(:further_info)}"}
-          %div
-            -# modal view with additional information: 'Citation, Source, RecordURL, ScientificName, Statistical Method, URI, DEfinition'
-            %a.btn.btn{ id: "#{counter1}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
-              -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}
-              #{t(:see_more)}
+          -# %div
+          -# modal view with additional information: 'Citation, Source, RecordURL, ScientificName, Statistical Method, URI, DEfinition'
+          %a.btn.btn{ id: "#{counter1}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
+            -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}
+            #{t(:see_more)}
 
           
           - if(TraitBank.has_meta?(trait[:id]))
