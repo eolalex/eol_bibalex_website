@@ -17,7 +17,9 @@
     margin-bottom: 0;
     border: 1px solid #e7e7e7;
 }
-
+.dropdown{
+	display:inline-block;
+}
 .searchBox form span,
 .twitter-typeahead {
     display: block !important;
@@ -135,7 +137,8 @@
 
 
 .imageThumbnail {
-    margin-bottom: 15px;
+    margin-bottom: 0px;
+    margin-top: 15px;
 }
 
 
@@ -1368,7 +1371,7 @@ ul.thumbnails {
     border-radius: 4px;
     margin-bottom: 18px;
     border-color: #D6E9C6;
-    width: 40%;
+    width: 350px;
     color: rgb(0, 0, 0);
     z-index: 2000;
     position: absolute !important;
@@ -1788,7 +1791,8 @@ table.customTable {
     }
 
 .imageThumbnail {
-    margin-bottom: 15px;
+    margin-bottom: 0px;
+    margin-top: 15px;
     background: url('loading.gif') no-repeat;
 }
 
@@ -2579,7 +2583,7 @@ ul.thumbnails {
     border-radius: 4px;
     margin-bottom: 18px;
     border-color: #D6E9C6;
-    width: 40%;
+    width: 350px;
     color: rgb(0, 0, 0);
     z-index: 2000;
     position: absolute !important;

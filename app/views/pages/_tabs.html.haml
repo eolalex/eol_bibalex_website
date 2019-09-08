@@ -1,6 +1,5 @@
 = javascript_include_tag 'pages'
-%small
-%span.dropdown.pull-right
+%span.dropdown
   %a.dropdown-toggle.btn.btn-primary.exploreTaxonBtn{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
     #{t(:explore_taxon)}
     %span.caret
@@ -27,8 +26,7 @@
         %a{ href: page_maps_path(@page)} #{t(:maps)}
 
 - if user_signed_in?
-  %small
-  %span.dropdown.pull-right
+  %span
     %a.btn.btn-primary{ id: "#{@page.id}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
       #{t(:collect_button)}
   .modal{id: "popup_#{@page.id}", "aria-labelledby": "popup_#{@page.id}Label", role: "dialog", tabindex: "-1"}
@@ -38,5 +36,4 @@
           %button{ id: "#{@page.id}", class: "close", "data-dismiss": "modal", tabindex: "1", onclick: 'hidePopup(this, event)'}x
           %h4.modal-title #{t(:add_page_to_collection)} 
         = render("collected_pages/new", page_id: @page.id)
-
 .page_topics{ data: { id: @page.id } }    

@@ -18,13 +18,22 @@
     .collectionInfo .Edit_Delete a {
         width: 100px;
     }
-    .btn-search{
-        margin-left:10px;
+
+    .btn-search {
+        margin-left: 10px;
     }
 }
 
 /* xs */
 @media (max-width: 767px) {
+    .mainTitle .pull-right {
+        float: none !important;
+        display: block !important;
+    }
+    .dropdown .exploreTaxonBtn{
+        margin-left:0;
+    }
+
     .navbar > .container .navbar-brand {
         margin-left: 15px !important;
     }
