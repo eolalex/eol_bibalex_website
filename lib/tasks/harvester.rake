@@ -860,11 +860,20 @@ def set_ancestors(nodes_ids)
 end
 
 namespace :harvester do
+  def cron_lock(name)
+    path = Rails.root.join('tmp', 'cron', "#{name}.lock")
+    mkdir_p path.dirname unless path.dirname.directory?
+    file = path.open('w')
+    return if file.flock(File::LOCK_EX | File::LOCK_NB) == false
+    yield
+  end
   desc "TODO"  
   task get_latest_updates: :environment do
-
-     main_method_3
+    puts "begin #{Time.new} "
+    cron_lock 'service_cleaning' do
+      main_method_3
     # main_method_build_hierarchy
+    end
 
   end
 end

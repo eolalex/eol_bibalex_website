@@ -23,10 +23,7 @@ set :bundle_command, ENV["bundle_command"]
 set :environment, "development"
 set :output, {:error => "log/cron_error_log.log", :standard => "log/cron_log.log"}
 
-every 1.day, :at => '1:57 pm' do
-# every 2.minute do
-  rake "harvester:get_latest_updates"
-  
-# every 2.minutes do
-  # rake "harvester:get_latest_updates"
+# every 1.day, :at => '2:48 pm' do  
+ every 3.minutes do
+   rake "harvester:get_latest_updates"
 end
