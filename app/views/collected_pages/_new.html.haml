@@ -15,12 +15,12 @@
             = f.radio_button(:collection_id, collection.id, class: "uk-radio", checked: count==1 ? "checked" : false)
             = f.label(:collection_id, collection.name)
           - count+=1
-    - if ($exists_in_all_collections)
-      %h4
-        #{t(:exists_in_all_collections)}
-    - else
-      .modal-footer{style: "padding-bottom:0; margin-top:0;"}
-        = f.button("#{t(:add_button)}", class: "btn btn-primary")
+      - if ($exists_in_all_collections)
+        %h4
+          #{t(:exists_in_all_collections)}
+      - else
+        .modal-footer{style: "padding-bottom:0; margin-top:0;"}
+          = f.button("#{t(:add_button)}", class: "btn btn-primary")
 
   .row
     .col-md-12
