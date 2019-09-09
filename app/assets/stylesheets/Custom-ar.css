@@ -15,6 +15,11 @@
 .dropdown-menu > li, .dropdown-menu > li > a{
 	text-align:right;
 }
+.smallCarousel .blogTitle {
+    font-size: 12px !important;
+    line-height: normal;
+    letter-spacing: normal !important;
+}
 
 /* ==========================================================================
    Fonts

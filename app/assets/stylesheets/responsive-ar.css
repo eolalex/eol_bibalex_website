@@ -1182,3 +1182,12 @@
         box-shadow: 0 -60px 24px rgba(0, 0, 0, 0.25) !important;
     }
 }
+
+@media (max-width: 440px) {
+    .nav-tabs > li {
+        float: none!important;
+    }
+    .nav-tabs > li > a{
+        border-bottom:1px solid white;
+    }
+}
