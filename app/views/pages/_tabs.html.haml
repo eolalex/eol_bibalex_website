@@ -26,8 +26,8 @@
         %a{ href: page_maps_path(@page)} #{t(:maps)}
 
 - if user_signed_in?
-  %span
-    %a.btn.btn-primary{ id: "#{@page.id}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
+  %span.dropdown
+    %a.dropdown-toggle.btn.btn-primary{ id: "#{@page.id}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
       #{t(:collect_button)}
   .modal{id: "popup_#{@page.id}", "aria-labelledby": "popup_#{@page.id}Label", role: "dialog", tabindex: "-1"}
     .modal-dialog{role: "document"}
