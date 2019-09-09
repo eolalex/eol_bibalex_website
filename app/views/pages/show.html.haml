@@ -1,79 +1,70 @@
-%h2.mainTitle
-  %span{ style: "padding-bottom: 10px; display: inline-block"}
-    = @page.scientific_name
-  .pull-right
-    = render("tabs")
-  .clearfix
-.col-md-8
-.blog-item
-  - image = @page.media.first
-  - unless image.nil?
-    %img.img-responsive{ alt: "", src: image.base_url, width: "100%"}/
-    %br
-  .row.ImgMetaData
-    .col-xs-12
-      .entry-meta
-        %span#publish_date
-          = @page.scientific_name
-          - unless image.nil?
-            - content = image.page_contents.find { |c| c.content_id == image.id }
-          - unless content.trust.nil?   
-            %span.btn.btn-success.btn-xs
-              = content.trust 
-        %span.TaxonMetaData
-          - unless image.nil? || image.owner.nil? || image.owner == "null"
-            %b #{t(:photographed_by)}
-            = image.owner
-            %br
-      %br
-    .col-xs-12.blog-content
-      - if @page.articles.size > 0
-        %h5 #{t(:comprehensive_description)}
-        %p
-          %object{ width: "100%", height: "100%"}
-            %p
-              = @page.articles.first.body.html_safe
-      - else
-        %h5 #{t(:no_articles)}
-.col-md-4
-%aside
-  .widget.categories
-    .well
-      %h3
-        #{t(:classification)}
-      %hr/
-      -page_node = @page.nodes.first
-      -tree = classification(page_node)
-      -resource_info = get_resource_info(page_node.resource_id)
-      - if !resource_info.nil?
-        %span
-          %b
-            #{t(:from)} 
-          = resource_info.name
-          %br
-      -else
-        %span #{t(:unknown_resource)} 
-        %br
-      -tree.each_with_index do |node, index|
-        - unless node.nil?
-          - unless node.pages.empty?
-            %a{href: "/pages/#{node.pages.first.id}"} 
-              = node.scientific_name
-          - else
-            = node.scientific_name 
-          - if (index) < (tree.size-1)
-            \/
 
-  .widget.categories
-    -if @page.data.size > 0
-      %h3
-        #{t(:selective_traits)}
-      %table.table.table-striped
-        -if @page.data.size() > 2
-          - predicate_unique = []
-          - @page.data.each do |trait|  
-            -if !(predicate_unique.include? trait[:predicate][:uri])
-              -predicate_unique << trait[:predicate][:uri]
+.container
+  %h2.mainTitle
+    %span{ style: "padding-bottom: 10px; display: inline-block"}
+      = @page.scientific_name
+    .pull-right
+      = render("tabs")
+  .clearfix
+  .col-md-8
+    .blog-item
+      - image = @page.media.first
+      - unless image.nil?
+        %img.img-responsive{ alt: "", src: image.base_url, width: "100%", style: "margin-bottom: 5px;"}/
+    .row.ImgMetaData
+      .col-xs-12
+        .entry-meta
+          %span#publish_date
+            = @page.scientific_name
+            - unless image.nil?
+              - content = image.page_contents.find { |c| c.content_id == image.id }
+            - unless content.trust.nil?   
+              %span.btn.btn-success.btn-xs
+                = content.trust 
+          %span.TaxonMetaData
+            - unless image.nil? || image.owner.nil? || image.owner == "null"
+              %b #{t(:photographed_by)}
+              = image.owner
+          %br
+      %br
+      .col-xs-12.blog-content
+        - if @page.articles.size > 0
+          %h4{style: "margin-top: 30px;"} #{t(:comprehensive_description)} 
+          %p
+            %object{ width: "100%", height: "100%"}
+              %p
+                = @page.articles.first.body.html_safe
+        - else
+          %h5 #{t(:no_articles)}
+  .col-md-4
+    .widget.categories
+      -if @page.data.size > 0
+        %h3
+          #{t(:selective_traits)}
+        %table.table.table-striped
+          -if @page.data.size() > 2
+            - predicate_unique = []
+            - @page.data.each do |trait|  
+              -if !(predicate_unique.include? trait[:predicate][:uri])
+                -predicate_unique << trait[:predicate][:uri]
+                %tr
+                  %td
+                    %b 
+                      = trait[:predicate][:name]
+                    -if trait[:object_term]
+                      =trait[:object_term][:name]
+                    -elsif trait[:normal_measurement]
+                      =trait[:normal_measurement]
+                    -else 
+                      =t(:object)
+                    -if trait[:units]
+                      = trait[:units][:name]
+                    -else
+                      =t(:units)
+                    -if predicate_unique.size >=3
+                      -break
+          -else
+            - @page.data.each do |trait|  
               %tr
                 %td
                   %b 
@@ -88,39 +79,21 @@
                     = trait[:units][:name]
                   -else
                     =t(:units)
-                  -if predicate_unique.size >=3
-                    -break
-        -else
-          - @page.data.each do |trait|  
-            %tr
-              %td
-                %b 
-                  = trait[:predicate][:name]
-                -if trait[:object_term]
-                  =trait[:object_term][:name]
-                -elsif trait[:normal_measurement]
-                  =trait[:normal_measurement]
-                -else 
-                  =t(:object)
-                -if trait[:units]
-                  = trait[:units][:name]
-                -else
-                  =t(:units)
-    -else
-      %h3
-        #{t(:selective_traits)}
-        -#%small.pull-right traits
-      %table.table.table-striped
-        %tr
-          %td.text-center
-            %b #{t(:no_traits)}
-  .widget.categories
-    %h3 #{t(:taxon_card)}
-    .row
-      .col-sm-12
-        .single_comments
-          .col-lg-2.col-md-3.col-sm-1.col-xs-3.collectionImage.no-padding
-            = image_tag "download.png"
-          .col-lg-10.col-md-9.col-sm-11.col-xs-9
-            %b 
-              #{@page.scientific_name}
+      -else
+        %h3
+          #{t(:selective_traits)}
+          -#%small.pull-right traits
+        %table.table.table-striped
+          %tr
+            %td.text-center
+              %b #{t(:no_traits)}
+    .widget.categories
+      %h3 #{t(:taxon_card)}
+      .row
+        .col-sm-12
+          .single_comments
+            .col-lg-2.col-md-3.col-sm-1.col-xs-3.collectionImage.no-padding
+              = image_tag "download.png"
+            .col-lg-10.col-md-9.col-sm-11.col-xs-9
+              %b 
+                #{@page.scientific_name}

@@ -17,12 +17,14 @@
           .row
             .col-sm-12
               .single_comments
-                %b= @page.scientific_name
-                = image_tag "avatar3.png", alt: ""
-
-        -#.widget.blog_gallery
-          -#%h3 #{t(:refresh_memory)}
-          -#%ul.sidebar-gallery
+                .col-lg-2.col-md-3.col-sm-1.col-xs-3.collectionImage.no-padding
+                  = image_tag "download.png"
+                .col-lg-10.col-md-9.col-sm-11.col-xs-9
+                  %b 
+                    #{@page.scientific_name}
+          -#.widget.blog_gallery
+            -#%h3 #{t(:refresh_memory)}
+            -#%ul.sidebar-gallery
             -#%li
               -#%a{ href: "http://fieldguides.eol.org/memory/"}
                 -#= image_tag "memory-game-icon.png", alt: ""
