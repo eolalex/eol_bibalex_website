@@ -2624,7 +2624,7 @@ ul.thumbnails {
     .collectionBox .single_comments,
     .widget.categories.collectionBox .row {
         border-bottom: 1px dotted #d1d1d1;
-        box-shadow: 1px 1px 0 white;
+        box-shadow: none;
         padding-bottom: 20px;
         margin-bottom: 15px !important;
     }
