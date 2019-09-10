@@ -380,12 +380,12 @@ def main_method_3
     while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
       # # start_harvested_time is included 
       # # end_harvested_time is excluded therefore we keep it to next loop
-      json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+5000).to_s)
+      json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+360000).to_s)
       tables = JSON.parse(json_content)
       res_id = !tables["nodes"].empty? ? nodes = tables["nodes"][0]["resource_id"] : nil
       puts "batch #{counter} from #{res_id} #{Time.new}"
       add_data_to_publishing_layer(tables)
-      start_harvested_time = (start_harvested_time.to_i + 5000).to_s
+      start_harvested_time = (start_harvested_time.to_i + 360000).to_s
       counter = counter + 1 
     end
     StartTime.first.update_attribute(:start_time_string,time_array[0])
@@ -524,13 +524,13 @@ end
       IO.write($traits, $traits_array.join("\n"))
       IO.write($meta, $meta_array.join("\n"))
 
-      # system('sh /home/a-amorad/traits_scripts/terms.sh')
-      # system('sh /home/a-amorad/traits_scripts/traits.sh')
-      # system('sh /home/a-amorad/traits_scripts/meta.sh')
+      system('sh /home/a-amorad/traits_scripts/terms.sh')
+      system('sh /home/a-amorad/traits_scripts/traits.sh')
+      system('sh /home/a-amorad/traits_scripts/meta.sh')
 
-       system('sh /home/ba/traits_scripts/terms.sh')
-       system('sh /home/ba/traits_scripts/traits.sh')
-       system('sh /home/ba/traits_scripts/meta.sh')
+      # system('sh /home/ba/traits_scripts/terms.sh')
+      # system('sh /home/ba/traits_scripts/traits.sh')
+      # system('sh /home/ba/traits_scripts/meta.sh')
 
 
     end

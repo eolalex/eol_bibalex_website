@@ -18,7 +18,10 @@
               = content.trust
         .Taxon_Name
           .commonName
-            = medium.name
+            - if medium.name.length > 34
+              #{medium.name[0...33]}...
+            - else
+              #{medium.name}
       .modal{ id: "popup_#{medium.id}", tabindex: "-1", role: "dialog", "aria-labelledby": "popup_#{medium.id}Label"}
         .modal-dialog.modal-lg.extra_large{role: "document"}
           .modal-content

@@ -1,4 +1,4 @@
-﻿body {
+body {
     background-color: #2E2E2E !important;
 }
 .note {
@@ -790,7 +790,7 @@ body > form {
 
 .modal-body .searchBox {
     height: 45px;
-    width: 550px;
+    width: 100%;
     border-color: #80808033;
     border-radius: 5px;
 }
@@ -2031,7 +2031,7 @@ h3.Thumbnail_Title {
     border-left: 1px solid #2d2d2d;
     display: inline-block;
     padding-left: 20px;
-    /*position: absolute;
+    position: absolute !important;
     top: 10px;*/
     width: 130px !important;
 }
@@ -2980,8 +2980,4 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     cursor: pointer;
 }
 
-
-.tt-menu .tt-dataset .tt-suggestion {
-    cursor: pointer;
-}
 

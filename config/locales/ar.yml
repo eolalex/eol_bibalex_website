@@ -11,7 +11,7 @@ ar:
   content_associations: "الأصناف المعروضة"
   content_attributions_header: "معلومات حول المصدر"
   content_attributions_labels:
-    altitude: "الارتفاع"
+    altitude: "الارتفاع:"
     author: "المؤلف"
     bibliographic_citation: "الاقتباس الببليوغرافي"
     compiler: "المترجم"
@@ -21,7 +21,7 @@ ar:
     license: "الترخيص"
     location: "الموقع"
     location_verbatim: "النص الحرفي للموقع"
-    longitude: "خط الطول"
+    longitude: "خط الطول:"
     owner: "حقوق الملكية"
     photographer: "المصور"
     publisher: "الناشر"

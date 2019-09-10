@@ -10,6 +10,10 @@
     padding-top:100px;
     overflow:auto;
 }
+.modal-body form{
+	background-color:#f5f5f5;
+	padding:15px;
+}
 
 .changePass{
     background-color: #f5f5f5;
@@ -17,7 +21,9 @@
     margin-bottom: 0;
     border: 1px solid #e7e7e7;
 }
-
+.dropdown{
+	display:inline-block;
+}
 .searchBox form span,
 .twitter-typeahead {
     display: block !important;
@@ -135,7 +141,8 @@
 
 
 .imageThumbnail {
-    margin-bottom: 15px;
+    margin-bottom: 0px !important;
+    margin-top: 15px;
 }
 
 
@@ -790,7 +797,7 @@ body > form {
 
 .modal-body .searchBox {
     height: 45px;
-    width: 550px;
+    width: 100%;
     border-color: #80808033;
     border-radius: 5px;
 }
@@ -1788,7 +1795,8 @@ table.customTable {
     }
 
 .imageThumbnail {
-    margin-bottom: 15px;
+    margin-bottom: 0px !important;
+    margin-top: 15px;
     background: url('loading.gif') no-repeat;
 }
 
@@ -1943,7 +1951,7 @@ h3.Thumbnail_Title {
 #header {
     border-bottom: 2px solid #c1d72c !important;
     position: relative;
-    z-index: 10;
+    z-index: 110;
 }
 
     #header .navbar-inverse .nav li {
@@ -2031,7 +2039,7 @@ h3.Thumbnail_Title {
     border-left: 1px solid #2d2d2d;
     display: inline-block;
     padding-left: 20px;
-    /*position: absolute;
+    position: absolute !important;
     top: 10px;*/
     width: 130px !important;
 }
@@ -2976,11 +2984,6 @@ background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(234,234,234,
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eaeaea',GradientType=0 ); /* IE6-9 */
 
 }
-.tt-menu .tt-dataset .tt-suggestion {
-    cursor: pointer;
-}
-
-
 .tt-menu .tt-dataset .tt-suggestion {
     cursor: pointer;
 }

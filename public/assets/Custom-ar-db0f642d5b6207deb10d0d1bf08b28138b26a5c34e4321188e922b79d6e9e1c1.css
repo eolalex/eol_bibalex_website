@@ -1,67 +1,77 @@
 ﻿body {
     background-color: #2E2E2E !important;
+    font-family: 'DroidArabicKufi' !important;
+    font-size: 16px !important;
+    line-height: 22px;
+    direction: rtl;
 }
-.note {
-    display: inline-block;
-    margin: 6px 15px 0 15px;
+.selectedFile{
+	text-align:right!important;
 }
-.modal{
-    background-color:rgba(0,0,0,0.5);
-    padding-top:100px;
-    overflow:auto;
-}
-
 .changePass{
-    background-color: #f5f5f5;
-    padding: 40px 3px 0 40px;
-    margin-bottom: 0;
-    border: 1px solid #e7e7e7;
+    border-top-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+}
+.dropdown-menu > li, .dropdown-menu > li > a{
+	text-align:right;
+}
+.smallCarousel .blogTitle {
+    font-size: 12px !important;
+    line-height: normal;
+    letter-spacing: normal !important;
 }
 
-.searchBox form span,
-.twitter-typeahead {
-    display: block !important;
+/* ==========================================================================
+   Fonts
+   ========================================================================== */
+@font-face {
+    font-family: 'DroidArabicKufi-Bold';
+    src: url('DroidArabicKufi-Bold.eot');
+    src: url('DroidArabicKufi-Bold.eot?#iefix') format('embedded-opentype'), url('DroidArabicKufi-Bold.woff') format('woff'), url('DroidArabicKufi-Bold.ttf') format('truetype'), url('DroidArabicKufi-Bold.svg#DroidArabicKufi-Bold') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
-.eol-userform {
-    width: auto !important;
+@font-face {
+    font-family: 'DroidArabicKufi';
+    src: url('DroidArabicKufi.eot');
+    src: url('DroidArabicKufi.eot?#iefix') format('embedded-opentype'), url('DroidArabicKufi.woff') format('woff'), url('DroidArabicKufi.ttf') format('truetype'), url('DroidArabicKufi.svg#DroidArabicKufi') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
-    .eol-userform .radio label,
-    .eol-userform .checkbox label {
-        padding: 0;
-    }
-
-.dropdown:hover .dropdown-menu {
-    display: block;
-    -webkit-animation: fadeInUp 400ms;
-    animation: fadeInUp 400ms;
-}
-
-.modal-body .greyBox {
-    max-height: 300px;
-    overflow-y: scroll;
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: 'DroidArabicKufi' !important;
 }
 
 .content {
     background-color: white !important;
-    position: relative;
-    /*z-index: 0;*/
     padding-bottom: 30px;
-    padding-top: 30px;
+    /*padding-top:30px;*/
     min-height: 500px;
     max-width: 100% !important;
     width: 100% !important;
 }
+.collectionInfo .Edit_Delete a {
+    width: 47%!important;
+    margin: 0 auto;
+        margin-top: 0px;
+}
 
-.searchBox .form-control:first-child input {
-    width: 100%;
-    box-shadow: none;
-    border: none;
-    border-top-color: none;
-    border-right-color: none;
-    border-bottom-color: none;
-    border-left-color: none;
+.topMenu {
+        float: right;
+    }
+.NetworksLink {
+    background: rgba(0, 0, 0, 0) url("NetworkIcon.png") no-repeat scroll right center !important;
+    padding-right: 30px !important;
+}
+
+.mainMenu .navbar-toggle {
+    margin-left: 10px !important;
+}
+
+.mainMenu .btn-search {
+    height: 35px !important;
 }
 
 .smallTitle {
@@ -71,21 +81,7 @@
     margin-bottom: 15px;
 }
 
-.searchBox .form-control:first-child span {
-    width: 97%;
-    border: none;
-    box-shadow: none;
-}
 
-.searchBox .form-control:first-child input {
-    width: 100%;
-    box-shadow: none;
-    border: none;
-    border-top-color: currentcolor;
-    border-right-color: currentcolor;
-    border-bottom-color: currentcolor;
-    border-left-color: currentcolor;
-}
 
 .imageThumb {
     position: relative;
@@ -106,7 +102,7 @@
     .imageThumb .btn {
         border: 0 none;
         bottom: 4px;
-        left: 4px;
+        right: 4px;
         position: absolute;
         z-index: 1;
     }
@@ -328,7 +324,7 @@ h3.Thumbnail_Title {
 
 
 .radio-inline, .checkbox-inline {
-    padding-left: 17px !important;
+    padding-right: 17px !important;
 }
 
 
@@ -375,7 +371,7 @@ h3.Thumbnail_Title {
 
 
     #header .navbar-inverse .nav > li {
-        margin-left: 0;
+        margin-right: 0;
     }
 
 
@@ -406,7 +402,7 @@ h3.Thumbnail_Title {
 .searchbox.modal {
     background-color: transparent;
     box-shadow: none;
-    left: 0 !important;
+    right: 0 !important;
     top: 0 !important;
     width: auto !important;
     margin: 0 !important;
@@ -463,9 +459,9 @@ h3.Thumbnail_Title {
 
 
 .mainMenu {
-    border-left: 1px solid #2d2d2d;
+    border-right: 1px solid #2d2d2d;
     display: inline-block;
-    padding-left: 20px;
+    padding-right: 20px;
     /*position: absolute;
 
     top: 10px;*/
@@ -475,7 +471,7 @@ h3.Thumbnail_Title {
 
 
     .mainMenu .navbar-toggle {
-        float: left;
+        float: right;
     }
 
 
@@ -485,9 +481,9 @@ h3.Thumbnail_Title {
     background-image: none !important;
     border: 1px solid !important;
     border-radius: 4px !important;
-    float: right;
+    float: left;
     margin-bottom: 8px !important;
-    margin-right: 15px !important;
+    margin-left: 15px !important;
     margin-top: 8px !important;
     padding: 9px 10px !important;
     position: relative !important;
@@ -518,7 +514,7 @@ button {
 
 
 .menu-separator {
-    border-left: 1px dotted rgba(255, 255, 255, 0.3);
+    border-right: 1px dotted rgba(255, 255, 255, 0.3);
     height: 20px;
     margin: 8px 15px 0 !important;
     width: 1px;
@@ -614,7 +610,7 @@ button {
         border: medium none;
         color: #d7d7d7;
         width: auto;
-        padding-right: 15px;
+        padding-left: 15px;
     }
 
 
@@ -647,7 +643,7 @@ select {
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 
     select {
-        padding-right: 18px;
+        padding-left: 18px;
     }
 }
 
@@ -661,7 +657,7 @@ select {
     -moz-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
     transform: rotate(90deg);
-    right: 8px;
+    left: 8px;
     top: 6px;
     padding: 0 0 5px;
     border: none;
@@ -673,7 +669,7 @@ select {
 
 .lang:before {
     content: '';
-    right: 6px;
+    left: 6px;
     top: 0;
     width: 20px;
     height: 20px;
@@ -691,14 +687,6 @@ select {
 .signIn .fa {
     font-size: 20px;
 }
-
-
-
-.NetworksLink {
-    background: rgba(0, 0, 0, 0) url("app/assets/images/NetworkIcon.png") no-repeat scroll left center;
-    padding-left: 30px !important;
-}
-
 
 
 .DonateBtn {
@@ -742,6 +730,7 @@ body > form {
 #main-slider {
     position: relative;
     margin-top: 0;
+    /*z-index: 2;*/
 }
 
 
@@ -754,9 +743,11 @@ body > form {
 
 .GlobalSearch {
     position: absolute;
-    z-index: 100;
+    z-index: 2;
     top: 40%;
 }
+
+
 
     .GlobalSearch .slogan {
         margin: 0 auto;
@@ -772,9 +763,9 @@ body > form {
     background-color: #c52d2f !important;
     color: #fff !important;
     opacity: 1 !important;
-    right: 1px;
-    border-bottom-left-radius: 0 !important;
-    border-top-left-radius: 0 !important;
+    left: 1px !important;
+    border-bottom-right-radius: 0 !important;
+    border-top-right-radius: 0 !important;
     -webkit-transition: color 300ms, background-color 300ms !important;
     -moz-transition: color 300ms, background-color 300ms !important;
     -o-transition: color 300ms, background-color 300ms !important;
@@ -788,12 +779,6 @@ body > form {
         color: #333 !important;
     }
 
-.modal-body .searchBox {
-    height: 45px;
-    width: 550px;
-    border-color: #80808033;
-    border-radius: 5px;
-}
 
 
 .searchbox .modal-title {
@@ -813,7 +798,7 @@ body > form {
         height: 45px;
     }
 
-.topSpaceSeparator {
+<<<<<<< HEAD .topSpaceSeparator {
     margin-top: 10px;
 }
 
@@ -833,6 +818,8 @@ body > form {
     width: 100%;
 }
 
+=======
+/*>>>>>>> 7089ba0bf1d1119d93d2888855e161d25f8baec4*/
 .searchBox .searchButton {
     background-color: transparent;
     border: medium none;
@@ -841,7 +828,7 @@ body > form {
     opacity: 0.7;
     padding: 12px 14px;
     position: absolute;
-    right: 1px;
+    left: 1px;
     top: 1px;
     height: 43px;
     z-index: 10;
@@ -853,9 +840,15 @@ body > form {
 }
 
 
+
+.searchBox .searchButton:hover {
+    opacity: 1;
+    background-color: #f5f5f5;
+}
+
 .exploreTaxonBtn {
     padding: 8px 20px !important;
-    margin-left: 15px;
+    margin-right: 15px;
 }
 
 .alert-secondary {
@@ -863,11 +856,11 @@ body > form {
 }
 
     .alert-secondary .fa {
-        margin-right: 5px;
+        margin-left: 5px;
     }
 
 .nav-tabs > li {
-    margin-right: 1px;
+    margin-left: 1px;
 }
 
 .nav > li > a:hover, .nav > li > a:focus {
@@ -876,7 +869,7 @@ body > form {
 }
 
 ul.treeNode {
-    padding-left: 0;
+    padding-right: 0;
     margin-bottom: 0;
 }
 
@@ -902,13 +895,14 @@ table tr td {
 
 .smallCarousel {
     position: relative;
+    z-index: 1;
 }
 
 
 
 .carousel_Thumbnails {
     background-color: white;
-    box-shadow: 0 -22px 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 -115px 24px rgba(0, 0, 0, 0.25);
     padding: 30px 15px;
 }
 
@@ -924,7 +918,7 @@ table tr td {
 /* Reposition the controls slightly */
 
 .smallCarousel .carousel-control {
-    left: -12px;
+    right: -12px;
     font-size: 30px;
     margin-top: -10px;
 }
@@ -932,16 +926,16 @@ table tr td {
 
 
     .smallCarousel .carousel-control.right {
-        right: -12px;
+        left: -12px;
     }
 
 /* Changes the position of the indicators */
 
 .smallCarousel .carousel-indicators {
-    right: 50%;
+    left: 50%;
     top: auto;
     bottom: 0;
-    margin-right: -19px;
+    margin-left: -19px;
 }
 
     /* Changes the colour of the indicators */
@@ -978,7 +972,7 @@ table tr td {
         float: none;
         background: #f5f5f5 none repeat scroll 0 0;
         border: 3px solid #f2f2f2;
-        box-shadow: 0 0 0 2px #ffffff inset;
+        box-shadow: 0 2px 0 0 #ffffff inset;
     }
 
 
@@ -1058,6 +1052,8 @@ ul.social-share li a {
 img {
     max-width: 100%;
 }
+
+
 
 a {
     -webkit-transition: all 150ms ease;
@@ -1310,7 +1306,7 @@ ul.thumbnails {
 
     .greyBox h3 span a {
         cursor: pointer;
-        margin-left: 10px;
+        margin-right: 10px;
         text-transform: none !important;
     }
 
@@ -1354,7 +1350,7 @@ ul.thumbnails {
 
 
 .resurceTitle img {
-    margin-right: 10px;
+    margin-left: 10px;
     width: 64px;
 }
 
@@ -1372,7 +1368,7 @@ ul.thumbnails {
     color: rgb(0, 0, 0);
     z-index: 2000;
     position: absolute !important;
-    left: 40%;
+    right: 40%;
     top: 15%;
     background-color: #FFF;
     box-shadow: 3px 3px 1px 1px rgba(0, 0, 0, 0.2);
@@ -1390,7 +1386,7 @@ ul.thumbnails {
 .ResourcesIcon {
     /*background: rgba(0, 0, 0, 0) url("../images/resources.png") no-repeat scroll 6px center;*/
     /*padding: 10px 0 8px 55px;*/
-    padding: 10px 0 0 10px;
+    padding: 10px 10px 0 0;
     margin-bottom: 0 !important;
 }
 
@@ -1413,7 +1409,7 @@ ul.thumbnails {
 
 
 .btn-add {
-    margin-right: 3px;
+    margin-left: 3px;
     padding: 5px 10px !important;
 }
 
@@ -1435,7 +1431,7 @@ ul.thumbnails {
         font-size: 20px;
         font-weight: bold;
         line-height: 0;
-        margin-right: 14px;
+        margin-left: 14px;
         padding: 13px 8px 14px !important;
         text-align: center;
         text-transform: none;
@@ -1474,7 +1470,7 @@ ul.thumbnails {
             line-height: normal;
             padding: 1px 6px 0;
             position: absolute;
-            right: 0;
+            left: 0;
             text-align: center;
             top: -13px;
         }
@@ -1556,7 +1552,7 @@ ul.thumbnails {
 
     .SearchCollection.searchBox .searchButton {
         bottom: 1px;
-        right: 1px;
+        left: 1px;
         top: auto;
     }
 
@@ -1713,7 +1709,7 @@ table.customTable {
             border-bottom: 1px solid #ddd;
             display: block;
             font-size: .9em;
-            text-align: left;
+            text-align: right;
         }
 
 
@@ -1727,8 +1723,8 @@ table.customTable {
 
     */
                 content: attr(data-label);
-                padding-right: 10px;
-                float: left;
+                padding-left: 10px;
+                float: right;
                 font-weight: bold;
                 text-transform: uppercase;
             }
@@ -1744,6 +1740,13 @@ table.customTable {
     background-color: #2E2E2E !important;
 }
 
+.content {
+    background-color: white !important;
+    padding-bottom: 30px;
+    min-height: 500px;
+    max-width: 100% !important;
+    width: 100% !important;
+}
 
 .smallTitle {
     font-weight: bold;
@@ -1767,7 +1770,7 @@ table.customTable {
     .imageThumb .btn {
         border: 0 none;
         bottom: 4px;
-        left: 4px;
+        right: 4px;
         position: absolute;
         z-index: 1;
     }
@@ -1789,9 +1792,7 @@ table.customTable {
 
 .imageThumbnail {
     margin-bottom: 15px;
-    background: url('loading.gif') no-repeat;
 }
-
 
 .btn-success,
 .btn-trusted {
@@ -1823,7 +1824,7 @@ table.customTable {
 
 .viewerModal.modal-header {
     position: absolute;
-    right: 0;
+    left: 0;
     z-index: 1000;
     border-bottom: medium none;
     padding: 8px 10px 0;
@@ -1886,6 +1887,8 @@ h3.Thumbnail_Title {
 
 .navbar-inverse .navbar-nav > li > a {
     display: block;
+    padding-left:0!important;
+    padding-right:0!important;
 }
 
     .navbar-inverse .navbar-nav > li > a:hover,
@@ -1928,7 +1931,7 @@ h3.Thumbnail_Title {
 }
 
 .radio-inline, .checkbox-inline {
-    padding-left: 17px !important;
+    padding-right: 17px !important;
 }
 
 .formStyle {
@@ -1942,8 +1945,6 @@ h3.Thumbnail_Title {
 /*===== Header =====*/
 #header {
     border-bottom: 2px solid #c1d72c !important;
-    position: relative;
-    z-index: 10;
 }
 
     #header .navbar-inverse .nav li {
@@ -1962,7 +1963,7 @@ h3.Thumbnail_Title {
     }
 
     #header .navbar-inverse .nav > li {
-        margin-left: 0;
+        margin-right: 0;
     }
 
     #header .nav.navbar-nav li ul {
@@ -1985,7 +1986,7 @@ h3.Thumbnail_Title {
 .searchbox.modal {
     background-color: transparent;
     box-shadow: none;
-    left: 0 !important;
+    right: 0 !important;
     top: 0 !important;
     width: auto !important;
     margin: 0 !important;
@@ -2027,27 +2028,30 @@ h3.Thumbnail_Title {
         color: #fff;
     }
 
-.mainMenu {
-    border-left: 1px solid #2d2d2d;
+.topMenu .mainMenu {
+    border-right: 1px solid #2d2d2d;
     display: inline-block;
-    padding-left: 20px;
+    padding-right: 20px;
     /*position: absolute;
     top: 10px;*/
-    width: 130px !important;
+    width: 150px !important;
+    border-left: none !important;
 }
 
-    .mainMenu .navbar-toggle {
-        float: left;
-    }
+.mainMenu .navbar-toggle {
+    float: right !important;
+    margin-right: 0 !important;
+    margin-left: 10px !important;
+}
 
 .navbar-toggle {
     background-color: transparent !important;
     background-image: none !important;
     border: 1px solid !important;
     border-radius: 4px !important;
-    float: right;
+    float: left;
     margin-bottom: 8px !important;
-    margin-right: 15px !important;
+    margin-left: 15px !important;
     margin-top: 8px !important;
     padding: 9px 10px !important;
     position: relative !important;
@@ -2070,7 +2074,7 @@ button {
 }
 
 .menu-separator {
-    border-left: 1px dotted rgba(255, 255, 255, 0.3);
+    border-right: 1px dotted rgba(255, 255, 255, 0.3);
     height: 20px;
     margin: 8px 15px 0 !important;
     width: 1px;
@@ -2081,6 +2085,7 @@ button {
     background-color: rgba(21, 21, 21, 0.95);
     position: absolute;
     z-index: 100;
+    min-width: 190px;
 }
 
 .dropdown-menu {
@@ -2114,6 +2119,7 @@ button {
     .topMenu li {
         text-decoration: none !important;
         display: inline-block;
+        text-align: right;
     }
 
     .topMenu .dropdown-menu {
@@ -2142,7 +2148,7 @@ button {
         border: medium none;
         color: #d7d7d7;
         width: auto;
-        padding-right: 15px;
+        padding-left: 15px;
     }
 
 select {
@@ -2168,7 +2174,7 @@ select {
 /* Targetting Webkit browsers only. FF will show the dropdown arrow with so much padding. */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     select {
-        padding-right: 18px;
+        padding-left: 18px;
     }
 }
 
@@ -2180,7 +2186,7 @@ select {
     -moz-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
     transform: rotate(90deg);
-    right: 8px;
+    left: 8px;
     top: 6px;
     padding: 0 0 5px;
     border: none;
@@ -2190,7 +2196,7 @@ select {
 
 .lang:before {
     content: '';
-    right: 6px;
+    left: 6px;
     top: 0;
     width: 20px;
     height: 20px;
@@ -2199,22 +2205,12 @@ select {
     display: block;
 }
 
-.imgTitle img {
-    width: 100% !important;
-    height: auto !important;
-}
-
-.imgTitle {
-    height: 200px;
-    background-color: #e7e7e7;
-    border: 1px solid #e7e7e7;
-    overflow: hidden;
-}
 
 /*==== Top Right Menu =====*/
 .signIn .fa {
     font-size: 20px;
 }
+
 
 
 .DonateBtn {
@@ -2249,6 +2245,7 @@ body > form {
 #main-slider {
     position: relative;
     margin-top: 0;
+    /*z-index: 2;*/
 }
 
     #main-slider .carousel {
@@ -2257,7 +2254,7 @@ body > form {
 
 .GlobalSearch {
     position: absolute;
-    z-index: 100;
+    z-index: 2;
     top: 40%;
 }
 
@@ -2269,19 +2266,11 @@ body > form {
         font-weight: normal;
     }
 
-    .GlobalSearch .searchBar {
-        font-size: 16px;
-        height: 45px;
-        margin: 25px auto;
-        width: 450%;
-        border-radius: 5px;
-    }
-
 .modal-body .searchButton {
     background-color: #c52d2f !important;
     color: #fff !important;
     opacity: 1 !important;
-    right: 1px;
+    left: 1px !important;
     border-bottom-left-radius: 0 !important;
     border-top-left-radius: 0 !important;
     -webkit-transition: color 300ms, background-color 300ms !important;
@@ -2295,18 +2284,32 @@ body > form {
         color: #333 !important;
     }
 
+.navbar > .container .navbar-brand {
+    margin-left: 0 !important;
+    margin-right: -15px !important;
+}
+
 .searchbox .modal-title {
     text-align: center;
     font-size: 22px;
 }
 
+.form-control {
+    text-align: right;
+}
+
+    .form-control input {
+        text-align: right !important;
+    }
+
 .searchBox {
     position: relative;
+    text-align: right;
 }
 
     .searchBox .form-control {
         height: 45px;
-        width: 100%;
+        text-align: right;
     }
 
     .searchBox .searchButton {
@@ -2317,7 +2320,8 @@ body > form {
         opacity: 0.7;
         padding: 12px 14px;
         position: absolute;
-        right: 1px;
+        left: 1px;
+        right: auto !important;
         top: 1px;
         height: 43px;
         z-index: 10;
@@ -2337,11 +2341,12 @@ body > form {
 
 .smallCarousel {
     position: relative;
+    z-index: 1;
 }
 
 .carousel_Thumbnails {
     background-color: white;
-    box-shadow: 0 -22px 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 -115px 24px rgba(0, 0, 0, 0.25);
     padding: 30px 15px;
 }
 
@@ -2352,20 +2357,20 @@ body > form {
 }
 /* Reposition the controls slightly */
 .smallCarousel .carousel-control {
-    left: -12px;
+    right: -12px;
     font-size: 30px;
     margin-top: -10px;
 }
 
     .smallCarousel .carousel-control.right {
-        right: -12px;
+        left: -12px;
     }
 /* Changes the position of the indicators */
 .smallCarousel .carousel-indicators {
-    right: 50%;
+    left: 50%;
     top: auto;
     bottom: 0;
-    margin-right: -19px;
+    margin-left: -19px;
 }
     /* Changes the colour of the indicators */
     .smallCarousel .carousel-indicators li {
@@ -2395,7 +2400,6 @@ body > form {
     }
 
 #Home_Statistics h2 {
-    margin-bottom: 5px;
     margin-bottom: 50px;
 }
 
@@ -2583,7 +2587,7 @@ ul.thumbnails {
     color: rgb(0, 0, 0);
     z-index: 2000;
     position: absolute !important;
-    left: 40%;
+    right: 40%;
     top: 15%;
     background-color: #FFF;
     box-shadow: 3px 3px 1px 1px rgba(0, 0, 0, 0.2);
@@ -2668,7 +2672,7 @@ ul.thumbnails {
 
     .greyBox h3 span a {
         cursor: pointer;
-        margin-left: 10px;
+        margin-right: 10px;
         text-transform: none !important;
     }
 /*===== content manager ====*/
@@ -2700,14 +2704,14 @@ ul.thumbnails {
 }
 
 .resurceTitle img {
-    margin-right: 10px;
+    margin-left: 10px;
     width: 64px;
 }
 /*==== resources =====*/
 .ResourcesIcon {
     /*background: rgba(0, 0, 0, 0) url("../images/resources.png") no-repeat scroll 6px center;*/
     /*padding: 10px 0 8px 55px;*/
-    padding: 10px 0 0 10px;
+    padding: 10px 10px 0 0;
     margin-bottom: 0 !important;
 }
 
@@ -2723,7 +2727,7 @@ ul.thumbnails {
 }
 
 .btn-add {
-    margin-right: 3px;
+    margin-left: 3px;
     padding: 5px 10px !important;
 }
 
@@ -2752,7 +2756,9 @@ ul.thumbnails {
             line-height: normal;
             padding: 1px 6px 0;
             position: absolute;
-            right: 0;
+            left: 0;
+            right: auto !important;
+            width: 20px;
             text-align: center;
             top: -13px;
         }
@@ -2805,6 +2811,10 @@ ul.thumbnails {
         text-align: center;
     }
 
+.fa.fa-search {
+    transform: scale(-1, 1);
+}
+
 .SearchCollection {
     margin-bottom: 30px;
     position: relative;
@@ -2812,12 +2822,21 @@ ul.thumbnails {
 
     .SearchCollection.searchBox .searchButton {
         bottom: 1px;
-        right: 1px;
+        left: 1px;
         top: auto;
+        right: auto;
     }
 
 .editCollection .form-control {
     width: 100% !important;
+}
+
+#footer a {
+    font-size: 12px;
+}
+
+.social {
+    text-align: left !important;
 }
 /*==== Table Style ====*/
 
@@ -2927,7 +2946,7 @@ table.customTable {
     */
                 content: attr(data-label);
                 padding-right: 10px;
-                float: left;
+                float: right;
                 font-weight: bold;
                 text-transform: uppercase;
             }
@@ -2937,51 +2956,13 @@ table.customTable {
             }
 }
 
-iframe {
-    border: none;
-    box-shadow: none;
+.modal-header .btn-primary.pull-right {
+    padding: 0 8px 5px;
 }
 
-    iframe a {
-        color: red;
-    }
-/*input[type="file"] {
-    display: none;
-}*/
-.custom-file-upload {
-	
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f6f6f6+1,dcdcdc+99 */
-	background: rgb(246,246,246); /* Old browsers */
-	background: -moz-linear-gradient(top, rgba(246,246,246,1) 1%, rgba(220,220,220,1) 99%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(top, rgba(246,246,246,1) 1%,rgba(220,220,220,1) 99%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(to bottom, rgba(246,246,246,1) 1%,rgba(220,220,220,1) 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f6f6', endColorstr='#dcdcdc',GradientType=0 ); /* IE6-9 */
-    /*border: 1px solid #ccc;*/
-    display: inline-block;
-	padding: 2px 10px;
-	cursor: pointer;
-	border-radius: 4px;
-	border: 1px solid #d1d1d1;
-	font-weight: normal;
+.tt-menu {
+	position: absolute;
+    right: 0px;
+    left:auto !important;
+    text-align: right;
 }
-
-.custom-file-upload:hover{
-	
-
-/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+0,eaeaea+100 */
-background: rgb(255,255,255); /* Old browsers */
-background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(234,234,234,1) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(234,234,234,1) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(234,234,234,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eaeaea',GradientType=0 ); /* IE6-9 */
-
-}
-.tt-menu .tt-dataset .tt-suggestion {
-    cursor: pointer;
-}
-
-
-.tt-menu .tt-dataset .tt-suggestion {
-    cursor: pointer;
-}
-

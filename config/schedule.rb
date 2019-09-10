@@ -1,5 +1,6 @@
-# env :GEM_HOME, ENV['GEM_HOME']
-set :bundle_command, ENV["bundle_command"]
+env :GEM_HOME, ENV['GEM_HOME']
+#set :bundle_command, ENV["bundle_command"]
+#set :rake_command, "/usr/local/rvm/gems/ruby-2.4.2/bin/rake"
 # Use this file to easily define all of your cron jobs.
 #
 # It's helpful, but not entirely necessary to understand cron before proceeding.
@@ -23,7 +24,8 @@ set :bundle_command, ENV["bundle_command"]
 set :environment, "development"
 set :output, {:error => "log/cron_error_log.log", :standard => "log/cron_log.log"}
 
- every 1.day, :at => '6:00 pm' do  
-# every 3.minutes do
+every 1.day, :at => '3:15 pm' do  
+#every 3.minutes do
    rake "harvester:get_latest_updates"
 end
+

@@ -1,0 +1,65 @@
+﻿body {
+}
+/* lg */
+@media (min-width: 1200px) {
+    .GlobalSearch .form-control {
+        font-size: 16px;
+        height: 45px;
+        margin: 25px auto;
+        width: 80%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .collectionInfo .collectionName {
+        text-align: left !important;
+    }
+
+    .collectionInfo .Edit_Delete a {
+        width: 100px;
+    }
+
+    .btn-search {
+        margin-left: 10px;
+    }
+}
+
+/* xs */
+@media (max-width: 767px) {
+    .mainTitle .pull-right {
+        float: none !important;
+        display: block !important;
+    }
+    .dropdown .exploreTaxonBtn{
+        margin-left:0;
+    }
+
+    .navbar > .container .navbar-brand {
+        margin-left: 15px !important;
+    }
+
+    .navbar-header {
+        height: 50px;
+    }
+
+    .GlobalSearch .carousel-content .slogan {
+        font-size: 20px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .mainMenu .btn-search {
+        margin-top: 10px;
+        margin-top: 7px !important;
+    }
+
+    .topMenu .dropdown,
+    .mainMenu {
+        float: left !important;
+    }
+
+    .navbar-header .topMenu .mainMenu {
+        position: absolute;
+        right: 0;
+        top: -5px;
+    }
+}
