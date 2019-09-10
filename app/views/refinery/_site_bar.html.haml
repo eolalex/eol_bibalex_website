@@ -3,11 +3,11 @@
   #site_bar
     #site_bar_content.clearfix
       %header#header
-        %nav.navbar.navbar-inverse{ role: "banner", "data-turbolinks": "true"}
+        %nav.navbar.navbar-inverse{ role: "banner"}
           = stylesheet_link_tag 'font-awesome'
           .container
             .row
               .col-lg-7.col-md-6.col-sm-6.col-xs-12
                 .navbar-header
                   %a.navbar-brand{ href: main_app.root_path}
-                    =image_tag "eol_logo.png", alt: "logo"
+                    = image_tag "eol_logo.png", alt: "logo"

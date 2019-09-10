@@ -7,6 +7,6 @@
     = stylesheet_link_tag "wymeditor/skins/refinery/wymiframe", media: "all"
     = stylesheet_link_tag "formatting", media: "all" if Rails.application.assets.find_asset('formatting.css')
     = stylesheet_link_tag "theme", media: "all"
-    = stylesheet_link_tag 'font-awesome', "data-turbolinks": "true", media: 'all'
+    = stylesheet_link_tag 'font-awesome', media: 'all'
     = javascript_include_tag 'modernizr-min'
   %body{ class: "wym_iframe#{" #{params[:id]}" if params[:id].present?}"}

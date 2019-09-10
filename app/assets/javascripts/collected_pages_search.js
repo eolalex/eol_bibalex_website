@@ -27,4 +27,4 @@ function initialize() {
 
 
 $(document).ready(initialize);
-$(document).on('turbolinks:load', initialize);
+// $(document).on('turbolinks:load', initialize);

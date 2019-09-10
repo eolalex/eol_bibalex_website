@@ -72,9 +72,9 @@
     = csrf_meta_tags
  
       
-    - cache_unless(controller_path=="pages",["header", @is_root, @is_visitor, request.original_fullpath, locale.to_s], expires_in: 1.day) do    
+    - cache_unless(controller_path == "pages", ["header", @is_root, @is_visitor, request.original_fullpath, locale.to_s], expires_in: 1.day) do    
       %header#header
-        %nav.navbar.navbar-inverse{ role: "banner", "data-turbolinks": "true"}
+        %nav.navbar.navbar-inverse{ role: "banner"}
           .container
             .row
               .col-lg-7.col-md-6.col-sm-6.col-xs-12
