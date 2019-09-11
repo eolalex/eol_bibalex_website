@@ -10,18 +10,27 @@ class SearchController < ApplicationController
   end
 
   def search
+    @results = Array.new
     @page_title = params[:query] == "*" ? t(:see_more) : params[:query]+ "| "+ t(:search_results)
     regex = ".*"+params[:query].downcase+".*"
     page_result_scientific_names = search_pages(regex)
     page_result_vernaculars = search_vernaculars(regex)
     @pages = merge_results(page_result_scientific_names, page_result_vernaculars)
 
-    if params[:pages]
-      @results.nil??  @results= @pages : @results +=@pages
+    # debugger
+    if params[:filter] == "pages"
+      # @results.nil??  @results= @pages : @results +=@pages
+      @results = @results + page_result_scientific_names
+    elsif params[:filter] == "vernaculars"
+      @results = @results + page_result_vernaculars
+    else
+      @results = @results + @pages
     end
-    if (params[:scientific_names].nil? && params[:pages].nil?)
-      @results = @pages
-    end
+    
+    # if (params[:scientific_names].nil? && params[:pages].nil?)
+      # @results = @pages
+    # end
+    # debugger
     unless @results.empty?
       @results = @results.paginate(:page => params[:page], :per_page => ENV['per_page'])
     else
@@ -41,13 +50,14 @@ class SearchController < ApplicationController
   end
   
   def search_vernaculars(regex)
-    Vernacular.search params[:query] do |body|
+    results = Vernacular.search params[:query] do |body|
       body[:query] = {
         regexp:{
            name_string: regex
           }
              }
     end
+    results.map(&:page)
   end
   
   def merge_results(page_result_scientific_names, page_result_vernaculars)
@@ -55,7 +65,7 @@ class SearchController < ApplicationController
     page_result_scientific_names.results.each do |res|
       @pages << res
     end
-    page_result_vernaculars.results.map(&:page).uniq.each do |res|
+    page_result_vernaculars.uniq.each do |res|
       @pages << res
     end
   end

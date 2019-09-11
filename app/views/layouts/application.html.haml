@@ -161,7 +161,7 @@
                         %button{ id: "0", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'}x
                   .modal-body
                     .searchBox
-                      = form_tag(main_app.search_path, method: :get) do |f|
+                      = form_for(main_app.search_path, method: :get) do |f|
                         = text_field_tag(:query, params[:query], placeholder: t(:search_placeholder), class: "modal-body searchBox", required: "true")
                         %button.searchButton
                           %i.fa.fa-search{"aria-hidden": "true", remote: true}

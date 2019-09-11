@@ -1,3 +1,4 @@
+= javascript_include_tag "search_filter"
 %body
   .container    
   %br
@@ -28,10 +29,17 @@
           %article.card-group-item.well
             %header.card-header
               %h2.mainTitle #{t(:filter_by_type)}
-              - unless @pages.size == 0
-                %label.form-check
-                  %input.form-check-input{ type: "checkbox", value: ""}/
-                  %span.form-check-label
-                    #{t(:pages)}
-              %br  
-              = submit_tag "#{t(:filter)}", id: "filter"
+              = form_for("choose_filter") do |f|
+                .row
+                  = f.radio_button(:filter, "scientific_names", class: "uk-radio", checked: "false", onClick: "initialize()")
+                  = f.label(:filter, t(:scientific_names))
+                .row
+                  = f.radio_button(:filter, "vernaculars", class: "uk-radio", checked: "false", onClick: "initialize()")
+                  = f.label(:filter, t(:vernaculars))
+                -# - unless @pages.size == 0
+                  -# %label.form-check
+                    -# %input.form-check-input{ type: "checkbox", value: "pages"}/
+                    -# %span.form-check-label
+                    -# #{t(:pages)}
+                %br  
+                = submit_tag "#{t(:filter)}", id: "filter"
