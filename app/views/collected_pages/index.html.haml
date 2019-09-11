@@ -9,9 +9,11 @@
         - page_res = result.page
         .col-xs-4.col-sm-4.col-md-2
           - unless page_res.media.first.nil?
-            %img.thumbnail{ src: page_res.media.first.base_url, width: "100", height: "100"}  
+            %a{ href: page_path(page_res.id)} 
+              %img.thumbnail{ src: page_res.media.first.base_url, width: "100", height: "100"}  
           - else
-            %img.thumbnail{ src: "/assets/download.png" , width: "100", height: "100"}/
+            %a{ href: page_path(page_res.id)} 
+              %img.thumbnail{ src: "/assets/download.png" , width: "100", height: "100"}/
         .col-xs-8.col-sm-8.col-md-10
           - unless page_res.scientific_name.nil?         
             %h3= link_to page_res.scientific_name , page_path(page_res.id) 
