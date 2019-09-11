@@ -1,32 +1,35 @@
 - count = 1
-- $exists_in_all_collections = true
+- exists_in_all_collections = true
 .modal-body{style: "padding-bottom:0;"}
-  = form_for(CollectedPage.create, html: { class: "form" }) do |f|
-    - if current_user.collections.empty?
+  - current_user.collections.each do |collection|
+    - unless CollectedPage.where(collection_id: collection.id, page_id: @page.id).exists?
+      - exists_in_all_collections = false
+  - unless (exists_in_all_collections)
+    %h4
+      #{t(:add_to_existing_collection)}
+  - if current_user.collections.empty?
+    %h4
       #{t(:no_collections_yet)}
-    - else
+  - else
+    - if (exists_in_all_collections)
       %h4
-        #{t(:add_to_existing_collection)}
-      - current_user.collections.each do |collection|
-        - unless CollectedPage.where(collection_id: collection.id, page_id: @page.id).exists?
-          - $exists_in_all_collections = false
+        #{t(:exists_in_all_collections)}
+    - else
+      = form_for(CollectedPage.create, html: { class: "form" }) do |f|
+        - current_user.collections.each do |collection|
           %h4
             = f.hidden_field(:page_id, value: page_id)
             = f.radio_button(:collection_id, collection.id, class: "uk-radio", checked: count==1 ? "checked" : false)
             = f.label(:collection_id, collection.name)
           - count+=1
-      - if ($exists_in_all_collections)
-        %h4
-          #{t(:exists_in_all_collections)}
-      - else
         .modal-footer{style: "padding-bottom:0; margin-top:0;"}
           = f.button("#{t(:add_button)}", class: "btn btn-primary")
 
-  .row
-    .col-md-12
-      %h3.login-or
-        %hr.hr-or/
-        %span.span-or.BGwhite #{t(:or)}
+        .row
+          .col-md-12
+            %h3.login-or
+              %hr.hr-or/
+              %span.span-or.BGwhite #{t(:or)}
 .modal-body{style: "padding-bottom:0;"}
   %h4
     #{t(:add_to_new_collection)}
