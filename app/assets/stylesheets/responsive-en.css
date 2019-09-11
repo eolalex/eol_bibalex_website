@@ -9,6 +9,10 @@
         animation: fadeInUp 400ms;
     }
 
+	.modal-body .searchBox .searchButton {
+        right: 0;
+    }
+
     .searchBox .searchButton {
         right: 10%;
     }
