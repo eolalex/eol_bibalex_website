@@ -1,4 +1,4 @@
-﻿﻿body {
+﻿﻿﻿body {
 }
 /* lg */
 @media (min-width: 1200px) {
@@ -113,7 +113,7 @@
 
         .navbar-collapse.navbar-left.collapsing,
         .navbar-collapse.navbar-left.in {
-            right: 270px;
+            right: 220px;
             top: 69px;
         }
     /*-----------------------------------*/
@@ -147,10 +147,18 @@
     .content {
         min-height: 700px;
     }
+
+    #header .navbar {
+        height: 110px !important;
+    }
 }
 
 /* md */
 @media (min-width: 992px) and (max-width: 1199px) {
+    #header .navbar {
+        height: 115px;
+    }
+
     .content {
         min-height: 600px;
     }
@@ -166,7 +174,7 @@
 
     .navbar-collapse.navbar-left.collapsing,
     .navbar-collapse.navbar-left.in {
-        left: 270px;
+        right: 220px;
         top: 69px;
     }
 
@@ -367,7 +375,7 @@
     }
 
     .topMenu {
-        float: left;
+        float: right;
     }
 
     #Sponsors .center h2 {
@@ -376,7 +384,7 @@
 
     .navbar-collapse.navbar-left.collapsing,
     .navbar-collapse.navbar-left.in {
-        right: 230px;
+        right: 185px;
         top: 69px;
         width: 150px;
     }
@@ -387,12 +395,12 @@
 
     /*===== Edited by Shaimaa =======*/
 
-    .nav.navbar-nav{
+    .nav.navbar-nav {
         margin: 20px 0 !important;
     }
 
-    .coloredMenu .topMenu{
-        margin:5px 0!important;
+    .coloredMenu .topMenu {
+        margin: 25px 0 !important;
     }
 
     .DonateBtn {
@@ -408,6 +416,13 @@
             padding: 15px 15px 45px;
         }
 
+    #header .navbar {
+        height: 100px;
+    }
+
+    #header .navbar-inverse .nav > li {
+        padding: 0 10px;
+    }
 
     #header .nav.navbar-nav a, .topMenu li a {
         padding: 6px;
@@ -643,12 +658,34 @@
     .smallCarousel .center h2 {
         font-size: 18px;
     }
+
+    .btn-search {
+        margin-right: 10px;
+    }
+
+    #header .navbar-inverse .nav li {
+        padding: 0 10px;
+    }
 }
 
 /* xs */
 @media (max-width: 767px) {
     body {
         min-width: auto !important;
+    }
+
+    .mainTitle .pull-right {
+        float: none !important;
+        display: block !important;
+    }
+    .dropdown .exploreTaxonBtn{
+        margin-right:0;
+    }
+
+    .navbar-header .topMenu .mainMenu {
+        position: absolute;
+        left: 0;
+        top: -5px;
     }
 
     .TaxonName span.pull-right {
@@ -696,7 +733,7 @@
     }
 
     .NetworksLink {
-        background: none;
+        background: none !important;
         padding: 6px 12px !important;
     }
 
@@ -713,6 +750,12 @@
     .mainMenu {
         padding-right: 10px;
         float: left;
+    }
+
+    .topMenu .mainMenu {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
     }
 
     .topMenu li a {
@@ -859,7 +902,7 @@
     .navbar-collapse.navbar-left.collapsing,
     .navbar-collapse.navbar-left.in {
         right: 0;
-        top: 93px;
+        top: 100px;
         width: 100%;
     }
 
@@ -1109,7 +1152,7 @@
     .topMenu > li:last-child {
         display: block;
         text-align: center;
-        width: 100%;
+        width: 90px; /*changed from 100% to 90px*/
     }
 
     .navbar > .container .navbar-brand {
@@ -1137,5 +1180,14 @@
 @media (min-width: 1200px) and (max-width: 1500px) {
     .carousel_Thumbnails {
         box-shadow: 0 -60px 24px rgba(0, 0, 0, 0.25) !important;
+    }
+}
+
+@media (max-width: 440px) {
+    .nav-tabs > li {
+        float: none!important;
+    }
+    .nav-tabs > li > a{
+        border-bottom:1px solid white;
     }
 }

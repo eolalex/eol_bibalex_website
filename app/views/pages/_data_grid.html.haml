@@ -9,7 +9,7 @@
       %th{ scope:  "col"} #{t(:further_info)}
       %th{ scope:  "col"} #{t(:metadata)}
   %tbody
-    -counter1 = 0
+    - counter1 = 0
     - @traits.each do |trait|
       -counter1 = counter1 + 1
       -# %trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => false), :id => trait[:id] } }
@@ -20,7 +20,7 @@
       -if !(predicate[:definition].nil?) 
         -p_title = p_title +  "\n#{t(:definition)}: #{predicate[:definition]} "
       %tr
-        %td
+        %td{"data-label": "#{t(:predicate)}"}
           %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{p_title}", type: "button"}
             #{predicate[:name]}
           - if trait[:normal_measurement] && (trait[:normal_measurement] != trait[:measurement])
@@ -33,11 +33,11 @@
             - o_title = "#{t(:uri)}:  #{uri}"
             -if !(object_term[:definition].nil?) 
               -o_title = o_title +  "\n#{t(:definition)}: #{object_term[:definition]} "
-            %td
+            %td{"data-label": "#{t(:object)}"}
               %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{o_title} ", type: "button"}
                 #{trait[:object_term][:name]}
           - elsif trait[:measurement] 
-            %td
+            %td{"data-label": "#{t(:object)}"}
               %a{ "data-placement": "bottom", "data-toggle": "tooltip", type: "button"}
                 #{trait[:measurement]}
               - if trait[:normal_measurement] && (trait[:normal_measurement] != trait[:measurement])
@@ -53,7 +53,7 @@
             - u_title = "#{t(:uri)}:  #{uri}"
             -if !(units[:definition].nil?) 
               -u_title = u_title +  "\n#{t(:definition)}: #{units[:definition]} "
-            %td
+            %td{"data-label": "#{t(:units)}"}
               %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{u_title}", type: "button"}
                 #{trait[:units][:name]}
               - if trait[:normal_measurement] && (trait[:normal_measurement] != trait[:measurement])
@@ -64,18 +64,18 @@
           - else
             %td{"data-label": "#{t(:units)}"}
           - resource_content_partner = @resources_content_partners[trait[:resource][:resource_id]]
-          %td{"data-label": "#{t(:source)}"} 
+          %td{"data-label": "#{t(:resource)}"} 
             =link_to(resource_content_partner[0]["name"], content_partner_resource_path(resource_content_partner[1]["id"], resource_content_partner[0]["id"]))
-        %td
-          %div
-            -# modal view with additional information: 'Citation, Source, RecordURL, ScientificName, Statistical Method, URI, DEfinition'
-            %a.btn.btn{ id: "#{counter1}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
-              -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}
-              #{t(:see_more)}
+        %td{"data-label": "#{t(:further_info)}"}
+          -# %div
+          -# modal view with additional information: 'Citation, Source, RecordURL, ScientificName, Statistical Method, URI, DEfinition'
+          %a{ id: "#{counter1}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
+            -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}
+            #{t(:see_more)}
 
           
           - if(TraitBank.has_meta?(trait[:id]))
-            %td
+            %td{"data-label": "#{t(:metadata)}"}
               %div{ id: "#{uri}"}
                 %a.btn.btn{ id: "#{counter1}T", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup_meta(this)", role: "button"}
                   -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}

@@ -158,7 +158,7 @@
                       .col-md-10.col-sm-10.col-xs-10
                         %h2.editLabel.modal-title #{t(:search_network)}
                       .col-md-2.col-sm-2.col-xs-2
-                        %button{ id: "0", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'}x
+                        %button{ id: "0", class: "close", tabindex: "1", onclick: 'hidePopup(this, event)', "data-dismiss": "modal"}x
                   .modal-body
                     .searchBox
                       = form_tag(main_app.search_path, method: :get) do |f|

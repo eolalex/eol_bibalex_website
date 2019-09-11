@@ -3,31 +3,32 @@
 %content#Content2{ contentplaceholderid: "ContentPlaceHolder1", runat: "Server"}
   .MainPath
   .container
-    .row
-      .col-lg-12
-        %h2.mainTitle
-          = @page.scientific_name
-          = render("tabs")
-      .col-md-12
-        #tabs-451313.tabbable
-          / Only required for left/right tabs
-          %ul.nav.nav-tabs
-            %li.nav-item.active
-              %a.nav-link.active{"data-toggle": "tab", href: "#ScientificNames"} #{t(:scientific_names)}
-            %li.nav-item
-              %a.nav-link{"data-toggle": "tab", href: "#CommonNames"} #{t(:vernaculars)}
-            %li.nav-item
-              %a.nav-link{"data-toggle": "tab", href: "#Classifications"} #{t(:classifications)}
-          .tab-content
-            #CommonNames.tab-pane
-              = render_async vernaculars_tab_path( page_id: @page.id) do
-                .col-md-offset-5
-                  = image_tag "loading.gif", alt: ""
-            #Classifications.tab-pane
-              = render_async classification_tab_path( page_id: @page.id) do
-                .col-md-offset-5
-                  = image_tag "loading.gif", alt: ""
-            #ScientificNames.tab-pane.active
-              = render_async scientific_names_tab_path( page_id: @page.id) do
-                .col-md-offset-5
-                  = image_tag "loading.gif", alt: ""
+    %h2.mainTitle
+      %span{ style: "padding-bottom: 10px; display: inline-block"}
+        = @page.scientific_name
+      .pull-right
+        = render("tabs")
+      .clearfix
+    .col-md-12
+      #tabs-451313.tabbable
+        / Only required for left/right tabs
+        %ul.nav.nav-tabs
+          %li.nav-item.active
+            %a.nav-link.active{"data-toggle": "tab", href: "#ScientificNames"} #{t(:scientific_names)}
+          %li.nav-item
+            %a.nav-link{"data-toggle": "tab", href: "#CommonNames"} #{t(:vernaculars)}
+          %li.nav-item
+            %a.nav-link{"data-toggle": "tab", href: "#Classifications"} #{t(:classifications)}
+        .tab-content
+          #CommonNames.tab-pane
+            = render_async vernaculars_tab_path( page_id: @page.id) do
+              .col-md-offset-5
+                = image_tag "loading.gif", alt: ""
+          #Classifications.tab-pane
+            = render_async classification_tab_path( page_id: @page.id) do
+              .col-md-offset-5
+                = image_tag "loading.gif", alt: ""
+          #ScientificNames.tab-pane.active
+            = render_async scientific_names_tab_path( page_id: @page.id) do
+              .col-md-offset-5
+                = image_tag "loading.gif", alt: ""
