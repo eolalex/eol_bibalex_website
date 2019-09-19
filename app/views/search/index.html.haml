@@ -29,17 +29,13 @@
           %article.card-group-item.well
             %header.card-header
               %h2.mainTitle #{t(:filter_by_type)}
-              = form_for("choose_filter") do |f|
+              = form_tag(main_app.search_path, method: :get, remote: true) do
                 .row
-                  = f.radio_button(:filter, "scientific_names", class: "uk-radio", checked: "false", onClick: "initialize()")
-                  = f.label(:filter, t(:scientific_names))
+                  %input#scientific_names{name: "scientific_names", type: "checkbox", onclick: "enableFilterButton()", checked: params[:scientific_names] == "true" ? "checked" : false}
+                  %label{for: "scientific_names"} #{t(:scientific_names)}
                 .row
-                  = f.radio_button(:filter, "vernaculars", class: "uk-radio", checked: "false", onClick: "initialize()")
-                  = f.label(:filter, t(:vernaculars))
-                -# - unless @pages.size == 0
-                  -# %label.form-check
-                    -# %input.form-check-input{ type: "checkbox", value: "pages"}/
-                    -# %span.form-check-label
-                    -# #{t(:pages)}
-                %br  
-                = submit_tag "#{t(:filter)}", id: "filter"
+                  %input#vernaculars{ name: "vernaculars", type: "checkbox", onclick: "enableFilterButton()", checked: params[:vernaculars] == "true" ? "checked" : false}
+                  %label{for: "vernaculars"} #{t(:vernaculars)}
+                %br
+                = submit_tag "#{t(:filter)}", id: "filterSubmitTag", onClick: "submitFilterForm(\"#{params[:query]}\")"
+                

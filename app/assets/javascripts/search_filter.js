@@ -1,12 +1,42 @@
-function initialize()
-{
-// ("#choose_filter_filter_scientific_names").onClick(alert("boom"));
-// ("#choose_filter_filter_vernaculars").onClick(alert("a7eeh"));
-alert("ya laaaaaahwy");
-enableFilterButton;
- }
- 
-function disableFilterButton(){
-	("#filter").
+function submitFilterForm(query) {
+	var sciNamesFilter = document.getElementById("scientific_names"),
+	    vernacularsFilter = document.getElementById("vernaculars"),
+	    scientificNames = false,
+	    vernaculars = false;
+	if (sciNamesFilter.checked) 
+		scientificNames = true;
+	if (vernacularsFilter.checked)
+		vernaculars = true;
+
+	var locale = document.getElementsByName("locale")[0].value;
+	var url = locale + "/search";
+	$.ajax({
+		type : 'GET',
+		url : url,
+		data : {
+			query : query,
+			scientific_names : scientificNames,
+			vernaculars : vernaculars
+		},
+		dataType : "html",
+		success : function(response) {
+			$("body").html(response);
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			alert("error");
+		}
+	});
+	return false;
 }
-$(document).ready(disableFilterButton);
+
+function enableFilterButton() {
+	var button = document.getElementById("filterSubmitTag");
+	button.disabled = false;
+}
+
+function initialize(){
+	var button = document.getElementById("filterSubmitTag");
+	button.disabled = true;
+}
+$(document).ready(initialize);
+
