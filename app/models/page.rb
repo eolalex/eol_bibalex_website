@@ -2,27 +2,8 @@ class Page < ActiveRecord::Base
 
   validates_uniqueness_of :id
   has_many :collected_pages
-  
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
-  
-  index_name Rails.application.class.parent_name.underscore
-  document_type self.name.downcase
-  
-  settings index: { number_of_shards: 10} do
-  mapping dynamic: false do
-    indexes :scientitfic_name, type: :varchar 
-    indexes :suggest, {
-      type: 'completion',
-      analyzer: 'lowercase',
-      search_analyzer: 'lowercase',
-      payloads: 'true',
-      }
-  end
-end
-
+ 
   searchkick word_start: [:scientific_name]
-
 
   has_many :collected_pages
 
@@ -42,6 +23,7 @@ end
   has_one :occurrence_map, inverse_of: :page
   def search_data
       {
+        type: "page",
         id: id,
         scientific_name: scientific_name.downcase
       }
