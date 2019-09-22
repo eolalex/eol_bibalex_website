@@ -51,6 +51,7 @@ class SearchController < ApplicationController
   end
   
   def merge_results(page_result_scientific_names, page_result_vernaculars)
+    debugger
     @pages = Array.new
     page_result_scientific_names.results.each do |res|
       @pages << res
@@ -58,6 +59,7 @@ class SearchController < ApplicationController
     page_result_vernaculars.results.map(&:page).uniq.each do |res|
       @pages << res
     end
+    pages = @pages.uniq
   end
   
 end
