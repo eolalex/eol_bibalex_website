@@ -20,10 +20,11 @@ function submitFilterForm(query) {
 		},
 		dataType : "html",
 		success : function(response) {
+			alert("success");
 			$("body").html(response);
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
-			alert("error");
+			console.log(textStatus);
 		}
 	});
 	return false;
