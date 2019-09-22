@@ -68,7 +68,7 @@ class SearchController < ApplicationController
     page_result_vernaculars.each do |res|
       @pages << res
     end
-    pages = @pages
+    pages = @pages.uniq
   end
   
 end
