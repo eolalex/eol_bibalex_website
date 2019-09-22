@@ -18,11 +18,11 @@ class SearchController < ApplicationController
     @pages = merge_results(page_result_scientific_names, page_result_vernaculars)
 
     if (params[:scientific_names] == "true" && params[:vernaculars] == "false")
-      @results = @results + page_result_scientific_names
+      @results += page_result_scientific_names
     elsif (params[:vernaculars] == "true" && params[:scientific_names] == "false")
-      @results = @results + page_result_vernaculars
+      @results += page_result_vernaculars
     else
-      @results = @results + @pages
+      @results += @pages
     end
     
     unless @results.empty?
@@ -62,12 +62,8 @@ class SearchController < ApplicationController
   
   def merge_results(page_result_scientific_names, page_result_vernaculars)
     @pages = Array.new
-    page_result_scientific_names.results.each do |res|
-      @pages << res
-    end
-    page_result_vernaculars.each do |res|
-      @pages << res
-    end
+    @pages += page_result_scientific_names
+    @pages += page_result_vernaculars
     pages = @pages.uniq
   end
   

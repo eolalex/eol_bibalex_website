@@ -20,7 +20,6 @@ function submitFilterForm(query) {
 		},
 		dataType : "html",
 		success : function(response) {
-			alert("success");
 			$("body").html(response);
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
