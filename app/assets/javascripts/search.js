@@ -25,7 +25,7 @@ function initialize(locale) {
 		}
 		window.location.href = link + filters;
 	});
-
+		
 	$(function() {
 		var pages = new Bloodhound({
 			datumTokenizer : Bloodhound.tokenizers.whitespace,
@@ -36,10 +36,15 @@ function initialize(locale) {
 			}
 		});
 		pages.initialize();
+		var limit;
+		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) )
+			limit = 4;
+		else
+			limit = 10;
 		$('#query').typeahead(null, {
 			displayKey : 'scientific_name',
 			source : pages,
-			limit : 10,
+			limit : limit,
 			minLength : 1
 		}).bind('typeahead:selected', function(evt, datum, name) {
 			console.log(datum);
