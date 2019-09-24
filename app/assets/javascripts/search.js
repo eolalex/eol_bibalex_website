@@ -1,5 +1,6 @@
 //$(document).ready(function () {
 function initialize(locale) {
+	include("initializeConstants.js");
 	var locale = document.getElementsByName("locale")[0].value;
 	$("#filter").on('click', function() {
 
@@ -25,7 +26,7 @@ function initialize(locale) {
 		}
 		window.location.href = link + filters;
 	});
-		
+
 	$(function() {
 		var pages = new Bloodhound({
 			datumTokenizer : Bloodhound.tokenizers.whitespace,
@@ -36,11 +37,7 @@ function initialize(locale) {
 			}
 		});
 		pages.initialize();
-		var limit;
-		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) )
-			limit = 4;
-		else
-			limit = 10;
+		limit = getLimit();
 		$('#query').typeahead(null, {
 			displayKey : 'scientific_name',
 			source : pages,
@@ -50,12 +47,20 @@ function initialize(locale) {
 			console.log(datum);
 			// if(datum._type == "scientific_name")
 			// window.location.href = Routes.page_path(datum.id);
-			if (datum.type == "page"){
-				window.location.href = Routes.page_path(locale,datum.id);
+			if (datum.type == "page") {
+				window.location.href = Routes.page_path(locale, datum.id);
 			}
 		});
 		;
 	});
+}
+
+function include(filename) {
+	var head = document.getElementsByTagName('head')[0];
+	var script = document.createElement('script');
+	script.src = filename;
+	script.type = 'text/javascript';
+	head.appendChild(script);
 }
 
 //});
