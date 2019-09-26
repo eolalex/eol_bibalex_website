@@ -164,4 +164,4 @@
                   %nbsp
                     = link_to "#{trait[:source]}"
                   %br
-= will_paginate @traits, params: { controller: 'pages', action: 'data'}
+= will_paginate @traits, params: { controller: 'pages', action: 'data'}, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer

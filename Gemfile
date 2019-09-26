@@ -44,6 +44,7 @@ gem 'haml-rails'
 gem 'searchkick'
 gem 'elasticsearch-model'
 gem 'will_paginate'
+gem 'bootstrap-will_paginate'
 gem 'twitter-typeahead-rails'
 #gem 'rails4-autocomplete'
 gem "js-routes"
