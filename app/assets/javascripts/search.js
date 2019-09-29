@@ -37,17 +37,16 @@ function initialize(locale) {
 		});
 		pages.initialize();
 		$('#query').typeahead(null, {
-			displayKey : 'scientific_name',
+			displayKey : "name_string",
 			source : pages,
 			limit : 10,
 			minLength : 1
 		}).bind('typeahead:selected', function(evt, datum, name) {
 			console.log(datum);
-			// if(datum._type == "scientific_name")
-			// window.location.href = Routes.page_path(datum.id);
-			if (datum.type == "page"){
-				window.location.href = Routes.page_path(locale,datum.id);
-			}
+			if (datum.type == "page")
+				window.location.href = locale + Routes.page_path(datum.id);
+			else if (datum.type == "vernacular")
+				window.location.href = locale + Routes.page_path(datum.page_id);
 		});
 		;
 	});
