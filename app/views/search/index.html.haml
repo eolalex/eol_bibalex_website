@@ -1,3 +1,4 @@
+= javascript_include_tag "search_filter"
 %body
   .container    
   %br
@@ -35,10 +36,12 @@
           %article.card-group-item.well
             %header.card-header
               %h2.mainTitle #{t(:filter_by_type)}
-              - unless @pages.size == 0
-                %label.form-check
-                  %input.form-check-input{ type: "checkbox", value: ""}/
-                  %span.form-check-label
-                    #{t(:pages)}
-              %br  
-              = submit_tag "#{t(:filter)}", id: "filter"
+              = form_tag(main_app.search_path, method: :get, remote: true) do
+                .row
+                  %input#scientific_names{name: "scientific_names", type: "checkbox", onclick: "enableFilterButton()", checked: params[:scientific_names] == "true" ? "checked" : false}
+                  %label{for: "scientific_names"} #{t(:scientific_names)}
+                .row
+                  %input#collections{ name: "collections", type: "checkbox", onclick: "enableFilterButton()", checked: params[:collections] == "true" ? "checked" : false}
+                  %label{for: "collections"} #{t(:collections)}
+                %br
+                  = submit_tag "#{t(:filter)}", id: "filterSubmitTag", onClick: "submitFilterForm(\"#{params[:query]}\")"
