@@ -30,12 +30,12 @@ class PagesController < ApplicationController
           load: false, 
           misspellings: false}
           ).to_json).concat(
-      JSON.parse(Vernacular.search((params[:query]), 
-        {
-          fields: ["name_string"],
-          match: :word_start,
-          load: false,
-          misspellings: false}).to_json))
+	      JSON.parse(Vernacular.search((params[:query]), 
+		{
+		  fields: ["name_string"],
+		  match: :word_start,
+		  load: false,
+		  misspellings: false}).to_json))
   end
 
   def media
