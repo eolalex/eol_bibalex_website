@@ -43,12 +43,10 @@ function initialize(locale) {
 			minLength : 1
 		}).bind('typeahead:selected', function(evt, datum, name) {
 			console.log(datum);
-			// if(datum._type == "scientific_name")
-			// window.location.href = Routes.page_path(datum.id);
-			if (datum._type == "page")
-				window.location.href = "/"+locale + "/pages/"+datum.id;
-			else if (datum._type == "vernacular")
-				window.location.href = "/"+locale + "/pages/"+datum.page_id;
+			if (datum.type == "page")
+				window.location.href = locale + Routes.page_path(datum.id);
+			else if (datum.type == "vernacular")
+				window.location.href = locale + Routes.page_path(datum.page_id);
 		});
 		;
 	});
@@ -56,5 +54,4 @@ function initialize(locale) {
 
 //});
 $(document).ready(initialize);
-$(document).on('turbolinks:load', initialize);
-
+//$(document).on('turbolinks:load', initialize);

@@ -8,8 +8,9 @@ class Vernacular < ApplicationRecord
   
   def search_data
     {
+      type: "vernacular",      
       id: id,
-      lang_id: language_id,
+      language_id: language_id,
       name_string: string.downcase,
       page_id: page_id
     }

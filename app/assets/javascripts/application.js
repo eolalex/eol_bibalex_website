@@ -12,8 +12,6 @@
 //
 //= require jquery
 //= require jquery.lazyload.js
-//= require turbolinks
-//= require jquery.turbolinks
 //= require rails-ujs
 
 //= require typeahead

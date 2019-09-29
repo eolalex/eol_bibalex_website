@@ -1,7 +1,8 @@
 .container
-  .row
-    .col-lg-12
-      %h2.mainTitle
-        #{t(:articles)}
-        = render("tabs")
-    = render_async articles_tab_path( page_id: @page.id, page: params[:page])
+  %h2.mainTitle
+    %span{ style: "padding-bottom: 10px; display: inline-block"}
+      #{t(:articles)}
+    .pull-right
+      = render("tabs")
+    .clearfix
+  = render_async articles_tab_path( page_id: @page.id, page: params[:page])

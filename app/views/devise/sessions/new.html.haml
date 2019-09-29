@@ -1,7 +1,5 @@
 %content#Content1{contentplaceholderid: "head", runat: "Server"}
 %content#Content2{contentplaceholderid: "ContentPlaceHolder1", runat: "Server"}
-  .MainPath
-    .container
   .container
     .row
       .col-xs-12.col-sm-8.col-md-6
@@ -70,36 +68,24 @@
   .modal-dialog{ role: "document"}
     .modal-content
       .modal-header
-        .form-group.row.form-inline
-          .col-md-10.col-sm-10.col-xs-10
-            %h2.editLabel.modal-title #{t(:resend_pw)}
-          .col-md-2.col-sm-2.col-xs-2
-            %button{ id: "PW_100", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'}x
-      .modal-body
-        .container
-          = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-            .form-group.row
-              .col-md-6.col-sm-6.col-xs-6
-                %input.form-control.input-lg{ name: "user[email]", placeholder: "#{t(:enter_email)}", tabindex: "1", type: "text", required: true}
-            .form-group.row.form-inline
-              .col-md-6.col-sm-6.col-xs-6
-                = f.button("#{t(:resend_pw)}", class: "btn btn-primary pull-right")
+        %button{ id: "PW_100", class: "close", "data-dismiss": "modal", "aria-label": "close" , tabindex: "1", onclick: 'hidePopup(this, event)'}x
+        %h4.modal-title #{t(:resend_pw)}
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+        .modal-body{style: "padding-bottom:0;"}
+          .form-group
+            %input.form-control.input-md{ name: "user[email]", placeholder: "#{t(:enter_email)}", tabindex: "1", type: "text", required: true}
+        .modal-footer{style: "padding-bottom:0; margin-top:0;"}
+          = f.button("#{t(:send)}", class: "btn btn-primary")
 
 .modal{ id: "popup_CONF_#{100}", "aria-labelledby": "popup_CONF_#{100}Label", role: "dialog", tabindex: "-1"}
   .modal-dialog{ role: "document"}
     .modal-content
       .modal-header
-        .form-group.row.form-inline
-          .col-md-10.col-sm-10.col-xs-10
-            %h2.editLabel.modal-title #{t(:resend_confirmation_instructions)}
-          .col-md-2.col-sm-2.col-xs-2
-            %button{ id: "CONF_100", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'}x
-      .modal-body
-        .container
-          = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
-            .form-group.row
-              .col-md-6.col-sm-6.col-xs-6
-                %input.form-control.input-lg{ name: "user[email]", placeholder: "#{t(:enter_email)}", tabindex: "1", type: "text", required: true}
-            .form-group.row.form-inline
-              .col-md-6.col-sm-6.col-xs-6
-                = f.button("#{t(:resend_confirmation_email)}", class: "btn btn-primary pull-right")
+        %button{ id: "CONF_100", class: "close", tabindex: "1", "data-dismiss": "modal", onclick: 'hidePopup(this, event)'}x
+        %h4.modal-title #{t(:resend_confirmation_instructions)}
+      = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+        .modal-body{style: "padding-bottom:0;"}
+          .form-group
+            %input.form-control.input-lg{ name: "user[email]", placeholder: "#{t(:enter_email)}", tabindex: "1", type: "text", required: true}
+        .modal-footer{style: "padding-bottom:0; margin-top:0;"}
+          = f.button("#{t(:send)}", class: "btn btn-primary")

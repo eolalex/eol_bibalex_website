@@ -52,4 +52,6 @@
               .row
                 .col-xs-12
                   = resource_error_messages(@content_partner)
-                  %input.btn.btn-primary.btn-md{ tabindex: "5", type: "submit", value: "#{t(:update_button)}"}/
+                  %input.btn.btn-primary{ tabindex: "5", type: "submit", value: "#{t(:update_button)}"}/
+                  = link_to "#{t(:back)}", user_path( id: ContentPartnerUser.where(content_partner_id: params[:id]).first.user_id), class: "btn btn-primary"
+

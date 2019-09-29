@@ -20,7 +20,6 @@ def main_method
                         is_hidden_from_glossary: term_data[:is_hidden_from_glossary], is_hidden_from_select: term_data[:is_hidden_from_select], position: term_data[:position]
                         )
       else
-        debugger
         res.first.update_attributes(name: term_data[:name], term_type: term_data[:type], definition: term_data[:definition], comment: term_data[:comment],
                         attribution: term_data[:attribution], section_ids: term_data[:section_ids], is_hidden_from_overview: term_data[:is_hidden_from_overview],
                         is_hidden_from_glossary: term_data[:is_hidden_from_glossary], is_hidden_from_select: term_data[:is_hidden_from_select], position: term_data[:position]

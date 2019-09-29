@@ -45,11 +45,11 @@
     %section.smallCarousel
       .container
         .center.wow.fadeInDown.animated.hidden-lg.hidden-md.hidden-sm{ style: "visibility: visible; animation-name: fadeInDown; padding-bottom: 0; margin-bottom: -20px"}
-          %h2
-            #{t(:explore_taxa)}
+          -#%h2
+            -##{t(:explore_taxa)}
         #mixedSlider.carousel_Thumbnails
           .MS-content
-            - page_id_array = [46570763, 46579654, 328672, 8002, 45515245]
+            - page_id_array = [46570763, 581409, 328672, 467225, 45515245]
             - page_id_array.each do |page_id|
               .item
                 .imgTitle
@@ -57,7 +57,7 @@
                     %h2.blogTitle
                       - page = Page.find_by_id(page_id)
                       = page.try(:scientific_name)
-                    = image_tag page.try(:media).size > 0 && !page.try(:media).first.base_url.nil? ? page.try(:media).first.base_url : "download.png", style: 'height:25%;width:auto;'
+                    = image_tag page.try(:media).size > 0 && !page.try(:media).first.base_url.nil? ? page.try(:media).first.base_url : "download.png", style: 'height:25%;width:100%;'
         .center.wow.fadeInDown
           %h2{style: "font-size: 20;"}
             %a{href: main_app.search_path(query:"*")} #{t(:see_more)}

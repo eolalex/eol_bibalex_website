@@ -72,7 +72,6 @@ def get_latest_updates_from_hbase(last_harvested_time, start_key)
     response = request.execute
     response.body
   rescue => e
-    debugger
     c="l"
     false
   end
@@ -89,8 +88,6 @@ end
     response = request.execute
     response.body
   rescue => e
-    debugger
-    c="l"
     false
   end
 end
@@ -106,8 +103,21 @@ def get_end_time
     response = request.execute
     response.body
   rescue => e
-    debugger
-    c="l"
+    false
+  end
+end
+
+def get_and_end_time(last_start_time)
+  mysql_uri = "#{MYSQL_ADDRESS}#{MYSQL_GET_START_AND_END_TIMES}/#{last_start_time}"
+  begin
+    request = RestClient::Request.new(
+      method: :get,
+      timeout: -1,
+      url: "#{mysql_uri}"
+    )
+    response = request.execute
+    response.body
+  rescue => e
     false
   end
 end
@@ -347,11 +357,8 @@ end
 
 
 def main_method_3
-  ActiveRecord::Base.logger.info "starttttttt: #{Time.new}"
-  
-  # hashof terms key is uri value is term itself
-  terms = {}
-
+  ActiveRecord::Base.logger.info "start #{Time.new}"
+  puts "start a task #{Time.new}" 
   # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'mysql.json')
   # tables = JSON.parse(File.read(file_path))
   # file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'articles.json')
@@ -359,45 +366,57 @@ def main_method_3
   #file_path = File.join(Rails.root, 'lib', 'tasks', 'publishing_api', 'traits_mysql.json')
   #tables = JSON.parse(File.read(file_path))
 
-
-
-   
-    start_harvested_time = "1562678473000"
-    if HarvestTime.first.nil?
-      HarvestTime.create
-    end
-    # start_harvested_time = HarvestTime.first.last_harvest_time
-    
-     end_harvested_time = get_end_time
-   # end_harvested_time = 1540307002000
-
+  # start_harvested_time = "1562678473000"
+  last_start_time = StartTime.first.start_time_string     
+  start_end_time_array = get_and_end_time(last_start_time)
+  start_end_time_array = JSON.parse(start_end_time_array)
+  start_end_time_array.each do |time|
+    counter = 1
+    time_array = time.split(',')
+    start_harvested_time = time_array[0]
+    end_harvested_time = time_array[1]
+    # end_harvested_time = get_end_time
+    # end_harvested_time = 1540307002000
     while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
-      $terms=File.new("#{NEO4J_IMPORT_PATH}terms.csv", 'w')
-      $meta=File.new("#{NEO4J_IMPORT_PATH}meta.csv", 'w')
-      $traits=File.new("#{NEO4J_IMPORT_PATH}traits.csv", 'w')
-      
-    # # start_harvested_time is included 
-    # # end_harvested_time is excluded therefore we keep it to next loop
-       json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+360000).to_s)
-       tables = JSON.parse(json_content)
+      # # start_harvested_time is included 
+      # # end_harvested_time is excluded therefore we keep it to next loop
+      json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+360000).to_s)
+      tables = JSON.parse(json_content)
+      res_id = !tables["nodes"].empty? ? nodes = tables["nodes"][0]["resource_id"] : nil
+      puts "batch #{counter} from #{res_id} #{Time.new}"
+      add_data_to_publishing_layer(tables)
+      start_harvested_time = (start_harvested_time.to_i + 360000).to_s
+      counter = counter + 1 
+    end
+    StartTime.first.update_attribute(:start_time_string,time_array[0])
+  end
+  HarvestTime.first.update_attribute(:last_harvest_time, DateTime.now().strftime("%Q"))
+  ActiveRecord::Base.logger.info "end #{Time.new}"
+  puts "end a task #{Time.new}"
+   # HarvestTime.first.update_attribute(:last_harvest_time, DateTime.now().strftime("%Q"))
+end
 
-    licenses = tables["licenses"]
-    ranks = tables["ranks"]
-    nodes = tables["nodes"]
-    pages = tables["pages"]
-    pages_nodes = tables["pages_nodes"]
-    scientific_names = tables["scientific_names"]
-    languages = tables["languages"]
-    vernaculars = tables["vernaculars"]
-    locations = tables["locations"]
-    media = tables["media"]
-    articles = tables["articles"]
-    page_contents = tables["page_contents"]
-    attributions = tables["attributions"]
-    referents = tables["referents"]
-    references = tables["references"]
-    traits = tables["traits"]
-    taxa = tables["taxa"]
+ def add_data_to_publishing_layer(tables)
+   $terms=File.new("#{NEO4J_IMPORT_PATH}terms.csv", 'w')
+   $meta=File.new("#{NEO4J_IMPORT_PATH}meta.csv", 'w')
+   $traits=File.new("#{NEO4J_IMPORT_PATH}traits.csv", 'w')
+   licenses = tables["licenses"]
+   ranks = tables["ranks"]
+   nodes = tables["nodes"]
+   pages = tables["pages"]
+   pages_nodes = tables["pages_nodes"]
+   scientific_names = tables["scientific_names"]
+   languages = tables["languages"]
+   vernaculars = tables["vernaculars"]
+   locations = tables["locations"]
+   media = tables["media"]
+   articles = tables["articles"]
+   page_contents = tables["page_contents"]
+   attributions = tables["attributions"]
+   referents = tables["referents"]
+   references = tables["references"]
+   traits = tables["traits"]
+   taxa = tables["taxa"]
     
     unless licenses.empty?
       License.bulk_insert(licenses, :validate => true, :use_provided_primary_key => true)
@@ -442,7 +461,6 @@ def main_method_3
     end
 
     unless articles.empty?
-      # debugger
       Article.bulk_insert(articles,:validate => true , :use_provided_primary_key => true, ignore: true)
     end
 
@@ -510,9 +528,9 @@ def main_method_3
       system('sh /home/a-amorad/traits_scripts/traits.sh')
       system('sh /home/a-amorad/traits_scripts/meta.sh')
 
-       # system('sh /home/ba/traits_scripts/terms.sh')
-       # system('sh /home/ba/traits_scripts/traits.sh')
-       # system('sh /home/ba/traits_scripts/meta.sh')
+      # system('sh /home/ba/traits_scripts/terms.sh')
+      # system('sh /home/ba/traits_scripts/traits.sh')
+      # system('sh /home/ba/traits_scripts/meta.sh')
 
 
     end
@@ -525,15 +543,9 @@ def main_method_3
       end
       OccurrenceMap.bulk_insert($occurrence_maps_array, :validate => true)
       $occurrence_maps_count = 0
-    end
-     
-      start_harvested_time = (start_harvested_time.to_i + 360000).to_s
-   end
-   ActiveRecord::Base.logger.info "enddddddddd: #{Time.new}"
-   # debugger
-   HarvestTime.first.update_attribute(:last_harvest_time, DateTime.now().strftime("%Q"))
-end
-
+    end 
+ end
+ 
  def write_to_json(taxon)
   page_eol_id = taxon["page_eol_id"]
   occurrences = "["+taxon["occurrences"]+"]"
@@ -848,11 +860,20 @@ def set_ancestors(nodes_ids)
 end
 
 namespace :harvester do
+  def cron_lock(name)
+    path = Rails.root.join('tmp', 'cron', "#{name}.lock")
+    mkdir_p path.dirname unless path.dirname.directory?
+    file = path.open('w')
+    return if file.flock(File::LOCK_EX | File::LOCK_NB) == false
+    yield
+  end
   desc "TODO"  
   task get_latest_updates: :environment do
-
-     main_method_3
+    puts "begin #{Time.new} "
+    cron_lock 'service_cleaning' do
+      main_method_3
     # main_method_build_hierarchy
+    end
 
   end
 end

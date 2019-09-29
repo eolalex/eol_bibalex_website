@@ -1,7 +1,6 @@
 .container
   .row
     .col-lg-12
-      %br
       %h2.mainTitle.resurceTitle
         #{t(:user_profile)}
     .col-md-8
@@ -72,7 +71,10 @@
                       -if @user.id == current_user.id
                         %a{ href: edit_content_partner_path(id: result["id"])} #{t(:edit_button)}
                     .single_comments
-                      %img{ alt: "", src: "/assets/avatar3.png"}/
+                      -if result["logoPath"] == "path"
+                        %img{ alt: "", src: "/assets/avatar3.png"}/
+                      -else
+                        %img{ alt: "", src: result["logoPath"]}/
                       %a{ href: content_partner_path(id: content_partner_id)}
                         =result["name"]
                       .clearfix

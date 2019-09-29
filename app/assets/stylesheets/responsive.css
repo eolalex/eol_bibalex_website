@@ -104,9 +104,9 @@
         background-color: white;
     }
 
-    .navbar-collapse.navbar-left.collapsing, 
-    .navbar-collapse.navbar-left.in{
-        width:auto!important;
+    .navbar-collapse.navbar-left.collapsing,
+    .navbar-collapse.navbar-left.in {
+        width: auto !important;
     }
 
     .navbar-collapse {
@@ -116,7 +116,7 @@
 
         .navbar-collapse.navbar-left.collapsing,
         .navbar-collapse.navbar-left.in {
-            left: 270px;
+            left: 245px;
             top: 69px;
         }
     /*-----------------------------------*/
@@ -159,7 +159,7 @@
         min-height: 600px;
     }
     /*===== Edited by Shaimaa =======*/
-  
+
     .nav.navbar-nav,
     .topMenu {
         margin: 20px 0 !important;
@@ -167,7 +167,7 @@
 
     .navbar-collapse.navbar-left.collapsing,
     .navbar-collapse.navbar-left.in {
-        left: 270px;
+        left: 245px;
         top: 69px;
     }
 
@@ -357,9 +357,10 @@
     .mainMenu {
         /*width: 70px;*/
         padding-left: 0;
-        width: 0;
+        /*width: 0;*/
         padding-top: 15px;
         border: none;
+        top:0;
     }
 
     h1.slogan {
@@ -371,7 +372,9 @@
         font-size: 30px !important;
     }
 
-    
+    .smallCarousel .center h2 {
+        font-size: 20px !important;
+    }
 
     #Sponsors .center h2 {
         padding-bottom: 0 !important;
@@ -379,7 +382,7 @@
 
     .navbar-collapse.navbar-left.collapsing,
     .navbar-collapse.navbar-left.in {
-        left: 230px;
+        left: 185px;
         top: 69px;
         width: 150px;
     }
@@ -862,7 +865,7 @@
     .navbar-collapse.navbar-left.collapsing,
     .navbar-collapse.navbar-left.in {
         left: 0;
-        top: 93px;
+        top: 88px;
         width: 100%;
     }
 
@@ -1112,7 +1115,7 @@
     .topMenu > li:last-child {
         display: block;
         text-align: center;
-        width: 100%;
+        /*width: 100%;*/
     }
 
     .form-text {
@@ -1147,7 +1150,7 @@
     }
 
     .content {
-        padding: 0 10px 30px;
+        padding: 30px 10px 30px;
     }
 
     .form-horizontal .form-group {
@@ -1157,10 +1160,15 @@
 
     .navbar-header .topMenu .mainMenu {
         width: 125px !important;
+        top: 0;
     }
 
     .topMenu {
         float: none;
+    }
+    .btn.btn-primary.editBtn{
+    	min-width: 120px;
+		margin-top: 5px !important;
     }
 }
 
