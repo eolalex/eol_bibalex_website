@@ -3,7 +3,7 @@ class Page < ActiveRecord::Base
   validates_uniqueness_of :id
   has_many :collected_pages
  
-  searchkick word_start: [:scientific_name]
+  searchkick word_start: [:name_string]
 
   has_many :collected_pages
 
@@ -25,7 +25,7 @@ class Page < ActiveRecord::Base
       {
         type: "page",
         id: id,
-        scientific_name: scientific_name.downcase
+        name_string: scientific_name.downcase
       }
   end
 #   
