@@ -5,8 +5,8 @@
         %img{src: "/assets/download.png"}/
         = @resource.name
         %span.pull-right
-          -if(current_user == @content_partner.user)
-            %a.btn.btn-primary{ href: "#{edit_content_partner_resource_path(content_partner_id: @content_partner.id,id: params["id"])}", :role => "button"}
+          - if(current_user == @content_partner.user)
+            %a.btn.btn-primary{ href: "#{edit_content_partner_resource_path(content_partner_id: @content_partner.id,id: params["id"])}", role: "button"}
               #{t(:edit_button)}
     .col-md-8
       .part
@@ -15,75 +15,80 @@
         %p
           = @resource.description
         %p
-          %strong #{t(:web)}:
+          %strong #{t(:web)}
           %a{ href: content_partner_resource_path(@content_partner.id, params["id"]), target: "_blank"} #{@resource.name}
       .part
         .subtitle
           #{t(:dataset)}
         %p
           %strong
-            #{t(:type)}
+            #{t(:type)}:
           #{ @resource.type }
-        -if @resource.type.eql?("url")
+        - if @resource.type.eql?("url")
           %p
             %strong
-              #{t(:uploaded_url)}
+              #{t(:uploaded_url)}:
             #{ @resource.uploaded_url }
-        -if @resource.type.eql?("file")
+        - if @resource.type.eql?("file")
           %p
             %strong
-              #{t(:file_path)}
+              #{t(:file_path)}:
             #{ @resource.path}
         %p
           %strong
-            #{t(:default_language)}
-          =Language.find(@resource.default_language_id).code
+            #{t(:default_language)}:
+          = Language.find(@resource.default_language_id).code
       .part
         .subtitle
           #{t(:rights_attribution)}
-        %strong
-          #{t(:dataset_license)}
-        %p
+        - if(License.find(@resource.dataset_license).name.present?)
+          %strong
+            #{t(:dataset_license)}:
           = License.find(@resource.dataset_license).name
-        %strong
-          #{t(:dataset_rights_holder)}
         %p
+        - if(@resource.dataset_rights_holder.present?)
+          %strong
+            #{t(:dataset_rights_holder)}:
           = @resource.dataset_rights_holder
-        %strong
-          #{t(:dataset_rights_statement)}
         %p
-          = @resource.dataset_rights_statement
-        %strong
-          #{t(:default_rights_holder)}
-        %p
+        - if(@resource.dataset_rights_statement.present?)
+          %strong
+            #{t(:dataset_rights_statement)}:
+          %p
+            = @resource.dataset_rights_statement
+        - if(@resource.default_rights_holder.present?)
+          %strong
+            #{t(:default_rights_holder)}:
           = @resource.default_rights_holder
-        %strong
-          #{t(:default_rights_statement)}
         %p
+        - if(@resource.default_rights_statement.present?)
+          %strong
+            #{t(:default_rights_statement)}:
           = @resource.default_rights_statement
-        %strong
-          #{t(:default_license_string)}
         %p
-          = License.find(@resource.default_license_string).name
+        %strong
+          #{t(:default_license_string)}:
+        = License.find(@resource.default_license_string).name
+        %p
       .part
         .subtitle
           #{t(:processing_status_and_settings)}
         %strong
-          #{t(:harvest_frequency)}
+          #{t(:harvest_frequency)}:
+        = @resource.harvest_frequency
         %p
-          = @resource.harvest_frequency
         %strong
-          #{t(:auto_published)}
+          #{t(:auto_published)}:
+        = @resource.is_autopublished
         %p
-          = @resource.is_autopublished
       .part
         .subtitle
           #{t(:harvest_events)}   
         %strong
-          #{t(:last_harvest)}
+          #{t(:last_harvest)}:
+        - if @resource.last_harvested_at
+          = Time.at(@resource.last_harvested_at)
         %p
-          -if @resource.last_harvested_at
-            = Time.at(@resource.last_harvested_at)
     .col-md-4
       %aside
         .widget.categories.contentManger
