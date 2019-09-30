@@ -41,7 +41,7 @@
                       %p
                       #{t(:in_this_image)}
                       %p
-                      - medium_pages_ids = @media_results_pages_ids[@result.id]
+                      - medium_pages_ids = SearchController.get_medium_pages_ids(@result)
                       - medium_pages_ids.each do |page_id|
                         %a{ href: page_path(page_id)}
                           = Page.find(page_id).scientific_name

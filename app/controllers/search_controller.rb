@@ -9,13 +9,12 @@ class SearchController < ApplicationController
     end
   end
 
- def search
+  def search
 
     @page_title = params[:query] == "*" ? t(:see_more) : params[:query] + "| " + t(:search_results)
     regex = ".*" + params[:query].downcase + ".*"
     page_result_scientific_names = search_pages(regex)
     media_results = search_media(regex)
-    @media_results_pages_ids = media_results.present? ? get_media_pages_ids(media_results) : nil
     @pages = merge_results(page_result_scientific_names, media_results)
 
     if params[:pages]
@@ -52,16 +51,14 @@ class SearchController < ApplicationController
     end
   end
   
-  def get_media_pages_ids(media_results)
-    @media_pages_ids = Hash.new
+  def self.get_medium_pages_ids(media_result)
+    @media_pages_ids = Array.new
     page_ids = Array.new
-    media_results.each do |result|
-      PageContent.where(content_id: result.id).each do |page_content|
-        page_ids << page_content.page_id
-      end
-      @media_pages_ids[result.id] = page_ids
+    PageContent.where(content_id: media_result.id).each do |page_content|
+      page_ids << page_content.page_id
     end
-    media_pages_ids = @media_pages_ids
+    @medium_pages_ids = page_ids
+    medium_pages_ids = @medium_pages_ids
   end 
 
   def merge_results(page_result_scientific_names, media_results)
@@ -70,5 +67,5 @@ class SearchController < ApplicationController
     @pages += media_results
     pages = @pages.uniq
   end
-
+  
 end
