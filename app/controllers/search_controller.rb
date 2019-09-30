@@ -10,7 +10,7 @@ class SearchController < ApplicationController
   end
 
  def search
-
+    @results = Array.new
     @page_title = params[:query] == "*" ? t(:see_more) : params[:query] + "| " + t(:search_results)
     regex = ".*" + params[:query].downcase + ".*"
     page_result_scientific_names = search_pages(regex)
@@ -18,17 +18,24 @@ class SearchController < ApplicationController
     @media_results_pages_ids = media_results.present? ? get_media_pages_ids(media_results) : nil
     @pages = merge_results(page_result_scientific_names, media_results)
 
-    if params[:pages]
-      @results.nil??  @results = @pages : @results += @pages
+    if (params[:scientific_names] == "true" && params[:media] == "false")
+      @results += page_result_scientific_names
+    elsif (params[:media] == "true" && params[:scientific_names] == "false")
+      @results += media_results
+    else
+      @results += @pages
     end
-    if (params[:scientific_names].nil? && params[:pages].nil?)
-      @results = @pages
-    end
+    
     unless @results.empty?
       @results = @results.paginate( page: params[:page], per_page: ENV['per_page'])
     else
       flash[:notice] = t(:no_results) + " " + params[:query]
       redirect_back(fallback_location: root_path)
+    end
+    
+    respond_to do |format|
+      format.js
+      format.html
     end
   end
   
