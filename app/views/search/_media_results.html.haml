@@ -1,0 +1,70 @@
+%div{ id: "#{@result.id}", onclick: 'showPopup(this)', onmouseover: "showOver(this)", onmouseout:"hideOver(this)", style: "cursor: pointer;"}
+  %article.search-result.row
+    .col-xs-4.col-sm-4.col-md-2
+      - url = URI.parse(URI.encode(@result.base_url))
+      - http = Net::HTTP.start(url.host, url.port)
+      - image = http.head(url.request_uri)['Content-Type'].start_with? 'image'
+      - if image
+        %img.thumbnail{ src: @result.base_url, width: '100', height: '100', "data-original": @result.base_url }
+      - else
+        %video{ src: @result.base_url, width: '100', height: '100', controls: true}
+      - content = @result.page_contents.find { |c| c.content_id == @result.id }
+      - unless content.trust.nil?
+        %span.btn.btn-success.btn-xs.btn-trusted.btn-trusted
+          = content.trust
+    .col-xs-8.col-sm-8.col-md-10
+      %h3.marginTop0
+        %a{ href: "#"} #{@result.name}
+  .modal{ id: "popup_#{@result.id}", tabindex: "-1", role: "dialog", "aria-labelledby": "popup_#{@result.id}Label"}
+    .modal-dialog.modal-lg.extra_large{role: "document"}
+      .modal-content
+        .viewerModal.modal-header
+          %button{ id:"#{@result.id}", class: "btn", onclick: 'hidePopup(this, event)'}x
+        .modal-body
+          .row
+            .col-md-8
+              - url = URI.parse(URI.encode(@result.base_url))
+              - http = Net::HTTP.start(url.host, url.port)
+              - image = http.head(url.request_uri)['Content-Type'].start_with? 'image'
+              - if image 
+                %img.img-responsive{ alt: "", src: @result.base_url, width: "100%"}
+              - else
+                %video{ src: @result.base_url, width: "100%", controls: true}
+            .col-md-4
+              %aside
+                .widget.categories
+                  %h3.Thumbnail_Title
+                    = @result.name
+                    %span.btn.btn-success.btn-xs.btn-trusted.btn-trusted #{t(:trusted)}
+                    %br/
+                    %small
+                      %p
+                      #{t(:in_this_image)}
+                      %p
+                      - medium_pages_ids = @media_results_pages_ids[@result.id]
+                      - medium_pages_ids.each do |page_id|
+                        %a{ href: page_path(page_id)}
+                          = Page.find(page_id).scientific_name
+                        %p
+                  .small_title
+                    #{t(:source)}
+                  .greyBox
+                    %p
+                      %img{ src: "/assets/creative_common.png"}/
+                      %small
+                        %br/
+                        - unless @result.source_url.nil?
+                          %b 
+                            #{t(:source_url)}
+                            = @result.source_url |
+                        %br/
+                        - unless (@result.owner.nil? || @result.owner ="null")
+                          %b 
+                            #{t(:owner)}
+                            = @result.owner
+                  - unless @result.description.nil?
+                    .small_title
+                      #{t(:description)}
+                    .greyBox
+                      %p
+                        = @result.description.html_safe

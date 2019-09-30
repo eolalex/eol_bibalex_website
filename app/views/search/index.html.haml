@@ -22,7 +22,10 @@
                 .col-xs-8.col-sm-8.col-md-10
                   %h3.marginTop0
                     %a{ href: page_path(result.id), title: ""} #{result.scientific_name}
-                %span.clearfix.borda
+            - elsif result.instance_of? Medium
+              - @result = result
+              = render("media_results")
+              %span.clearfix.borda
           = will_paginate @results
         .col-lg-3
           %article.card-group-item.well

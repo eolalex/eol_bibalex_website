@@ -22,13 +22,20 @@ class PagesController < ApplicationController
   end
 
   def autocomplete
-    render json: Page.search(params[:query], {
-      fields: ["scientific_name^5"],
-      match: :word_start,
-      # limit: 10,
-      load: false,
-      misspellings: false
-    })
+    render json:
+      JSON.parse(Page.search((params[:query]),
+        {
+          fields: ["name_string"],
+          match: :word_start,
+          load: false,
+          misspellings: false}
+          ).to_json).concat(
+            JSON.parse(Medium.search((params[:query]),
+              {
+                fields: ["name_string"],
+                match: :word_start,
+                load: false,
+                misspellings: false}).to_json))
   end
 
   def media
