@@ -1,26 +1,4 @@
 class CollectedPage < ActiveRecord::Base
-  
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
-  
-  index_name "collected_pages"
-  document_type self.name.downcase
-  
-  settings index: { number_of_shards: 10} do
-  mapping dynamic: false do
-    indexes :scientific_name_string, type: :varchar 
-    indexes :collection_id, type: :integer
-    indexes :suggest, {
-      type: 'completion',
-      analyzer: 'lowercase',
-      search_analyzer: 'lowercase',
-      payloads: 'true',
-      }
-  end
-end
-
-  searchkick word_start: [:scientific_name_string]
-
 
   belongs_to :page, inverse_of: :collected_pages
   belongs_to :collection, inverse_of: :collected_pages
@@ -52,12 +30,14 @@ end
   #   text(:synonyms) {page.scientific_names.synonym.map { |n| n.canonical_form.gsub(/<\/?i>/, "") } }
   #   text(:vernaculars) { page.vernaculars.preferred.map { |v| v.string } }
   # end
+  searchkick word_start: [:scientific_name_string]
 
   def search_data
     {
-     page_id: page.id,
-     collection_id: collection_id,
-     scientific_name_string: scientific_name_string.downcase
+       type: "collected_page",
+       page_id: page.id,
+       collection_id: collection_id,
+       scientific_name_string: scientific_name_string.downcase
     }
   end
  

@@ -1,4 +1,4 @@
--collected_page = @collection.collected_pages
+- collected_page = @collection.collected_pages
 .container
   .col-md-3.col-sm-12.col-xs-12
     .collectionInfo
@@ -10,7 +10,7 @@
             #{@collection.name}
           .description
             #{@collection.description}
-          -if (@collection.users.ids.first == current_user.id)
+          - if (@collection.users.ids.first == current_user.id)
             .Edit_Delete
               %a.btn.btn-primary{ id: "#{@collection.id}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
                 #{t(:edit_button)}
@@ -65,6 +65,6 @@
               = image_tag Page.find_by_id(collected_page.page_id).try(:media).size > 0 && !Page.find_by_id(collected_page.page_id).try(:media).first.base_url.nil? ? Page.find_by_id(collected_page.page_id).try(:media).first.base_url : "download.png", style: 'height:100;width:100;'
             .collectionName
               -unless collected_page.page.scientific_name.nil?         
-                %a{:href => page_path(collected_page.page_id)} #{collected_page.page.scientific_name}
+                %a{ href: page_path(collected_page.page_id)} #{collected_page.page.scientific_name}
       .col-xs-12
       %br
