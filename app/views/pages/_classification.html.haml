@@ -1,6 +1,10 @@
 .row
   .col-md-12
 -nodes = @page.nodes.to_a.sort_by{|n| n.resource_id}
+- if params[:locale] == "ar"
+  -direction = "right"
+- else
+  -direction ="left"
 #test.tree
   -nodes.each do |page_node|
     -tree = classification(page_node)
@@ -12,10 +16,6 @@
     -else
       %span #{t(:unknown_resource)} 
     - x = 0 
-    - if params[:locale] == "ar"
-      -direction = "right"
-    - else
-      -direction ="left"
     -tree.each_with_index do |node, index|
       %ul.treeNode{ style: "padding-#{direction}: #{x}px;"}
         %li.parent_li
@@ -46,7 +46,7 @@
       -level = child[1]
       -if prev_level == level
         -x = x - 5
-      %ul.treeNode{ style: "padding-left: #{x}px;"}
+      %ul.treeNode{ style: "padding-#{direction}: #{x}px;"}
         %li.parent_li
           - unless node.nil?
             %ul
