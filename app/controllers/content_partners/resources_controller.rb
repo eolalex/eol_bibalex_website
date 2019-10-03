@@ -125,7 +125,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
     resource_boundary_ids = ResourceApi.get_resource_boundaries
     unless resource_boundary_ids.nil?
       lower_boundary_resource_id = resource_boundary_ids["firstResourceId"]
-      upper_boundary_resource_id = resource_boundary_ids["lastResourceId"]
+      upper_boundary_resource_id = resource_boundary_ids["lastResourceId"] + ENV['resource_batch_size'].to_i
       end_resource_id = lower_boundary_resource_id + ENV['resource_batch_size'].to_i
       @rows = Array.new
       while( end_resource_id < upper_boundary_resource_id)
@@ -136,8 +136,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
           internal_server_error
         end
         lower_boundary_resource_id = end_resource_id + 1
-        end_resource_id = end_resource_id + ENV['resource_batch_size'].to_i < upper_boundary_resource_id ? 
-          end_resource_id + ENV['resource_batch_size'].to_i : upper_boundary_resource_id
+        end_resource_id += ENV['resource_batch_size'].to_i
       end
       @rows = @rows.paginate(page: params[:page], per_page: ENV['per_page_resources'])
     else
