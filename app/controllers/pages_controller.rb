@@ -22,13 +22,18 @@ class PagesController < ApplicationController
   end
 
   def autocomplete
-    render json: Page.search(params[:query], {
-      fields: ["scientific_name^5"],
-      match: :word_start,
-      # limit: 10,
-      load: false,
-      misspellings: false
-    })
+    resources = Array.new
+    $resource_repository.search(query: {wildcard: {"name": params[:query].downcase + "*"}}).results.each do |res|
+      resources << {"name": res.name, "id": res.id, "content_partner_id": res.content_partner_id, "type": "resource"}
+    end
+    render json:
+      resources.concat(JSON.parse(Page.search((params[:query]), 
+        {
+          fields: ["name"], 
+          match: :word_start, 
+          load: false, 
+          misspellings: false}
+          ).to_json))
   end
 
   def media

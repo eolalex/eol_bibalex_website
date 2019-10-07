@@ -9,31 +9,15 @@ class SearchController < ApplicationController
     end
   end
 
-  def search
+ def search
     # Page.reindex
     @page_title = params[:query] == "*" ? t(:see_more) : params[:query]+ "| "+ t(:search_results)
-    regex = ".*"+params[:query].downcase+".*"
-    # scientific_names_result = ScientificName.search params[:query] do |body|
-      # body[:query] = {
-        # regexp:{
-            # canonical_form: regex
-        # }
-     # }
-    # end
-    # @scientific_names = scientific_names_result.results
-    
-    page_result = Page.search params[:query] do |body|
-      body[:query] = {
-        regexp:{
-            scientific_name: regex
-        }
-     }
-    end
-    @pages = page_result.results
-    #debugger
-    # if params[:scientific_names]
-      # @results = @scientific_names
-    # end
+    query = "\"#{params[:query].downcase}\""
+    regex = ".*" + query + ".*"
+    page_result_scientific_names = search_pages(regex)
+    resource_results = search_resources(regex).results
+    @pages = merge_results(page_result_scientific_names, resource_results)
+
     if params[:pages]
       @results.nil??  @results= @pages : @results +=@pages
     end
@@ -41,12 +25,38 @@ class SearchController < ApplicationController
       @results = @pages
     end
     unless @results.empty?
-      # debugger
-      @results = @results.paginate(:page => params[:page], :per_page => ENV['per_page'])
-      # @results =@results.uniq!
+      @results = @results.paginate( page: params[:page], per_page: ENV['per_page'])
     else
       flash[:notice] = t(:no_results) +" "+ params[:query]
       redirect_back(fallback_location: root_path)
     end
   end
+  
+  def search_pages(regex)
+    Page.search params[:query] do |body|
+      body[:query] = {
+        regexp:{
+           name: regex
+          }
+        }
+    end
+  end
+  
+  def search_resources(regex)
+    ResourceRepository.search params[:query] do |body|
+      body[:query] = {
+        regexp:{
+           name: regex
+          }
+        }
+    end
+  end
+  
+  def merge_results(page_result_scientific_names, resource_results)
+    @pages = Array.new
+    @pages += page_result_scientific_names  
+    @pages += resource_results
+    pages = @pages.uniq
+  end
+
 end
