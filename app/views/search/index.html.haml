@@ -23,6 +23,17 @@
                   %h3.marginTop0
                     %a{ href: page_path(result.id), title: ""} #{result.scientific_name}
                 %span.clearfix.borda
+            - if result.class.to_s == "ContentPartner"
+              - content_partner = ContentPartnerApi.get_content_partner_without_resources(result.id)
+              %article.search-result.row
+                .col-xs-4.col-sm-4.col-md-2
+                  - if content_partner["logoPath"] == "path"
+                    %img{ alt: "", src: "/assets/download.png"}/
+                  - else
+                    %img{ alt: "", src: content_partner["logoPath"]}/
+                .col-xs-8.col-sm-8.col-md-10
+                  %h3.marginTop0
+                    %a{ href: content_partner_path(result.id)} #{content_partner["name"]}
           = will_paginate @results
         .col-lg-3
           %article.card-group-item.well

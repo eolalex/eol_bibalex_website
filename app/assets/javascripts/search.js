@@ -37,7 +37,7 @@ function initialize(locale) {
 		});
 		pages.initialize();
 		$('#query').typeahead(null, {
-			displayKey : 'scientific_name',
+			displayKey : 'name',
 			source : pages,
 			limit : 10,
 			minLength : 1
@@ -47,6 +47,9 @@ function initialize(locale) {
 			// window.location.href = Routes.page_path(datum.id);
 			if (datum.type == "page"){
 				window.location.href = Routes.page_path(locale,datum.id);
+			}
+			else if (datum.type == "content_partner"){
+				window.location.href = Routes.content_partner_path(locale,datum.id);
 			}
 		});
 		;
