@@ -12,12 +12,10 @@ class SearchController < ApplicationController
  def search
     # Page.reindex
     @page_title = params[:query] == "*" ? t(:see_more) : params[:query]+ "| "+ t(:search_results)
-    query = "\"#{params[:query].downcase}\""
-    regex = ".*" + query + ".*"
+    regex = ".*" + params[:query].downcase + ".*"
     page_result_scientific_names = search_pages(regex)
-    resource_results = search_resources(regex).results
+    resource_results = search_resources.results
     @pages = merge_results(page_result_scientific_names, resource_results)
-
     if params[:pages]
       @results.nil??  @results= @pages : @results +=@pages
     end
@@ -42,14 +40,8 @@ class SearchController < ApplicationController
     end
   end
   
-  def search_resources(regex)
-    ResourceRepository.search params[:query] do |body|
-      body[:query] = {
-        regexp:{
-           name: regex
-          }
-        }
-    end
+  def search_resources
+    $resource_repository.search( query: { match_phrase_prefix: { name: params[:query]}})
   end
   
   def merge_results(page_result_scientific_names, resource_results)

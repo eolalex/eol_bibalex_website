@@ -23,7 +23,7 @@ class PagesController < ApplicationController
 
   def autocomplete
     resources = Array.new
-    $resource_repository.search(query: {wildcard: {"name": params[:query].downcase + "*"}}).results.each do |res|
+    $resource_repository.search( query: { match_phrase_prefix: { name: params[:query]}}).results.each do |res|
       resources << {"name": res.name, "id": res.id, "content_partner_id": res.content_partner_id, "type": "resource"}
     end
     render json:

@@ -4,7 +4,14 @@ class Resource
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
   
-  $resource_repository = ResourceRepository.new
+  $resource_repository = ResourceRepository.new( index_name: :resources, type: :resource, klass: Resource)
+  $resource_repository.settings number_of_shards: 1 do
+    mapping do
+      indexes :id, type: :integer
+      indexes :name, type: :text
+      indexes :content_partner_id, type: :integer
+    end
+  end
   
   # belongs_to :partner, inverse_of: :resources
 # 

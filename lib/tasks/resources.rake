@@ -31,7 +31,8 @@ def get_resources
   $get_all_resources_uri = "#{GET_FULL_RESOURCES_DATA}"
   $get_resource_ids_uri = "#{GET_RESOURCE_BOUNDARIES}"
   $batch_size = "#{BATCH_SIZE}".to_i
-  ResourceRepository.create_index!
+  $resource_repository = ResourceRepository.new( index_name: :resources, type: :resource, klass: Resource)
+  $resource_repository.create_index!
   resource_repository = ResourceRepository.new
   boundary_ids = get_boundary_ids
   unless boundary_ids.nil?
@@ -44,7 +45,7 @@ def get_resources
     unless resources.nil?
       resources.each do |res|
         resource = {"name": res["resourceName"].downcase, "id": res["resourceID"], "content_partner_id": res["contentPartnerID"]}
-        resource_repository.save(resource)
+        $resource_repository.save(resource)
       end
     end
     lower_boundary_id = end_resource_id + 1
