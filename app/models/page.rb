@@ -21,18 +21,19 @@ class Page < ActiveRecord::Base
   has_many :nodes, through: :pages_node
   validates_uniqueness_of :id  
   has_one :occurrence_map, inverse_of: :page
+  
   def search_data
-      {
-        type: "page",
-        id: id,
-        scientific_name: scientific_name.downcase
-      }
+    {
+      type: "page",
+      id: id,
+      scientific_name: scientific_name.downcase
+    }
   end
-#   
-   def scientific_name
+  
+  def scientific_name
     node.try(:scientific_name) || "No Name!"
-   end
-#   
+  end
+   
   def synonyms
     scientific_names.synonym.map { |n| n.canonical_form }
   end
@@ -45,7 +46,6 @@ class Page < ActiveRecord::Base
     occurrence_map? || map_count.size > 0
   end
   
-
   
   def maps
     media.where(subclass: Medium.subclasses[:map])

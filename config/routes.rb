@@ -86,6 +86,12 @@ Rails.application.routes.draw do
     get "api/docs/:action/:version" => "api/docs", :constraints => {version:  /\d\.\d/}
     match "api/:action/:version" => "api", :constraints => {version:  /\d\.\d/}, via: [:get, :post]
     match 'api/:action/:version/:id' => 'api', :constraints => {version:  /\d\.\d/}, via: [:get, :post]
+    
+    #Advanced Search
+    get "advanced_search/pages"
+    get "advanced_search/pages_results" => 'advanced_search#pages_results'
+    get "advanced_search/collections"
+    get "advanced_search/collections_results" => 'advanced_search#collections_results'
 
   end
   mount Refinery::Core::Engine, at: '/'

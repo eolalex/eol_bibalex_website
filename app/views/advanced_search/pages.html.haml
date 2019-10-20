@@ -1,0 +1,32 @@
+= javascript_include_tag "advanced_pages_search"
+.container
+  %h1{style: "color: #4e4e4e !important"}
+    #{t(:advanced_search)}
+.container
+  .row
+    .col-xs-12.col-sm-8.col-md-6
+      %h2 #{t(:search_pages)}
+      = form_tag( advanced_search_pages_results_path, method: "get", onSubmit: "return validateForm()") do |f|
+        %hr.colorgraph/
+        .row
+          .col-md-12.form-group
+            %input.form-control.input-lg{name: "scientific_name", placeholder: "#{t(:scientific_name)}", tabindex: "1", type: "text"}/
+        .row
+          .col-md-12.form-group
+            %input.form-control.input-lg{name: "vernacular", placeholder: "#{t(:vernacular)}", tabindex: "2", type: "text"}/
+        .row
+          .col-md-12.form-group
+            %input.form-control.input-lg{name: "media", placeholder: "#{t(:medium_name)}", tabindex: "2", type: "text"}/
+        .row
+          .col-md-12.form-group
+            %input.form-control.input-lg{name: "article_title", placeholder: "#{t(:article_title)}", tabindex: "2", type: "text"}/
+        -# .row
+          -# .col-md-4.form-group
+            -# %input.form-control.input-lg{name: "predicate", placeholder: "#{t(:predicate)}", tabindex: "2", type: "text"}/
+          -# .col-md-4.form-group
+            -# %input.form-control.input-lg{name: "predicate_from", placeholder: "#{t(:predicate_from)}", tabindex: "2", type: "text"}/
+          -# .col-md-4.form-group
+            -# %input.form-control.input-lg{name: "predicate_to", placeholder: "#{t(:predicate_to)}", tabindex: "2", type: "text"}/
+        .row
+          .col-xs-12
+            %input.btn.btn-primary.btn-lg.btn-block{ type: "submit", value: "#{t(:search_button_text)}", id: "search_submit"}/

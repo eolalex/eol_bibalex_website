@@ -1,5 +1,5 @@
 class Article < ApplicationRecord
-  searchkick
+  searchkick word_start: [:title]
   belongs_to :langauge, optional: true
   belongs_to :license, optional: true
   belongs_to :location, optional: true
@@ -14,12 +14,20 @@ class Article < ApplicationRecord
   
   def search_data
     {
-        id: id,
-        ancestry_ids: ancestry_ids 
+      type: "article",
+      id: id,
+      # ancestry_ids: ancestry_ids,
+      page_ids: [
+        page_contents.each do |content|
+          content.page_id
+        end
+      ],
+      title: name.downcase,
+      language_id: language_id
     }
   end
   
   def ancestry_ids
-      page_contents.pluck(:pages_id)
+      page_contents.pluck(:page_id)
   end
 end

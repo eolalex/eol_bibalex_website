@@ -1,6 +1,6 @@
 class Medium < ApplicationRecord
   
-  searchkick
+  searchkick word_start: [:name]
   belongs_to :language
   belongs_to :location, optional: true
   belongs_to :license
@@ -25,8 +25,15 @@ class Medium < ApplicationRecord
 
   def search_data
     {
-        id: id,
-        ancestry_ids: ancestry_ids 
+      type: "medium",
+      id: id,
+      # ancestry_ids: ancestry_ids,
+      file_name: name.downcase,
+      page_ids: [
+        page_contents.each do |content|
+          content.page_id
+        end
+      ]
     }
   end
   

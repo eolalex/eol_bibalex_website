@@ -1,5 +1,5 @@
 class Collection < ApplicationRecord
-  # searchkick
+  searchkick word_start: [:name]
 
   has_many :collected_pages, -> { order("position asc") }, inverse_of: :collection, dependent: :destroy
   has_many :pages, -> { order("collected_pages.created_at desc") }, through: :collected_pages
@@ -13,7 +13,8 @@ class Collection < ApplicationRecord
     
   def search_data
     {
-      id: id
+      id: id,
+      name: name.downcase
     }
   end
 

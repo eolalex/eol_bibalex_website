@@ -17,6 +17,15 @@ class User < ApplicationRecord
     # return unless username =~ /\s/
     # errors.add :username, 'Invalid Username Format: Username should not contain any blank spaces.'
   # end
+  
+  searchkick word_start: [:username]
+  
+  def search_data
+    {
+      username: username.downcase,
+      id: id
+    }
+  end
 
   def password_complexity
     if password.present? and not password.match (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)./)
