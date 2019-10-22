@@ -20,13 +20,14 @@
         .row
           .col-md-12.form-group
             %input.form-control.input-lg{name: "article_title", placeholder: "#{t(:article_title)}", tabindex: "2", type: "text"}/
-        -# .row
-          -# .col-md-4.form-group
-            -# %input.form-control.input-lg{name: "predicate", placeholder: "#{t(:predicate)}", tabindex: "2", type: "text"}/
-          -# .col-md-4.form-group
-            -# %input.form-control.input-lg{name: "predicate_from", placeholder: "#{t(:predicate_from)}", tabindex: "2", type: "text"}/
-          -# .col-md-4.form-group
-            -# %input.form-control.input-lg{name: "predicate_to", placeholder: "#{t(:predicate_to)}", tabindex: "2", type: "text"}/
+        .row
+          .col-md-4.form-group
+            .selectStyle
+              = select_tag "predicate", options_for_select($predicates), { selected: $predicates.first}
+          .col-md-4.form-group
+            %input.form-control.input-lg{name: "predicate_from", placeholder: "#{t(:predicate_from)}", tabindex: "2", type: "text"}/
+          .col-md-4.form-group
+            %input.form-control.input-lg{name: "predicate_to", placeholder: "#{t(:predicate_to)}", tabindex: "2", type: "text"}/
         .row
           .col-xs-12
             %input.btn.btn-primary.btn-lg.btn-block{ type: "submit", value: "#{t(:search_button_text)}", id: "search_submit"}/

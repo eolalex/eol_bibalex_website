@@ -1,5 +1,7 @@
 class AdvancedSearchController < ApplicationController
-
+  before_action :get_predicates, only: [:pages, :collections]
+  $neo = Neography::Rest.new
+  
   def pages
   end
   
@@ -19,7 +21,7 @@ class AdvancedSearchController < ApplicationController
   
   def collections_results
     collections = Array.new
-    users =Array.new
+    users = Array.new
     @results = Array.new
 
     if (params[:collection_name].present?)
@@ -56,34 +58,49 @@ class AdvancedSearchController < ApplicationController
     
   end
   
+  def get_predicates
+    $predicates = Array.new
+    @predicates = []
+    results = $neo.execute_query("MATCH ((t:Trait)-[:predicate]->(n:Term))  RETURN DISTINCT n.name")
+    @predicates = results["data"].map {|row| Hash[*results["columns"].zip(row).flatten]["n.name"] }
+    $predicates = @predicates.empty? ? ["No traits to show"] : @predicates
+  end
+  
   def get_combined_ids
-    @page_ids = Page.all.map(&:id)
-    
-    unless (params[:scientific_name].present?)
-      @scientific_name_ids = @page_ids  
-    else
+    @scientific_name_ids = Array.new
+    @vernacular_ids = Array.new
+    @media_ids = Array.new
+    @article_ids = Array.new
+    @traits_ids = Array.new
+    combined_ids = Array.new
+            
+    if (params[:scientific_name].present?)
       @scientific_name_ids = search_scientific_names(params[:scientific_name])
     end
     
-    unless (params[:vernacular].present? && params[:vernacular_language].present?)
-      @vernacular_ids = @page_ids
-    else
+    if (params[:vernacular].present?)
       @vernacular_ids = search_vernaculars(params[:vernacular])
     end
     
-    unless (params[:media].present?)
-      @media_ids = @page_ids
-    else
+    if (params[:media].present?)
       @media_ids = search_media(params[:media])
     end
     
-    unless (params[:article_title].present? && params[:article_phrase].present? && params[:article_language].present?)
-      @article_ids = @page_ids
-    else
+    if (params[:article_title].present?)
       @article_ids = search_articles(params[:article_title])
     end
-    combined_ids = @scientific_name_ids & @vernacular_ids & @media_ids & @article_ids
-  end
+    
+    if (params[:predicate_to].present? and params[:predicate_from.present])
+      @traits_ids = search_traits(params[:predicate], params[:predicate_from].to_i, params[:predicate_to].to_i)
+    end
+    
+    if (@scientific_name_ids.empty? && @vernacular_ids.empty? && @media_ids.empty? && @article_ids.empty? && @traits_ids.empty?)
+      combined_ids = []
+    else
+      combined_ids = get_array_intersection(@scientific_name_ids, @vernacular_ids, @media_ids, @article_ids, @traits_ids)
+    end
+    combined_ids
+  end 
   
   def search_scientific_names(query)
     scientific_name_results = Array.new
@@ -95,8 +112,12 @@ class AdvancedSearchController < ApplicationController
         }
       }
     end
-    @scientific_name_results.each do |res|
-      scientific_name_results << res.id
+    unless(@scientific_name_results.empty?)
+      @scientific_name_results.each do |res|
+        scientific_name_results << res.id
+      end
+    else
+      scientific_name_results = ["empty"]
     end
     scientific_name_results
   end
@@ -111,12 +132,7 @@ class AdvancedSearchController < ApplicationController
         }
       }
     end
-    @vernacular_results.results.map(&:page).each do |page|
-      unless (page.nil?)
-        vernacular_results << page.id
-      end
-    end
-    vernacular_results
+    vernacular_results = @vernacular_results.results.empty? ? ["empty"] : @vernacular_results.results.map(&:page_id)
   end
   
   def search_media(query)
@@ -129,12 +145,16 @@ class AdvancedSearchController < ApplicationController
         }
       }
     end
-    @media_results.results.map(&:page_contents).each do |content|
-      unless (content.nil?)
-        content.each do |c|
-          media_results << c.page_id
+    unless(@media_results.results.empty?)
+      @media_results.results.map(&:page_contents).each do |content|
+        unless (content.nil?)
+          content.each do |c|
+            media_results << c.page_id
+          end
         end
       end
+    else
+      media_results = ["empty"]
     end
     media_results
   end
@@ -149,14 +169,48 @@ class AdvancedSearchController < ApplicationController
         }
       }
     end
-    @article_results.results.map(&:page_contents).each do |content|
-      unless (content.nil?)
-        content.each do |c|
-          article_results << c.page_id
+    unless(@article_results.empty?)
+      @article_results.results.map(&:page_contents).each do |content|
+        unless (content.nil?)
+          content.each do |c|
+            article_results << c.page_id
+          end
         end
       end
+    else
+      article_results = ["empty"]   
     end
     article_results
+  end
+  
+  def search_traits(term, lower_boundary, upper_boundary)
+    traits_ids = Array.new
+    traits = $neo.execute_query("MATCH (:Term {name: \"#{term}\"})<-[:predicate]-(t:Trait)<-[:trait]-(p:Page) where #{lower_boundary} <= t.measurement <= #{upper_boundary} RETURN DISTINCT p.page_id")
+    ids = traits["data"].map {|row| Hash[*traits["columns"].zip(row).flatten]["p.page_id"] }
+    traits_ids = ids.empty? ? ["empty"] : ids
+  end
+  
+  def get_array_intersection(scientific_names, vernaculars, media, articles, traits)
+    
+    combined_ids = Page.all.ids
+
+    if ((scientific_names.first != "empty") && (params[:scientific_name].present?))
+      combined_ids &= scientific_names
+    end
+    if ((vernaculars.first != "empty") && (params[:vernacular].present?))
+      combined_ids &= vernaculars
+    end
+    if ((media.first != "empty") && (params[:medium].present?))
+      combined_ids &= media
+    end
+    if ((articles.first != "empty") && (params[:article].present?))
+      combined_ids &= articles
+    end
+    if ((traits.first != "empty") && (params[:predicate_to].present?) && (params[:predicate_from].present?))
+      combined_ids &= traits
+    end
+
+    combined_ids
   end
   
   def search_collections(query)
@@ -185,7 +239,6 @@ class AdvancedSearchController < ApplicationController
     collection_results = Array.new
     users.each do |user|
       collections.each do |collection|
-        # debugger
         if collection.users.map(&:id).include? user.id
           collection_results << collection
         end
