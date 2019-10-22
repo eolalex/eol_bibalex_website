@@ -50,9 +50,16 @@ class PagesController < ApplicationController
     if params[:maps] == "true"
       maps
     else
-      media = @page.media_without_maps
-      media_without_tif=media.reject { |hash| hash[:base_url].include?(".tif") }
-      @media = media_without_tif.paginate(:page => params[:page], :per_page => ENV['per_page'])
+      # media = @page.media_without_maps
+      # media_without_tif=media.reject { |hash| hash[:base_url].include?(".tif") }
+      # @media = media_without_tif.paginate(:page => params[:page], :per_page => ENV['per_page'])
+      options =  Hash.new
+      options[:index] = "page_contents_medium"
+      options[:type] = "_doc"
+      options[:size] = 1000
+      options[:body]= {query: {match: {'page_id': params[:page_id]}}}
+      page_contents_json = PageContent.__elasticsearch__.client.search(options)["hits"]["hits"].to_a.map{|r| r["_source"]}.to_json
+      @page_contents = JSON.parse(page_contents_json, object_class:PageContent).paginate(:page => params[:page], :per_page => ENV['per_page'])
     end
 
     render :partial => "media_grid"

@@ -122,10 +122,11 @@ GEM
       elasticsearch-transport (= 7.3.0)
     elasticsearch-api (7.3.0)
       multi_json
-    elasticsearch-model (6.0.0)
+    elasticsearch-model (7.0.0)
       activesupport (> 3)
       elasticsearch (> 1)
       hashie
+    elasticsearch-rails (7.0.0)
     elasticsearch-transport (7.3.0)
       faraday
       multi_json
@@ -392,7 +393,7 @@ GEM
     mime-types-data (3.2018.0812)
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
-    minitest (5.11.3)
+    minitest (5.12.2)
     multi_json (1.13.1)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
@@ -680,6 +681,7 @@ DEPENDENCIES
   devise (~> 4.1)
   dotenv-rails
   elasticsearch-model
+  elasticsearch-rails
   fog
   font-kit-rails
   geo_coord

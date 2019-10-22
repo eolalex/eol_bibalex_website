@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191114121657) do
+ActiveRecord::Schema.define(version: 20191114121659) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "owner", limit: 16777215
@@ -301,6 +301,8 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.bigint "page_id"
     t.integer "source_page_id", null: false
     t.string "guid"
+    t.string "base_url"
+    t.string "name"
     t.index ["content_type"], name: "index_page_contents_on_content_type"
     t.index ["page_id", "content_id", "content_type"], name: "unique_page_contents", unique: true
     t.index ["page_id"], name: "index_page_contents_on_page_id"

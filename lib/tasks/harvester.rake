@@ -388,6 +388,8 @@ def main_method_3
       start_harvested_time = (start_harvested_time.to_i + 360000).to_s
       counter = counter + 1 
     end
+    #call async image propagation for this resource
+    Thread.new(write_page_contents(res_id))
     StartTime.first.update_attribute(:start_time_string,time_array[0])
   end
   HarvestTime.first.update_attribute(:last_harvest_time, DateTime.now().strftime("%Q"))
@@ -546,7 +548,37 @@ end
     end 
  end
  
- def write_to_json(taxon)
+def write_page_contents(resource_id, nodes)
+  parents = Array.new
+  if nodes.nil? # get leaf nodes
+    direct_parents_ids = NodeDirectParent.where(resource_id: resource_id).map{|n| n.direct_parent_id}
+    nodes = Node.where("generated_node_id NOT IN (?) and resource_id=(?)", direct_parents_ids, resource_id)
+  end
+  
+  nodes.each do |node|
+    direct_parent = NodeDirectParent.where(generated_node_id: node.generated_node_id,resource_id: resource_id).first
+    unless direct_parent.nil?
+      direct_parent_node = Node.where(generated_node_id: direct_parent.direct_parent_id).first
+      node_page_id = PagesNode.where(node_id: node.id).first.page_id
+      direct_parent_page_id = PagesNode.where(node_id: direct_parent_node.id).first.page_id
+      
+      options =  Hash.new
+      options[:index] = "page_contents_medium"
+      options[:type] = "_doc"
+      options[:body]= {query: {match: {'page_id': node_page_id}}}
+      options[:size] = 1000
+      arr = PageContent.__elasticsearch__.client.search(options)["hits"]["hits"].to_a.map{|r| r["_source"]}
+      # debugger
+      arr.each { |record| record["page_id"] = direct_parent_page_id}
+      arr.each{|record| record.except!("id")}
+      PageContent.create(arr)
+      parents << direct_parent_node
+    end
+  end
+  write_page_contents(resource_id, parents) unless nodes.empty?
+end
+ 
+def write_to_json(taxon)
   page_eol_id = taxon["page_eol_id"]
   occurrences = "["+taxon["occurrences"]+"]"
   occurrences = JSON.parse(occurrences)
@@ -873,6 +905,7 @@ namespace :harvester do
     cron_lock 'service_cleaning' do
       main_method_3
     # main_method_build_hierarchy
+    # write_page_contents(582, nil)
     end
 
   end

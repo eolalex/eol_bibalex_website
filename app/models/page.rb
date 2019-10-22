@@ -52,12 +52,12 @@ class Page < ActiveRecord::Base
   end
   
   def map_count
-    Medium.joins("INNER JOIN page_contents ON media.id = page_contents.content_id AND media.subclass=3 AND page_contents.source_page_id= #{id}")
+    Medium.joins("INNER JOIN page_contents ON media.id = page_contents.content_id AND media.subclass=3 AND page_contents.page_id= #{id}")
     # PageContent.where(source_page_id: id )
   end
 
 def media_without_maps
-  Medium.joins("INNER JOIN page_contents ON media.id = page_contents.content_id AND media.subclass!=3 AND page_contents.source_page_id= #{id}")
+  Medium.joins("INNER JOIN page_contents ON media.id = page_contents.content_id AND media.subclass!=3 AND page_contents.page_id= #{id}")
 end
  # TRAITS METHODS
 
