@@ -35,7 +35,7 @@ function validateForm() {
 	}
 	
 	if (!valid)
-		alert("Please fill at least one field");
+		alert("Please fill at least one page field");
 
 	return valid;
 }
