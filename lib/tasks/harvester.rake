@@ -389,7 +389,7 @@ def main_method_3
       counter = counter + 1 
     end
     #call async image propagation for this resource
-    Thread.new(write_page_contents(res_id))
+    Thread.new(write_page_contents(res_id, nil))
     StartTime.first.update_attribute(:start_time_string,time_array[0])
   end
   HarvestTime.first.update_attribute(:last_harvest_time, DateTime.now().strftime("%Q"))
