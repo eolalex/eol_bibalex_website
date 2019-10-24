@@ -1,0 +1,2 @@
+class HarvestImageTime < ApplicationRecord
+end
