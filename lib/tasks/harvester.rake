@@ -559,20 +559,25 @@ def write_page_contents(resource_id, nodes)
     direct_parent = NodeDirectParent.where(generated_node_id: node.generated_node_id,resource_id: resource_id).first
     unless direct_parent.nil?
       direct_parent_node = Node.where(generated_node_id: direct_parent.direct_parent_id).first
-      node_page_id = PagesNode.where(node_id: node.id).first.page_id
-      direct_parent_page_id = PagesNode.where(node_id: direct_parent_node.id).first.page_id
-      
-      options =  Hash.new
-      options[:index] = "page_contents_medium"
-      options[:type] = "_doc"
-      options[:body]= {query: {match: {'page_id': node_page_id}}}
-      options[:size] = 1000
-      arr = PageContent.__elasticsearch__.client.search(options)["hits"]["hits"].to_a.map{|r| r["_source"]}
-      # debugger
-      arr.each { |record| record["page_id"] = direct_parent_page_id}
-      arr.each{|record| record.except!("id")}
-      PageContent.create(arr)
-      parents << direct_parent_node
+      node_page = PagesNode.where(node_id: node.id).first
+      unless node_page.nil?
+        node_page_id=node_page.page_id
+        direct_parent_page = PagesNode.where(node_id: direct_parent_node.id).first
+        unless direct_parent_page.nil?
+          direct_parent_page_id=direct_parent_page.page_id
+          options =  Hash.new
+          options[:index] = "page_contents_medium"
+          options[:type] = "_doc"
+          options[:body]= {query: {match: {'page_id': node_page_id}}}
+          options[:size] = 1000
+          arr = PageContent.__elasticsearch__.client.search(options)["hits"]["hits"].to_a.map{|r| r["_source"]}
+          # debugger
+          arr.each { |record| record["page_id"] = direct_parent_page_id}
+          arr.each{|record| record.except!("id")}
+          PageContent.create(arr)
+          parents << direct_parent_node
+        end
+      end
     end
   end
   write_page_contents(resource_id, parents) unless nodes.empty?
