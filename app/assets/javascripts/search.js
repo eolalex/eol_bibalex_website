@@ -1,5 +1,6 @@
 //$(document).ready(function () {
 function initialize(locale) {
+	include("initializeConstants.js");
 	var locale = document.getElementsByName("locale")[0].value;
 	$("#filter").on('click', function() {
 
@@ -36,21 +37,30 @@ function initialize(locale) {
 			}
 		});
 		pages.initialize();
+		limit = getLimit();
 		$('#query').typeahead(null, {
 			displayKey : 'scientific_name',
 			source : pages,
-			limit : 10,
+			limit : limit,
 			minLength : 1
 		}).bind('typeahead:selected', function(evt, datum, name) {
 			console.log(datum);
 			// if(datum._type == "scientific_name")
 			// window.location.href = Routes.page_path(datum.id);
-			if (datum.type == "page"){
-				window.location.href = Routes.page_path(locale,datum.id);
+			if (datum.type == "page") {
+				window.location.href = Routes.page_path(locale, datum.id);
 			}
 		});
 		;
 	});
+}
+
+function include(filename) {
+	var head = document.getElementsByTagName('head')[0];
+	var script = document.createElement('script');
+	script.src = filename;
+	script.type = 'text/javascript';
+	head.appendChild(script);
 }
 
 //});

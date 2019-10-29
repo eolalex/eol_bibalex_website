@@ -17,7 +17,7 @@
 }
     
 .modal-body .searchButton {
-    right: 0;
+    right: 0 !important;
 }
 
 .modal-header .btn-primary.pull-right {
