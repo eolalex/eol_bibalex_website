@@ -2991,3 +2991,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .tt-menu .tt-dataset .tt-suggestion {
     cursor: pointer;
 }
+
+.content .dropdown ul li a {
+    padding: 8px 14px;
+    border-bottom: 1px dotted #e7e7e7;
+    margin: 0 10px;
+}
+
+.content .dropdown ul li:last-child a{
+    border-bottom: none;
+}
