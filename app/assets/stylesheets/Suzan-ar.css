@@ -35,7 +35,7 @@
     padding-right: 10px;
     font-weight: bold;
     border-bottom: none !important;
-    background: rgba(0,0,0,.6);
+    background: none;
     border-color: #b7cc2b;
     border-bottom-color: rgb(183, 204, 43);
     border-width: 1px;
@@ -43,6 +43,11 @@
     font-size: 16px;
     padding: 10px 15px;
 }
+
+.entry-meta {
+    background-color: rgba(0,0,0,.6);
+}
+
 .ImgMetaData {
     margin-top: -42px;
 }
