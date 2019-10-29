@@ -53,16 +53,18 @@
               .col-sm-4.form-group
                 %a.btn.btn-primary.btn-block{ href: "/users/auth/twitter?intent=#{action}&locale=#{locale}" }
                   %i.fa.fa-twitter
-
+          
             .col-md-12
-              %p
-                %a{ id: "CONF_100","data-toggle": "modal", onclick: "showPopup(this)", role: "button"} #{t(:no_confirmation_instructions)}
-        .row
-          %div
-          .col-xs-12.col-sm-8
-            %p.col-md-10.col-sm-10.col-xs-10
-              #{t(:no_account)}
-              %a{ href: new_user_registration_path} #{t(:sign_up)}
+              .login-or
+                %hr.hr-or/
+                %span.span-or #{t(:or)}
+              %a.btn.btn-default.btn-lg.btn-block{ href: new_user_registration_path, style: "color: #157715;border-color: #157715;background-color: transparent;"} #{t(:sign_up)}
+              %br/
+
+            .row
+              .col-md-12
+                %p
+                  %a{ id: "CONF_100","data-toggle": "modal", onclick: "showPopup(this)", role: "button"} #{t(:no_confirmation_instructions)}
 
 .modal{ id: "popup_PW_#{100}", "aria-labelledby": "popup_PW_#{100}Label", role: "dialog", tabindex: "-1"}
   .modal-dialog{ role: "document"}
