@@ -32,8 +32,9 @@ class PagesController < ApplicationController
   end
 
   def media
-
+    
     @page = Page.where(id: params[:page_id]).first
+    @page_title = @page.scientific_name
   # media = @page.media_without_maps
   # @subclasses = @page.media.pluck(:subclass).uniq.compact
   # @subclasses << "any type"
@@ -67,6 +68,7 @@ class PagesController < ApplicationController
 
   def articles
     @page = Page.where(id: params[:page_id]).first
+    @page_title = @page.scientific_name
   # @articles = @page.articles
   # @articles = @articles.paginate(:page => params[:page], :per_page => ENV['per_page'])
   end
@@ -80,6 +82,7 @@ class PagesController < ApplicationController
 
   def maps
     @page = Page.where(id: params[:page_id]).first
+    @page_title = @page.scientific_name
     @maps = @page.maps
     @media = @maps
     @media = @media.paginate(:page => params[:page], :per_page => ENV['per_page'])
@@ -116,11 +119,13 @@ class PagesController < ApplicationController
 
   def literature_and_references_tab
     @page = Page.where(id: params[:page_id]).first
+    @page_title = @page.scientific_name
     render :partial => "literature_and_references"
   end
 
   def names
     @page = Page.find(params[:id])
+    @page_title = @page.scientific_name
     # @scientific_names = @page.scientific_names
     # @vernaculars = @page.vernaculars
     respond_to do |format|
@@ -147,6 +152,7 @@ class PagesController < ApplicationController
 
   def data
     @page = Page.where(id: params[:page_id]).first
+    @page_title = @page.scientific_name
   # @resources = TraitBank.resources(@page.data)
   # predicates = @page.predicates
   # return render(status: :not_found) unless @page # 404
