@@ -15,6 +15,8 @@
     %h4
       #{t(:exists_in_all_collections)}
   - elsif(!user_collections.empty?)
+    %h4
+      #{t(:add_to_existing_collection)}
     = form_for(CollectedPage.create, html: { class: "form" }) do |f|
       - user_collections.each do |collection|
         %h4
@@ -24,11 +26,11 @@
         - count += 1
         .modal-footer{style: "padding-bottom:0; margin-top:0;"}
           = f.button("#{t(:add_button)}", class: "btn btn-primary")
-        .row
-          .col-md-12
-            %h3.login-or
-              %hr.hr-or/
-              %span.span-or.BGwhite #{t(:or)}
+  .row
+    .col-md-12
+      %h3.login-or
+        %hr.hr-or/
+        %span.span-or.BGwhite #{t(:or)}
 .modal-body{style: "padding-bottom:0;"}
   %h4
     #{t(:add_to_new_collection)}
