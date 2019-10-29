@@ -47,7 +47,7 @@
                         %span{ style: "color: red"}> *
                         #{t(:harvest_frequency)}
                       .col-md-8.col-sm-8.col-xs-12
-                        .selectStyle
+                        .form-select
                           = f.select :harvest_frequency, ['once','weekly','monthly','bimonthly','quarterly']
               .resource_file
                 #display2{ style: "display:none;"}
@@ -56,8 +56,9 @@
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:dataset_license)}
             .col-md-2.col-sm-8.col-xs-12
-              .selectStyle
+              .form-select
                 = f.collection_select :dataset_license  , License.all , :id, :name
+
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:dataset_rights_holder)}
@@ -72,7 +73,7 @@
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:default_language)}
             .col-md-2.col-sm-8.col-xs-12
-              .selectStyle
+              .form-select
                 = f.collection_select :default_language_id , Language.all , :id, :code, { selected: Language.where(code: "en").first.id}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
@@ -83,7 +84,7 @@
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:default_license)}
             .col-md-2.col-sm-8.col-xs-12
-              .selectStyle
+              .form-select
                 = f.collection_select :default_license_string , License.all , :id, :name
           %hr.colorgraph
             .row
