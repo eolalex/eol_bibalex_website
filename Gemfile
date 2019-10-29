@@ -56,7 +56,7 @@ gem 'simple_form'
 gem 'rest-client'
 gem "hash_to_hidden_fields"
 
-gem 'devise', '~> 4.1'
+gem 'devise', '~> 4.7'
 gem 'bootstrap-sass', '~> 3.3.7' 
 gem 'tlsmail' 
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
