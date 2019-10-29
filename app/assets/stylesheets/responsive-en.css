@@ -636,8 +636,13 @@
     .collectionInfo .Edit_Delete a {
         width: 100px;
     }
+    .topMenu .mainMenu {
+	    width: 150px;
+	}
+	.topMenu .mainMenu .btn-search{
+		margin-left:10px;
+	}
 }
-
 /* xs */
 @media (max-width: 767px) {
     body {
@@ -777,7 +782,10 @@
     .mainMenu {
         width: auto !important;
     }
-
+	.navbar-header .topMenu .mainMenu{
+        right:0;
+	}
+	
     .navbar-brand > img {
         width: 70px;
     }
