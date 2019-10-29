@@ -1,7 +1,6 @@
 %content#Content1{ contentplaceholderid: "head", runat: "Server"}
   / ---- Include the above in your HEAD tag --------
 %content#Content2{ contentplaceholderid: "ContentPlaceHolder1", runat: "Server"}
-  .MainPath
   .container
     %h2.mainTitle
       %span{ style: "padding-bottom: 10px; display: inline-block"}
@@ -9,6 +8,8 @@
       .pull-right
         = render("tabs")
       .clearfix
+    .col-md-8
+      %h2.smallTitle #{t(:names_and_classification)}  
     .col-md-12
       #tabs-451313.tabbable
         / Only required for left/right tabs

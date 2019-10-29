@@ -9,9 +9,9 @@
     .clearfix
   .col-md-8
     -if @maps
-      %h3.smallTitle #{t(:maps)}
+      %h2.smallTitle #{t(:maps)}
     -else
-      %h3.smallTitle #{t(:media)}
+      %h2.smallTitle #{t(:media)}
     = render_async media_grid_path( page_id: @page.id, page: params[:page], maps: !@maps.nil?) do
       .col-md-offset-4
         = image_tag "loading.gif", alt: ""
