@@ -42,8 +42,6 @@ module Refinery
     # def new_user_session_path
       # Sessions.new
     # end
-    
-
      
 protected
     def requested_friendly_id
@@ -82,9 +80,16 @@ protected
 
     def find_page(fallback_to_404 = true)
       @page ||= action_page_finder.call(params) if action_has_page_finder?
-      @page || (error_404 if fallback_to_404)
+      @page || not_found
     end
 
+    def not_found
+      respond_to do |format|
+        format.html { render "errors/not_found" }
+        format.json { render json: { error: "Page not Found" }, status: 404 }
+      end
+    end
+    
     alias_method :page, :find_page
 
     def set_canonical
