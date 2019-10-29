@@ -15,4 +15,4 @@
             %input.form-control.input-lg{ name: "user[email]", placeholder: "#{t(:enter_email)}", required: true, tabindex: "1", type: "text", autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)}
         .form-group.row.form-inline
           .col-md-5.col-sm-3.col-xs-3
-            = f.button("#{t(:resend_confirmation_email)}", class: "btn btn-primary")
+            = f.button("#{t(:resend_confirmation_instructions)}", class: "btn btn-primary")
