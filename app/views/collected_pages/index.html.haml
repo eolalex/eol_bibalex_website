@@ -16,5 +16,5 @@
           - unless page_res.scientific_name.nil?         
             %h3= link_to page_res.scientific_name , page_path(page_res.id) 
             %br
-      = will_paginate @result
+      = will_paginate @result, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
 
