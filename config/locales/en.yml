@@ -310,3 +310,4 @@ en:
   page_internal_server_error: "We're sorry about that. It looks like something went wrong. Please check the app logs if you're an admin."
   back_to_home: "Go Back to Home Page "
   names_and_classification: "Names and Classifications"
+  sign_in_first: "You need to sign in or sign up first to continue"

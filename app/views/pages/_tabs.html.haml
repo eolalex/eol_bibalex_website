@@ -25,15 +25,22 @@
       %li
         %a{ href: page_maps_path(@page)} #{t(:maps)}
 
-- if user_signed_in?
-  %span.dropdown
-    %a.dropdown-toggle.btn.btn-primary{ id: "#{@page.id}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
-      #{t(:collect_button)}
-  .modal{id: "popup_#{@page.id}", "aria-labelledby": "popup_#{@page.id}Label", role: "dialog", tabindex: "-1"}
-    .modal-dialog{role: "document"}
-      .modal-content
-        .modal-header
-          %button{ id: "#{@page.id}", class: "close", "data-dismiss": "modal", tabindex: "1", onclick: 'hidePopup(this, event)'}x
-          %h4.modal-title #{t(:add_page_to_collection)} 
+
+%span.dropdown
+  %a.dropdown-toggle.btn.btn-primary{ id: "#{@page.id}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
+    #{t(:collect_button)}
+.modal{id: "popup_#{@page.id}", "aria-labelledby": "popup_#{@page.id}Label", role: "dialog", tabindex: "-1"}
+  .modal-dialog{role: "document"}
+    .modal-content
+      .modal-header
+        %button{ id: "#{@page.id}", class: "close", "data-dismiss": "modal", tabindex: "1", onclick: 'hidePopup(this, event)'}x
+        %h4.modal-title #{t(:add_page_to_collection)} 
+      - if user_signed_in?
         = render("collected_pages/new", page_id: @page.id)
+      - else
+        .modal-body{style: "padding-bottom:0;"}
+          .form-group
+            = t(:sign_in_first)
+        .modal-footer
+          = link_to "#{t(:sign_in)}", main_app.new_user_session_path, class: "btn btn-primary"
 .page_topics{ data: { id: @page.id } }    

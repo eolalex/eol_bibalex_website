@@ -56,10 +56,13 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource_or_scope)
+    stored_location = stored_location_for(resource_or_scope)
     if ((request.referer.nil?) || (request.referer.include? "/user_providers/"))
       root_path
-    else
-      stored_location_for(resource_or_scope) || super
+    elsif (stored_location.include? "_tab?page_id")
+      main_app.page_path(stored_location.partition("=").last.to_i)
+      else 
+        stored_location || super
     end
   end
 
