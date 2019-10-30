@@ -52,17 +52,18 @@ class ApplicationController < ActionController::Base
 
   def store_user_location!
     # :user is the scope we are authenticating
-    store_location_for(:user, request.fullpath)
+    if (request.fullpath.include? "_tab?page_id")
+      store_location_for(:user, main_app.page_path(request.fullpath.partition("=").last.to_i))
+    else
+      store_location_for(:user, request.fullpath)
+    end
   end
 
   def after_sign_in_path_for(resource_or_scope)
-    stored_location = stored_location_for(resource_or_scope)
     if ((request.referer.nil?) || (request.referer.include? "/user_providers/"))
       root_path
-    elsif (stored_location.include? "_tab?page_id")
-      main_app.page_path(stored_location.partition("=").last.to_i)
-      else 
-        stored_location || super
+    else
+      stored_location_for(resource_or_scope) || super
     end
   end
 
