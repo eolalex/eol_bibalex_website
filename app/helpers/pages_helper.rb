@@ -120,9 +120,11 @@ module PagesHelper
         tree.push("...")
       end
     end
-
+        
     if ancestors.last.rank_id == Rank.where(name: "family").first.id && !(tree.include? (ancestors.last))
       tree.push(ancestors.last)
+    elsif tree.size == 1 && tree.first == "..."
+      tree = []
     end
     
     tree  
@@ -140,9 +142,12 @@ module PagesHelper
 
     if ancestors.last.rank_id == Rank.where(name: "family").first.id && !(tree.include? (ancestors.last))
       tree.push(ancestors.last)
+    elsif tree.size == 1 && tree.first == "..."
+      tree = []
     end
-    
+        
     tree  
   end
+  
 end
 
