@@ -2,9 +2,9 @@
   .col-md-12
 - nodes = @page.nodes.to_a.sort_by{|n| n.resource_id}
 - if params[:locale] == "ar"
-  -  direction = "right"
+  - direction = "right"
 - else
-  -direction ="left"
+  - direction = "left"
 #test.tree
   - nodes.each do |page_node|
     - tree = classification(page_node)

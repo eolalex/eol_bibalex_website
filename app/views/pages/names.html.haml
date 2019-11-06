@@ -2,6 +2,8 @@
   / ---- Include the above in your HEAD tag --------
 %content#Content2{ contentplaceholderid: "ContentPlaceHolder1", runat: "Server"}
   .container
+    = render("breadcrumbs")
+  .container
     %h2.mainTitle
       %span{ style: "padding-bottom: 10px; display: inline-block"}
         = @page.scientific_name

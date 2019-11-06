@@ -1,27 +1,28 @@
 module PagesHelper
   def classification(node)
-    ancestors = []
     tree = []
+    ancestors = get_all_ancestors(node)
+    
+    ancestors.each do |node_ancestor|
+      tree.push(node_ancestor)
+    end
+    
+    tree.push(node)
+    
+    tree
+  end
+  
+  def get_all_ancestors(node)
+    ancestors = []
     res = NodeAncestorsFlattened.where(generated_node_id: node.generated_node_id,resource_id: node.resource_id)
+    # debugger
     if res.count > 0 && !res.first.node_ancestors_ids.nil?
       ancestors_ids_string = res.first.node_ancestors_ids
       ancestors_ids_array = ancestors_ids_string.split(",").map{ |s| s.to_i }
       ancestors_ids_array_depth_desc = ancestors_ids_array.reverse
       ancestors = Node.where(generated_node_id:ancestors_ids_array_depth_desc,resource_id: node.resource_id).order("field(generated_node_id, #{ancestors_ids_array_depth_desc.join(',')})")
-
-      #ancestors=  node.node_ancestors.order('depth DESC')
-      #children = node.children.order('depth ASC')
-      ancestors.each do |node_ancestor|
-        # tree.push(node_ancestor.ancestor)
-        tree.push(node_ancestor)
-      end
-    end 
-
-    tree.push(node)
-    # children.each do |child|
-     # tree.push(child.node)
-    # end
-    tree  
+    end
+    ancestors
   end
   
   def classification_children(node)
@@ -109,5 +110,39 @@ module PagesHelper
     end
   end
   
+  def abbreviated_breadcrumbs(node)
+    tree = []
+    ancestors = get_all_ancestors(node)
+    ancestors.each_with_index do |node_ancestor, index|
+      if node_ancestor.landmark == 1 || node_ancestor.landmark == 2
+        tree.push(node_ancestor)
+      elsif (index != 0 && tree[(tree.size) - 1] != "...")
+        tree.push("...")
+      end
+    end
+
+    if ancestors.last.rank_id == Rank.where(name: "family").first.id && !(tree.include? (ancestors.last))
+      tree.push(ancestors.last)
+    end
+    
+    tree  
+  end
+  
+  def extended_breadcrumbs(node)
+    tree = []
+    ancestors = get_all_ancestors(node)
+    
+    ancestors.each do |node_ancestor|
+      if node_ancestor.landmark == 1 || node_ancestor.landmark == 2 || node_ancestor.landmark == 3
+        tree.push(node_ancestor)
+      end
+    end
+
+    if ancestors.last.rank_id == Rank.where(name: "family").first.id && !(tree.include? (ancestors.last))
+      tree.push(ancestors.last)
+    end
+    
+    tree  
+  end
 end
 

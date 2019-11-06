@@ -1,6 +1,8 @@
 = javascript_include_tag 'pages'
 = javascript_include_tag 'jquery.lazyload'
 .container
+  = render("breadcrumbs")
+.container
   %h2.mainTitle
     %span{ style: "padding-bottom: 10px; display: inline-block"}
       = @page.scientific_name
