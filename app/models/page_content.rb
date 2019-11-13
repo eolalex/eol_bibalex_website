@@ -30,22 +30,24 @@ class PageContent < ApplicationRecord
   
   class << self
   
-    def bulk_insert(starting_index, type)
+    def bulk_insert_elasticsearch(starting_index, type)
       batch_for_bulk = []
       PageContent.where(id: starting_index..(starting_index+999), content_type: type.capitalize).each do |record|
         batch_for_bulk.push({ index: { _id: record.id, data: record } }) 
       end
-      __elasticsearch__.client.bulk(
-        index: "page_contents_#{type.downcase}",
-        type: "_doc",
-        body: batch_for_bulk
-      )
+      unless batch_for_bulk.empty?
+        __elasticsearch__.client.bulk(
+          index: "page_contents_#{type.downcase}",
+          type: "_doc",
+          body: batch_for_bulk
+        )
+      end
     end
     
     def reindex (type)
       __elasticsearch__.client.indices.delete index: "page_contents_#{type.downcase}" rescue nil
       (1..PageContent.last.id).step(1000).each do |starting_index|
-        PageContent.bulk_insert(starting_index, type)
+        PageContent.bulk_insert_elasticsearch(starting_index, type)
       end
     end
   end 
