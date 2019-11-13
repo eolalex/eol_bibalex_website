@@ -11,9 +11,13 @@ class Collection < ApplicationRecord
   enum default_sort: [ :position, :sci_name, :sci_name_rev, :sort_field,
     :sort_field_rev, :hierarchy ]
     
+  searchkick word_start: [:name_string]
+
   def search_data
     {
-      id: id
+      type: "collection",
+      id: id,
+      name_string: name.downcase
     }
   end
 
