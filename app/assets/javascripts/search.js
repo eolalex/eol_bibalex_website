@@ -1,6 +1,6 @@
 //$(document).ready(function () {
 function initialize(locale) {
-	include("initializeConstants.js");
+	// include("initializeConstants.js");
 	var locale = document.getElementsByName("locale")[0].value;
 	$("#filter").on('click', function() {
 
@@ -39,11 +39,7 @@ function initialize(locale) {
 		pages.initialize();
 		limit = getLimit();
 		$('#query').typeahead(null, {
-<<<<<<< HEAD
 			displayKey : "name_string",
-=======
-			displayKey : 'name_string',
->>>>>>> d973635663786ecbbb4f21e35033c2c100b53afa
 			source : pages,
 			limit : limit,
 			minLength : 1
@@ -53,30 +49,22 @@ function initialize(locale) {
 			// if(datum._type == "scientific_name")
 			// window.location.href = Routes.page_path(datum.id);
 			if (datum.type == "page")
-<<<<<<< HEAD
 				window.location.href = Routes.page_path(locale, datum.id);
 			else if (datum.type == "vernacular")
 				window.location.href = Routes.page_path(locale, datum.page_id);
-=======
-				window.location.href = Routes.page_path(locale,datum.id);
 			else if (datum.type == "collection")
 				window.location.href = Routes.collection_path(locale,datum.id);
->>>>>>> d973635663786ecbbb4f21e35033c2c100b53afa
 		});
 		;
 	});
 }
-<<<<<<< HEAD
 
-function include(filename) {
-	var head = document.getElementsByTagName('head')[0];
-	var script = document.createElement('script');
-	script.src = filename;
-	script.type = 'text/javascript';
-	head.appendChild(script);
-}
+// function include(filename) {
+	// var head = document.getElementsByTagName('head')[0];
+	// var script = document.createElement('script');
+	// script.src = filename;
+	// script.type = 'text/javascript';
+	// head.appendChild(script);
+// }
 
-=======
-//});
->>>>>>> d973635663786ecbbb4f21e35033c2c100b53afa
 $(document).ready(initialize);
