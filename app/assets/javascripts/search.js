@@ -39,17 +39,19 @@ function initialize(locale) {
 		pages.initialize();
 		limit = getLimit();
 		$('#query').typeahead(null, {
-			displayKey : 'scientific_name',
+			displayKey : "name_string",
 			source : pages,
 			limit : limit,
 			minLength : 1
 		}).bind('typeahead:selected', function(evt, datum, name) {
 			console.log(datum);
+			
 			// if(datum._type == "scientific_name")
 			// window.location.href = Routes.page_path(datum.id);
-			if (datum.type == "page") {
+			if (datum.type == "page")
 				window.location.href = Routes.page_path(locale, datum.id);
-			}
+			else if (datum.type == "vernacular")
+				window.location.href = Routes.page_path(locale, datum.page_id);
 		});
 		;
 	});
@@ -63,6 +65,4 @@ function include(filename) {
 	head.appendChild(script);
 }
 
-//});
 $(document).ready(initialize);
-//$(document).on('turbolinks:load', initialize);
