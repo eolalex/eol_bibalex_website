@@ -41,7 +41,13 @@ class PagesController < ApplicationController
               fields: ["name_string"],
               match: :word_start,
               load: false,
-              misspellings: false}).to_json))
+              misspellings: false}).to_json)).concat(
+                JSON.parse(Medium.search((params[:query]),
+                  {
+                    fields: ["name_string"],
+                    match: :word_start,
+                    load: false,
+                    misspellings: false}).to_json))
   end
 
   def media

@@ -10,8 +10,7 @@ class SearchController < ApplicationController
   def search
     @results = Array.new
     @page_title = params[:query] == "*" ? t(:see_more) : params[:query] + "| " + t(:search_results)
-    parameters = ["scientific_names", "vernaculars", "collections"]
-      # , "media"]
+    parameters = ["scientific_names", "vernaculars", "collections", "media"]
     no_filter = true
     
     # check if all search filter paramters are null, i.e. if this is the first search run
@@ -27,15 +26,10 @@ class SearchController < ApplicationController
     end
     
     unless @results.empty?
-      @results = @results.paginate( page: params[:page], per_page: ENV['per_page'])
+      @results = @results.uniq.paginate( page: params[:page], per_page: ENV['per_page'])
     else
       flash[:notice] = t(:no_results) + " " + params[:query]
       redirect_back(fallback_location: root_path)
-    end
-    
-    respond_to do |format|
-      format.js
-      format.html
     end
   end
   
@@ -78,6 +72,27 @@ class SearchController < ApplicationController
     end
     results
   end
+    
+  def search_media
+    regex = ".*" + params[:query].downcase + ".*"
+    results = Medium.search params[:query] do |body|
+      body[:query] = {
+        regexp:{
+           name_string: regex
+          }
+        }
+    end
+    results
+  end
   
-end
+  def self.get_medium_pages_ids(media_result)
+    @media_pages_ids = Array.new
+    page_ids = Array.new
+    PageContent.where(content_id: media_result.id).each do |page_content|
+      page_ids << page_content.page_id
+    end
+    @medium_pages_ids = page_ids
+    medium_pages_ids = @medium_pages_ids
+  end 
 
+end

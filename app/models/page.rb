@@ -1,6 +1,7 @@
 class Page < ActiveRecord::Base
 
   validates_uniqueness_of :id
+  
   has_many :collected_pages
   has_many :collected_pages
   has_and_belongs_to_many :referents

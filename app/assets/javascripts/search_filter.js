@@ -2,9 +2,11 @@ function submitFilterForm(query) {
 	var sciNamesFilter = document.getElementById("scientific_names"),
 	    vernacularsFilter = document.getElementById("vernaculars"),
 	    collectionsFilter = document.getElementById("collections"),
+	    mediaFilter = document.getElementById("media"),
 	    scientificNames = false,
 	    vernaculars = false,
-	    collections = false;
+	    collections = false,
+	    media = false;
 	    
 	if (sciNamesFilter.checked) 
 		scientificNames = true;
@@ -12,9 +14,12 @@ function submitFilterForm(query) {
 		vernaculars = true;
 	if (collectionsFilter.checked)
 		collections = true;
+	if (mediaFilter.checked)
+		media = true;
 
 	var locale = document.getElementsByName("locale")[0].value;
 	var url = locale + "/search";
+
 	$.ajax({
 		type : 'GET',
 		url : url,
@@ -22,7 +27,8 @@ function submitFilterForm(query) {
 			query : query,
 			scientific_names : scientificNames,
 			vernaculars : vernaculars,
-			collections : collections
+			collections : collections,
+			media : media
 		},
 		dataType : "html",
 		success : function(response) {
@@ -45,3 +51,4 @@ function initialize(){
 	button.disabled = true;
 }
 $(document).ready(initialize);
+

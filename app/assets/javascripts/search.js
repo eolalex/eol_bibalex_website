@@ -52,19 +52,12 @@ function initialize(locale) {
 				window.location.href = Routes.page_path(locale, datum.id);
 			else if (datum.type == "vernacular")
 				window.location.href = Routes.page_path(locale, datum.page_id);
-			else if (datum.type == "collection")
-				window.location.href = Routes.collection_path(locale,datum.id);
+				else if (datum.type == "collection")
+					window.location.href = Routes.collection_path(locale,datum.id);
+					else if (datum.type == "medium")
+						window.location.href = "#";
 		});
 		;
 	});
 }
-
-// function include(filename) {
-	// var head = document.getElementsByTagName('head')[0];
-	// var script = document.createElement('script');
-	// script.src = filename;
-	// script.type = 'text/javascript';
-	// head.appendChild(script);
-// }
-
 $(document).ready(initialize);

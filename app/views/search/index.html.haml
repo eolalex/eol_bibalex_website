@@ -33,7 +33,12 @@
                   %h3.marginTop0
                     %a{ href: collection_path(result.id), title: ""} #{result.name}
                 %span.clearfix.borda
+            - elsif result.instance_of? Medium
+              - @result = result
+              = render("media_results")
+              %span.clearfix.borda
           = will_paginate @results, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
+
         .col-lg-3
           %article.card-group-item.well
             %header.card-header
@@ -48,5 +53,8 @@
                 .row
                   %input#collections{ name: "collections", type: "checkbox", onclick: "enableFilterButton()", checked: params[:collections] == "true" ? "checked" : false}
                   %label{for: "collections"} #{t(:collections)}
+                .row
+                  %input#media{ name: "media", type: "checkbox", onclick: "enableFilterButton()", checked: params[:media] == "true" ? "checked" : false}
+                  %label{for: "media"} #{t(:media)}
                 %br
                 = submit_tag "#{t(:filter)}", id: "filterSubmitTag", onClick: "submitFilterForm(\"#{params[:query]}\")"

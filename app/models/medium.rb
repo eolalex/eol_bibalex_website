@@ -1,6 +1,5 @@
 class Medium < ApplicationRecord
   
-  searchkick
   belongs_to :language
   belongs_to :location, optional: true
   belongs_to :license
@@ -22,11 +21,14 @@ class Medium < ApplicationRecord
 
   validates_uniqueness_of :id
   
-
+  searchkick word_start: [:name_string]
+  
   def search_data
     {
+        type: "medium",
         id: id,
-        ancestry_ids: ancestry_ids 
+        ancestry_ids: ancestry_ids,
+        name_string: name.downcase
     }
   end
   
