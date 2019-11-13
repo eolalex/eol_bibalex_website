@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191114121657) do
+ActiveRecord::Schema.define(version: 20191114121660) do
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.text "owner", limit: 16777215
+    t.text "owner"
     t.integer "resource_id"
     t.string "guid"
     t.string "resource_pk"
@@ -45,21 +45,19 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.integer "content_id"
     t.string "content_type"
     t.string "role_name"
-    t.text "value", limit: 16777215
+    t.text "value"
     t.string "url"
     t.integer "resource_id"
     t.string "resource_pk"
     t.string "content_resource_fk"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "guid"
     t.index ["content_type"], name: "index_attributions_on_content_type"
-    t.index ["value", "content_id", "content_type"], name: "unique_attributions", unique: true, length: { value: 100 }
   end
 
   create_table "bibliographic_citations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "resource_id"
-    t.text "body", limit: 16777215
+    t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -70,7 +68,7 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "annotation", limit: 16777215
+    t.text "annotation"
     t.index ["collection_id", "page_id"], name: "enforce_unique_pairs", unique: true
     t.index ["collection_id"], name: "index_collected_pages_on_collection_id"
     t.index ["page_id"], name: "index_collected_pages_on_page_id"
@@ -92,7 +90,7 @@ ActiveRecord::Schema.define(version: 20191114121657) do
 
   create_table "collections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name", null: false
-    t.text "description", limit: 16777215
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "collected_pages_count", default: 0
@@ -127,8 +125,10 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.index ["section_id"], name: "index_content_sections_on_section_id"
   end
 
-  create_table "harvest_time", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.datetime "last_harvest_time"
+  create_table "harvest_image_times", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
+    t.datetime "last_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "harvest_times", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -147,6 +147,9 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.string "resource_pk"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "medium_id"
+    t.integer "harv_db_id"
+    t.index ["medium_id"], name: "index_image_info_on_medium_id"
   end
 
   create_table "languages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -154,7 +157,6 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "group"
-    t.index ["code"], name: "code", unique: true
   end
 
   create_table "licenses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -162,11 +164,10 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["source_url"], name: "source_url", unique: true
   end
 
   create_table "links", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.text "description", limit: 16777215
+    t.text "description"
     t.integer "resource_id"
     t.string "guid"
     t.string "resource_pk"
@@ -185,16 +186,15 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.decimal "longitude", precision: 10
     t.decimal "latitude", precision: 10
     t.decimal "altitude", precision: 10
-    t.text "spatial_location", limit: 16777215
+    t.text "spatial_location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["location", "longitude", "latitude", "altitude", "spatial_location"], name: "unique_location", unique: true, length: { spatial_location: 100 }
   end
 
   create_table "media", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "format"
-    t.text "description", limit: 16777215
-    t.text "owner", limit: 16777215
+    t.text "description"
+    t.text "owner"
     t.integer "resource_id"
     t.string "guid"
     t.string "resource_pk"
@@ -212,7 +212,6 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.bigint "license_id"
     t.bigint "location_id"
     t.index ["bibliographic_citation_id"], name: "index_media_on_bibliographic_citation_id"
-    t.index ["guid"], name: "unique_media", unique: true
     t.index ["language_id"], name: "index_media_on_language_id"
     t.index ["license_id"], name: "index_media_on_license_id"
     t.index ["location_id"], name: "index_media_on_location_id"
@@ -233,7 +232,6 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.index ["ancestor_resource_pk"], name: "index_node_ancestors_on_ancestor_resource_pk"
     t.index ["node_id"], name: "index_node_ancestors_on_node_id"
     t.index ["node_resource_pk"], name: "index_node_ancestors_on_node_resource_pk"
-    t.index ["resource_id", "depth", "node_generated_node_id", "ancestor_generated_node_id"], name: "build_hierarchy"
     t.index ["resource_id"], name: "index_node_ancestors_on_resource_id"
   end
 
@@ -266,7 +264,6 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.datetime "updated_at", null: false
     t.integer "parent_id"
     t.bigint "rank_id"
-    t.index ["generated_node_id"], name: "genrated_node_id", unique: true
     t.index ["generated_node_id"], name: "index_nodes_on_generated_node_id"
     t.index ["rank_id"], name: "index_nodes_on_rank_id"
   end
@@ -300,20 +297,15 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.boolean "is_duplicate"
     t.bigint "page_id"
     t.integer "source_page_id", null: false
-    t.string "guid"
     t.index ["content_type"], name: "index_page_contents_on_content_type"
-    t.index ["page_id", "content_id", "content_type"], name: "unique_page_contents", unique: true
     t.index ["page_id"], name: "index_page_contents_on_page_id"
   end
 
   create_table "pages", id: :integer, default: nil, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "medium_id"
     t.integer "page_richness"
     t.bigint "node_id"
-    t.boolean "updated", default: false
-    t.index ["medium_id"], name: "index_pages_on_medium_id"
   end
 
   create_table "pages_nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -322,7 +314,6 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.boolean "is_native"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "updated", default: false
     t.index ["node_id"], name: "index_pages_nodes_on_node_id"
     t.index ["page_id"], name: "index_pages_nodes_on_page_id"
   end
@@ -339,7 +330,6 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "rank_name", unique: true
   end
 
   create_table "references", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -349,8 +339,6 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "referent_id"
-    t.string "guid"
-    t.index ["parent_id", "parent_type", "referent_id"], name: "unique_references", unique: true
     t.index ["parent_type"], name: "index_references_on_parent_type"
   end
 
@@ -367,12 +355,11 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.string "editors_list"
     t.datetime "date_created"
     t.string "doi"
-    t.text "body", limit: 16777215
+    t.text "body"
     t.integer "resource_id"
     t.string "resource_pk"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["resource_id", "body"], name: "unique_referents", unique: true, length: { body: 200 }
   end
 
   create_table "refinery_image_translations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -402,7 +389,7 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.string "locale", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "body", limit: 16777215
+    t.text "body"
     t.index ["locale"], name: "index_refinery_page_part_translations_on_locale"
     t.index ["refinery_page_part_id"], name: "index_refinery_page_part_translations_on_refinery_page_part_id"
   end
@@ -488,8 +475,6 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.bigint "node_id"
     t.bigint "page_id"
     t.bigint "taxonomic_status_id"
-    t.boolean "updated", default: false
-    t.index ["generated_node_id"], name: "genrated_node_id", unique: true
     t.index ["generated_node_id"], name: "index_scientific_names_on_generated_node_id"
     t.index ["node_id"], name: "index_scientific_names_on_node_id"
     t.index ["page_id"], name: "index_scientific_names_on_page_id"
@@ -508,14 +493,14 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.integer "seo_meta_id"
     t.string "seo_meta_type"
     t.string "browser_title"
-    t.text "meta_description", limit: 16777215
+    t.text "meta_description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["id"], name: "index_seo_meta_on_id"
     t.index ["seo_meta_id", "seo_meta_type"], name: "id_type_index_on_seo_meta"
   end
 
-  create_table "start_times", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "start_times", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
     t.string "start_time_string"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -531,7 +516,7 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "terms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "terms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci" do |t|
     t.string "uri"
     t.string "name"
     t.string "term_type"
@@ -545,7 +530,7 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.boolean "is_hidden_from_select"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["uri"], name: "uri_index"
+    t.index ["uri"], name: "uri_index", length: { uri: 191 }
   end
 
   create_table "user_providers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -596,12 +581,10 @@ ActiveRecord::Schema.define(version: 20191114121657) do
     t.bigint "node_id"
     t.bigint "page_id"
     t.bigint "language_id"
-    t.boolean "updated", default: false
     t.index ["generated_node_id"], name: "index_vernaculars_on_generated_node_id"
     t.index ["language_id"], name: "index_vernaculars_on_language_id"
     t.index ["node_id"], name: "index_vernaculars_on_node_id"
     t.index ["page_id"], name: "index_vernaculars_on_page_id"
-    t.index ["string", "generated_node_id", "language_id"], name: "unique_vernaculars", unique: true
   end
 
   add_foreign_key "articles", "bibliographic_citations"
@@ -612,5 +595,4 @@ ActiveRecord::Schema.define(version: 20191114121657) do
   add_foreign_key "content_sections", "sections"
   add_foreign_key "links", "languages", column: "languages_id"
   add_foreign_key "media", "bibliographic_citations"
-  add_foreign_key "pages", "media"
 end
