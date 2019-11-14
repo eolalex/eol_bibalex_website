@@ -13,7 +13,7 @@ class SearchController < ApplicationController
     filter_parameters = ["scientific_names", "vernaculars", "collections", "media"]
     no_filter = true
     
-    # check if all search filter paramters are null, i.e. if this is the first search run
+    # check if all search filter paramters are null, i.e. if this is the first search run or filters are cleared
     filter_parameters.each do |filter|
       break unless no_filter
       filter_param = params["#{filter}"]
@@ -28,6 +28,7 @@ class SearchController < ApplicationController
     
     if no_filter
       @results += search_resources.results
+      @results += search_content_partners.results
     end
 
     if @results.empty?
@@ -93,6 +94,10 @@ class SearchController < ApplicationController
   def search_resources
     $resource_repository.search( query: { match_phrase_prefix: { name: params[:query]}})
   end
+  
+  def search_content_partners
+    $content_partner_repository.search( query: { match_phrase_prefix: { name: params[:query]}})
+  end
 
   def self.get_medium_pages_ids(media_result)
     @media_pages_ids = Array.new
@@ -105,3 +110,5 @@ class SearchController < ApplicationController
   end 
   
 end
+  
+

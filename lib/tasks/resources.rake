@@ -13,13 +13,13 @@ def get_full_resources_data(lower_boundary_id, end_resource_id)
     end
 end
 
-def get_boundary_ids
+def get_resource_boundary_ids
   begin
     request = RestClient::Request.new(
       method: :get,
       url: "#{$base_scheduler_uri}/#{$get_resource_ids_uri}"
       )
-      response = JSON.parse(request.execute)
+    response = JSON.parse(request.execute)
     rescue => e
       nil
   end
@@ -34,7 +34,7 @@ def get_resources
   $resource_repository = ResourceRepository.new( index_name: :resources, type: :resource, klass: Resource)
   $resource_repository.create_index!
   resource_repository = ResourceRepository.new
-  boundary_ids = get_boundary_ids
+  boundary_ids = get_resource_boundary_ids
   unless boundary_ids.nil?
     lower_boundary_id = boundary_ids["firstResourceId"]
     upper_boundary_id = boundary_ids["lastResourceId"] + $batch_size
@@ -44,7 +44,7 @@ def get_resources
     resources = get_full_resources_data(lower_boundary_id, end_resource_id)
     unless resources.nil?
       resources.each do |res|
-        resource = {"name_string": res["resourceName"].downcase, "id": res["resourceID"], "content_partner_id": res["contentPartnerID"]}
+        resource = {"name": res["resourceName"].downcase, "id": res["resourceID"], "content_partner_id": res["contentPartnerID"]}
         $resource_repository.save(resource)
       end
     end
@@ -55,7 +55,7 @@ end
 
 namespace :resources do
   desc "TODO"  
-  task :get_all_resources=> :environment do
+  task :get_all_resources => :environment do
      get_resources
   end
   

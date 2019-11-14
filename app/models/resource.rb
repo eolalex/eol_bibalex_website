@@ -8,7 +8,7 @@ class Resource
   $resource_repository.settings number_of_shards: 1 do
     mapping do
       indexes :id, type: :integer
-      indexes :name_string, type: :text
+      indexes :name, type: :text
       indexes :content_partner_id, type: :integer
     end
   end
@@ -59,7 +59,7 @@ class Resource
   end
 
   def to_hash
-    @name
+    @name_string
     @id
     @content_partner_id
   end

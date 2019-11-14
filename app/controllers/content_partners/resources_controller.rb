@@ -118,12 +118,12 @@ class ContentPartners::ResourcesController < ContentPartnersController
   end
   
   def add_resource_to_repository(name, id, content_partner_id)
-    @resource_result = {"name_string": name.downcase, "id": id, "content_partner_id": content_partner_id}
+    @resource_result = {"name": name.downcase, "id": id, "content_partner_id": content_partner_id}
     $resource_repository.save(@resource_result)
   end
   
   def update_resource_in_repository(name, id, content_partner_id)
-    @update_result = {"name_string": name.downcase, "id": id, "content_partner_id": content_partner_id}
+    @update_result = {"name": name.downcase, "id": id, "content_partner_id": content_partner_id}
     $resource_repository.update(@update_result)
   end
   
