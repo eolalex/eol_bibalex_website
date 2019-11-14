@@ -37,15 +37,16 @@
                     = @result.name
                     %span.btn.btn-success.btn-xs.btn-trusted.btn-trusted #{t(:trusted)}
                     %br/
-                    %small
-                      %p
-                      #{t(:in_this_image)}
-                      %p
-                      - medium_pages_ids = SearchController.get_medium_pages_ids(@result)
-                      - medium_pages_ids.each do |page_id|
-                        %a{ href: page_path(page_id)}
-                          = Page.find(page_id).scientific_name
+                    %p
+                    - medium_pages_ids = SearchController.get_medium_pages_ids(@result)
+                    - unless medium_pages_ids.empty?
+                      %small
                         %p
+                        #{t(:in_this_image)}
+                    - medium_pages_ids.each do |page_id|
+                      %a{ href: page_path(page_id)}
+                        = Page.find(page_id).scientific_name
+                      %p
                   .small_title
                     #{t(:source)}
                   .greyBox

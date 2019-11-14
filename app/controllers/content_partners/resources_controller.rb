@@ -29,6 +29,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
         result = ResourceApi.add_resource?(resource_params, params[:content_partner_id])
         if !result.nil?
           $updated_at = DateTime.now().strftime("%Q")
+          add_resource_to_repository(resource_params[:name], result.to_i, params[:content_partner_id])
           flash[:notice] = I18n.t(:successfuly_created_resource)
           redirect_to controller: 'resources', action: 'show', id: result
         else
@@ -56,6 +57,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
       default_language_id: result["defaultLanguageId"],is_harvest_inprogress: result["isHarvestInprogress"])
       # @resource = Resource.new(result)
     else
+      update_resource_in_repository(resource_params[:name], result.to_i, params[:content_partner_id])
       flash[:notice]=I18n.t(:edit_resource)
       redirect_to content_partner_resource_path(content_partner_id: params[:content_partner_id],id: params[:id])
     end
@@ -113,6 +115,16 @@ class ContentPartners::ResourcesController < ContentPartnersController
     # mappings = {"_paused" => "is_paused", "_approved" => "is_approved" , "_trusted" => "is_trusted" , "_autopublished" => "is_autopublished" , "_forced" => "is_forced", "forced_internally"=> "forced_internally"}
     # result.keys.each { |k| result[ mappings[k] ] = result.delete(k) if mappings[k] }
     #@resource = Resource.new(result)
+  end
+  
+  def add_resource_to_repository(name, id, content_partner_id)
+    @resource_result = {"name_string": name.downcase, "id": id, "content_partner_id": content_partner_id}
+    $resource_repository.save(@resource_result)
+  end
+  
+  def update_resource_in_repository(name, id, content_partner_id)
+    @update_result = {"name_string": name.downcase, "id": id, "content_partner_id": content_partner_id}
+    $resource_repository.update(@update_result)
   end
   
 end

@@ -45,9 +45,7 @@ function initialize(locale) {
 			minLength : 1
 		}).bind('typeahead:selected', function(evt, datum, name) {
 			console.log(datum);
-			
-			// if(datum._type == "scientific_name")
-			// window.location.href = Routes.page_path(datum.id);
+
 			if (datum.type == "page")
 				window.location.href = Routes.page_path(locale, datum.id);
 			else if (datum.type == "vernacular")
@@ -56,6 +54,8 @@ function initialize(locale) {
 					window.location.href = Routes.collection_path(locale,datum.id);
 					else if (datum.type == "medium")
 						window.location.href = "#";
+						else if (datum.type == "resource")
+							window.location.href = Routes.content_partner_resource_path(locale,datum.content_partner_id, datum.id);
 		});
 		;
 	});

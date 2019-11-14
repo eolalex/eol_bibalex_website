@@ -10,26 +10,31 @@ class SearchController < ApplicationController
   def search
     @results = Array.new
     @page_title = params[:query] == "*" ? t(:see_more) : params[:query] + "| " + t(:search_results)
-    parameters = ["scientific_names", "vernaculars", "collections", "media"]
+    filter_parameters = ["scientific_names", "vernaculars", "collections", "media"]
     no_filter = true
     
     # check if all search filter paramters are null, i.e. if this is the first search run
-    parameters.each do |parameter|
+    filter_parameters.each do |filter|
       break unless no_filter
-      no_filter &= params["#{parameter}"].nil?
+      filter_param = params["#{filter}"]
+      no_filter &= (filter_param.nil? || filter_param == "false")
     end
     
-    parameters.each do |parameter|
-      if params["#{parameter}"] == "true" || no_filter
-        @results += send("search_#{parameter}")
+    filter_parameters.each do |filter|
+      if params["#{filter}"] == "true" || no_filter
+        @results += send("search_#{filter}")
       end
     end
     
-    unless @results.empty?
-      @results = @results.uniq.paginate( page: params[:page], per_page: ENV['per_page'])
-    else
+    if no_filter
+      @results += search_resources.results
+    end
+
+    if @results.empty?
       flash[:notice] = t(:no_results) + " " + params[:query]
-      redirect_back(fallback_location: root_path)
+      redirect_back(fallback_location: main_app.root_path)
+    else
+      @results = @results.uniq.paginate( page: params[:page], per_page: ENV['per_page'])
     end
   end
   
@@ -85,6 +90,10 @@ class SearchController < ApplicationController
     results
   end
   
+  def search_resources
+    $resource_repository.search( query: { match_phrase_prefix: { name: params[:query]}})
+  end
+
   def self.get_medium_pages_ids(media_result)
     @media_pages_ids = Array.new
     page_ids = Array.new
@@ -94,5 +103,5 @@ class SearchController < ApplicationController
     @medium_pages_ids = page_ids
     medium_pages_ids = @medium_pages_ids
   end 
-
+  
 end

@@ -22,6 +22,10 @@ class PagesController < ApplicationController
   end
 
   def autocomplete
+    resources = Array.new
+    $resource_repository.search( query: { match_phrase_prefix: { name: params[:query]}}).results.each do |res|
+      resources << {"name_string": res.name, "id": res.id, "content_partner_id": res.content_partner_id, "type": "resource"}
+    end
     render json:
       JSON.parse(Page.search((params[:query]), 
         {
@@ -47,7 +51,8 @@ class PagesController < ApplicationController
                     fields: ["name_string"],
                     match: :word_start,
                     load: false,
-                    misspellings: false}).to_json))
+                    misspellings: false}).to_json)).concat(
+                      resources)
   end
 
   def media
