@@ -30,11 +30,11 @@ class SearchController < ApplicationController
       @results += search_resources.results
       @results += search_content_partners.results
     end
-
-    if @results.empty?
+    # debugger
+    if no_filter && @results.empty?
       flash[:notice] = t(:no_results) + " " + params[:query]
       redirect_back(fallback_location: main_app.root_path)
-    else
+    elsif no_filter && !(@results.empty?)
       @results = @results.uniq.paginate( page: params[:page], per_page: ENV['per_page'])
     end
   end
