@@ -467,7 +467,7 @@ end
     end
 
     unless page_contents.empty?
-      PageContent.bulk_insert(page_contents,:validate => true , :use_provided_primary_key => true)
+      PageContent.bulk_insert(page_contents,:validate => true)
     end
 
     unless attributions.empty?
@@ -554,7 +554,6 @@ def write_page_contents(resource_id, nodes)
     direct_parents_ids = NodeDirectParent.where(resource_id: resource_id).map{|n| n.direct_parent_id}
     nodes = Node.where("generated_node_id NOT IN (?) and resource_id=(?)", direct_parents_ids, resource_id)
   end
-  
   nodes.each do |node|
     direct_parent = NodeDirectParent.where(generated_node_id: node.generated_node_id,resource_id: resource_id).first
     unless direct_parent.nil?
@@ -571,11 +570,13 @@ def write_page_contents(resource_id, nodes)
           options[:body]= {query: {match: {'page_id': node_page_id}}}
           options[:size] = 1000
           arr = PageContent.__elasticsearch__.client.search(options)["hits"]["hits"].to_a.map{|r| r["_source"]}
-          # debugger
-          arr.each { |record| record["page_id"] = direct_parent_page_id}
+          arr.reject!{|record| record["page_id"] == direct_parent_page_id} 
+          arr.reject!{|record| record["source_page_id"] == direct_parent_page_id} 
+          arr.each {|record| record["page_id"] = direct_parent_page_id}
           arr.each{|record| record.except!("id")}
           PageContent.create(arr)
           parents << direct_parent_node
+          parents.uniq!
         end
       end
     end

@@ -71,7 +71,8 @@
                         .greyBox
                           %p
                             = medium.description.html_safe
+
 -if params[:maps]=="true"
-  = will_paginate @media, params: { controller: 'pages', action: 'maps'}, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
+  = will_paginate @page_contents, params: { controller: 'pages', action: 'maps'}, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
 -else
-  = will_paginate @media, params: { controller: 'pages', action: 'media'}, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
+  = will_paginate @page_contents, params: { controller: 'pages', action: 'media'}, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
