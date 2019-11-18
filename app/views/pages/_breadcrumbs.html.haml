@@ -1,9 +1,7 @@
 .container
   .row
     - breadcrumb_tree = abbreviated_breadcrumbs(@page.nodes.first)
-    - if breadcrumb_tree.empty?
-      = t(:unresolved_name)
-    - else
+    - unless breadcrumb_tree.empty?
       - breadcrumb_tree.each_with_index do |ancestor, index|
         - if ancestor.instance_of? Node
           - if ancestor.pages.empty?

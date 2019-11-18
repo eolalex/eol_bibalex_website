@@ -23,14 +23,13 @@
                       %img.thumbnail{ src: "/assets/download.png" , width: "100", height: "100"}/
                 .col-xs-8.col-sm-10.col-md-10
                   - result_closest_ancestor = closest_ancestor(result)
-                  - if result_closest_ancestor.nil?
-                    = t(:unresolved_name)
-                  - elsif result_closest_ancestor.pages.empty?
-                    #{result_closest_ancestor.scientific_name} » #{result.scientific_name}
-                  - else
-                    %a{ href: main_app.page_path(result_closest_ancestor.pages.first.id)}
-                      = result_closest_ancestor.scientific_name
-                    » #{result.scientific_name}
+                  - unless result_closest_ancestor.nil?
+                    - if result_closest_ancestor.pages.empty?
+                      #{result_closest_ancestor.scientific_name} » #{result.scientific_name}
+                    - else
+                      %a{ href: main_app.page_path(result_closest_ancestor.pages.first.id)}
+                        = result_closest_ancestor.scientific_name
+                      » #{result.scientific_name}
                   %br
                   %h3
                     %a{ href: page_path(result.id), title: ""} #{result.scientific_name}
