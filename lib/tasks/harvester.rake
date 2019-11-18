@@ -835,22 +835,111 @@ def set_ancestors_and_parents(nodes_ids)
           end
           if key.to_i == 1
             direct_parent_id = value.to_i
-            node_direct_parent_array.insert(node_direct_parent_count,{:generated_node_id => current_node.generated_node_id, :resource_id => current_node.resource_id,
-                                                                  :direct_parent_id => direct_parent_id})
-            node_direct_parent_count = node_direct_parent_count + 1
+            node_direct_parent_array.insert(node_direct_parent_count,{:generated_node_id => current_node.generated_node_id,
+              :resource_id => current_node.resource_id, :direct_parent_id => direct_parent_id})
+            node_direct_parent_count += 1
           end 
         end
         
-        node_ancestors_flattened_array.insert(node_ancestors_flattened_count,{:generated_node_id => current_node.generated_node_id, :resource_id => current_node.resource_id,
-                                                                              :node_ancestors_ids => ancestors_ids})
-        node_ancestors_flattened_count = node_ancestors_flattened_count + 1
+        node_ancestors_flattened_array.insert(node_ancestors_flattened_count, {:generated_node_id => current_node.generated_node_id,
+          :resource_id => current_node.resource_id, :node_ancestors_ids => ancestors_ids})
+        node_ancestors_flattened_count += 1
       end
+
       NodeAncestorsFlattened.bulk_insert(node_ancestors_flattened_array, :validate => true)
       NodeDirectParent.bulk_insert(node_direct_parent_array, :validate => true)
+      
+      # get node ancestors according to each context
+      minimal_context_ancestors = set_ancestors_with_context(sub_arr, 1)
+      NodeAncestorsFlattened.import minimal_context_ancestors, on_duplicate_key_update: [:minimal_context_ancestor_id]
+       
+      abbreviated_context_ancestors = set_ancestors_with_context(sub_arr, 2)
+      NodeAncestorsFlattened.import abbreviated_context_ancestors, on_duplicate_key_update: [:abbreviated_context_ancestors_ids]
+      # debugger
+      extended_context_ancestors = set_ancestors_with_context(sub_arr, 3)
+      NodeAncestorsFlattened.import extended_context_ancestors, on_duplicate_key_update: [:extended_context_ancestors_ids]
     end
   end
 end
 
+def set_ancestors_with_context(node_ids, context)
+  case context
+  when 1
+    ancestors_array = get_ancestors_with_context(node_ids, 1)
+    # debugger
+  when 2
+    ancestors_array = get_ancestors_with_context(node_ids, 2)
+  when 3
+    ancestors_array = get_ancestors_with_context(node_ids, 3)
+  end
+  # debugger
+  ancestors_array
+end
+
+def get_ancestors_with_context(nodes_ids, context)
+  case context
+  when 1
+    # minimal context
+    neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_MINIMAL_CONTEXT_ANCESTOR_ACTION}"
+  when 2
+    # abbreviated context
+    neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_ABBREVIATED_CONTEXT_ANCESTORS_ACTION}"
+  when 3
+    # extended context
+    neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_EXTENDED_CONTEXT_ANCESTORS_ACTION}"
+  end
+  # debugger
+  ancestors_array = Array.new
+  begin    
+    request = RestClient::Request.new(
+        :method => :post,
+        :timeout => nil,
+        :url => "#{neo4j_uri}",
+        headers: { content_type: 'application/json', accept: 'application/json'},
+        :payload => nodes_ids.to_json
+      )
+      response = request.execute
+      nodes_ids_ancestors = JSON.parse(response.body)
+  rescue => e
+    false
+  end
+  # debugger
+  unless nodes_ids_ancestors.nil?
+    node_ancestors_flattened_array = Array.new()
+    ancestors_count = 0
+    nodes_ids_ancestors.each do |ancestors|
+      ancestors_ids = nil
+      ancestors.each do |key,value|
+        # ancestor_id = "#{value.to_i}"
+        if key.to_i == 0
+          @current_node_generated_node_id = value.to_i
+        else
+          #add ancestors per node not one record
+          if ancestors_ids.nil?
+            ancestors_ids = "#{value.to_i}"
+          else
+            ancestors_ids = ancestors_ids + ",#{value.to_i}"
+          end
+        end
+      end
+      @resource_id = Node.where(generated_node_id: @current_node_generated_node_id).first.resource_id
+      case context
+      when 1
+        ancestors_array.insert(ancestors_count, {:generated_node_id => @current_node_generated_node_id,
+          :minimal_context_ancestor_id => ancestors_ids, :resource_id => @resource_id})
+      when 2
+        ancestors_array.insert(ancestors_count, {:generated_node_id => @current_node_generated_node_id,
+          :abbreviated_context_ancestors_ids => ancestors_ids, :resource_id => @resource_id})
+      when 3
+        # debugger
+        ancestors_array.insert(ancestors_count, {:generated_node_id => @current_node_generated_node_id,
+          :extended_context_ancestors_ids => ancestors_ids, :resource_id => @resource_id})
+      end
+      ancestors_count += 1
+    end
+  end
+  ancestors_array
+end
 
 def set_ancestors(nodes_ids)
   # get nodes_parents from neo4j  
@@ -909,10 +998,10 @@ namespace :harvester do
   task get_latest_updates: :environment do
     puts "begin #{Time.new} "
     cron_lock 'service_cleaning' do
-      main_method_3
+      # main_method_3
+      build_hierarchy([300, 2855064, 80755])
     # main_method_build_hierarchy
     # write_page_contents(582, nil)
     end
-
   end
 end
