@@ -20,4 +20,4 @@
           
           %td
             = row["lastHarvestStatus"] 
-= will_paginate(@rows)
+= will_paginate @rows, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer

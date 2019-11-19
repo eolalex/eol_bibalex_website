@@ -1,12 +1,13 @@
-.container
-  .row
-    .col-lg-12
-      %h2.mainTitle.resurceTitle
-        %img{ alt: "", src: "/assets/collection.png"}/
-        = @resource_name
-        %span.pull-right
-          %a.btn.btn-primary{ href: content_partner_resource_path(@content_partner_id, @resource_id), role: "button"}
-            #{t(:show_resource_details)}
+- if (@harvest_history.present?)
+  .container
+    .row
+      .col-lg-12
+        %h2.mainTitle.resurceTitle
+          %img{ alt: "", src: "/assets/collection.png"}/
+          = @resource_name
+          %span.pull-right
+            %a.btn.btn-primary{ href: content_partner_resource_path(@content_partner_id, @resource_id), role: "button"}
+              #{t(:show_resource_details)}
 
     .col-md-6
       .part
@@ -82,5 +83,5 @@
               %td
                 = row["status"]
     
-      = will_paginate(@harvest_logs)
+      = will_paginate @harvest_logs, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
 
