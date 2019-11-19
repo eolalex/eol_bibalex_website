@@ -1,14 +1,22 @@
-= javascript_include_tag 'search'
-- @collection= Collection.find(@collection_id)
+= javascript_include_tag 'collected_pages_search'
+- @collection = Collection.find(@collection_id)
 = render("collected_pages/show")
 .container
   .col-md-9.col-sm-12.col-xs-12
     %h2 #{t(:search_results)}
-    -unless @result.nil?
-      -@result.each do |result|
+    - unless @result.nil?
+      - @result.each do |result|
         - page_res = result.page
-        -unless page_res.media.first.nil?
-          %img{ src: page_res.media.first.base_url, width: "100", height: "100"}  
-        -unless page_res.scientific_name.nil?         
-          %h3= link_to page_res.scientific_name , page_path(page_res.id) 
-          %br
+        .col-xs-4.col-sm-2.col-md-2
+          - unless page_res.media.first.nil?
+            %a{ href: page_path(page_res.id)} 
+              %img.thumbnail{ src: page_res.media.first.base_url, width: "100", height: "100"}  
+          - else
+            %a{ href: page_path(page_res.id)} 
+              %img.thumbnail{ src: "/assets/download.png" , width: "100", height: "100"}/
+        .col-xs-8.col-sm-10.col-md-10
+          - unless page_res.scientific_name.nil?         
+            %h3= link_to page_res.scientific_name , page_path(page_res.id) 
+            %br
+      = will_paginate @result, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
+

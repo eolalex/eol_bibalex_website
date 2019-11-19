@@ -1,6 +1,7 @@
 # Load the Rails application.
 require_relative 'application'
 ENV['per_page']='30'
+ENV['MAX_NAME_LENGTH'] = '9'
 #ENV['FACEBOOK_APP_ID']="1070956589720890"
 #ENV['FACEBBOK_APP_SECRET']="4e880b866b921c067d9f0838e50b548f"
 ENV['FACEBOOK_APP_ID']="2050909461893269"
@@ -38,6 +39,7 @@ HBASE_GET_NODES_OF_RESOURCE_ACTION = "getLatestNodesOfResource"
 MYSQL_ADDRESS = "http://172.16.0.99/mysql/"
 # MYSQL_ADDRESS = "http://localhost:8020/mysql/"
 MYSQL_GET_LATEST_UPDATES_ACTION = "getLatestUpdates"
+MYSQL_GET_START_AND_END_TIMES = "getStartAndEndTimes"
 STORAGE_LAYER_IP= "172.16.0.99"
 NEO4J_ADDRESS = "172.16.0.161:80/eol/neo4j"
 MYSQL_GET_END_TIME = "getEndTime"

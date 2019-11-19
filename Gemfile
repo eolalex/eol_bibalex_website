@@ -43,7 +43,9 @@ gem 'jquery-turbolinks'
 gem 'haml-rails'
 gem 'searchkick'
 gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
 gem 'will_paginate'
+gem 'bootstrap-will_paginate'
 gem 'twitter-typeahead-rails'
 #gem 'rails4-autocomplete'
 gem "js-routes"
@@ -78,6 +80,7 @@ gem "active_record_bulk_insert"
 gem 'bulk_insert'
 gem "geo_coord"
 gem 'render_async'
+gem 'whenever', require: false
 # gem 'ar-extensions'
  
 

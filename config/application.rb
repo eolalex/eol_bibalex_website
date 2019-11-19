@@ -18,7 +18,8 @@ module EolPublishingLayer
     config.load_defaults 5.1
     config.i18n.available_locales = [:en, :ar]
     config.i18n.default_locale = :en
-    config.force_ssl = false
+    config.force_ssl = true
+    config.exceptions_app = self.routes
 
     config.middleware.insert_before ActionDispatch::Static, Rack::Cors do
       allow do
@@ -32,9 +33,9 @@ module EolPublishingLayer
     'Access-Control-Request-Method' => 'GET, PATCH, PUT, POST, OPTIONS, DELETE',
     'Access-Control-Allow-Headers:' => 'Origin, X-Requested-With, Content-Type, Accept'
 }
-RenderAsync.configure do |config|
-  config.turbolinks = true # Enable this option if you are using Turbolinks 5+
-end
+#RenderAsync.configure do |config|
+#  config.turbolinks = true # Enable this option if you are using Turbolinks 5+
+#end
 
 
   # Settings in config/environments/* take precedence over those specified here.

@@ -1,4 +1,4 @@
--@articles.each do |article|
+- @articles.each do |article|
   -#TODO toc(table of content)
   .col-lg-12.articleBlock
     %h2
@@ -13,4 +13,4 @@
       -#= succeed "." do
         -#%a{:href => article_path(id: article.id)} Continue reading...
     %hr/
-= will_paginate @articles, params: { controller: 'pages', action: 'articles'}
+= will_paginate @articles, params: { controller: 'pages', action: 'articles'}, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer

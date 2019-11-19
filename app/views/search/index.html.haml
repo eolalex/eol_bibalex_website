@@ -14,16 +14,18 @@
           - @results.each do|result| 
             - if result.instance_of? Page
               %article.search-result.row
-                .col-xs-12.col-sm-12.col-md-2
+                .col-xs-4.col-sm-2.col-md-2
                   - unless result.media.first.nil?
-                    %img.thumbnail{ src: result.media.first.base_url , width: "100", height: "100"}/
+                    %a{ href: page_path(result.id)} 
+                      %img.thumbnail{src: result.media.first.base_url , width: "100", height: "100"}/
                   - else
-                    %img.thumbnail{ src: "/assets/download.png" , width: "100", height: "100"}/
-                .col-xs-12.col-sm-12.col-md-10
+                    %a{ href: page_path(result.id)} 
+                      %img.thumbnail{ src: "/assets/download.png" , width: "100", height: "100"}/
+                .col-xs-8.col-sm-10.col-md-10
                   %h3.marginTop0
                     %a{ href: page_path(result.id), title: ""} #{result.scientific_name}
                 %span.clearfix.borda
-          = will_paginate @results
+          = will_paginate @results, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
         .col-lg-3
           %article.card-group-item.well
             %header.card-header

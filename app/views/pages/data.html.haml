@@ -1,31 +1,33 @@
 .container
+  %h2.mainTitle
+    %span{ style: "padding-bottom: 10px; display: inline-block"}
+      = @page.scientific_name
+    .pull-right
+      = render("tabs")
+    .clearfix
+  .col-md-8
+    %h2.smallTitle #{t(:data)} 
   .row
-    .col-md-12.blog
-      .row
-        .col-md-8
-          %h2.TaxonName
-            = @page.scientific_name
-        .col-md-4
-          = render "tabs"
-      .row
-        .col-md-8
-          = render_async data_grid_path( page_id: @page.id, page: params[:page]) do
-            .col-md-offset-4
-              = image_tag "loading.gif", alt: ""
-        .col-md-4
-          %aside
-            .widget.categories
-              %h3 #{t(:taxon_card)}
-              .row
-                .col-sm-12
-                  .single_comments
-                    %b= @page.scientific_name
-                    = image_tag "avatar3.png", alt: ""
-
-            .widget.blog_gallery
-              %h3 #{t(:refresh_memory)}
-              %ul.sidebar-gallery
-                %li
-                  %a{ href: "http://fieldguides.eol.org/memory/"}
-                    = image_tag "memory-game-icon.png", alt: ""
+    .col-md-8
+      = render_async data_grid_path( page_id: @page.id, page: params[:page]) do
+        .col-md-offset-4
+          = image_tag "loading.gif", alt: ""
+    .col-md-4
+      %aside
+        .widget.categories
+          %h3 #{t(:taxon_card)}
+          .row
+            .col-sm-12
+              .single_comments
+                .col-lg-2.col-md-3.col-sm-1.col-xs-3.collectionImage.no-padding
+                  = image_tag "download.png"
+                .col-lg-10.col-md-9.col-sm-11.col-xs-9
+                  %b 
+                    #{@page.scientific_name}
+          -#.widget.blog_gallery
+            -#%h3 #{t(:refresh_memory)}
+            -#%ul.sidebar-gallery
+            -#%li
+              -#%a{ href: "http://fieldguides.eol.org/memory/"}
+                -#= image_tag "memory-game-icon.png", alt: ""
 

@@ -49,7 +49,6 @@ class ContentPartners::ResourcesController < ContentPartnersController
     content_partner_user = User.find(ContentPartnerUser.find_by_content_partner_id(params[:content_partner_id]).user_id)
     if(content_partner_user==current_user)
       result= ResourceApi.get_resource(params[:content_partner_id], params[:id])
-      debugger
       # mappings = {"paused" => "is_paused", "approved" => "is_approved" , "trusted" => "is_trusted" , "autopublished" => "is_autopublished" , "forced" => "is_forced"}
       # result.keys.each { |k| result[ mappings[k] ] = result.delete(k) if mappings[k] }
       @resource = Resource.new(name: result["name"],origin_url: result["originalUrl"],uploaded_url: result["uploadedUrl"],
@@ -123,7 +122,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
   
   def index
     resource_boundary_ids = ResourceApi.get_resource_boundaries
-    unless resource_boundary_ids.nil?
+    if resource_boundary_ids.present?
       lower_boundary_resource_id = resource_boundary_ids["firstResourceId"]
       upper_boundary_resource_id = resource_boundary_ids["lastResourceId"] + ENV['resource_batch_size'].to_i
       end_resource_id = lower_boundary_resource_id + ENV['resource_batch_size'].to_i
@@ -133,14 +132,17 @@ class ContentPartners::ResourcesController < ContentPartnersController
         unless resources.nil?
           @rows = @rows + resources
         else
-          internal_server_error
+          @error_index = 1
         end
         lower_boundary_resource_id = end_resource_id + 1
         end_resource_id += ENV['resource_batch_size'].to_i
       end
       @rows = @rows.paginate(page: params[:page], per_page: ENV['per_page_resources'])
     else
-      internal_server_error
+      @error_index = 1
+    end
+    if @error_index == 1
+      render "errors/internal_server_error"
     end
   end
   
@@ -149,33 +151,36 @@ class ContentPartners::ResourcesController < ContentPartnersController
     show_statistics(@resource_id)
     show_last_harvest_log(@resource_id)
     show_harvest_history(@resource_id)
+    if $errors == 1
+      render "errors/internal_server_error"
+    end
   end
   
   def show_statistics(resource_id)
     @statistics = ResourceApi.get_resource_statistics(resource_id)
-    if (@statistics.empty?)
-      internal_server_error
+    unless (@statistics.present?)
+      $errors = 1    
     end
   end
   
   def show_last_harvest_log(resource_id)
     @last_harvest = ResourceApi.get_last_harvest_log(resource_id)
-    unless (@last_harvest.empty?)
+    if (@last_harvest.present?)
       @harvest_duration = ((DateTime.parse(@last_harvest["endTime"]) - DateTime.parse(@last_harvest["startTime"]))*24.to_f)
     else
-      internal_server_error
+      $errors = 1
     end
   end
   
   def show_harvest_history(resource_id)
-    harvest_history = ResourceApi.get_harvest_history(resource_id)
-    unless (harvest_history.empty?)
-      @resource_name = harvest_history["resourceName"]
-      @content_partner_id = harvest_history["contentPartnerId"]
-      harvest_history= JSON.parse(harvest_history["harvestHistory"])
+    @harvest_history = ResourceApi.get_harvest_history(resource_id)
+    if (@harvest_history.present?)
+      @resource_name = @harvest_history["resourceName"]
+      @content_partner_id = @harvest_history["contentPartnerId"]
+      harvest_history = JSON.parse(@harvest_history["harvestHistory"])
       @harvest_logs = harvest_history.paginate(page: params[:page], per_page: ENV['per_page_harvest'])
     else
-      internal_server_error
+      $errors = 1
     end
   end
   
@@ -186,11 +191,5 @@ class ContentPartners::ResourcesController < ContentPartnersController
     end
   end
 
-  def internal_server_error
-    # to be replaced with internal server error view when the branches are merged
-    flash[:notice] = t(:no_results) + " resources/index"
-    redirect_to main_app.root_path
-  end
-  
 end
 

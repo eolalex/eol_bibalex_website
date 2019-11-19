@@ -1,6 +1,5 @@
 %content#Content1{ contentplaceholderid: "head", runat: "Server"}
 %content#Content2{ contentplaceholderid: "ContentPlaceHolder1", runat: "Server"}
-  .MainPath
   .container
     .row
       .col-lg-12
@@ -14,7 +13,7 @@
           %span.pull-right
             -content_partner_user = User.find(ContentPartnerUser.find_by_content_partner_id(params[:id]).user_id)
             -if(content_partner_user==current_user)
-              %a.btn.btn-primary{ href: "#{edit_content_partner_path(id: @content_partner.id)}", role: "button"}
+              %a.btn.btn-primary.editBtn{ href: "#{edit_content_partner_path(id: @content_partner.id)}", role: "button"}
                 #{t(:edit_button)}
             
       .col-md-8

@@ -1,7 +1,6 @@
 %body  
   %header  
     .wrapper.clearfix       
-      %br
       -# = render("collections/header")
       = form_tag(collected_pages_path(),method: :get) do
         -# = text_field_tag :canonical_form, params[:canonical_form]
