@@ -13,30 +13,31 @@
         .subtitle
           %strong
             #{t(:resource_statistics)}
-        %p
-          %strong #{t(:nodes)}:
-          #{@nodes_count}      
-        %p
-          %strong #{t(:scientific_names)}: 
-          #{@scientific_names_count}
-        %p
-          %strong #{t(:vernaculars)}: 
-          #{@vernaculars_count}
-        %p
-          %strong #{t(:media)}: 
-          #{@media_count}
-        %p
-          %strong #{t(:articles)}: 
-          #{@articles_count}
-        %p
-          %strong #{t(:occurrences)}: 
-          #{@occurrences_count}
-        %p
-          %strong #{t(:measurements_or_facts)}: 
-          #{@measurements_count}
-        %p
-          %strong #{t(:associations)}: 
-          #{@associations_count}
+        - unless @statistics.empty?
+          %p
+            %strong #{t(:nodes)}:
+            = @statistics["nodes"]      
+          %p
+            %strong #{t(:scientific_names)}: 
+            = @statistics["scientificNames"]
+          %p
+            %strong #{t(:vernaculars)}: 
+            = @statistics["vernaculars"]
+          %p
+            %strong #{t(:media)}: 
+            = @statistics["media"]
+          %p
+            %strong #{t(:articles)}: 
+            = @statistics["articles"]
+          %p
+            %strong #{t(:occurrences)}: 
+            = @statistics["occurrences"]
+          %p
+            %strong #{t(:measurements_or_facts)}: 
+            = @statistics["measurementsOrFacts"]
+          %p
+            %strong #{t(:associations)}: 
+            = @statistics["associations"]
 
     .col-md-6
       .part
@@ -45,16 +46,17 @@
             #{t(:last_harvest_details)}
         %p
           %strong #{t(:start_time)}: 
-          #{@start_time}
+          = @last_harvest["startTime"]
         %p
           %strong #{t(:end_time)}: 
-          #{@end_time}
+          = @last_harvest["endTime"]
         %p
           %strong #{t(:harvested_in)}: 
-          #{number_with_precision(@harvest_duration, precision: 2)} #{t(:hours)}
+          = number_with_precision(@harvest_duration, precision: 2) 
+          #{t(:hours)}
         %p
           %strong  #{t(:harvest_status)}: 
-          #{@status}
+          = @last_harvest["status"]
           
   .subtitle
     %strong

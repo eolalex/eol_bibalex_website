@@ -147,20 +147,21 @@ class ContentPartners::ResourcesController < ContentPartnersController
   def info
     @resource_id = params[:id]
     show_statistics(@resource_id)
+    show_last_harvest_log(@resource_id)
     show_harvest_history(@resource_id)
   end
   
   def show_statistics(resource_id)
-    statistics = ResourceApi.get_resource_statistics(resource_id)
-    unless (statistics.nil? || statistics.empty?)
-      @scientific_names_count = statistics["scientificNames"]
-      @nodes_count = statistics["nodes"]
-      @vernaculars_count = statistics["vernaculars"]
-      @media_count = statistics["media"]
-      @articles_count = statistics["articles"]
-      @occurrences_count = statistics["occurrences"]
-      @associations_count = statistics["associations"]
-      @measurements_count = statistics["measurementsOrFacts"]
+    @statistics = ResourceApi.get_resource_statistics(resource_id)
+    if (@statistics.empty?)
+      internal_server_error
+    end
+  end
+  
+  def show_last_harvest_log(resource_id)
+    @last_harvest = ResourceApi.get_last_harvest_log(resource_id)
+    unless (@last_harvest.empty?)
+      @harvest_duration = ((DateTime.parse(@last_harvest["endTime"]) - DateTime.parse(@last_harvest["startTime"]))*24.to_f)
     else
       internal_server_error
     end
@@ -168,16 +169,11 @@ class ContentPartners::ResourcesController < ContentPartnersController
   
   def show_harvest_history(resource_id)
     harvest_history = ResourceApi.get_harvest_history(resource_id)
-    unless (harvest_history.nil? || harvest_history.empty?)
+    unless (harvest_history.empty?)
       @resource_name = harvest_history["resourceName"]
       @content_partner_id = harvest_history["contentPartnerId"]
-      harvest_history_sorted = JSON.parse(harvest_history["harvestHistory"]).sort_by {|harv| harv["startTime"]}.reverse!
-      @harvest_logs = harvest_history_sorted.paginate(page: params[:page], per_page: ENV['per_page_harvest'])
-      last_harvest = harvest_history_sorted.first
-      @start_time = last_harvest["startTime"]
-      @end_time = last_harvest["endTime"]
-      @status = last_harvest["status"]
-      @harvest_duration = ((DateTime.parse(@end_time) - DateTime.parse(@start_time))*24.to_f)
+      harvest_history= JSON.parse(harvest_history["harvestHistory"])
+      @harvest_logs = harvest_history.paginate(page: params[:page], per_page: ENV['per_page_harvest'])
     else
       internal_server_error
     end

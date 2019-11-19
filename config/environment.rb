@@ -20,6 +20,7 @@ ENV['logo_ip'] = "http://172.16.0.99"
 ENV['get_all_resources'] ="getAllResourcesWithFullData"
 ENV['get_resource_info'] = 'getResourceStatistics'
 ENV['get_harvest_history'] = 'getHarvestHistory'
+ENV['get_last_harvest_log'] = 'getLastHarvestLog'
 ENV['get_resource_boundaries'] = 'getResourceBoundaries'
 ENV['per_page_resources'] = '10'
 ENV['per_page_harvest'] = '2'

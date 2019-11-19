@@ -163,6 +163,18 @@ class ResourceApi
     rescue => e
       nil
     end
+  end
+  
+  def self.get_last_harvest_log(resource_id)
+    begin
+      request = RestClient::Request.new(
+        method: :get,
+        url: "#{ENV['schedular_ip']}/#{ENV['get_last_harvest_log']}/#{resource_id}"
+      )
+      response = JSON.parse(request.execute)
+    rescue => e
+      nil
+    end
   end  
   
   def self.get_resource_boundaries
