@@ -129,35 +129,23 @@ class ResourceApi
     end
   end
   
-  def self.get_all_resources_with_full_data(start_id, end_id)
+  def self.get_all_resources_with_full_data(offset, limit)
     begin
       request = RestClient::Request.new(
         method: :get,
-        url: "#{ENV['schedular_ip']}/#{ENV['get_all_resources']}/#{start_id}/#{end_id}"
+        url: "#{ENV['schedular_ip']}/#{ENV['SCHEDULER_RESOURCES']}/#{ENV['GET_FULL_RESOURCES_DATA']}/#{offset}/#{limit}"
       )
-      response = JSON.parse(request.execute)
+    response = JSON.parse(request.execute)
     rescue => e
       nil
     end
   end
 
-  def self.get_resource_statistics(resource_id)
+  def self.get_harvest_history(resource_id, offset, limit)
     begin
       request = RestClient::Request.new(
         method: :get,
-        url: "#{MYSQL_ADDRESS}/#{ENV['get_resource_info']}/#{resource_id}"
-      )
-      response = JSON.parse(request.execute)
-    rescue => e
-      nil
-    end
-  end  
-
-  def self.get_harvest_history(resource_id)
-    begin
-      request = RestClient::Request.new(
-        method: :get,
-        url: "#{ENV['schedular_ip']}/#{ENV['get_harvest_history']}/#{resource_id}"
+        url: "#{ENV['schedular_ip']}/#{ENV['SCHEDULER_RESOURCES']}/#{resource_id}/#{ENV['GET_HARVEST_HISTORY_ACTION']}/#{offset}/#{limit}"
       )
       response = JSON.parse(request.execute)
     rescue => e
@@ -169,7 +157,7 @@ class ResourceApi
     begin
       request = RestClient::Request.new(
         method: :get,
-        url: "#{ENV['schedular_ip']}/#{ENV['get_last_harvest_log']}/#{resource_id}"
+        url: "#{ENV['schedular_ip']}/#{ENV['SCHEDULER_RESOURCES']}/#{resource_id}/#{ENV['GET_LAST_HARVEST_LOG_ACTION']}"
       )
       response = JSON.parse(request.execute)
     rescue => e
@@ -177,17 +165,17 @@ class ResourceApi
     end
   end  
   
-  def self.get_resource_boundaries
+  def self.get_resource_statistics(resource_id)
     begin
       request = RestClient::Request.new(
         method: :get,
-        url: "#{ENV['schedular_ip']}/#{ENV['get_resource_boundaries']}"
+        url: "#{MYSQL_ADDRESS}/#{ENV['get_resource_info']}/#{resource_id}"
       )
       response = JSON.parse(request.execute)
     rescue => e
       nil
     end
-  end
+  end  
   
 end
 

@@ -34,6 +34,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
         result = ResourceApi.add_resource?(resource_params, params[:content_partner_id])
         if !result.nil?
           $updated_at = DateTime.now().strftime("%Q")
+          add_resource_to_repository(resource_params[:name], result.to_i, params[:content_partner_id])
           flash[:notice] = I18n.t(:successfuly_created_resource)
           redirect_to controller: 'resources', action: 'show', id: result
         else
@@ -61,6 +62,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
       default_language_id: result["defaultLanguageId"],is_harvest_inprogress: result["isHarvestInprogress"])
       # @resource = Resource.new(result)
     else
+      update_resource_in_repository(resource_params[:name], result.to_i, params[:content_partner_id])
       flash[:notice]=I18n.t(:edit_resource)
       redirect_to content_partner_resource_path(content_partner_id: params[:content_partner_id],id: params[:id])
     end
@@ -121,67 +123,54 @@ class ContentPartners::ResourcesController < ContentPartnersController
   end
   
   def index
-    resource_boundary_ids = ResourceApi.get_resource_boundaries
-    if resource_boundary_ids.present?
-      lower_boundary_resource_id = resource_boundary_ids["firstResourceId"]
-      upper_boundary_resource_id = resource_boundary_ids["lastResourceId"] + ENV['resource_batch_size'].to_i
-      end_resource_id = lower_boundary_resource_id + ENV['resource_batch_size'].to_i
-      @rows = Array.new
-      while( end_resource_id < upper_boundary_resource_id)
-        resources = ResourceApi.get_all_resources_with_full_data(lower_boundary_resource_id, end_resource_id)
-        unless resources.nil?
-          @rows = @rows + resources
-        else
-          @error_index = 1
-        end
-        lower_boundary_resource_id = end_resource_id + 1
-        end_resource_id += ENV['resource_batch_size'].to_i
+    limit = (ENV['SCHEDULER_LIMIT']).to_i
+    offset = 0
+    @rows = Array.new
+    loop do
+      resources = ResourceApi.get_all_resources_with_full_data(offset, limit)
+      unless resources.nil?
+        @rows = @rows + resources
       end
-      @rows = @rows.paginate(page: params[:page], per_page: ENV['per_page_resources'])
-    else
-      @error_index = 1
+      offset += limit
+      break unless resources.present?
     end
-    if @error_index == 1
-      render "errors/internal_server_error"
-    end
+    @rows = @rows.paginate(page: params[:page], per_page: ENV['PER_PAGE_RESOURCES'])
   end
   
   def info
     @resource_id = params[:id]
-    show_statistics(@resource_id)
+    # show_statistics(@resource_id)
     show_last_harvest_log(@resource_id)
     show_harvest_history(@resource_id)
-    if $errors == 1
-      render "errors/internal_server_error"
-    end
   end
   
   def show_statistics(resource_id)
     @statistics = ResourceApi.get_resource_statistics(resource_id)
-    unless (@statistics.present?)
-      $errors = 1    
-    end
   end
   
   def show_last_harvest_log(resource_id)
     @last_harvest = ResourceApi.get_last_harvest_log(resource_id)
     if (@last_harvest.present?)
-      @harvest_duration = ((DateTime.parse(@last_harvest["endTime"]) - DateTime.parse(@last_harvest["startTime"]))*24.to_f)
-    else
-      $errors = 1
+      @harvest_duration = ((DateTime.parse(@last_harvest["endTime"]) - DateTime.parse(@last_harvest["startTime"]))*24.to_f)  
     end
   end
   
   def show_harvest_history(resource_id)
-    @harvest_history = ResourceApi.get_harvest_history(resource_id)
-    if (@harvest_history.present?)
-      @resource_name = @harvest_history["resourceName"]
-      @content_partner_id = @harvest_history["contentPartnerId"]
-      harvest_history = JSON.parse(@harvest_history["harvestHistory"])
-      @harvest_logs = harvest_history.paginate(page: params[:page], per_page: ENV['per_page_harvest'])
-    else
-      $errors = 1
+    limit = (ENV['SCHEDULER_LIMIT']).to_i
+    offset = 0
+    harvest_logs = Array.new
+    loop do
+      full_harvest_history = ResourceApi.get_harvest_history(resource_id, offset, limit)
+      if full_harvest_history.present?
+        @resource_name = full_harvest_history["resourceName"]
+        @content_partner_id = full_harvest_history["contentPartnerId"]
+        harvest_history = JSON.parse(full_harvest_history["harvestHistory"])
+        harvest_logs = harvest_logs + harvest_history
+      end
+      offset += limit
+      break unless full_harvest_history.present?
     end
+    @harvest_logs = harvest_logs.paginate(page: params[:page], per_page: ENV['PER_PAGE_HARVEST'])
   end
   
   def check_if_admin
@@ -189,6 +178,16 @@ class ContentPartners::ResourcesController < ContentPartnersController
       flash[:notice] = "#{t(:admin_account_required)}"
       redirect_back(fallback_location: root_path)
     end
+  end
+
+  def add_resource_to_repository(name, id, content_partner_id)
+    @resource_result = {"name": name.downcase, "id": id, "content_partner_id": content_partner_id}
+    $resource_repository.save(@resource_result)
+  end
+  
+  def update_resource_in_repository(name, id, content_partner_id)
+    @update_result = {"name": name.downcase, "id": id, "content_partner_id": content_partner_id}
+    $resource_repository.update(@update_result)
   end
 
 end

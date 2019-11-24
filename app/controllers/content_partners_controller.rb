@@ -18,6 +18,7 @@ class ContentPartnersController < ApplicationController
       
       if !result.nil?
         $updated_at = DateTime.now().strftime("%Q")
+        add_content_partner_to_repository(content_partner_params[:name], result.to_i)
         flash[:notice] = I18n.t(:successfuly_created_content_partner)
         redirect_to controller: 'content_partners', action: 'show', id: result
       else
@@ -53,6 +54,7 @@ class ContentPartnersController < ApplicationController
     if @content_partner.valid?
       result = ContentPartnerApi.update_content_partner?(params[:id], content_partner_params)
       if result
+        update_content_partner_in_repository(content_partner_params[:name], result.to_i)
         flash[:notice] = I18n.t(:Successfully_updated_content_partner)
         redirect_to controller: 'content_partners', action: 'show', id: result
       else
@@ -90,4 +92,15 @@ class ContentPartnersController < ApplicationController
 
 
   end
+  
+  def add_content_partner_to_repository(name, id)
+    @content_partner_result = {"name": name.downcase, "id": id}
+    $content_partner_repository.save(@content_partner_result)
+  end
+  
+  def update_content_partner_in_repository(name, id)
+    @update_result = {"name": name.downcase, "id": id}
+    $content_partner_repository.update(@update_result)
+  end
+  
 end

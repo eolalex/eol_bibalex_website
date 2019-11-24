@@ -22,13 +22,42 @@ class PagesController < ApplicationController
   end
 
   def autocomplete
-    render json: Page.search(params[:query], {
-      fields: ["scientific_name^5"],
-      match: :word_start,
-      # limit: 10,
-      load: false,
-      misspellings: false
-    })
+    resources = Array.new
+    $resource_repository.search( query: { match_phrase_prefix: { name: params[:query]}}).results.each do |res|
+      resources << {"name_string": res.name, "id": res.id, "content_partner_id": res.content_partner_id, "type": "resource"}
+    end
+    content_partners = Array.new
+    $content_partner_repository.search( query: { match_phrase_prefix: { name: params[:query]}}).results.each do |cp|
+      content_partners << {"name_string": cp.name, "id": cp.id, "type": "content_partner"}
+    end
+    render json:
+      JSON.parse(Page.search((params[:query]), 
+        {
+          fields: ["name_string"], 
+          match: :word_start, 
+          load: false, 
+          misspellings: false}
+          ).to_json).concat(
+	      JSON.parse(Vernacular.search((params[:query]), 
+		      {
+      		  fields: ["name_string"],
+      		  match: :word_start,
+      		  load: false,
+      		  misspellings: false}).to_json)).concat(
+          JSON.parse(Collection.search((params[:query]), 
+            {
+              fields: ["name_string"],
+              match: :word_start,
+              load: false,
+              misspellings: false}).to_json)).concat(
+                JSON.parse(Medium.search((params[:query]),
+                  {
+                    fields: ["name_string"],
+                    match: :word_start,
+                    load: false,
+                    misspellings: false}).to_json)).concat(
+                      resources).concat(
+                        content_partners)
   end
 
   def media

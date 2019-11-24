@@ -1,6 +1,6 @@
 class CollectionsController < ApplicationController
   include ApplicationHelper
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:update]
 
 
   def new

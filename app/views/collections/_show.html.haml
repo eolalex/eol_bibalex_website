@@ -10,7 +10,7 @@
             #{@collection.name}
           .description
             #{@collection.description}
-          -if (@collection.users.ids.first == current_user.id)
+          -if (!(current_user.nil?) && (@collection.users.ids.first == current_user.id))
             .Edit_Delete
               %a.btn.btn-primary{ id: "#{@collection.id}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
                 #{t(:edit_button)}
