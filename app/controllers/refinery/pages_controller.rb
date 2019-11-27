@@ -1,29 +1,11 @@
 module Refinery
   class PagesController < ::ApplicationController
     include Pages::RenderOptions
-
     before_action :find_page, :set_canonical
     before_action :error_404, unless: :current_user_can_view_page?
-
     # Save whole Page after delivery
     after_action :write_cache?
-    
- 
-    # This action is usually accessed with the root path, normally '/'
-    # def home
-      # render_with_templates?
-    # end
 
-    # This action can be accessed normally, or as nested pages.
-    # Assuming a page named "mission" that is a child of "about",
-    # you can access the pages with the following URLs:
-    #
-    #   GET /pages/about
-    #   GET /about
-    #
-    #   GET /pages/mission
-    #   GET /about/mission
-    #
     def show
       if should_skip_to_first_child?
         redirect_to refinery.url_for(first_live_child.url)
@@ -38,12 +20,9 @@ module Refinery
 
       render_with_templates?
     end
-    
-    # def new_user_session_path
-      # Sessions.new
-    # end
-     
-protected
+
+
+  protected
     def requested_friendly_id
       if ::Refinery::Pages.scope_slug_by_parent
         # Pick out last path component, or id if present
@@ -89,7 +68,7 @@ protected
         format.json { render json: { error: "Page not Found" }, status: 404 }
       end
     end
-    
+
     alias_method :page, :find_page
 
     def set_canonical
@@ -103,8 +82,7 @@ protected
       end
     end
 
-
-    private
+  private
     def action_has_page_finder?
       Finders.const_defined? action_name.classify
     end
@@ -128,3 +106,4 @@ protected
     end
   end
 end
+

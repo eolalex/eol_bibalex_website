@@ -3,17 +3,16 @@ class ApiController < ApplicationController
   before_action :set_default_format_to_xml
   before_action :get_api_method
   after_action :set_cache_headers
-    
+
   def pages
   end
-  
+
   def collections
   end
-  
+
   def data_objects
   end
-  
-   
+
   def default_render
     # if this api_method is blank, and error should already have been rendered
     return if @api_method.blank?
@@ -24,33 +23,17 @@ class ApiController < ApplicationController
     rescue => e
       return render_error('Sorry, there was a problem')
     end
-    
-    # if Rails.env.development? || Rails.env.test_dev?
-      # @json_response = @api_method.call(params)
-    # else
-      # begin
-        # @json_response = @api_method.call(params)
-      # rescue ActiveRecord::RecordNotFound => e
-        # return render_error(e.message, 404)
-      # rescue => e
-#         
-        # return render_error('Sorry, there was a problem')
-      # end
-    # end
-
-    # return the JSON object generated above, OR
-    # render the default (or custom) partial for this method: e.g. api/search_1_0.xml.builder
     respond_to do |format|
       if @api_method::TEMPLATE
         xml_template = @api_method::TEMPLATE
       else
         xml_template = "api/#{params[:action]}_#{@api_method::VERSION.tr('.', '_')}"
       end
-      format.xml { render template: xml_template, layout: false }
-      format.json  { render json: JSON.pretty_generate(@json_response), callback: params[:callback]  }
+      format.xml { render template: xml_template, layout: false}
+      format.json { render json: JSON.pretty_generate(@json_response), callback: params[:callback]}
     end
   end
-    
+
   def get_api_method
     begin
       # load the parent module (e.g. EOL::Api::Pages) to get the default version
@@ -59,7 +42,7 @@ class ApiController < ApplicationController
       render_error("Invalid method: #{params[:action]}")
       return nil
     end
-    
+
     begin
       # load the proper version of the API method (e.g. EOL::Api::Pages::V0_0)
       params[:version] ||= method_class::DEFAULT_VERSION
@@ -69,10 +52,8 @@ class ApiController < ApplicationController
       return nil
     end
     return @api_method
-
-    
   end
-  
+
   def render_error(error_message, status_code = 500)
     # default response for all API errors, with XML or JSON repsonses
     respond_to do |format|
@@ -87,7 +68,7 @@ class ApiController < ApplicationController
     # all APIs return XML by default when no extension is given
     request.format = "xml" unless params[:format]
   end
-  
+
   def set_cache_headers
     return if response.status != 200
     if params[:cache_ttl] && (params[:cache_ttl].class == Fixnum || params[:cache_ttl].is_numeric?)
@@ -100,6 +81,4 @@ class ApiController < ApplicationController
       response.cache_control.replace({})
     end
   end
-  
-
 end
