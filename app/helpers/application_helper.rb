@@ -37,12 +37,4 @@ module ApplicationHelper
     when :alert then "alert alert-error"
     end
   end
-
-  def url_without_locale_params(url)
-    uri = URI url
-    params = Rack::Utils.parse_query uri.query
-    params.delete 'locale'
-    uri.query = params.to_param
-    uri.to_s.chomp("?")
-  end
 end
