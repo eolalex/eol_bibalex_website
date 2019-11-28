@@ -9,56 +9,44 @@
         = name
     .col-md-8.col-sm-8
       .articleBlock
-        -content_partner_id=ContentPartnerApi.get_content_partner_resource_id(@article.resource_id)
-        -if !content_partner_id.nil?
-          -result = ResourceApi.get_resource(content_partner_id["id"],@article.resource_id)
-          -@resource = Resource.new( name: result["name"],origin_url: result["original_url"],uploaded_url: result["uploaded_url"],
-                    type: result["type"],path: result["path"],last_harvested_at: result["last_harvested_at"],harvest_frequency: result["harvest_frequency"],
-                    day_of_month: result["day_of_month"],nodes_count: result["nodes_count"],position: result["position"],is_paused: result["_paused"],
-                    is_approved: result["_approved"],is_trusted: result["_trusted"],is_autopublished: result["_autopublished"],is_forced: result["_forced"],
-                    dataset_license: result["dataset_license"],dataset_rights_statement: result["dataset_rights_statement"],
-                    dataset_rights_holder: result["dataset_rights_holder"],default_license_string: result["default_license_string"],
-                    default_rights_statement: result["default_rights_statement"],default_rights_holder: result["default_rights_holder"],
-                    default_language_id: result["default_language_id"])
-          %div{ style: "color: #8F8F8F; margin-bottom: 10px;"}
-            = t("content_attributions_labels.provided_by") 
-        -else
+        - if @content_partner_id.nil?
           = t(:content_partner_missing)
           %br
-          -if !@resource.nil?
-            = link_to(@resource.name, content_partner_resource_path(content_partner_id["id"], result["id"]))
-          -else
+          - if @resource.nil?
             = t(:resource_missing)
+          - else
+            = link_to(@resource.name, content_partner_resource_path(@content_partner_id["id"], @result["id"]))
+        - else
+          %div{ style: "color: #8F8F8F; margin-bottom: 10px;"}
+            #{t("content_attributions_labels.provided_by")}: 
+            = @content_partner_id["name"]
         %p
-          %object{ width: "100%", height: "100%"}
+          %object{width: "100%", height: "100%"}
             %p
-              =@article.body.html_safe
+              = @article.body.html_safe
     .col-md-4.col-sm-4
       .well
         %p
           %b #{t(:license)}:
-          = link_to(@license.name,@license.source_url)
+          = link_to(@license.name, @license.source_url)
           %br
           %b #{t(:owner)}:
           = @article.owner
-          -unless @article.attributions.empty?
-            -attributions = @article.attributions
-            -attributions = attributions.sort_by{ |hsh| hsh[:role_name] }
-            - attributions = attributions.group_by { |t| t[:role_name] }
-            - attributions.each do |key, values|
+          - unless @article.attributions.empty?
+            - @attributions.each do |key, values|
               %br/
-              %b= key
-              %b=":"
-              -values.each_with_index do |value, index|
+              %b = key
+              %b =":"
+              - values.each_with_index do |value, index|
                 = value.value
-                -if index != values.size-1
+                - if index != values.size-1
                   =", "
           %br/
           %b #{t(:resource_label)}:
-          -if !@resource.nil?
-            = link_to(@resource.name, content_partner_resource_path(content_partner_id["id"], result["id"]))
-          -else
+          - if @resource.nil?
             = t(:resource_missing)
+          - else
+            = link_to(@resource.name, content_partner_resource_path(@content_partner_id["id"], @result["id"]))
           %br/
           %b #{t(:resource_pk)}:
           = @article.resource_pk
