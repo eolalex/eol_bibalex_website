@@ -1,46 +1,10 @@
-# Abstraction between our traits and the implementation of their storage. ATM, we
-# use neo4j.
-#
-# Please keep this schema summary comment in sync with the main
-# schema documentation file found in the doc/ directory, and reflect
-# and schema changes in the main documentation file.
-#
-# NOTE: in its current state, this is NOT done! Neography uses a plain hash to
-# store objects, and ultimately we're going to want our own models to represent
-# things. But in these early testing stages, this is adequate. Since this is not
-# its final form, there are no specs yet. ...We need to feel out how we want
-# this to work, first.
 class TraitBank
-  # NOTE: should associated pages (below, stored as object_page_id) actually
-  # have an association, since we have Pages? ...Yes, but only if that's
-  # something we're going to query... and I don't think we do! So all the info
-  # is reall in the MySQL DB and thus just the ID is enough.
-
-  # The Labels, and their expected relationships { and (*required) properties }:
-
-  # * Resource: { *resource_id }
-  # * Page: ancestor(Page)[NOTE: unused as of Nov2017], parent(Page), trait(Trait) { *page_id }
-  # * Trait: *predicate(Term), *supplier(Resource), metadata(MetaData), object_term(Term), units_term(Term),
-  #          normal_units_term(Term), sex_term(Term), lifestage_term(Term), statistical_method_term(Term),
-  #     { *eol_pk, *resource_pk, *scientific_name, source, measurement, object_page_id, literal, normal_measurement }
-  # * MetaData: *predicate(Term), object_term(Term), units_term(Term)
-  #     { *eol_pk, measurement, literal }
-  # * Term: parent_term(Term) { *uri, *name, *section_ids(csv), definition, comment,
-  #     attribution, is_hidden_from_overview, is_hidden_from_glossary, position,
-  #     type }
-
-  # NOTE: the "type" for Term is one of "measurement", "association", "value",
-  #   or "metadata" ... at the time of this writing.
-
   CHILD_TERM_DEPTH = 4
 
   class << self
+
     def connection
-
       @connection ||= Neography::Rest.new('http://localhost:7474') 
-
-      # @connection ||= Neography::Rest.new(Rails.configuration.traitbank_url)
-
     end
 
     def ping
@@ -52,7 +16,7 @@ class TraitBank
       true
     end
 
-    def query(q,params=nil)
+    def query(q, params = nil)
       start = Time.now
       results = nil
       q.sub(/\A\s+/, "")
@@ -78,7 +42,7 @@ class TraitBank
       return string if string.is_a?(Numeric) || string =~ /\A[-+]?[0-9,]*\.?[0-9]+\Z/
       %Q{"#{string.gsub(/"/, "\\\"")}"}
     end
-    
+
     def count
       res = query("MATCH (trait:Trait)<-[:trait]-(page:Page) WITH count(trait) as count RETURN count")
       res["data"] ? res["data"].first.first : false
@@ -123,24 +87,24 @@ class TraitBank
       res = query (q)
       res["data"].empty? ? false : res["data"]
     end
-    def terms(page = 1, per = 50)
+
+    def terms(page = 1, per_page = 50)
       q = "MATCH (term:Term) RETURN term ORDER BY LOWER(term.name), LOWER(term.uri)"
-      q += limit_and_skip_clause(page, per)
+      q += limit_and_skip_clause(page, per_page)
       res = query(q)
-      res["data"] ? res["data"].map { |t| t.first["data"] } : false
+      res["data"] ? res["data"].map { |terms| terms.first["data"] } : false
     end
 
-    def limit_and_skip_clause(page = 1, per = 50)
+    def limit_and_skip_clause(page = 1, per_page = 50)
       # I don't know why the default values don't work, but:
       page ||= 1
-      per ||= 50
-      skip = (page.to_i - 1) * per.to_i
-      add = " LIMIT #{per}"
+      per_page ||= 50
+      skip = (page.to_i - 1) * per_page.to_i
+      add = " LIMIT #{per_page}"
       add = " SKIP #{skip}#{add}" if skip > 0
       add
     end
 
-    # TODO: add association to the sort... normal_measurement comes after literal, so it will be ignored
     def order_clause_array(options)
       options[:sort] ||= ""
       options[:sort_dir] ||= ""
@@ -148,20 +112,12 @@ class TraitBank
         if options[:by]
           options[:by]
         elsif options[:object_term]
-          [] # You already have a SINGLE term. Don't sort it.
+          []
         elsif options[:sort].downcase == "measurement"
           ["trait.normal_measurement"]
         else
-          # TODO: this is not good. multiple types of values will not
-          # "interweave", and the only way to change that is to store a
-          # "normal_value" value for all different "stringy" types (literals,
-          # object terms, and object page names). ...This is a resonable approach,
-          # though it will require more work to keep "up to date" (e.g.: if the
-          # name of an object term changes, all associated traits will have to
-          # change).
           ["LOWER(predicate.name)", "LOWER(info_term.name)", "trait.normal_measurement", "LOWER(trait.literal)"]
         end
-      # NOTE: "ties" for traits are resolved by species name.
       sorts << "page.name" unless options[:by]
       if options[:sort_dir].downcase == "desc"
         sorts.map! { |sort| "#{sort} DESC" }
@@ -178,16 +134,12 @@ class TraitBank
       raise "NO resource eol_PK!" if eol_pk.blank?
       params = { :eol_pk => eol_pk, :resource_id => resource_id }
  
-      # res = Neography::Rest.new.execute_query("MATCH (trait:Trait { resource_pk: {resource_pk} })-[:supplier]->(res:Resource { resource_id: {resource_id} }) RETURN trait", params)
-      # res = connection.execute_query("MATCH (trait:Trait { resource_pk: #{quote(pk)} })-[:supplier]->(res:Resource { resource_id: #{resource_id} }) RETURN trait")
-      # res = query("MATCH (trait:Trait { resource_pk: #{quote(pk)} })-[:supplier]->(res:Resource { resource_id: #{resource_id} }) RETURN trait")
       res = query("MATCH (trait:Trait { eol_pk: {eol_pk} })-[:supplier]->(res:Resource { resource_id: {resource_id} }) RETURN trait", params)
       res["data"] ? res["data"].first : false
-     
     end
 
-    def by_trait(input, page = 1, per = 200)
-      id = input.is_a?(Hash) ? input[:id] : input # Handle both raw IDs *and* actual trait hashes.
+    def by_trait(input, page = 1, per_page = 200)
+      id = input.is_a?(Hash) ? input[:id] : input
       q = "MATCH (page:Page)"\
           "-[:trait]->(trait:Trait { eol_pk: '#{id}' })"\
           "-[:supplier]->(resource:Resource) "\
@@ -203,12 +155,12 @@ class TraitBank
           "RETURN resource, trait, predicate, object_term, units, sex_term, lifestage_term, statistical_method_term, "\
             "meta, meta_predicate, meta_units_term, meta_object_term, page "\
           "ORDER BY LOWER(meta_predicate.name)"
-      q += limit_and_skip_clause(page, per)
+      q += limit_and_skip_clause(page, per_page)
       res = query(q)
       build_trait_array(res)
     end
 
-    def by_page(page_id, page = 1, per = 100)
+    def by_page(page_id, page = 1, per_page = 100)
       # debugger
       q = "MATCH (page:Page { page_id: #{page_id} })-[:trait]->(trait:Trait)"\
           "-[:supplier]->(resource:Resource) "\
@@ -222,7 +174,7 @@ class TraitBank
 
       q += order_clause(by: ["LOWER(predicate.name)", "LOWER(object_term.name)",
         "LOWER(trait.literal)", "trait.normal_measurement"])
-      q += limit_and_skip_clause(page, per)
+      q += limit_and_skip_clause(page, per_page)
       res = query(q)
       build_trait_array(res)
     end
@@ -521,13 +473,13 @@ class TraitBank
 
     # NOTE: this is not indexed. It could get slow later, so you should check
     # and optimize if needed. Do not prematurely optimize!
-    def search_predicate_terms(q, page = 1, per = 50)
+    def search_predicate_terms(q, page = 1, per_page = 50)
       q = "MATCH (trait:Trait)-[:predicate]->(term:Term) "\
         "WHERE term.name =~ \'(?i)^.*#{q}.*$\' RETURN DISTINCT(term) ORDER BY LOWER(term.name)"
-      q += limit_and_skip_clause(page, per)
+      q += limit_and_skip_clause(page, per_page)
       res = query(q)
       return [] if res["data"].empty?
-      res["data"].map { |r| r[0]["data"] }
+      res["data"].map { |result| result[0]["data"] }
     end
 
     def count_predicate_terms(q)
@@ -540,13 +492,13 @@ class TraitBank
 
     # NOTE: this is not indexed. It could get slow later, so you should check
     # and optimize if needed. Do not prematurely optimize!
-    def search_object_terms(q, page = 1, per = 50)
+    def search_object_terms(q, page = 1, per_page = 50)
       q = "MATCH (trait:Trait)-[:object_term]->(term:Term) "\
         "WHERE term.name =~ \'(?i)^.*#{q}.*$\' RETURN DISTINCT(term) ORDER BY LOWER(term.name)"
-      q += limit_and_skip_clause(page, per)
+      q += limit_and_skip_clause(page, per_page)
       res = query(q)
       return [] if res["data"].empty?
-      res["data"].map { |r| r[0]["data"] }
+      res["data"].map { |result| result[0]["data"] }
     end
 
     # NOTE: this is not indexed. It could get slow later, so you should check
@@ -566,8 +518,8 @@ class TraitBank
     end
     
     def meta_exists?(eol_pk)
-      params = {:eol_pk => eol_pk}
-      res = query("MATCH (meta:MetaData { eol_pk: {eol_pk}}) RETURN meta",params)
+      params = {eol_pk: eol_pk}
+      res = query("MATCH (meta:MetaData { eol_pk: {eol_pk}}) RETURN meta", params)
       res["data"] && res["data"].first ? res["data"].first.first : false
     end
     
@@ -580,7 +532,7 @@ class TraitBank
     def page_has_parent?(page, page_id)
       node = Neography::Node.load(page["metadata"]["id"], connection)
       return false unless node.rel?(:parent)
-      node.outgoing(:parent).map { |n| n[:page_id] }.include?(page_id)
+      node.outgoing(:parent).map { |node| node[:page_id] }.include?(page_id)
     end
 
     # Given a results array and the name of one of the returned columns to treat
@@ -593,8 +545,7 @@ class TraitBank
       previous_id = nil
       hash = nil
       results["data"].each do |row|
-        row_id = row[id_col] && row[id_col]["metadata"] &&
-          row[id_col]["metadata"]["id"]
+        row_id = row[id_col] && row[id_col]["metadata"] && row[id_col]["metadata"]["id"]
         raise("Found row with no ID on row: #{row.inspect}") if row_id.nil?
         if row_id != previous_id
           previous_id = row_id
@@ -735,11 +686,8 @@ class TraitBank
       if (page = page_exists?(id))
         return page
       end
-      # page = connection.create_node(page_id: id)
-      # connection.set_label(page, "Page")
-      # page
     end
-    # this method chcek if resource exists it will return it, else it will create it and return it
+
     def find_resource(id)
       res = query("MERGE (resource:Resource { resource_id: #{id} }) "\
         "RETURN resource LIMIT 1")
@@ -750,16 +698,9 @@ class TraitBank
       if (resource = find_resource(id))
         return resource
       end
-      # resource = connection.create_node(resource_id: id)
-      # connection.set_label(resource, "Resource")
-      # resource
     end
 
-
-    # # TODO: we should probably do some checking here. For example, we should
-    # # only have ONE of [value/object_term/association/literal].
     def create_trait(options,terms)
-      # debugger
       resource_id = options[:supplier]["data"]["resource_id"]
       Rails.logger.warn "++ Create Trait: Resource##{resource_id}, "\
         "PK:#{options[:resource_pk]}"
@@ -767,10 +708,9 @@ class TraitBank
         Rails.logger.warn "++ Already exists, skipping."
         return trait
       end
-      #page returns page_id and required id in db therefore i used page_exists?
+
       page = options.delete(:page)
-      # page = page_exists?(page)
-      #supplier returns .......and required id in db therefore i used resource_find
+
       supplier = options.delete(:supplier)
       if (!options[:predicate].nil?) && (!options[:predicate][:uri].nil?) && (terms.include? options[:predicate][:uri])
         predicate = terms[options[:predicate][:uri]]
@@ -785,7 +725,7 @@ class TraitBank
         options.delete(:units)
       else
         units = parse_term(options.delete(:units))
-        terms[units["data"]["uri"]]= units if units
+        terms[units["data"]["uri"]] = units if units
       end
       # occurrence metadata
       if (!options[:lifestage_term].nil?) && (!options[:lifestage_term][:uri].nil?) && (terms.include? options[:lifestage_term][:uri])
@@ -793,16 +733,16 @@ class TraitBank
         options.delete(:lifestage_term)
       else
         lifestage = parse_term(options.delete(:lifestage_term))
-        terms[lifestage["data"]["uri"]]= lifestage if lifestage
+        terms[lifestage["data"]["uri"]] = lifestage if lifestage
       end
       if (!options[:sex_term].nil?) && (!options[:sex_term][:uri].nil?) && (terms.include? options[:sex_term][:uri])
         sex = terms[options[:sex_term][:uri]]
         options.delete(:sex_term)
       else
         sex = parse_term(options.delete(:sex_term))
-        terms[sex["data"]["uri"]]= sex if sex
+        terms[sex["data"]["uri"]] = sex if sex
       end
-      
+
       if (!options[:statistical_method_term].nil?) && (!options[:statistical_method_term][:uri].nil?) && (terms.include? options[:statistical_method_term][:uri])
         statistical_method = terms[options[:statistical_method_term][:uri]]
         options.delete(:statistical_method_term)
@@ -810,7 +750,7 @@ class TraitBank
         statistical_method = parse_term(options.delete(:statistical_method_term))
         terms[statistical_method["data"]["uri"]]= statistical_method if statistical_method
       end
-      
+
       if (!options[:object_term].nil?) && (!options[:object_term][:uri].nil?) && (terms.include? options[:object_term][:uri])
         object_term = terms[options[:object_term][:uri]]
         options.delete(:object_term)
@@ -820,16 +760,16 @@ class TraitBank
       end
       convert_measurement(options, units)
       trait = create_node(options,"Trait")
-      # trait = connection.create_node(options)
-      # connection.set_label(trait, "Trait")
-      relation_query = "match (t:Trait{eol_pk: \"#{options[:eol_pk]}\"}) match (p:Page{page_id: #{page}}) match (s:Resource{resource_id: #{resource_id}}) match (perdicate:Term {uri: \"#{predicate["data"]["uri"]}\"})"
+      relation_query = "match (t:Trait{eol_pk: \"#{options[:eol_pk]}\"}) match (p:Page{page_id: #{page}}) "\
+        "match (s:Resource{resource_id: #{resource_id}}) match (perdicate:Term {uri: \"#{predicate["data"]["uri"]}\"})"
       
       relation_query = "#{relation_query} match (units:Term {uri: \"#{units["data"]["uri"]}\"})" if units
       relation_query = "#{relation_query} match (object_term:Term {uri: \"#{object_term["data"]["uri"]}\"})" if object_term
       relation_query = "#{relation_query} match (lifestage:Term {uri: \"#{lifestage["data"]["uri"]}\"})" if lifestage
       relation_query = "#{relation_query} match (sex:Term {uri: \"#{sex["data"]["uri"]}\"})" if sex
-      relation_query = "#{relation_query} match (statistical_method:Term {uri: \"#{statistical_method["data"]["uri"]}\"})" if statistical_method
-      
+      relation_query = "#{relation_query} match (statistical_method:Term {uri: \"#{statistical_method["data"]["uri"]}\"})"
+        if statistical_method
+
       relation_query = "#{relation_query} merge (p)-[:trait]->(t) merge (t)-[:supplier]->(s) merge (t)-[:predicate]->(perdicate)"
       relation_query = "#{relation_query} merge (t)-[:units_term]->(units)" if units
       relation_query = "#{relation_query} merge (t)-[:object_term]->(object_term)" if object_term
@@ -837,43 +777,31 @@ class TraitBank
       relation_query = "#{relation_query} merge (t)-[:sex_term]->(sex)" if sex
       relation_query = "#{relation_query} merge (t)-[:statistical_method_term]->(statistical_method)" if statistical_method
       query(relation_query)
-      # relate("trait",page, trait)
-      # relate("supplier", trait, supplier)
-      # relate("predicate", trait, predicate)
-      # relate("units_term", trait, units) if units
-      # relate("object_term", trait, object_term) if object_term
-#       
-      # # relate occurrence metadata
-      # relate("lifestage_term", trait, lifestage) if lifestage
-      # relate("sex_term", trait, sex) if sex
-      # relate("statistical_method_term", trait, statistical_method) if statistical_method
-      
-      # meta.each { |md| add_metadata_to_trait(trait, md) } unless meta.blank?
+
       trait
     end
-    
+
     def create_node(options, label)
       query = "create (n:#{label} {"
       options.each do |key, value|
-        key=key.to_s
+        key = key.to_s
         unless value.nil?
           if value.is_a? String
-            query ="#{query}#{key}: \"#{value}\","
+            query = "#{query}#{key}: \"#{value}\","
           else
-            query ="#{query}#{key}: #{value},"
+            query = "#{query}#{key}: #{value},"
           end
         end 
-        
       end
-      query[query.length-1]=''
-      query ="#{query}}) return n"
+      query[query.length-1] = ''
+      query = "#{query}}) return n"
       node = query(query)
       node = node["data"].first.first
       node
     end
 
     def relate(how, from, to)
-      begin        
+      begin
         connection.create_relationship(how, from, to)
       rescue
         # Try again...
@@ -884,36 +812,32 @@ class TraitBank
           Rails.logger.error("** ERROR adding a #{how} relationship:\n#{e.message}")
           Rails.logger.error("** from: #{from}")
           Rails.logger.error("** to: #{to}")
-          debugger
+          nil
         rescue Neography::NeographyError => e
           Rails.logger.error("** ERROR adding a #{how} relationship:\n#{e.message}")
           Rails.logger.error("** from: #{from}")
           Rails.logger.error("** to: #{to}")
-          debugger
+          nil
         rescue Excon::Error::Socket => e
           puts "** TIMEOUT adding relationship"
           Rails.logger.error("** ERROR adding a #{how} relationship:\n#{e.message}")
           Rails.logger.error("** from: #{from}")
           Rails.logger.error("** to: #{to}")
-          debugger
+          nil
         rescue => e
           puts "Something else happened."
-          debugger
+          nil
           1
         end
       end
     end
-    
+
     def check_relation(how, from, to)
       res = query("MATCH (n)-[rel:#{how}]->(r)where id(n)= #{from["metadata"]["id"]} AND id(r)= #{to["metadata"]["id"]} RETURN rel")
-      # res = query("MATCH  (f:from), (t:to) RETURN EXISTS( (f)-[:#{how}]->(t) )")
-      # res = query("MATCH (from)-[rel:#{how}]->(to) RETURN rel")
-      # res = query("RETURN EXISTS((from)-[rel:#{how}]->(to))")
       res["data"].empty? ? false : true  
     end
-    
+
     def add_metadata_to_trait(trait, options,terms)
-      # debugger
       if (!options[:predicate].nil?) && (!options[:predicate][:uri].nil?) && (terms.include? options[:predicate][:uri])
         predicate = terms[options[:predicate][:uri]]
         options.delete(:predicate)
@@ -921,7 +845,7 @@ class TraitBank
         predicate = parse_term(options.delete(:predicate))
         terms[predicate["data"]["uri"]]= predicate if predicate
       end
-      
+
       if (!options[:units].nil?) && (!options[:units][:uri].nil?) && (terms.include? options[:units][:uri])
         units = terms[options[:units][:uri]]
         options.delete(:units)
@@ -929,7 +853,7 @@ class TraitBank
         units = parse_term(options.delete(:units))
         terms[units["data"]["uri"]]= units if units
       end
-      
+
       if (!options[:object_term].nil?) && (!options[:object_term][:uri].nil?) && (terms.include? options[:object_term][:uri])
         object_term = terms[options[:object_term][:uri]]
         options.delete(:object_term)
@@ -943,41 +867,18 @@ class TraitBank
         # meta = connection.create_node(options)
         meta = create_node(options,"MetaData")
       end
-      # meta = connection.create_node(options)
-      # connection.set_label(meta, "MetaData")
-      # debugger
-      
+
       query = "match (t:Trait {eol_pk: \"#{trait.first["data"]["eol_pk"]}\"}) match (m:MetaData {eol_pk: \"#{options[:eol_pk]}\"}) match(p:Term {uri: \"#{predicate["data"]["uri"]}\"})"
       query = "#{query} match(units:Term {uri: \"#{units["data"]["uri"]}\"})"if units
       query = "#{query} match(object:Term {uri: \"#{object_term["data"]["uri"]}\"})"if object_term
       query = "#{query} merge (t)-[:metadata]->(m) merge (m)-[:predicate]->(p)"
       query = "#{query} merge (m)-[:units_term]->(units)"if units
       query = "#{query} merge (m)-[:object_term]->(object) return m"if object_term
-      
-      meta = query(query).first.first
 
-      # if(!check_relation("metadata", trait.first, meta))
-        # # debugger
-      # relate("metadata", trait, meta)
-      # end
-      # if(!check_relation("predicate", meta, predicate))
-        # # debugger
-      # relate("predicate", meta, predicate)
-      # end
-      # if (units)
-        # if(!check_relation("units_term", meta, units))
-          # # debugger
-          # relate("units_term", meta, units) 
-        # end
-      # end
-      # if(object_term)
-        # if(!check_relation("object_term", meta, object_term))
-        # # debugger
-          # relate("object_term", meta, object_term) 
-        # end
-      # end
+      meta = query(query).first.first
       meta
     end
+
     def add_parent_to_page(parent, page)
       if parent.nil?
         if page.nil?
@@ -1000,9 +901,6 @@ class TraitBank
       end
     end
     
-    #old code
-
-# 
     # # NOTE: this only work on IMPORT. Don't try to run it later! TODO: move it
     # # to import. ;)
     def convert_measurement(trait, units)
@@ -1027,7 +925,6 @@ class TraitBank
         end
       end
     end
-
 
     def parse_term(term_options)
       return nil if term_options.nil?
@@ -1099,7 +996,7 @@ class TraitBank
       if uri.present?
         uri.gsub(/"/, '""')
       end
-      
+
       res = query(%Q{MATCH (term:Term { uri: "#{uri}" }) RETURN term})
       return nil unless res["data"] && res["data"].first
       @terms[uri] = res["data"].first.first
@@ -1143,20 +1040,15 @@ class TraitBank
     end
     
     def find_trait(eol_pk, resource_id)
-      # res = query("MATCH (trait:Trait) WHERE trait.resource_pk = #{resource_pk} AND trait.supplier = #{resource_id} RETURN trait")
       params = { :eol_pk => eol_pk, :resource_id => resource_id }
       res = query("MATCH (trait:Trait { eol_pk: {eol_pk} })-[:supplier]->(res:Resource { resource_id: {resource_id} }) RETURN trait", params)
       res["data"] ? res["data"].first : false
     end
-    
-    
+
     def find_traits(occurrence_id, resource_id)
       params = { :occurrence_id => occurrence_id, :resource_id => resource_id }
       res = query("MATCH (trait:Trait { occurrence_id: {occurrence_id} })-[:supplier]->(res:Resource { resource_id: {resource_id} }) RETURN trait", params)
-      # res = query("MATCH (trait:Trait) WHERE trait.eol_pk = \"#{occurrence_id}\" AND trait.supplier = #{resource_id} RETURN trait")
       res["data"] ? res["data"] : false
     end
-    
-    
   end
 end

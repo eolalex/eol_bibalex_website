@@ -1,5 +1,5 @@
 class CollectedPage < ActiveRecord::Base
-  
+
   searchkick word_start: [:scientific_name_string]
 
   belongs_to :page, inverse_of: :collected_pages
@@ -14,38 +14,22 @@ class CollectedPage < ActiveRecord::Base
   has_and_belongs_to_many :articles
   has_and_belongs_to_many :links
 
-
   acts_as_list scope: :collection
   counter_culture :collection, column_name: :collected_pages_count, touch: true
 
-  # accepts_nested_attributes_for :collected_pages_media, allow_destroy: true
-
-  # counter_culture :collection
-
-  # NOTE: not indexed if the page is missing!
-  # searchable if: :page do
-  #   integer :collection_id, stored: true
-  #   text(:name) { page.name }
-  #   text(:scientific_name) { page.scientific_name.gsub(/<\/?i>/, "") }
-  #   text(:preferred_scientific_names) { page.preferred_scientific_names.
-  #     map { |n| n.canonical_form.gsub(/<\/?i>/, "") } }
-  #   text(:synonyms) {page.scientific_names.synonym.map { |n| n.canonical_form.gsub(/<\/?i>/, "") } }
-  #   text(:vernaculars) { page.vernaculars.preferred.map { |v| v.string } }
-  # end
-
   def search_data
     {
-     type: "collected_page",
-     page_id: page.id,
-     collection_id: collection_id,
-     scientific_name_string: scientific_name_string.downcase
+       type: "collected_page",
+       page_id: page.id,
+       collection_id: collection_id,
+       scientific_name_string: scientific_name_string.downcase
     }
   end
- 
+
  def collection_id
    collection.id
  end
- 
+
   def self.find_pages(q, collection_id)
     CollectedPage.search do
       q = "*#{q}.downcase" unless q[0] == "*"

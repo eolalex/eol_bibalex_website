@@ -1,5 +1,4 @@
 class ContentPartnerApi
-   # @schedular_uri = 'http://172.16.0.161:80/scheduler'
   @schedular_uri = ENV['schedular_ip']
   @storage_uri = ENV['storage_ip']
   @logo_ip = ENV['logo_ip'] 
@@ -38,7 +37,7 @@ class ContentPartnerApi
     rescue => e
       nil
     end
-    
+
     if logo_response
       begin
         logo.open
@@ -53,21 +52,20 @@ class ContentPartnerApi
           nil
       end
     end
-    
   end
-  
+
   #required to remove logo parameter from scheduler to work in case of  empty logo
   def self.update_content_partner?(content_partner_id, params)
-
-    # if !params[:logo].nil?
-      # logo.open 
-    # end
     if params[:logo].nil?
       returned_content_partner = get_content_partner_without_resources(content_partner_id)
-      @content_partner_data = ContentPartner.new(name: returned_content_partner["name"], abbreviation: returned_content_partner["abbreviation"],
-                                      url: returned_content_partner["url"], description: returned_content_partner["description"],
-                                      logo: returned_content_partner["logoPath"])
-     logo_path = @content_partner_data.logo
+      @content_partner_data = ContentPartner.new(
+        name: returned_content_partner["name"],
+        abbreviation: returned_content_partner["abbreviation"],
+        url: returned_content_partner["url"],
+        description: returned_content_partner["description"],
+        logo: returned_content_partner["logoPath"]
+      )
+      logo_path = @content_partner_data.logo
     else
       input_logo = params[:logo].tempfile
       file_name = params[:logo].original_filename
@@ -82,26 +80,33 @@ class ContentPartnerApi
         logo_request =RestClient::Request.new(
           method: :post,
           url: "#{@storage_uri}/uploadCpLogo/#{content_partner_id}",
-          payload: { logo: logo }
-          )
-      logo_response = logo_request.execute
-      content_partner_id
+          payload: { logo: logo}
+        )
+        logo_response = logo_request.execute
+        content_partner_id
       rescue => e
         nil
       end
     end
-  
+
     begin
       response =RestClient.post(
         "#{@schedular_uri}/contentPartners/#{content_partner_id}",
-        { name: params[:name], description: params[:description], url: params[:url], abbreviation: params[:abbreviation] ,logoPath: logo_path, :multipart => true}
+        {
+          name: params[:name],
+          description: params[:description],
+          url: params[:url],
+          abbreviation: params[:abbreviation],
+          logoPath: logo_path,
+          multipart: true
+        }
       )
       content_partner_id
     rescue => e
       nil
     end
   end
-  
+
   def self.get_content_partner_without_resources(content_partner_id)
     begin
       request =RestClient::Request.new(
@@ -113,26 +118,25 @@ class ContentPartnerApi
       nil
     end
   end
-  
-    def self.get_content_partner_with_resources(content_partner_id)
+
+  def self.get_content_partner_with_resources(content_partner_id)
     begin
-      request =RestClient::Request.new(
+      request = RestClient::Request.new(
         method: :get,
         url: "#{@schedular_uri}/contentPartners/contentPartnerWithResources/#{content_partner_id}"
-      )
+        )
       response = JSON.parse(request.execute)
     rescue => e
       nil
     end
   end
-  
+
   def self.get_content_partner_resource_id(id)
     begin
-      request =RestClient::Request.new(
+      request = RestClient::Request.new(
         method: :post,
         url: "#{@schedular_uri}/contentPartners/contentPartnerOfResource",
-        payload: {resId: id}
-
+        payload: { resId: id}
       )
       response = JSON.parse(request.execute)
     rescue => e
@@ -140,5 +144,3 @@ class ContentPartnerApi
     end
   end
 end
-
-
