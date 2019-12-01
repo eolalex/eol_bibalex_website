@@ -6,14 +6,14 @@ require "enumerator"
 require "fileutils"
 require "yaml"
 require 'geo/coord'
-# require 'environment.rb'
-$sql_commands= File.new('commands.sql', 'w')
+
+$sql_commands = File.new('commands.sql', 'w')
 $occurrence_maps_count = 0
 $occurrence_maps_array = Array.new()
 $node_ancestors_array = Array.new()
-$terms=""
-$meta=""
-$traits=""
+$terms = ""
+$meta = ""
+$traits = ""
 $terms_array = Array.new()
 $traits_array = Array.new()
 $meta_array = Array.new()
@@ -21,11 +21,13 @@ $meta_array = Array.new()
 def load_occurrence(occurrences, page_id, resource_id)
   unless occurrences.nil?
      occurrences.each do |occurrence|
-       
        if occurrence["deltaStatus"] == "I"
-         OccurrencePageMapping.create(resource_id: resource_id, occurrence_id: occurrence["occurrenceId"], page_id: page_id)
-         
-       else               
+         OccurrencePageMapping.create(
+           resource_id: resource_id,
+           occurrence_id: occurrence["occurrenceId"],
+           page_id: page_id
+         )
+       else
          res = OccurrencePageMapping.where(resource_id: resource_id, occurrence_id: occurrence["occurrenceId"])
          unless res.nil?
            old_occurrence_mapping = res.first
@@ -36,7 +38,7 @@ def load_occurrence(occurrences, page_id, resource_id)
                old_occurrence_mapping.destroy
              end
            end
-         end               
+         end
        end
      end
    end
@@ -124,15 +126,11 @@ end
 
 def create_measurement(occurrence_of_measurement , measurement)
   options = {}
-  # $terms.write("predicate_name_#{measurement["measurementId"]}\t#{measurement["measurementType"]}\t1,2,3\tpredicate definition\n")
   get_term_data(measurement["measurementType"], "predicate_term_name", measurement["measurementId"])
-  # $terms_array << "predicate_name_#{measurement["measurementId"]}\t#{measurement["measurementType"]}\t1,2,3\tpredicate definition"
   options[:predicate_uri] = measurement["measurementType"]
 
   if uri?(measurement["measurementValue"])
-    # $terms.write("temp object term_#{measurement["measurementId"]}\t#{measurement["measurementValue"]}\t1,2,3\tobject_term definition\n")
     get_term_data(measurement["measurementValue"], "object_term_name", measurement["measurementId"])
-    # $terms_array << "temp object term_#{measurement["measurementId"]}\t#{measurement["measurementValue"]}\t1,2,3\tobject_term definition"
     options[:object_term_uri]= measurement["measurementValue"]
   else
   #TODO update this part after discussing it with stakeholders
@@ -140,9 +138,7 @@ def create_measurement(occurrence_of_measurement , measurement)
   end
 
   if measurement["unit"]
-    # $terms.write("unit_#{measurement["measurementId"]}\t#{measurement["unit"]}\t1,2,3\ttest units\n")
     get_term_data(measurement["unit"], "unit_term_name", measurement["measurementId"])
-    # $terms_array << "unit_#{measurement["measurementId"]}\t#{measurement["unit"]}\t1,2,3\ttest units"
     options[:units_term_uri]=measurement["unit"]
   end
 
@@ -159,6 +155,7 @@ def create_measurement(occurrence_of_measurement , measurement)
   unless measurement["measurementMethod"].nil?
     options[:measurementMethod] = measurement["measurementMethod"].gsub('"','\"')
   end
+
   options
 end
 
@@ -178,147 +175,140 @@ def get_term_data(uri, term_type, id)
 end
 
 def add_neo4j(node_params, occurrences, measurements, associations, target_occurrences, terms)
-  
   unless (occurrences.nil? || occurrences.empty?)
     # load occurrences
-    occurrences_hash = {}    
+    occurrences_hash = {}
     occurrences.each do |occurrence|
       occurrences_hash[occurrence["occurrenceId"]] = occurrence
-  end
-    
-  unless (associations.nil? || associations.empty?)
-    object_page_id=""
-    associations.each do |association|
-      # res = OccurrencePageMapping.where(resource_id: node_params[:resource_id], occurrence_id: association["targetOccurrenceId"])
-      # unless res.empty?
-        # occurrence_mapping = res.first
-        # object_page_id = occurrence_mapping.page_id
-      # end
-object_page_id = target_occurrences[association["targetOccurrenceId"]]
-      # $terms.write("predicate_name_#{association["associationId"]}\t#{association["associationType"]}\t1,2,3\tpredicate definition\n")
-      get_term_data(association["associationType"], "predicate_term_name", association["associationId"])
-      # $terms_array << "predicate_name_#{association["associationId"]}\t#{association["associationType"]}\t1,2,3\tpredicate definition"
-      occurrence_of_association = occurrences_hash[association["occurrenceId"]]
-      if occurrence_of_association && occurrence_of_association["sex"]
-       # $terms.write("sex_#{association["associationId"]}\t#{occurrence_of_association["sex"]}\t1,2,3\tsex term object_term definition\n")
-       get_term_data(occurrence_of_association["sex"], "sex_term_name", association["associationId"]) 
-       # $terms_array << "sex_#{association["associationId"]}\t#{occurrence_of_association["sex"]}\t1,2,3\tsex term object_term definition"
-       sex_uri = occurrence_of_association["sex"]
-      end
-      
-      if occurrence_of_association && occurrence_of_association["lifeStage"]
-        # $terms.write("lifeStage_#{association["associationId"]}\t#{occurrence_of_association["lifeStage"]}\t1,2,3\tlifeStage term object_term definition\n")
-        get_term_data(occurrence_of_association["lifeStage"], "lifeStage_term_name", association["associationId"])
-        # $terms_array << "lifeStage_#{association["associationId"]}\t#{occurrence_of_association["lifeStage"]}\t1,2,3\tlifeStage term object_term definition"
-        life_uri = occurrence_of_association["lifeStage"]
-      end
-       
-      unless association["citation"].nil?
-        citation = association["citation"].gsub('"','\"')
-      end
-      unless association["source"].nil?
-        source = association["source"].gsub('"','\"')
-      end
-      unless association["measurementMethod"].nil?
-        measurementMethod = association["measurementMethod"].gsub('"','\"')
-      end
-        # $traits.write("#{association["associationId"]}\t#{association["occurrenceId"]}\tA_#{association["occurrenceId"]}_#{association["associationId"]}\t#{node_params[:scientific_name]}\t#{citation}\t#{source}\t#{measurementMethod}\t\t\t\t\t#{node_params[:page_id].to_i}\t#{node_params[:resource_id].to_i}\t#{association["associationType"]}\t\t\t#{life_uri}\t#{sex_uri}\t\t#{object_page_id}\n")
+    end
+
+    unless (associations.nil? || associations.empty?)
+      object_page_id = ""
+      associations.each do |association|
+        object_page_id = target_occurrences[association["targetOccurrenceId"]]
+        get_term_data(association["associationType"], "predicate_term_name", association["associationId"])
+        occurrence_of_association = occurrences_hash[association["occurrenceId"]]
+        
+        if occurrence_of_association && occurrence_of_association["sex"]
+         get_term_data(occurrence_of_association["sex"], "sex_term_name", association["associationId"]) 
+         sex_uri = occurrence_of_association["sex"]
+        end
+
+        if occurrence_of_association && occurrence_of_association["lifeStage"]
+          get_term_data(occurrence_of_association["lifeStage"], "lifeStage_term_name", association["associationId"])
+          life_uri = occurrence_of_association["lifeStage"]
+        end
+
+        unless association["citation"].nil?
+          citation = association["citation"].gsub('"', '\"')
+        end
+
+        unless association["source"].nil?
+          source = association["source"].gsub('"', '\"')
+        end
+
+        unless association["measurementMethod"].nil?
+          measurementMethod = association["measurementMethod"].gsub('"', '\"')
+        end
+        
         $traits_array << "#{association["associationId"]}\t#{association["occurrenceId"]}\tA_#{association["occurrenceId"]}_#{association["associationId"]}\t#{node_params[:scientific_name]}\t#{citation}\t#{source}\t#{measurementMethod}\t\t\t\t\t#{node_params[:page_id].to_i}\t#{node_params[:resource_id].to_i}\t#{association["associationType"]}\t\t\t#{life_uri}\t#{sex_uri}\t\t#{object_page_id}"
       end
     end
-    
+
     unless (measurements.nil? || measurements.empty?)
       measurements_array = []
       measurements.each do |measurement|
         occurrence_of_measurement = occurrences_hash[measurement["occurrenceId"]]
-        
-        if (!measurement["measurementOfTaxon"].nil?) && (VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase))  
-          object_page_id=""  
+
+        if (!measurement["measurementOfTaxon"].nil?) && (VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase))
+          object_page_id = ""
           options = create_measurement(occurrence_of_measurement , measurement)
-          
+
           unless options[:measurementMethod].nil?
             measurementMethod = options[:measurementMethod]
           end
+
           unless options[:object_term_uri].nil?
             object_term_uri = options[:object_term_uri]
           end
+
           unless options[:units_term_uri].nil?
             unit_term_uri = options[:units_term_uri]
           end
+
           unless options[:citation].nil?
             citation = options[:citation]
-            
           end
+
           unless options[:source].nil?
             source = options[:source]
           end
+
           unless options[:literal].nil?
             literal = options[:literal]
           end
+
           unless options[:measurement].nil?
             o_measurement = options[:measurement]
           end
+
           unless options[:normal_measurement].nil?
             normal_measurement = options[:normal_measurement]
           end
+
           unless options[:normal_units].nil?
             normal_units = options[:normal_units]
           end
-          
+
           if occurrence_of_measurement && occurrence_of_measurement["lifeStage"]
-            # $terms.write("lifeStage_#{measurement["measurementId"]}\t#{occurrence_of_measurement["lifeStage"]}\t1,1,2,3\tlifeStage term object_term definition\n")
             get_term_data(occurrence_of_measurement["lifeStage"], "lifeStage_term_name", measurement["measurementId"])
-            # $terms_array << "lifeStage_#{measurement["measurementId"]}\t#{occurrence_of_measurement["lifeStage"]}\t1,1,2,3\tlifeStage term object_term definition"
             life_uri = occurrence_of_measurement["lifeStage"]
           end
+
           if occurrence_of_measurement && occurrence_of_measurement["sex"]
-            # $terms.write("sex_#{measurement["measurementId"]}\t#{occurrence_of_measurement["sex"]}\t1,2,3\tsex term object_term definition\n")
             get_term_data(occurrence_of_measurement["sex"], "sex_term_name", measurement["measurementId"])
-            # $terms_array << "sex_#{measurement["measurementId"]}\t#{occurrence_of_measurement["sex"]}\t1,2,3\tsex term object_term definition"
             sex_uri = occurrence_of_measurement["sex"]
           end
+
           unless measurement["statisticalMethod"].nil?
-            #$terms.write("statisticalMethod_#{measurement["measurementId"]}\t#{measurement["statisticalMethod"]}\t1,2,3\tstatisticalMethod term object_term definition\n")
             get_term_data(measurement["statisticalMethod"], "statisticalMethod_term_name", measurement["measurementId"])
-            # $terms_array << "statisticalMethod_#{measurement["measurementId"]}\t#{measurement["statisticalMethod"]}\t1,2,3\tstatisticalMethod term object_term definition"
             statisticalMethod_uri = measurement["statisticalMethod"]
           end
-          # $traits.write("#{measurement["measurementId"]}\t#{measurement["occurrenceId"]}\tM_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}\t#{node_params[:scientific_name]}\t#{citation}\t#{source}\t#{measurementMethod}\t#{literal}\t#{normal_measurement}\t#{normal_units}\t#{o_measurement}\t#{node_params[:page_id].to_i}\t#{node_params[:resource_id].to_i}\t#{measurement["measurementType"]}\t#{object_term_uri}\t#{unit_term_uri}\t#{life_uri}\t#{sex_uri}\t#{statisticalMethod_uri}\t#{object_page_id}\n")
+
           $traits_array << "#{measurement["measurementId"]}\t#{measurement["occurrenceId"]}\tM_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}\t#{node_params[:scientific_name]}\t#{citation}\t#{source}\t#{measurementMethod}\t#{literal}\t#{normal_measurement}\t#{normal_units}\t#{o_measurement}\t#{node_params[:page_id].to_i}\t#{node_params[:resource_id].to_i}\t#{measurement["measurementType"]}\t#{object_term_uri}\t#{unit_term_uri}\t#{life_uri}\t#{sex_uri}\t#{statisticalMethod_uri}\t#{object_page_id}"
-        
+
         else
           options = create_measurement(occurrence_of_measurement , measurement)
 
-          if (measurement["measurementOfTaxon"].nil? ||NON_VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase)) && !(measurement["parentMeasurementId"].nil?)
+          if (measurement["measurementOfTaxon"].nil? || NON_VALID_ARRAY.include?((measurement["measurementOfTaxon"]).downcase)) && !(measurement["parentMeasurementId"].nil?)
             parent_eol_pk = "M_#{measurement["occurrenceId"]}_#{measurement["parentMeasurementId"]}"
           end
-          # $meta.write("M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}\t")          
+
           if options[:measurement]
-            # $meta.write("#{options[:measurement]}")
             options_measurement=options[:measurement] 
           end
-          # $meta.write("\t")
+
           if options[:literal] 
-            # $meta.write("#{options[:literal]}")
             options_literal = options[:literal] 
           end
-          # $meta.write("\t")
-          # $meta.write("#{parent_eol_pk}\t#{node_params[:resource_id]}\t#{options[:predicate_uri]}\t")
+
           if options[:object_term_uri]
-            # $meta.write("#{options[:object_term_uri]}")
             options_object_term_uri=options[:object_term_uri]
           end
-          # $meta.write("\t") 
+
           if options[:units_term_uri]
-            # $meta.write("#{options[:units_term_uri]}")
             options_units_term_uri=options[:units_term_uri]
           end
+
           $meta_array << "M_#{measurement["occurrenceId"]}_#{measurement["measurementId"]}\t#{options_measurement}\t#{options_literal}\t#{parent_eol_pk}\t#{node_params[:resource_id]}\t#{options[:predicate_uri]}\t#{options_object_term_uri}\t#{options_units_term_uri}\t#{measurement["occurrenceId"]}"
-        
         end
+
       end
+
     end
+
   end
+
 end
 
 def convert_measurement(options, units)
@@ -380,13 +370,13 @@ def main_method_3
     while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
       # # start_harvested_time is included 
       # # end_harvested_time is excluded therefore we keep it to next loop
-      json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+360000).to_s)
+      json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i + 360000).to_s)
       tables = JSON.parse(json_content)
       res_id = !tables["nodes"].empty? ? nodes = tables["nodes"][0]["resource_id"] : nil
       puts "batch #{counter} from #{res_id} #{Time.new}"
       add_data_to_publishing_layer(tables)
       start_harvested_time = (start_harvested_time.to_i + 360000).to_s
-      counter = counter + 1 
+      counter += 1 
     end
     #call async image propagation for this resource
     Thread.new(write_page_contents(res_id, nil))
@@ -399,9 +389,9 @@ def main_method_3
 end
 
  def add_data_to_publishing_layer(tables)
-   $terms=File.new("#{NEO4J_IMPORT_PATH}terms.csv", 'w')
-   $meta=File.new("#{NEO4J_IMPORT_PATH}meta.csv", 'w')
-   $traits=File.new("#{NEO4J_IMPORT_PATH}traits.csv", 'w')
+   $terms = File.new("#{NEO4J_IMPORT_PATH}terms.csv", 'w')
+   $meta = File.new("#{NEO4J_IMPORT_PATH}meta.csv", 'w')
+   $traits = File.new("#{NEO4J_IMPORT_PATH}traits.csv", 'w')
    licenses = tables["licenses"]
    ranks = tables["ranks"]
    nodes = tables["nodes"]
@@ -421,27 +411,27 @@ end
    taxa = tables["taxa"]
     
     unless licenses.empty?
-      License.bulk_insert(licenses, :validate => true, :use_provided_primary_key => true)
+      License.bulk_insert(licenses, validate: true, use_provided_primary_key: true)
     end
 
     unless ranks.empty?
-      Rank.bulk_insert(ranks, :validate => true, :use_provided_primary_key => true)
+      Rank.bulk_insert(ranks, validate: true, use_provided_primary_key: true)
     end
 
     unless nodes.empty?
-      Node.bulk_insert(nodes,:validate => true ,:use_provided_primary_key => true)
+      Node.bulk_insert(nodes, validate: true, use_provided_primary_key: true)
     end
 
     unless pages.empty?
-      Page.bulk_insert(pages,:validate => true , :use_provided_primary_key => true)
+      Page.bulk_insert(pages, validate: true, use_provided_primary_key: true)
     end
 
     unless pages_nodes.empty?
-      PagesNode.bulk_insert(pages_nodes,:validate => true , :use_provided_primary_key => true)
-
+      PagesNode.bulk_insert(pages_nodes, validate: true, use_provided_primary_key: true)
     end
+
     unless scientific_names.empty?
-      ScientificName.bulk_insert(scientific_names,:validate => true , :use_provided_primary_key => true)
+      ScientificName.bulk_insert(scientific_names, validate: true, use_provided_primary_key: true)
     end
 
     unless languages.empty?
@@ -451,41 +441,41 @@ end
     end
 
     unless vernaculars.empty?
-      Vernacular.bulk_insert(vernaculars,:validate => true , :use_provided_primary_key => true)
+      Vernacular.bulk_insert(vernaculars, validate: true, use_provided_primary_key: true)
     end
 
     unless locations.empty?
-      Location.bulk_insert(locations,:validate => true , :use_provided_primary_key => true)
+      Location.bulk_insert(locations, validate: true, use_provided_primary_key: true)
     end
 
     unless media.empty?
-      Medium.bulk_insert(media,:validate => true , :use_provided_primary_key => true, ignore: true)
+      Medium.bulk_insert(media, validate: true, use_provided_primary_key: true, ignore: true)
     end
 
     unless articles.empty?
-      Article.bulk_insert(articles,:validate => true , :use_provided_primary_key => true, ignore: true)
+      Article.bulk_insert(articles, validate: true, use_provided_primary_key: true, ignore: true)
     end
 
     unless page_contents.empty?
-      PageContent.bulk_insert(page_contents,:validate => true)
+      PageContent.bulk_insert(page_contents, validate: true)
     end
 
     unless attributions.empty?
-      Attribution.bulk_insert(attributions,:validate => true , :use_provided_primary_key => true)
+      Attribution.bulk_insert(attributions, validate: true, use_provided_primary_key: true)
     end
 
     unless referents.empty?
-      Referent.bulk_insert(referents,:validate => true , :use_provided_primary_key => true)
+      Referent.bulk_insert(referents, validate: true, use_provided_primary_key: true)
     end
 
     unless references.empty?
-      Reference.bulk_insert(references,:validate => true , :use_provided_primary_key => true)
+      Reference.bulk_insert(references, validate: true, use_provided_primary_key: true)
     end
    
     nodes_ids=[]
-    nodes_ids = nodes.map { |p| p["generated_node_id"] }
+    nodes_ids = nodes.map {|p| p["generated_node_id"]}
     build_hierarchy(nodes_ids)
-    
+
     unless traits.empty?
       File.open("#{NEO4J_IMPORT_PATH}terms.csv", 'w'){}
       File.open("#{NEO4J_IMPORT_PATH}traits.csv", 'w'){}
@@ -521,7 +511,7 @@ end
         node_params = { page_id: page_id, resource_id: resource_id, scientific_name: scientific_name}
         add_neo4j(node_params, occurrences, measurements, associations,target_occurrences,terms)
       end
-      
+
       IO.write($terms, $terms_array.join("\n"))
       IO.write($traits, $traits_array.join("\n"))
       IO.write($meta, $meta_array.join("\n"))
@@ -529,25 +519,19 @@ end
       system('sh /home/a-amorad/traits_scripts/terms.sh')
       system('sh /home/a-amorad/traits_scripts/traits.sh')
       system('sh /home/a-amorad/traits_scripts/meta.sh')
-
-      # system('sh /home/ba/traits_scripts/terms.sh')
-      # system('sh /home/ba/traits_scripts/traits.sh')
-      # system('sh /home/ba/traits_scripts/meta.sh')
-
-
     end
-    
-    # create maps json file for occurrence_maps
 
-    unless taxa.empty?
-      taxa.each do |taxon|
-        write_to_json(taxon)
-      end
-      OccurrenceMap.bulk_insert($occurrence_maps_array, :validate => true)
-      $occurrence_maps_count = 0
-    end 
- end
- 
+  # create maps json file for occurrence_maps
+  unless taxa.empty?
+    taxa.each do |taxon|
+      write_to_json(taxon)
+    end
+    OccurrenceMap.bulk_insert($occurrence_maps_array, validate: true)
+    $occurrence_maps_count = 0
+  end
+
+end
+
 def write_page_contents(resource_id, nodes)
   parents = Array.new
   if nodes.nil? # get leaf nodes
@@ -637,8 +621,8 @@ def write_to_json(taxon)
             else
               json_path.write(","+tempHash.to_json)
             end
-            if (!tempHash["h"].nil?)&&(!tempHash["i"].nil?) #validate decimal longitude and latitude existence
-            actual_count +=1
+            if (!tempHash["h"].nil?) && (!tempHash["i"].nil?) #validate decimal longitude and latitude existence
+            actual_count += 1
             end
           end
         end
@@ -679,7 +663,7 @@ def write_to_json(taxon)
           "l" => (rec["l"].nil? ? nil : "#{rec["l"]}"),
           "m" => (rec["m"].nil? ? nil : "#{rec["m"]}")
         }
-        if index == records.size-1
+        if index == (records.size - 1)
           json_path_temp.write("#{records_hash.to_json}")
         else
           json_path_temp.write("#{records_hash.to_json},")
@@ -689,7 +673,7 @@ def write_to_json(taxon)
         occurrences.each do |occ|
         #check if the coordinates are in Degree, Minute, Hemisphere and convert into decimal format
           if(!occ["decimalLatitude"].nil? && !occ["decimalLongitude"].nil?)
-            geoLocation=nil
+            geoLocation = nil
             if ((!numeric?(occ["decimalLongitude"])) && (!numeric?(occ["decimalLatitude"])))
               unless (occ["decimalLatitude"].include?('-') || occ["decimalLongitude"].include?('-'))
                 latitude = validate_coordinates(occ["decimalLatitude"])
@@ -774,11 +758,11 @@ def main_method_build_hierarchy
   while (start_harvested_time.to_i <= end_harvested_time.to_i) do 
     # start_harvested_time is included 
     # end_harvested_time is excluded therefore we keep it to next loop
-   json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i+420000).to_s)
+   json_content = get_latest_updates_from_mysql(start_harvested_time, (start_harvested_time.to_i + 420000).to_s)
    tables = JSON.parse(json_content)
    nodes = tables["nodes"]
    unless nodes.nil?
-      Node.bulk_insert(nodes,:validate => true ,:use_provided_primary_key => true)
+      Node.bulk_insert(nodes, validate: true, use_provided_primary_key: true)
     end
    nodes_ids = nodes.map { |p| p["generated_node_id"] }
    build_hierarchy(nodes_ids)
@@ -795,14 +779,14 @@ end
 def set_ancestors_and_parents(nodes_ids)
   neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_ANCESTORS_OF_NODES_ACTION}"
   nodes_ids.each_slice(10000) do |sub_arr|
-    begin    
-      request =RestClient::Request.new(
-          :method => :post,
-          :timeout => -1,
-          :url => "#{neo4j_uri}",
+    begin
+      request = RestClient::Request.new(
+          method: :post,
+          timeout: -1,
+          url: "#{neo4j_uri}",
           headers: { content_type: 'application/json', accept: 'application/json'},
           # :payload =>  nodes_ids.to_json
-          :payload => sub_arr.to_json
+          payload: sub_arr.to_json
         )
         
         response = request.execute
@@ -835,64 +819,72 @@ def set_ancestors_and_parents(nodes_ids)
           end
           if key.to_i == 1
             direct_parent_id = value.to_i
-            node_direct_parent_array.insert(node_direct_parent_count,{:generated_node_id => current_node.generated_node_id, :resource_id => current_node.resource_id,
-                                                                  :direct_parent_id => direct_parent_id})
-            node_direct_parent_count = node_direct_parent_count + 1
+            node_direct_parent_array.insert(node_direct_parent_count, {
+              generated_node_id: current_node.generated_node_id,
+              resource_id: current_node.resource_id,
+              direct_parent_id: direct_parent_id
+              }
+            )
+            node_direct_parent_count += 1
           end 
         end
         
-        node_ancestors_flattened_array.insert(node_ancestors_flattened_count,{:generated_node_id => current_node.generated_node_id, :resource_id => current_node.resource_id,
-                                                                              :node_ancestors_ids => ancestors_ids})
-        node_ancestors_flattened_count = node_ancestors_flattened_count + 1
+        node_ancestors_flattened_array.insert(node_ancestors_flattened_count, {
+          generated_node_id: current_node.generated_node_id,
+          resource_id: current_node.resource_id,
+          node_ancestors_ids: ancestors_ids
+          }
+        )
+        node_ancestors_flattened_count += 1
       end
-      NodeAncestorsFlattened.bulk_insert(node_ancestors_flattened_array, :validate => true)
-      NodeDirectParent.bulk_insert(node_direct_parent_array, :validate => true)
+      NodeAncestorsFlattened.bulk_insert(node_ancestors_flattened_array, validate: true)
+      NodeDirectParent.bulk_insert(node_direct_parent_array, validate: true)
     end
   end
 end
 
-
 def set_ancestors(nodes_ids)
   # get nodes_parents from neo4j  
   neo4j_uri = "#{NEO4J_ADDRESS}/#{NEO4J_GET_ANCESTORS_OF_NODES_ACTION}"
-  
+
   nodes_ids.each_slice(10000) do |sub_arr|
-    begin    
-      request =RestClient::Request.new(
-          :method => :post,
-          :timeout => -1,
-          :url => "#{neo4j_uri}",
-          headers: { content_type: 'application/json', accept: 'application/json'},
-          #:payload =>  nodes_ids.to_json
-          :payload => sub_arr.to_json
-        )
-        
-        response = request.execute
-        nodes_ids_ancestors = JSON.parse(response.body)
+    begin
+      request = RestClient::Request.new(
+        method: :post,
+        timeout: -1,
+        url: "#{neo4j_uri}",
+        headers: { content_type: 'application/json', accept: 'application/json'},
+        payload: sub_arr.to_json
+      )
+      response = request.execute
+      nodes_ids_ancestors = JSON.parse(response.body)
     rescue => e
       false
     end
     unless nodes_ids_ancestors.nil?
-      # $occurrence_maps_array = Array.new()
-      node_ancestors_count=0
+      node_ancestors_count = 0
       nodes_ids_ancestors.each do |group|
         current_node = nil
         ancestor_node = nil
         group.each do |key,value|
           res = Node.where(generated_node_id: value.to_i)
-          if key.to_i == 0  
-            if  res.count > 0 
-              current_node = res.first 
+          if key.to_i == 0
+            if  res.count > 0
+              current_node = res.first
             end
           else
-
-              $node_ancestors_array.insert(node_ancestors_count,{:node_generated_node_id => current_node.generated_node_id, :ancestor_generated_node_id => value.to_i, :depth => key.to_i, :resource_id => current_node.resource_id})
-              node_ancestors_count = node_ancestors_count + 1
-
-          end 
-        end      
+            $node_ancestors_array.insert(node_ancestors_count, {
+              node_generated_node_id: current_node.generated_node_id,
+              ancestor_generated_node_id: value.to_i,
+              depth: key.to_i,
+              resource_id: current_node.resource_id
+              }
+            )
+            node_ancestors_count += 1
+          end
+        end
       end
-      NodeAncestor.bulk_insert($node_ancestors_array, :validate => true)
+      NodeAncestor.bulk_insert($node_ancestors_array, validate: true)
     end
   end
 end
@@ -905,6 +897,7 @@ namespace :harvester do
     return if file.flock(File::LOCK_EX | File::LOCK_NB) == false
     yield
   end
+
   desc "TODO"  
   task get_latest_updates: :environment do
     puts "begin #{Time.new} "
@@ -913,6 +906,5 @@ namespace :harvester do
     # main_method_build_hierarchy
     # write_page_contents(582, nil)
     end
-
   end
 end
