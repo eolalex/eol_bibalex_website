@@ -4,37 +4,37 @@
   %table.customTable
     %thead
       %tr
-        %th{:scope => "col"} Name
-        %th{:scope => "col"} Values
-        %th{:scope => "col"} Default
-        %th{:scope => "col"} Notes
+        %th{scope: "col"} Name
+        %th{scope: "col"} Values
+        %th{scope: "col"} Default
+        %th{scope: "col"} Notes
     %tbody
-      - @api_method.parameters.each do |p|
+      - @api_method.parameters.each do |parameter|
         %tr
-          %td{"data-label" => "Name"} 
-            = p.name
-          %td{"data-label" => "Values"} 
-            -if p.array?
-              = p.values.join(",")
-            -elsif p.range?
-              = "#{p.values.min} - #{p.values.max}"
-            -elsif p.values
-              = p.values
-            -elsif p.integer?
-              %em= "any integer" 
-            -elsif p.string?
-              %em= "any string"
-            -elsif p.boolean?
+          %td{"data-label": "Name"} 
+            = parameter.name
+          %td{"data-label": "Values"} 
+            - if parameter.array?
+              = parameter.values.join(",")
+            - elsif parameter.range?
+              = "#{parameter.values.min} - #{parameter.values.max}"
+            - elsif parameter.values
+              = parameter.values
+            - elsif parameter.integer?
+              %em = "any integer"
+            - elsif parameter.string?
+              %em = "any string"
+            - elsif parameter.boolean?
               = "true, false"
-          %td{"data-label" => "Default"} 
-            -if p.default
-              = p.default.to_s
-            -elsif p.default == false
+          %td{"data-label": "Default"} 
+            - if parameter.default
+              = parameter.default.to_s
+            - elsif parameter.default == false
               = "false"
-            -else
-              %em= "---"
-          %td{"data-label" => "Notes"} 
+            - else
+              %em = "---"
+          %td{"data-label": "Notes"}
             = raw(p.notes)
--else
+- else
   %p
-    %em= "None"  
+    %em = "None"

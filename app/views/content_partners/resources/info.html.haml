@@ -17,27 +17,27 @@
         - unless @statistics.empty?
           %p
             %strong #{t(:nodes)}:
-            = @statistics["nodes"]      
+            = @statistics["nodes"]
           %p
-            %strong #{t(:scientific_names)}: 
+            %strong #{t(:scientific_names)}:
             = @statistics["scientificNames"]
           %p
-            %strong #{t(:vernaculars)}: 
+            %strong #{t(:vernaculars)}:
             = @statistics["vernaculars"]
           %p
-            %strong #{t(:media)}: 
+            %strong #{t(:media)}:
             = @statistics["media"]
           %p
-            %strong #{t(:articles)}: 
+            %strong #{t(:articles)}:
             = @statistics["articles"]
           %p
-            %strong #{t(:occurrences)}: 
+            %strong #{t(:occurrences)}:
             = @statistics["occurrences"]
           %p
-            %strong #{t(:measurements_or_facts)}: 
+            %strong #{t(:measurements_or_facts)}:
             = @statistics["measurementsOrFacts"]
           %p
-            %strong #{t(:associations)}: 
+            %strong #{t(:associations)}:
             = @statistics["associations"]
 
     .col-md-6
@@ -46,19 +46,19 @@
           %strong
             #{t(:last_harvest_details)}
         %p
-          %strong #{t(:start_time)}: 
+          %strong #{t(:start_time)}:
           = @last_harvest["startTime"]
         %p
-          %strong #{t(:end_time)}: 
+          %strong #{t(:end_time)}:
           = @last_harvest["endTime"]
         %p
-          %strong #{t(:harvested_in)}: 
-          = number_with_precision(@harvest_duration, precision: 2) 
+          %strong #{t(:harvested_in)}:
+          = number_with_precision(@harvest_duration, precision: 2)
           #{t(:hours)}
         %p
-          %strong  #{t(:harvest_status)}: 
+          %strong  #{t(:harvest_status)}:
           = @last_harvest["status"]
-          
+
   .subtitle
     %strong
       #{t(:harvest_history)}
@@ -66,11 +66,11 @@
       %table.customTable
         %thead
           %tr
-            %th{ scope:  "col"} #{t(:start_time)}
-            %th{ scope:  "col"} #{t(:end_time)}
-            %th{ scope:  "col"} #{t(:harvested_in)}
-            %th{ scope:  "col"} #{t(:harvest_status)}
-    
+            %th{ scope: "col"} #{t(:start_time)}
+            %th{ scope: "col"} #{t(:end_time)}
+            %th{ scope: "col"} #{t(:harvested_in)}
+            %th{ scope: "col"} #{t(:harvest_status)}
+
         %tbody
           - @harvest_logs.each do |row|
             %tr
@@ -79,9 +79,8 @@
               %td
                 = row["endTime"]
               %td
-                #{number_with_precision((DateTime.parse(row["endTime"]) - DateTime.parse(row["startTime"]))*24.to_f, precision: 2)} #{t(:hours)}
+                #{number_with_precision((DateTime.parse(row["endTime"]) - DateTime.parse(row["startTime"]))*24.to_f, precision: 2)}
+                #{t(:hours)}
               %td
                 = row["status"]
-    
       = will_paginate @harvest_logs, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
-

@@ -9,6 +9,7 @@ class SearchController < ApplicationController
 
   def search
     @page_title = params[:query] == "*" ? t(:see_more) : params[:query]+ "| " + t(:search_results)
+    # debugger
     regex = ".*\"" + params[:query].downcase + "\".*"
     page_result = Page.search params[:query] do |body|
       body[:query] = {
@@ -26,7 +27,7 @@ class SearchController < ApplicationController
       @results = @pages
     end
     unless @results.empty?
-      @results = @results.paginate( page: params[:page], per_page: ENV['per_page'])
+      @results = @results.paginate( page: params[:page], per_page: ENV['PER_PAGE'])
     else
       flash[:notice] = t(:no_results) + " " + params[:query]
       redirect_back(fallback_location: root_path)

@@ -1,5 +1,6 @@
 #collected_pages_search.uk-margin-top.uk-margin-left-small
-  = form_tag collection_collected_pages_path(@collection), method: "get", data: { remote: true }, class: "collection_search uk-form-small uk-form-width-large" do |f|
+  = form_tag collection_collected_pages_path(@collection), method: "get", 
+  data: { remote: true }, class: "collection_search uk-form-small uk-form-width-large" do |f|
     .uk-grid-small{ uk: { grid: true } }
       .uk-width-3-4
         .uk-fieldset

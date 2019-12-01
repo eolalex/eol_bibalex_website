@@ -79,7 +79,7 @@ class CollectedPagesController < ApplicationController
 
     if @result.present?
       @result = @result.sort_by{|result| CollectedPage.find(result.id).scientific_name_string.downcase}
-      @result = @result.paginate(page: params[:page], per_page: ENV['per_page'])
+      @result = @result.paginate(page: params[:page], per_page: ENV['PER_PAGE'])
     else
       flash[:notice] = t(:no_results) + " " + params[:cp_query]
       redirect_to collection_path(id: @collection_id)

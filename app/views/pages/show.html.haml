@@ -54,38 +54,37 @@
                   %td
                     %b 
                       = trait[:predicate][:name]
-                    -if trait[:object_term]
-                      =trait[:object_term][:name]
-                    -elsif trait[:normal_measurement]
-                      =trait[:normal_measurement]
-                    -else 
-                      =t(:object)
-                    -if trait[:units]
+                    - if trait[:object_term]
+                      = trait[:object_term][:name]
+                    - elsif trait[:normal_measurement]
+                      = trait[:normal_measurement]
+                    - else 
+                      = t(:object)
+                    - if trait[:units]
                       = trait[:units][:name]
-                    -else
-                      =t(:units)
-                    -if predicate_unique.size >=3
-                      -break
-          -else
-            - @page.data.each do |trait|  
+                    - else
+                      = t(:units)
+                    - if predicate_unique.size >= 3
+                      - break
+          - else
+            - @page.data.each do |trait|
               %tr
                 %td
                   %b 
                     = trait[:predicate][:name]
-                  -if trait[:object_term]
-                    =trait[:object_term][:name]
-                  -elsif trait[:normal_measurement]
-                    =trait[:normal_measurement]
-                  -else 
-                    =t(:object)
-                  -if trait[:units]
+                  - if trait[:object_term]
+                    = trait[:object_term][:name]
+                  - elsif trait[:normal_measurement]
+                    = trait[:normal_measurement]
+                  - else 
+                    = t(:object)
+                  - if trait[:units]
                     = trait[:units][:name]
-                  -else
-                    =t(:units)
-      -else
+                  - else
+                    = t(:units)
+      - else
         %h3
           #{t(:selective_traits)}
-          -#%small.pull-right traits
         %table.table.table-striped
           %tr
             %td.text-center

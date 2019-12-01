@@ -10,31 +10,32 @@
     - if @vernaculars.empty?
       %h3.Special #{t(:no_vernaculars)}
     - else  
-      -@vernaculars.group_by { |n| n.language.code }.each do |language, names|
+      - @vernaculars.group_by { |vernacular| vernacular.language.code }.each do |language, names|
         %h3.Special 
-          =language
+          = language
         %table.customTable
           %thead
             %tr
-              %th{ scope: "col"} #{t(:preferred_name)}
-              %th{ scope: "col"} #{t(:name)}
-              %th{ scope: "col"} #{t(:sources)}
+              %th{scope: "col"} #{t(:preferred_name)}
+              %th{scope: "col"} #{t(:name)}
+              %th{scope: "col"} #{t(:sources)}
           %tbody
-            -vernaculars_resources = get_resources(names)
-            -vernaculars_resources.each do |name, resource|
+            - vernaculars_resources = get_resources(names)
+            - vernaculars_resources.each do |name, resource|
               %tr
                 - preferred = Vernacular.where(string: name).pluck(:is_prefered_by_resource).include? true
                 %td{"data-label": "#{t(:preferred_name)}"}
-                  -if preferred
+                  - if preferred
                     "#{t(:preferred)}"
-                  -else
+                  - else
                     "#{t(:not_preferred)}"
-                %td{"data-label": "#{t(:name)}"} 
+                %td{"data-label": "#{t(:name)}"}
                   = name
-                %td{"data-label": "#{t(:sources)}"} 
-                  -if !vernaculars_resources[name].nil?
+                %td{"data-label": "#{t(:sources)}"}
+                  - unless vernaculars_resources[name].nil?
                     - vernaculars_resources[name].each do |resource|
-                      - if !resource.nil?
-                        = resource.name 
-                      - else
+                      - if resource.nil?
                         = "#{t(:unknown_resource)}"
+                      - else
+                        = resource.name
+

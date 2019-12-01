@@ -6,7 +6,7 @@ module HomePageHelper
       begin
         request = RestClient::Request.new(
           method: :get,
-          url: "#{ENV['schedular_ip']}/resources/count"
+          url: "#{ENV['SCHEDULER_IP']}/resources/count"
         )
         @resources_count = JSON.parse(request.execute)
       rescue => e
@@ -17,7 +17,7 @@ module HomePageHelper
       begin
         request = RestClient::Request.new(
           method: :get,
-          url: "#{ENV['schedular_ip']}/contentPartners/count"
+          url: "#{ENV['SCHEDULER_IP']}/contentPartners/count"
         )
         @content_partners_count = JSON.parse(request.execute)
       rescue => e

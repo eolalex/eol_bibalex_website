@@ -18,6 +18,8 @@ class Page < ActiveRecord::Base
   belongs_to :node
 
   validates_uniqueness_of :id
+
+  searchkick word_start: [:scientific_name]
   
   def search_data
     {

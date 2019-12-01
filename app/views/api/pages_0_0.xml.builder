@@ -1,4 +1,4 @@
-xml.instruct! :xml, :version => "1.0", :encoding => "UTF-8", :standalone => "yes"
+xml.instruct! :xml, version: "1.0", encoding: "UTF-8", standalone: "yes"
 
 xml.response "xmlns" => "http://www.eol.org/transfer/content/1.0",
   "xmlns:dc".to_sym => "http://purl.org/dc/elements/1.1/",
@@ -11,10 +11,10 @@ xml.response "xmlns" => "http://www.eol.org/transfer/content/1.0",
   if @json_response.is_a?(Array)
     xml.taxonConcepts do
 	  @json_response.each do |page|
-	    xml << render(partial: 'page_0_0', layout: false, locals: { :page => page.values[0] } )
+	    xml << render(partial: 'page_0_0', layout: false, locals: {page: page.values[0]})
       end
     end
   else
-    xml << render(partial: 'page_0_0', layout: false, locals: { :page => @json_response } )
+    xml << render(partial: 'page_0_0', layout: false, locals: {page: @json_response})
   end
 end

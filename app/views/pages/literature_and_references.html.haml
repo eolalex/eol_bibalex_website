@@ -12,5 +12,5 @@
         %i.fa.fa-info-circle{"aria-hidden": "true"}
         #{t(:lit_alert)}
       %ul.mrgnTopBtm10
-        = render_async literature_and_references_tab_path( page_id: @page.id) do
+        = render_async literature_and_references_tab_path(page_id: @page.id) do
           = image_tag "loading.gif", alt: ""

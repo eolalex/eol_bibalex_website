@@ -4,7 +4,6 @@
 = stylesheet_link_tag "Control.FullScreen"
 = stylesheet_link_tag "Leaflet.NavBar"
 = stylesheet_link_tag "Control.Loading"
-
 = javascript_include_tag "leaflet"
 = javascript_include_tag "leaflet.markercluster"
 = javascript_include_tag "Control.FullScreen"
@@ -13,5 +12,6 @@
 = javascript_include_tag "Control.Loading"
 = javascript_include_tag "maps_leaflet"
 
-    
-#map.map{ class: (local_assigns.has_key?(:extra_class) ? extra_class : ""), data: { 'icon-path': image_path("maps/pin24.png"), 'icon-retina-path': image_path("maps/pin48.png"), 'map-data-path': map_json_path(@page) } }
+#map.map{ class: (local_assigns.has_key?(:extra_class) ? extra_class : ""), 
+data: { 'icon-path': image_path("maps/pin24.png"), 'icon-retina-path': image_path("maps/pin48.png"),
+'map-data-path': map_json_path(@page)}}

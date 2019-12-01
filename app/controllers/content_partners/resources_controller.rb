@@ -111,10 +111,8 @@ class ContentPartners::ResourcesController < ContentPartnersController
       type: params[:resource][:type],
       harvest_frequency: params[:resource][:harvest_frequency],
       dataset_license: params[:resource][:dataset_license],
-      dataset_rights_holder: params[:resource][:dataset_rights_holder],
       dataset_rights_statement: params[:resource][:dataset_rights_statement],
       default_rights_holder: params[:resource][:default_rights_holder],
-      default_rights_statement: params[:resource][:default_rights_statement],
       default_license_string: params[:resource][:default_license_string],
       default_language_id: params[:resource][:default_language_id],
       last_harvested_at: result["lastHarvestedAt"],
@@ -138,9 +136,8 @@ class ContentPartners::ResourcesController < ContentPartnersController
       defaultLicenseString: params[:resource][:default_license_string],
       defaultLanguageId: params[:resource][:default_language_id],
       lastHarvestedAt: result["lastHarvestedAt"],
-      defaultRightsHolder: result["datasetRightsStatement"],
-      defaultRightsStatement:result["defaultRightsStatement"]
-    }
+      defaultRightsHolder: result["datasetRightsStatement"]
+      }
 
     @resource.flag = false
 
@@ -203,8 +200,8 @@ class ContentPartners::ResourcesController < ContentPartnersController
     resource_boundary_ids = ResourceApi.get_resource_boundaries
     if resource_boundary_ids.present?
       lower_boundary_resource_id = resource_boundary_ids["firstResourceId"]
-      upper_boundary_resource_id = resource_boundary_ids["lastResourceId"] + ENV['resource_batch_size'].to_i
-      end_resource_id = lower_boundary_resource_id + ENV['resource_batch_size'].to_i
+      upper_boundary_resource_id = resource_boundary_ids["lastResourceId"] + ENV['RESOURCE_BATCH_SIZE'].to_i
+      end_resource_id = lower_boundary_resource_id + ENV['RESOURCE_BATCH_SIZE'].to_i
       @rows = Array.new
       while(end_resource_id < upper_boundary_resource_id)
         resources = ResourceApi.get_all_resources_with_full_data(lower_boundary_resource_id, end_resource_id)
@@ -214,9 +211,9 @@ class ContentPartners::ResourcesController < ContentPartnersController
           @error_index = 1
         end
         lower_boundary_resource_id = end_resource_id + 1
-        end_resource_id += ENV['resource_batch_size'].to_i
+        end_resource_id += ENV['RESOURCE_BATCH_SIZE'].to_i
       end
-      @rows = @rows.paginate(page: params[:page], per_page: ENV['per_page_resources'])
+      @rows = @rows.paginate(page: params[:page], per_page: ENV['PER_PAGE_RESOURCES'])
     else
       @error_index = 1
     end
@@ -230,24 +227,16 @@ class ContentPartners::ResourcesController < ContentPartnersController
     show_statistics(@resource_id)
     show_last_harvest_log(@resource_id)
     show_harvest_history(@resource_id)
-    if $errors == 1
-      render "errors/internal_server_error"
-    end
   end
 
   def show_statistics(resource_id)
     @statistics = ResourceApi.get_resource_statistics(resource_id)
-    unless @statistics.present?
-      $errors = 1
-    end
   end
 
   def show_last_harvest_log(resource_id)
     @last_harvest = ResourceApi.get_last_harvest_log(resource_id)
     if @last_harvest.present?
       @harvest_duration = ((DateTime.parse(@last_harvest["endTime"]) - DateTime.parse(@last_harvest["startTime"]))*24.to_f)
-    else
-      $errors = 1
     end
   end
 
@@ -257,9 +246,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
       @resource_name = @harvest_history["resourceName"]
       @content_partner_id = @harvest_history["contentPartnerId"]
       harvest_history = JSON.parse(@harvest_history["harvestHistory"])
-      @harvest_logs = harvest_history.paginate(page: params[:page], per_page: ENV['per_page_harvest'])
-    else
-      $errors = 1
+      @harvest_logs = harvest_history.paginate(page: params[:page], per_page: ENV['PER_PAGE_HARVEST'])
     end
   end
 

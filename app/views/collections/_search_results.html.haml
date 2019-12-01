@@ -1,7 +1,8 @@
 .search_result_container
   .ui.inverted.dimmer
     .ui.loader
-  %h2= t("search_results.section_titles.collections", count: @collections.total_count)
+  %h2
+    = t("search_results.section_titles.collections", count: @collections.total_count)
   = paginate @collections, remote: true, params: { only: "collections" }
   %ul.uk-list
     - @collections.results.each do |collection|
@@ -17,6 +18,7 @@
             .fields
               - desc = collection.try(:search_highlights).try(:[], :description) || emphasize_match(collection.description, @q)
               - unless @q.blank?
-                %b= t("search_results.field_matches.description")
+                %b
+                  = t("search_results.field_matches.description")
               = desc.html_safe
   = paginate @collections, remote: true, params: { only: "collections" }

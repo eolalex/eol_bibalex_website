@@ -7,18 +7,18 @@
         = form_with(model: @collection, local: true) do |f|
           = f.hidden_field :user_id
           = hidden_field_tag 'user_id', '0'
-          %br/
+          %br
           %h2
             Edit Collection
           %hr.colorgraph
           .form-group
             = f.label :name
-            %br/
+            %br
             = f.text_field :name, class: "form-control"
           .form-group
             = f.label :description
-            %br/
+            %br
             = f.text_field :description, class: "form-control"
-            %br/
-            = f.submit "#{t(:update_button)}", class: "btn btn-primary"  
-        %button.btn.btn-primary{"data-dismiss": "modal", type: "button"} x   
+            %br
+            = f.submit "#{t(:update_button)}", class: "btn btn-primary"
+        %button.btn.btn-primary{"data-dismiss": "modal", type: "button"} x

@@ -6,7 +6,7 @@
       = render("tabs")
     .clearfix
   .col-md-8
-    %h2.smallTitle #{t(:data)} 
+    %h2.smallTitle #{t(:data)}
   .row
     .col-md-8
       = render_async data_grid_path( page_id: @page.id, page: params[:page]) do
@@ -24,10 +24,3 @@
                 .col-lg-10.col-md-9.col-sm-11.col-xs-9
                   %b 
                     #{@page.scientific_name}
-          -#.widget.blog_gallery
-            -#%h3 #{t(:refresh_memory)}
-            -#%ul.sidebar-gallery
-            -#%li
-              -#%a{ href: "http://fieldguides.eol.org/memory/"}
-                -#= image_tag "memory-game-icon.png", alt: ""
-

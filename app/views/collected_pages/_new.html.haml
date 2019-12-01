@@ -36,6 +36,7 @@
     #{t(:add_to_new_collection)}
   = form_for(Collection.create) do |f|
     %input.form-control{name: "collection[name]", tabindex: "1", type: "text", required: true, placeholder: "#{t(:name)}"}
-    %textarea.form-control{name: "collection[description]", rows: "3", tabindex: "1", type: "text", placeholder: "#{t(:description)}", style: "margin-top: 5%"}
+    %textarea.form-control{name: "collection[description]", rows: "3", tabindex: "1", type: "text",
+     placeholder: "#{t(:description)}", style: "margin-top: 5%"}
     .modal-footer{style: "padding-bottom:0; margin-top:0;"}
       = f.button("#{t(:create_collection_button)}", class: "btn btn-primary")

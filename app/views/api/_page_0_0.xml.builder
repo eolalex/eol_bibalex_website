@@ -4,7 +4,7 @@ unless page.blank?
 	xml.dwc :scientificName, page['scientificName']
 
     page['synonyms'].each do |synonym|
-	  xml.synonym synonym['synonym'], :relationship => synonym['relationship'], :resource => synonym['resource']
+	  xml.synonym synonym['synonym'], relationship: synonym['relationship'], resource: synonym['resource']
 	end if page['synonyms']
 
 	page['vernacularNames'].each do |common_name|
@@ -33,6 +33,6 @@ unless page.blank?
   end
 
   page['dataObjects'].each do |data_object|
-    xml << render(partial: 'data_object_0_0', layout: false, locals: { :data_object_hash => data_object, :taxon_concept_id => page['identifier'] } )
+    xml << render(partial: 'data_object_0_0', layout: false, locals: {data_object_hash: data_object, taxon_concept_id: page['identifier']})
   end if page['dataObjects']
 end

@@ -42,7 +42,7 @@ class CollectionsController < ApplicationController
     @collection = Collection.find(params[:id])
     @collected_pages = @collection.collected_pages
     @collected_pages = @collected_pages.sort_by{|collected_page| collected_page.scientific_name_string.downcase}
-    @collected_pages = @collected_pages.paginate(page: params[:page], per_page: ENV['per_page'])
+    @collected_pages = @collected_pages.paginate(page: params[:page], per_page: ENV['PER_PAGE'])
   end
 
   def destroy
@@ -55,6 +55,11 @@ class CollectionsController < ApplicationController
     $updated_at = DateTime.now().strftime("%Q")
   end
 
+  def self.image_found(collected_page) 
+    Page.find_by_id(collected_page.page_id).try(:media).size > 0 && 
+    !Page.find_by_id(collected_page.page_id).try(:media).first.base_url.nil?
+  end
+  
   def collection_params
     params.require(:collection).permit(:id, :name, :description, :collection_type, :default_sort,
       collected_pages_attributes: [:id, :page_id, :annotation,

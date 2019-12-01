@@ -1,17 +1,16 @@
--# = javascript_include_tag 'vendor/assets/javascripts/jquery.lazyload.js'
 .row
   - @page_contents.each do |page_content|
-    %div{ id: "#{page_content.content_id}", onclick: 'showPopup(this)', onmouseover: "showOver(this)", onmouseout:"hideOver(this)", style: "cursor: pointer;"}
+    %div{id: "#{page_content.content_id}", onclick: 'showPopup(this)',
+     onmouseover: "showOver(this)", onmouseout:"hideOver(this)", style: "cursor: pointer;"}
       .col-md-4.col-sm-3.col-xs-12
         .imageThumbnail
-          -url = URI.parse(URI.encode(page_content.base_url))
-          -http = Net::HTTP.start(url.host, url.port)
-          -image = http.head(url.request_uri)['Content-Type'].start_with? 'image'
-          -if image
-            -# =image_tag "#{medium.base_url}", alt:"", lazy: true, width: '260', height: '190'
-            %img{ src: page_content.base_url, width: '260', height: '190', "data-original": page_content.base_url }
-          -else
-            %video{ src: page_content.base_url, width: '260', height: '190', controls: true}
+          - url = URI.parse(URI.encode(page_content.base_url))
+          - http = Net::HTTP.start(url.host, url.port)
+          - image = http.head(url.request_uri)['Content-Type'].start_with? 'image'
+          - if image
+            %img{src: page_content.base_url, width: '260', height: '190', "data-original": page_content.base_url}
+          - else
+            %video{src: page_content.base_url, width: '260', height: '190', controls: true}
           - unless page_content.trust.nil?
             %span.btn.btn-success.btn-xs.btn-trusted.btn-trusted
               = page_content.trust
@@ -23,21 +22,21 @@
               - else
                 #{page_content.name}
       - medium = Medium.find(page_content.content_id)
-      .modal{ id: "popup_#{medium.id}", tabindex: "-1", role: "dialog", "aria-labelledby": "popup_#{page_content.content_id}Label"}
+      .modal{id: "popup_#{medium.id}", tabindex: "-1", role: "dialog", "aria-labelledby": "popup_#{page_content.content_id}Label"}
         .modal-dialog.modal-lg.extra_large{role: "document"}
           .modal-content
             .viewerModal.modal-header
-              %button{ id:"#{medium.id}", class: "btn", onclick: 'hidePopup(this, event)'}x
+              %button{id:"#{medium.id}", class: "btn", onclick: 'hidePopup(this, event)'} x
             .modal-body
               .row
                 .col-md-8
-                  -url = URI.parse(URI.encode(medium.base_url))
-                  -http = Net::HTTP.start(url.host, url.port)
-                  -image = http.head(url.request_uri)['Content-Type'].start_with? 'image'
+                  - url = URI.parse(URI.encode(medium.base_url))
+                  - http = Net::HTTP.start(url.host, url.port)
+                  - image = http.head(url.request_uri)['Content-Type'].start_with? 'image'
                   - if image 
-                    %img.img-responsive{ alt: "", src: medium.base_url, width: "100%"}
+                    %img.img-responsive{alt: "", src: medium.base_url, width: "100%"}
                   -else
-                    %video{ src: medium.base_url, width: "100%", controls: true}
+                    %video{src: medium.base_url, width: "100%", controls: true}
                 .col-md-4
                   %aside
                     .widget.categories
@@ -61,7 +60,7 @@
                                 #{t(:source_url)}
                                 = medium.source_url |
                             %br/
-                            - unless (medium.owner.nil? || medium.owner ="null")
+                            - unless (medium.owner.nil? || medium.owner == "null")
                               %b 
                                 #{t(:owner)}
                                 = medium.owner
@@ -72,7 +71,7 @@
                           %p
                             = medium.description.html_safe
 
--if params[:maps]=="true"
-  = will_paginate @page_contents, params: { controller: 'pages', action: 'maps'}, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
--else
-  = will_paginate @page_contents, params: { controller: 'pages', action: 'media'}, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
+- if params[:maps] == "true"
+  = will_paginate @page_contents, params: {controller: 'pages', action: 'maps'}, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
+- else
+  = will_paginate @page_contents, params: {controller: 'pages', action: 'media'}, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer

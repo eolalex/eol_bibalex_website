@@ -1,7 +1,7 @@
 = javascript_include_tag 'terms'
 - if (trait[:metadata] && trait[:metadata].any?) 
   %ul.meta-items.js-meta-items
-    -if trait[:trait][:source]
+    - if trait[:trait][:source]
       %li
         %strong #{t(:source)}:
         %nbsp 

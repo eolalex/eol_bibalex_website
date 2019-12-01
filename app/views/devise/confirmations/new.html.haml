@@ -12,7 +12,9 @@
               #{t(:email)}
         .form-group.row.form-inline
           .col-md-10.col-sm-6.col-xs-6
-            %input.form-control.input-lg{ name: "user[email]", placeholder: "#{t(:enter_email)}", required: true, tabindex: "1", type: "text", autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)}
+            %input.form-control.input-lg{ name: "user[email]", placeholder: "#{t(:enter_email)}",
+             required: true, tabindex: "1", type: "text", autofocus: true, 
+             value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)}
         .form-group.row.form-inline
           .col-md-5.col-sm-3.col-xs-3
             = f.button("#{t(:resend_confirmation_instructions)}", class: "btn btn-primary")

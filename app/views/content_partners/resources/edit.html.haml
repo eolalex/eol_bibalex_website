@@ -1,11 +1,10 @@
 = javascript_include_tag 'display'
-%script{:src => "//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"}
--#%script{:src => "//code.jquery.com/jquery-1.11.1.min.js"}
+%script{src: "//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"}
 .container
   .row
     .col-xs-12.col-sm-12.col-md-12
-      = simple_form_for @resource,url: { action: :update, controller: 'resources' }, method: "put", html: { class: "" },
-        defaults: { input_html: { class: 'uk-input' }, wrapper_html: { class: 'field' }, label_html: { class: 'uk-form-label' } } do |f|
+      = simple_form_for @resource, url: {action: :update, controller: 'resources'}, method: "put", html: {class: ""},
+        defaults: {input_html: {class: 'uk-input'}, wrapper_html: {class: 'field'}, label_html: {class: 'uk-form-label'}} do |f|
         %h2.mainTitle
           #{t(:edit_resource_header)}
         %div.form-horizontal.formStyle
@@ -25,9 +24,6 @@
               %span{ style: "color: red"}> *
               #{t(:load_resource)}
             .col-md-10.col-sm-9.col-xs-12
-              -#%label.radio-inline
-                -#= f.radio_button :type, "url",id: "radio1",onClick: "url_show();"
-                -#= label_tag "#{t(:from_url)}"
               %label.radio-inline
                 = f.radio_button :type, "file",id: "radio2" ,onClick: "file_show();"
                 = label_tag "#{t(:from_file)}"
@@ -62,23 +58,27 @@
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:dataset_rights_holder)}
             .col-md-10.col-sm-9.col-xs-12
-              %input.form-control{ name: "resource[dataset_rights_holder]", value: @resource.dataset_rights_holder, tabindex: "1", type: "text"}
+              %input.form-control{ name: "resource[dataset_rights_holder]",
+               value: @resource.dataset_rights_holder, tabindex: "1", type: "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:dataset_rights_statement)}
             .col-md-10.col-sm-9.col-xs-12
-              %input.form-control{ name:"resource[dataset_rights_statement]", value: @resource.dataset_rights_statement, tabindex: "1", type: "text"}
+              %input.form-control{ name:"resource[dataset_rights_statement]", 
+              value: @resource.dataset_rights_statement, tabindex: "1", type: "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:default_language)}
             .col-md-2.col-sm-8.col-xs-12
               .selectStyle
-                = f.collection_select :default_language_id , Language.all , :id, :code, { selected:  @resource.default_language_id}
+                = f.collection_select :default_language_id ,
+                 Language.all , :id, :code, { selected:  @resource.default_language_id}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:description)}
             .col-md-10.col-sm-9.col-xs-12
-            %input.form-control{ name: "resource[description]", value: @resource.description, tabindex: "1", type: "text"}
+            %input.form-control{ name: "resource[description]", 
+            value: @resource.description, tabindex: "1", type: "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
               #{t(:default_license)}
@@ -91,4 +91,3 @@
                 = resource_error_messages(@resource)
                 %input.btn.btn-primary{ tabindex: "5", type: "submit", value: "#{t(:update_button)}"}
                 = link_to "#{t(:back)}", content_partner_path( id: params[:content_partner_id]), class: "btn btn-primary"
-

@@ -1,7 +1,7 @@
 class ContentPartnerApi
-  @schedular_uri = ENV['schedular_ip']
-  @storage_uri = ENV['storage_ip']
-  @logo_ip = ENV['logo_ip'] 
+  @scheduler_uri = ENV['SCHEDULER_IP']
+  @storage_uri = ENV['STORAGE_IP']
+  @logo_ip = ENV['LOGO_IP'] 
 
   def self.add_content_partner?(params, current_user_id)
     input_logo = params[:logo].nil? ? File.new(DEFAULT_CONTENT_PARTNER_LOGO, 'rb') : params[:logo].tempfile
@@ -14,7 +14,7 @@ class ContentPartnerApi
     begin
       request =RestClient::Request.new(
         method: :post,
-        url: "#{@schedular_uri}/contentPartners",
+        url: "#{@scheduler_uri}/contentPartners",
         payload: { name: params[:name], description: params[:description], url: params[:url], abbreviation: params[:abbreviation] ,logoPath: "path", multipart: true}
       )
       response = request.execute
@@ -43,8 +43,15 @@ class ContentPartnerApi
         logo.open
         request = RestClient::Request.new(
           method: :post,
-          url: "#{@schedular_uri}/contentPartners/#{content_partner_id}",
-          payload: { name: params[:name], description: params[:description], url: params[:url], abbreviation: params[:abbreviation] , logoPath: "#{@logo_ip}/eol_workspace/contentPartners/#{content_partner_id}/#{logo_name}", multipart: true}
+          url: "#{@scheduler_uri}/contentPartners/#{content_partner_id}",
+          payload: {
+            name: params[:name],
+            description: params[:description],
+            url: params[:url],
+            abbreviation: params[:abbreviation],
+            logoPath: "#{@logo_ip}/eol_workspace/contentPartners/#{content_partner_id}/#{logo_name}",
+            multipart: true
+            }
           )
         response_update = request.execute
         content_partner_id
@@ -77,7 +84,7 @@ class ContentPartnerApi
       begin
         logo.open
         logo.seek 0
-        logo_request =RestClient::Request.new(
+        logo_request = RestClient::Request.new(
           method: :post,
           url: "#{@storage_uri}/uploadCpLogo/#{content_partner_id}",
           payload: { logo: logo}
@@ -90,8 +97,8 @@ class ContentPartnerApi
     end
 
     begin
-      response =RestClient.post(
-        "#{@schedular_uri}/contentPartners/#{content_partner_id}",
+      response = RestClient.post(
+        "#{@scheduler_uri}/contentPartners/#{content_partner_id}",
         {
           name: params[:name],
           description: params[:description],
@@ -109,9 +116,9 @@ class ContentPartnerApi
 
   def self.get_content_partner_without_resources(content_partner_id)
     begin
-      request =RestClient::Request.new(
+      request = RestClient::Request.new(
         method: :get,
-        url: "#{@schedular_uri}/contentPartners/#{content_partner_id}"
+        url: "#{@scheduler_uri}/contentPartners/#{content_partner_id}"
       )
       response = JSON.parse(request.execute)
     rescue => e
@@ -123,7 +130,7 @@ class ContentPartnerApi
     begin
       request = RestClient::Request.new(
         method: :get,
-        url: "#{@schedular_uri}/contentPartners/contentPartnerWithResources/#{content_partner_id}"
+        url: "#{@scheduler_uri}/contentPartners/contentPartnerWithResources/#{content_partner_id}"
         )
       response = JSON.parse(request.execute)
     rescue => e
@@ -135,7 +142,7 @@ class ContentPartnerApi
     begin
       request = RestClient::Request.new(
         method: :post,
-        url: "#{@schedular_uri}/contentPartners/contentPartnerOfResource",
+        url: "#{@scheduler_uri}/contentPartners/contentPartnerOfResource",
         payload: { resId: id}
       )
       response = JSON.parse(request.execute)

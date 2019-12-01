@@ -1,8 +1,7 @@
-- if ! @page.occurrence_map? && @maps.blank?
+- if !@page.occurrence_map? && @maps.blank?
   .empty
     %p= I18n.t("maps.empty")
 - unless @maps.blank?
-  -#%h3= t("maps.other_maps_title")
   = render ("media")
 - if @page.occurrence_map?
   = render "json_map"

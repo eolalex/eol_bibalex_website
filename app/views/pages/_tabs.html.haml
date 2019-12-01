@@ -1,6 +1,7 @@
 = javascript_include_tag 'pages'
 %span.dropdown
-  %a.dropdown-toggle.btn.btn-primary.exploreTaxonBtn{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#", role: "button"}
+  %a.dropdown-toggle.btn.btn-primary.exploreTaxonBtn{"aria-expanded": "false", "aria-haspopup": "true",
+   "data-toggle": "dropdown", href: "#", role: "button"}
     #{t(:explore_taxon)}
     %span.caret
   %ul#menu1.dropdown-menu{"aria-labelledby": "drop4"}
@@ -8,32 +9,33 @@
       %a{ href: page_path(@page)} #{t(:overview)}
     %li
       %a{ href: names_page_path(@page)} #{t(:names)}
-    -if @page.media.size > 0
+    - if @page.media.size > 0
       %li
         %a{ href: page_media_path(@page)} #{t(:media)}
-    -if @page.referents.size > 0
+    - if @page.referents.size > 0
       %li
         %a{ href: page_literature_and_references_path(@page)} #{t(:literature_and_references_header)}
-    -if @page.data.size > 0
+    - if @page.data.size > 0
       %li
         %a{ href: page_data_path(@page)} #{t(:data)}
-    -if @page.articles.size > 0
+    - if @page.articles.size > 0
       %li
         %a{ href: page_articles_path(@page)} #{t(:articles)}
 
-    -if @page.map?
+    - if @page.map?
       %li
         %a{ href: page_maps_path(@page)} #{t(:maps)}
 
 
 %span.dropdown
-  %a.dropdown-toggle.btn.btn-primary{ id: "#{@page.id}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
+  %a.dropdown-toggle.btn.btn-primary{ id: "#{@page.id}", "aria-expanded": "true", "aria-haspopup": "true", 
+  "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
     #{t(:collect_button)}
 .modal{id: "popup_#{@page.id}", "aria-labelledby": "popup_#{@page.id}Label", role: "dialog", tabindex: "-1"}
   .modal-dialog{role: "document"}
     .modal-content
       .modal-header
-        %button{ id: "#{@page.id}", class: "close", "data-dismiss": "modal", tabindex: "1", onclick: 'hidePopup(this, event)'}x
+        %button{ id: "#{@page.id}", class: "close", "data-dismiss": "modal", tabindex: "1", onclick: 'hidePopup(this, event)'} x
         %h4.modal-title #{t(:add_page_to_collection)} 
       - if user_signed_in?
         = render("collected_pages/new", page_id: @page.id)
@@ -43,4 +45,4 @@
             = t(:sign_in_first)
         .modal-footer
           = link_to "#{t(:sign_in)}", main_app.new_user_session_path, class: "btn btn-primary"
-.page_topics{ data: { id: @page.id } }    
+.page_topics{data: {id: @page.id}}

@@ -1,6 +1,6 @@
 class ResourceApi
-  @base_schedular_uri = ENV['schedular_ip']
-  @base_storage_uri = ENV['storage_ip']
+  @base_scheduler_uri = ENV['SCHEDULER_IP']
+  @base_storage_uri = ENV['STORAGE_IP']
 
   def self.add_resource?(params, content_partner_id)
     if params[:type] == "file"
@@ -15,7 +15,7 @@ class ResourceApi
     begin
       request = RestClient::Request.new(
         method: :post,
-        url: "#{@base_schedular_uri}/#{content_partner_id}/resources",
+        url: "#{@base_scheduler_uri}/#{content_partner_id}/resources",
         headers: {
           'Accept' => 'application/json',
           'Content-Type' => 'application/json'
@@ -43,7 +43,7 @@ class ResourceApi
           begin
             request = RestClient::Request.new(
               method: :post,
-              url: "#{@base_schedular_uri}/#{content_partner_id}/resources/#{resource_id}",
+              url: "#{@base_scheduler_uri}/#{content_partner_id}/resources/#{resource_id}",
               headers: {
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json'
@@ -88,7 +88,7 @@ class ResourceApi
     begin
       request = RestClient::Request.new(
         method: :post,
-        url: "#{@base_schedular_uri}/#{content_partner_id}/resources/#{resource_id}",
+        url: "#{@base_scheduler_uri}/#{content_partner_id}/resources/#{resource_id}",
         headers: {
           'Accept' => 'application/json',
           'Content-Type' => 'application/json'
@@ -104,9 +104,9 @@ class ResourceApi
 
   def self.get_resource(content_partner_id, resource_id)
     begin
-      request =RestClient::Request.new(
+      request = RestClient::Request.new(
         method: :get,
-        url: "#{@base_schedular_uri}/#{content_partner_id}/resources/#{resource_id}"
+        url: "#{@base_scheduler_uri}/#{content_partner_id}/resources/#{resource_id}"
       )
       response = JSON.parse(request.execute)
     rescue => e
@@ -118,7 +118,7 @@ class ResourceApi
     begin
       request = RestClient::Request.new(
         method: :get,
-        url: "#{@base_schedular_uri}/resources/#{resource_id}"
+        url: "#{@base_scheduler_uri}/resources/#{resource_id}"
       )
       response = JSON.parse(request.execute)
     rescue => e
@@ -130,7 +130,7 @@ class ResourceApi
     begin
       request = RestClient::Request.new(
         method: :get,
-        url: "#{ENV['schedular_ip']}/#{ENV['get_all_resources']}/#{start_id}/#{end_id}"
+        url: "#{@base_scheduler_uri}/#{ENV['GET_ALL_RESOURCES']}/#{start_id}/#{end_id}"
       )
       response = JSON.parse(request.execute)
     rescue => e
@@ -142,7 +142,7 @@ class ResourceApi
     begin
       request = RestClient::Request.new(
         method: :get,
-        url: "#{MYSQL_ADDRESS}/#{ENV['get_resource_info']}/#{resource_id}"
+        url: "#{MYSQL_ADDRESS}/#{ENV['GET_RESOURCE_INFO']}/#{resource_id}"
       )
       response = JSON.parse(request.execute)
     rescue => e
@@ -154,7 +154,7 @@ class ResourceApi
     begin
       request = RestClient::Request.new(
         method: :get,
-        url: "#{ENV['schedular_ip']}/#{ENV['get_harvest_history']}/#{resource_id}"
+        url: "#{@base_scheduler_uri}/#{ENV['get_harvest_history']}/#{resource_id}"
       )
       response = JSON.parse(request.execute)
     rescue => e
@@ -166,7 +166,7 @@ class ResourceApi
     begin
       request = RestClient::Request.new(
         method: :get,
-        url: "#{ENV['schedular_ip']}/#{ENV['get_last_harvest_log']}/#{resource_id}"
+        url: "#{@base_scheduler_uri}/#{ENV['GET_LAST_HARVEST_LOG']}/#{resource_id}"
       )
       response = JSON.parse(request.execute)
     rescue => e
@@ -178,7 +178,7 @@ class ResourceApi
     begin
       request = RestClient::Request.new(
         method: :get,
-        url: "#{ENV['schedular_ip']}/#{ENV['get_resource_boundaries']}"
+        url: "#{@base_scheduler_uri}/#{ENV['GET_RESOURCE_BOUNDARIES']}"
       )
       response = JSON.parse(request.execute)
     rescue => e

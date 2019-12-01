@@ -8,7 +8,7 @@
         %h3
           #{t(:user_info)}
           %span.pull-right
-            -if @user.id == current_user.id
+            - if @user.id == current_user.id
               %a{href: edit_user_registration_path} #{t(:edit_button)}
         %hr/
         .row
@@ -26,7 +26,7 @@
                   %label.col-lg-3.col-md-4.col-sm-3.col-xs-12.control-label{for: "inputEmail3"} #{t(:email)}
                   .col-lg-9.col-md-8.col-sm-7.col-xs-12
                     .form-text
-                      =@user.email
+                      = @user.email
       .widget.categories.collectionBox
         .greyBox
           %h3.collectionIcon
@@ -34,19 +34,20 @@
           %hr/
           .row
             .col-sm-12
-              -if @user.collections.empty?
+              - if @user.collections.empty?
                 %p
                   #{t(:no_collections_yet)}
-              -else
-                -@collections.each do |collection|
+              - else
+                - @collections.each do |collection|
                   %span.pull-right
                   .single_comments
                     %img{ alt: "", src: "/assets/download.png"}/
                     .collectionName
-                      %a{ href: collection_path(id: collection.id)} #{collection.name}
-                      %div    
+                      %a{href: collection_path(id: collection.id)} #{collection.name}
+                      %div
                         %small
-                          #{collection.collected_pages_count} #{t(:items)}; #{t(:last_updated_at)} #{time_ago_in_words(collection.updated_at)} #{t(:ago)}
+                          #{collection.collected_pages_count} #{t(:items)};
+                          #{t(:last_updated_at)} #{time_ago_in_words(collection.updated_at)} #{t(:ago)}
                     .clearfix
     .col-md-4
       %aside
@@ -54,9 +55,9 @@
           .greyBox
             %h3.collectionIcon
               #{t(:content_partners)}
-              -if @user.id == current_user.id
+              - if @user.id == current_user.id
                 %a.btn-addResource{href: "#{ new_content_partner_path}"}
-                  %span.pull-right  +
+                  %span.pull-right +
             %hr/
             .row
               .col-sm-12
@@ -68,14 +69,14 @@
                   - @content_partner_ids.each do |content_partner_id|
                     -result = ContentPartnerApi.get_content_partner_without_resources(content_partner_id)
                     %span.pull-right
-                      -if @user.id == current_user.id
+                      - if @user.id == current_user.id
                         %a{ href: edit_content_partner_path(id: result["id"])} #{t(:edit_button)}
                     .single_comments
-                      -if result["logoPath"] == "path"
+                      - if result["logoPath"] == "path"
                         %img{ alt: "", src: "/assets/avatar3.png"}/
-                      -else
+                      - else
                         %img{ alt: "", src: result["logoPath"]}/
-                      %a{ href: content_partner_path(id: content_partner_id)}
-                        =result["name"]
+                      %a{href: content_partner_path(id: content_partner_id)}
+                        = result["name"]
                       .clearfix
                     .clearfix

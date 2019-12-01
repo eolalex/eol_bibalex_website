@@ -7,27 +7,26 @@
     %br/
 .row
   .col-md-12  
-    - @scientific_names.group_by {|n| n.taxonomic_status.name }.each do |status, names|
-      %h3.Special 
+    - @scientific_names.group_by {|n| n.taxonomic_status.name}.each do |status, names|
+      %h3.Special
         = status
         %table.customTable
           %thead
             %tr
-              %th{ scope: "col"} #{t(:scientific_name)}
-              %th{ scope: "col"} #{t(:scientific_name_source)}
+              %th{scope: "col"} #{t(:scientific_name)}
+              %th{scope: "col"} #{t(:scientific_name_source)}
           %tbody
-            -scientific_names_resources = get_resources(names)
-            -scientific_names_resources.each do |name, resource|
+            - scientific_names_resources = get_resources(names)
+            - scientific_names_resources.each do |name, resource|
               %tr
-                %td{"data-label": "#{t(:scientific_name)}"} 
+                %td{"data-label": "#{t(:scientific_name)}"}
                   = name
-                %td{"data-label": "#{t(:scientific_name_source)}"} 
-                  -if !scientific_names_resources[name].nil?
+                %td{"data-label": "#{t(:scientific_name_source)}"}
+                  - unless scientific_names_resources[name].nil?
                     - scientific_names_resources[name].each do |resource|
-                      - if !resource.nil?
-                        -if resource.equal?(scientific_names_resources[name].last)
-                          = resource.name
-                        -else
-                          = resource.name+"," 
-                      - else
+                      - if resource.nil?
                         = #{t(:unknown_resource)}
+                      - elsif resource.equal?(scientific_names_resources[name].last)
+                        = resource.name
+                      - else
+                        = resource.name + ","

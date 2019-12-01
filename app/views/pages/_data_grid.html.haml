@@ -11,32 +11,31 @@
   %tbody
     - counter1 = 0
     - @traits.each do |trait|
-      -counter1 = counter1 + 1
-      -# %trait.js-data-row{ :data => { :'show-path' => datum_path(:id => trait[:id], :show_taxon => false), :id => trait[:id] } }
+      -counter1 += 1
       - predicate = trait[:predicate]
       - uri = predicate[:uri].dup
       - uri.sub! '/', '_'
       - p_title = "#{t(:uri)}:  #{uri}"
       -if !(predicate[:definition].nil?) 
-        -p_title = p_title +  "\n#{t(:definition)}: #{predicate[:definition]} "
+        - p_title << "\n#{t(:definition)}: #{predicate[:definition]}"
       %tr
         %td{"data-label": "#{t(:predicate)}"}
           %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{p_title}", type: "button"}
             #{predicate[:name]}
           - if trait[:normal_measurement] && (trait[:normal_measurement] != trait[:measurement])
             %h6
-              normalized value
-          -if trait[:object_term]
+              #t(:normalized_value)
+          - if trait[:object_term]
             - object_term = trait[:object_term]
             - uri = object_term[:uri].dup
             - uri.sub! '/', '_'
-            - o_title = "#{t(:uri)}:  #{uri}"
+            - o_title = "#{t(:uri)}: #{uri}"
             -if !(object_term[:definition].nil?) 
-              -o_title = o_title +  "\n#{t(:definition)}: #{object_term[:definition]} "
+              - o_title << "\n#{t(:definition)}: #{object_term[:definition]}"
             %td{"data-label": "#{t(:object)}"}
-              %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{o_title} ", type: "button"}
+              %a{"data-placement": "bottom", "data-toggle": "tooltip", title: "#{o_title}", type: "button"}
                 #{trait[:object_term][:name]}
-          - elsif trait[:measurement] 
+          - elsif trait[:measurement]
             %td{"data-label": "#{t(:object)}"}
               %a{ "data-placement": "bottom", "data-toggle": "tooltip", type: "button"}
                 #{trait[:measurement]}
@@ -45,14 +44,13 @@
                   #{trait[:normal_measurement]}
           - else
             %td{"data-label": "#{t(:object)}"}
-               
           -if trait[:units]
             - units = trait[:units]
             - uri = units[:uri].dup
             - uri.sub! '/', '_'
             - u_title = "#{t(:uri)}:  #{uri}"
-            -if !(units[:definition].nil?) 
-              -u_title = u_title +  "\n#{t(:definition)}: #{units[:definition]} "
+            -if !(units[:definition].nil?)
+              - u_title << "\n#{t(:definition)}: #{units[:definition]} "
             %td{"data-label": "#{t(:units)}"}
               %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{u_title}", type: "button"}
                 #{trait[:units][:name]}
@@ -65,20 +63,18 @@
             %td{"data-label": "#{t(:units)}"}
           - resource_content_partner = @resources_content_partners[trait[:resource][:resource_id]]
           %td{"data-label": "#{t(:resource)}"} 
-            =link_to(resource_content_partner[0]["name"], content_partner_resource_path(resource_content_partner[1]["id"], resource_content_partner[0]["id"]))
+            = link_to(resource_content_partner[0]["name"],
+             content_partner_resource_path(resource_content_partner[1]["id"], resource_content_partner[0]["id"]))
         %td{"data-label": "#{t(:further_info)}"}
-          -# %div
-          -# modal view with additional information: 'Citation, Source, RecordURL, ScientificName, Statistical Method, URI, DEfinition'
-          %a{ id: "#{counter1}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
-            -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}
+          %a{ id: "#{counter1}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit",
+          "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
             #{t(:see_more)}
 
-          
           - if(TraitBank.has_meta?(trait[:id]))
             %td{"data-label": "#{t(:metadata)}"}
               %div{ id: "#{uri}"}
-                %a.btn.btn{ id: "#{counter1}T", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup_meta(this)", role: "button"}
-                  -# %span.glyphicon.glyphicon-info-sign{"data-label" => "#{t(:name)}"}
+                %a.btn.btn{ id: "#{counter1}T", "aria-expanded": "true", "aria-haspopup": "true", 
+                "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup_meta(this)", role: "button"}
                   %i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
             .modal{ id: "popup_#{counter1}T", "aria-labelledby": "popup_#{counter1}TLabel", role: "dialog", tabindex: "-1"}
               .modal-dialog.modal-med{ role: "document"}
@@ -90,7 +86,8 @@
                       .col-md-2.col-sm-2.col-xs-2
                         %button{ id:"#{counter1}T", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'}x
                   .modal-body.editCollection
-                    %trait.js-data-row{ data: { 'show-path': datum_path( id: trait[:id], show_taxon: false), id: trait[:id] }, id: "#{counter1}TT" }
+                    %trait.js-data-row{ data: { 'show-path': datum_path( id: trait[:id], show_taxon: false),
+                     id: trait[:id] }, id: "#{counter1}TT"}
           - else
             %td
         .modal{ id: "popup_#{counter1}", "aria-labelledby": "popup_#{counter1}Label", role: "dialog", tabindex: "-1"}
@@ -101,67 +98,73 @@
                   .col-md-10.col-sm-10.col-xs-10
                     %h2.editLabel.modal-title #{t(:further_info)}
                   .col-md-2.col-sm-2.col-xs-2
-                    %button{ id: "#{counter1}", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'}x
+                    %button{ id: "#{counter1}", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'} x
               .modal-body.editCollection
                 %strong #{t(:scientific_name)}:
                 %nbsp #{@page.scientific_name}
                 %br
-                -if trait[:lifestage_term]
+                - if trait[:lifestage_term]
                   %strong #{t(:lifestage_term)}
                   %nbsp
-                    %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{t(:uri)}:  #{trait[:lifestage_term][:uri]}\n#{t(:definition)}: #{trait[:lifestage_term][:definition]} ", type: "button"}
+                    %a{ "data-placement": "bottom", "data-toggle": "tooltip",
+                     title: "#{t(:uri)}: #{trait[:lifestage_term][:uri]}\n#{t(:definition)}: #{trait[:lifestage_term][:definition]}",
+                      type: "button"}
                       #{trait[:lifestage_term][:name]}
                   %br
-                -if trait[:sex_term]
+                - if trait[:sex_term]
                   %strong #{t(:sex_term)}
                   %nbsp
-                    %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{t(:uri)}:  #{trait[:sex_term][:uri]}\n#{t(:definition)}: #{trait[:sex_term][:definition]} ", type: "button"}
+                    %a{ "data-placement": "bottom", "data-toggle": "tooltip", 
+                    title: "#{t(:uri)}: #{trait[:sex_term][:uri]}\n#{t(:definition)}: #{trait[:sex_term][:definition]} ",
+                     type: "button"}
                       #{trait[:sex_term][:name]}
                   %br
-                -if trait[:statistical_method_term]
+                - if trait[:statistical_method_term]
                   %strong #{t(:statistical_method)}
                   %nbsp
-                    %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{t(:uri)}:  #{trait[:statistical_method_term][:uri]}\n#{t(:definition)}: #{trait[:statistical_method_term][:definition]} ", type: "button"}
+                    %a{ "data-placement": "bottom", "data-toggle": "tooltip", 
+                    title: "#{t(:uri)}: #{trait[:statistical_method_term][:uri]}\n#{t(:definition)}: #{trait[:statistical_method_term]"/
+                    "[:definition]} ", type: "button"}
                       #{trait[:statistical_method_term][:name]}
                     %br
-                -if trait[:citation]
+                - if trait[:citation]
                   %strong #{t(:citation)}
                   %nbsp
                     #{trait[:citation]}
                   %br
-                -if trait[:measurementMethod]
+                - if trait[:measurementMethod]
                   %strong #{t(:measurementMethod)}
                   %nbsp
                     #{trait[:measurementMethod]}
                   %br
-                -if trait[:contributer]
+                - if trait[:contributer]
                   %strong #{t(:contributer)}
                   %nbsp
                     #{trait[:contributer]}
                   %br
-                -if trait[:event_date]
+                - if trait[:event_date]
                   %strong #{t(:event_date)}
                   %nbsp
                     #{trait[:event_date]}
                   %br
-                -if trait[:longitude]
+                - if trait[:longitude]
                   %strong #{t("content_attributions_labels.longitude")}
                   %nbsp
                     #{trait[:longitude]}
                   %br
-                -if trait[:latitude]
+                - if trait[:latitude]
                   %strong #{t("content_attributions_labels.latitude")}
                   %nbsp
                     #{trait[:latitude]}
                   %br
-                -if trait[:elevation]
+                - if trait[:elevation]
                   %strong #{t(:elevation)}
                   %nbsp
                     #{trait[:elevation]}
                   %br
-                -if trait[:source]
+                - if trait[:source]
                   %strong #{t(:source)}:
                   %nbsp
                     = link_to "#{trait[:source]}"
                   %br
-= will_paginate @traits, params: { controller: 'pages', action: 'data'}, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
+= will_paginate @traits, params: {controller: 'pages', action: 'data'}, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer

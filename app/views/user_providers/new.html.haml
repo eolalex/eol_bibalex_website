@@ -1,6 +1,5 @@
 .container
   = render ("/devise/registrations/new")
-  -# - if (params[:info][:email].empty?)
   - if (params[:provider] == "twitter")
     = javascript_include_tag "user_providers_registration_modal"
     .modal{ id: "popup_OMNI_100", "aria-labelledby": "popup_OMNI_100Label", role: "dialog", tabindex: "-1"}
@@ -23,16 +22,18 @@
 
   - else
     .container
-      = form_for(@user, url: user_providers_path, method: :post, html: {id: "hidden_form"}, remote: true, authenticity_token: true ) do |f|
+      = form_for(@user, url: user_providers_path, method: :post,
+       html: {id: "hidden_form"}, remote: true, authenticity_token: true ) do |f|
         = hidden_field_tag('email', params[:info][:email])        
         = hidden_field_tag('provider', params[:provider])
         = hidden_field_tag('uid', params[:uid])
         = hidden_field_tag('username', params[:name])
         .form-group.row
           .col-md-6.col-sm-6.col-xs-6
-            %input.form-control.input-lg{ name: "user[email]", placeholder: "#{t(:enter_email)}", tabindex: "1", type: "text", required: true, style: "display: none;", id: "userEmail"}
+            %input.form-control.input-lg{ name: "user[email]", placeholder: "#{t(:enter_email)}", tabindex: "1",
+             type: "text", required: true, style: "display: none;", id: "userEmail"}
         .form-group.row
           .col-md-6.col-sm-6.col-xs-6
-            = f.button("#{t(:create_account)}", class: "btn btn-primary pull-right", style: "display: none;", id: "hidden_form_submit", type: "submit")
+            = f.button("#{t(:create_account)}", class: "btn btn-primary pull-right", style: "display: none;",
+             id: "hidden_form_submit", type: "submit")
     = javascript_include_tag "user_providers_hidden_form"
-
