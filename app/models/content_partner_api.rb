@@ -5,32 +5,46 @@ class ContentPartnerApi
 
   def self.add_content_partner?(params, current_user_id)
     input_logo = params[:logo].nil? ? File.new(DEFAULT_CONTENT_PARTNER_LOGO, 'rb') : params[:logo].tempfile
-    #file_name = params[:logo].original_filename
     file_name = params[:logo].nil? ? Pathname.new(DEFAULT_CONTENT_PARTNER_LOGO).basename : params[:logo].original_filename
     logo = Tempfile.new("#{file_name}")
     logo_path_array = logo.path.split("/")
     logo_name = logo_path_array.last
     logo.write(input_logo.read.force_encoding(Encoding::UTF_8))
+
     begin
-      request =RestClient::Request.new(
+      request = RestClient::Request.new(
         method: :post,
         url: "#{@scheduler_uri}/contentPartners",
-        payload: { name: params[:name], description: params[:description], url: params[:url], abbreviation: params[:abbreviation] ,logoPath: "path", multipart: true}
+        payload: {
+          name: params[:name], 
+          description: params[:description],
+          url: params[:url],
+          abbreviation: params[:abbreviation],
+          logoPath: "path",
+          multipart: true
+        }
       )
+
       response = request.execute
       content_partner_id = response.body
-      ContentPartnerUser.create(user_id: current_user_id , content_partner_id: response.body.to_i)
-      content_partner_id 
+      ContentPartnerUser.create(
+        user_id: current_user_id,
+        content_partner_id: response.body.to_i
+      )
+      content_partner_id
     rescue => e
       nil
     end
+
     begin
       logo.open
       logo.seek 0
       logo_request =RestClient::Request.new(
         method: :post,
         url: "#{@storage_uri}/uploadCpLogo/#{content_partner_id}",
-        payload: { logo: logo }
+        payload: {
+          logo: logo
+        }
       )
       logo_response = logo_request.execute
       content_partner_id
@@ -87,7 +101,9 @@ class ContentPartnerApi
         logo_request = RestClient::Request.new(
           method: :post,
           url: "#{@storage_uri}/uploadCpLogo/#{content_partner_id}",
-          payload: { logo: logo}
+          payload: {
+            logo: logo
+          }
         )
         logo_response = logo_request.execute
         content_partner_id
@@ -143,7 +159,9 @@ class ContentPartnerApi
       request = RestClient::Request.new(
         method: :post,
         url: "#{@scheduler_uri}/contentPartners/contentPartnerOfResource",
-        payload: { resId: id}
+        payload: {
+          resId: id
+        }
       )
       response = JSON.parse(request.execute)
     rescue => e
@@ -151,3 +169,4 @@ class ContentPartnerApi
     end
   end
 end
+

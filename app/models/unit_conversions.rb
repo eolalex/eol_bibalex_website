@@ -102,8 +102,9 @@ class UnitConversions
 
     def convert(val, units_uri)
       return([val, units_uri]) unless can_convert?(units_uri)
-      fn = @functions.find { |f| f[:starting_units].include?(units_uri) }
+      fn = @functions.find {|f| f[:starting_units].include?(units_uri)}
       [fn[:function].call(val), fn[:ending_unit]]
     end
   end
 end
+

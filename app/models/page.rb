@@ -1,4 +1,5 @@
 class Page < ActiveRecord::Base
+  has_one :occurrence_map, inverse_of: :page
 
   has_many :collected_pages
   has_many :collected_pages
@@ -13,14 +14,11 @@ class Page < ActiveRecord::Base
 
   has_and_belongs_to_many :referents
 
-  has_one :occurrence_map, inverse_of: :page
-
   belongs_to :node
 
   validates_uniqueness_of :id
 
   searchkick word_start: [:scientific_name]
-  
   def search_data
     {
       type: "page",
@@ -70,7 +68,7 @@ end
   end
 
   def grouped_data
-    @grouped_data ||= data.group_by { |term| term[:predicate][:uri] }
+    @grouped_data ||= data.group_by {|term| term[:predicate][:uri]}
   end
 
   def predicates
@@ -81,3 +79,4 @@ end
     @object_terms ||= glossary.keys - predicates
   end
 end
+

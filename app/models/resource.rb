@@ -268,3 +268,4 @@ class Resource
     Rails.cache.clear
   end
 end
+

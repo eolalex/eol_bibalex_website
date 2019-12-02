@@ -17,8 +17,8 @@ class ResourceApi
         method: :post,
         url: "#{@base_scheduler_uri}/#{content_partner_id}/resources",
         headers: {
-          'Accept' => 'application/json',
-          'Content-Type' => 'application/json'
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
           },
         payload: resource_params.to_json
       )
@@ -30,7 +30,11 @@ class ResourceApi
           request = RestClient::Request.new(
             method: :post,
             url: "#{@base_storage_uri}/uploadResource/#{resource_id}/1",
-            payload: {resId: resource_id, file: resource_data_set_file, isOrg: 1}
+            payload: {
+              resId: resource_id,
+              file: resource_data_set_file,
+              isOrg: 1
+            }
           )
         response_storage = request.execute
         resource_id
@@ -45,8 +49,8 @@ class ResourceApi
               method: :post,
               url: "#{@base_scheduler_uri}/#{content_partner_id}/resources/#{resource_id}",
               headers: {
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json'
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
                 },
               payload: resource_params.to_json
             )
@@ -71,7 +75,11 @@ class ResourceApi
         request = RestClient::Request.new(
           method: :post,
           url: "#{@base_storage_uri}/uploadResource/#{resource_id}/1",
-          payload: {resId: resource_id, file: resource_data_set_file, isOrg: 1}
+          payload: {
+            resId: resource_id,
+            file: resource_data_set_file,
+            isOrg: 1
+          }
         )
         response_storage = request.execute
         resource_id
@@ -79,10 +87,9 @@ class ResourceApi
         nil
       end
       if(response_storage)
-        params[:path]="/eol_workspace/resources/#{resource_id}/"
+        params[:path] = "/eol_workspace/resources/#{resource_id}/"
       end
     end
-
     resource_params = params
 
     begin
@@ -90,8 +97,8 @@ class ResourceApi
         method: :post,
         url: "#{@base_scheduler_uri}/#{content_partner_id}/resources/#{resource_id}",
         headers: {
-          'Accept' => 'application/json',
-          'Content-Type' => 'application/json'
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
           },
         payload: resource_params.to_json
       )

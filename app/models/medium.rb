@@ -10,13 +10,43 @@ class Medium < ApplicationRecord
   has_many :page_contents, as: :content
   has_many :references, as: :parent
 
-  enum subclass: [ :image, :video, :sound, :map, :js_map ]
-  enum format: [ :jpg, :youtube, :flash, :vimeo, :mp3, :ogg, :wav, 'audio/mpeg ', 'audio/ogg' , 'audio/x-wav' , 'video/ogg', 'video/mp4', 'video/x-ms-wmv',
-     'video/mpeg', 'video/quicktime', "video/webm", 'video/x-flv' , 'image/jpeg' , "image/gif" , 'image/png' , 'image/tiff' ,'image/svg+xm' ,'image/svg+xml']
+  enum subclass: [
+    :image,
+    :video,
+    :sound,
+    :map,
+    :js_map
+  ]
 
-  scope :images, -> { where(subclass: :image) }
-  scope :videos, -> { where(subclass: :video) }
-  scope :sounds, -> { where(subclass: :sound) }
+  enum format: [
+    :jpg,
+    :youtube,
+    :flash,
+    :vimeo,
+    :mp3,
+    :ogg,
+    :wav,
+    'audio/mpeg ',
+    'audio/ogg',
+    'audio/x-wav',
+    'video/ogg',
+    'video/mp4',
+    'video/x-ms-wmv',
+    'video/mpeg',
+    'video/quicktime',
+    "video/webm",
+    'video/x-flv',
+    'image/jpeg',
+    "image/gif",
+    'image/png',
+    'image/tiff',
+    'image/svg+xm',
+    'image/svg+xml'
+  ]
+
+  scope :images, -> {where(subclass: :image)}
+  scope :videos, -> {where(subclass: :video)}
+  scope :sounds, -> {where(subclass: :sound)}
 
   validates_uniqueness_of :id
 
@@ -52,3 +82,4 @@ class Medium < ApplicationRecord
     subclass == "js_map"
   end
 end
+

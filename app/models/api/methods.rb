@@ -1,5 +1,5 @@
   module Api
-    METHODS = [ :pages, :collections, :data_objects ]
+    METHODS = [:pages, :collections, :data_objects]
     class Methods
       VERSION = nil
       BRIEF_DESCRIPTION = nil
@@ -30,7 +30,7 @@
         def method_name
           self.parent.to_s.split("::").last.underscore
         end
-        
+
         #global validations for all input types 
         def validate_and_normalize_input_parameters(input_params)
            parameters.each do |parameter|  #each parameter is type of documentation_parameter
@@ -43,40 +43,39 @@
                 else
                   current_value=parameter.default
                 end
-                
+
               elsif parameter.boolean?
-                current_value = convert_to_boolean(current_value)                
+                current_value = convert_to_boolean(current_value)
                 
               elsif parameter.string? && current_value == ""
                 current_value= nil
-                
+
               elsif parameter.range?
                 current_value = parameter.values.max if current_value > parameter.values.max
                 current_value = parameter.values.min if current_value < parameter.values.min
-                
+
               elsif parameter.array?
                 current_value.downcase! if current_value.class == String
                 current_value = parameter.default unless parameter.values.include?(current_value)
               end
-              
-              input_params[parameter.name.to_sym]= current_value   
+
+              input_params[parameter.name.to_sym] = current_value
             else
-              input_params[parameter.name.to_sym]= parameter.default
+              input_params[parameter.name.to_sym] = parameter.default
             end
-            
+
             if parameter.required? && input_params[parameter.name.to_sym] == nil
               #raise EOL::Exceptions::ApiException.new("Required parameter \"#{documented_parameter.name}\" was not included")
               raise Error.new("Required parameter \"#{documented_parameter.name}\" was not included")
             end
-            
            end
         end
-        
+
         def convert_to_boolean(param)
-          return false if [ nil, '', '0', 0, 'false', false ].include?(param.downcase)
+          return false if [nil, '', '0', 0, 'false', false].include?(param.downcase)
           true
         end
-        
+
         def is_int? (num)
           begin
             Integer(num)
@@ -85,8 +84,7 @@
           else
             true # numeric
           end
-       end
-
+        end
       end
     end
   end

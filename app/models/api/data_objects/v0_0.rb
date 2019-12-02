@@ -2,35 +2,38 @@ module Api
   module DataObjects
     class V0_0 < Api::Methods
       VERSION = '0.0'
-      BRIEF_DESCRIPTION = Proc.new { "returns all metadata about a particular data object" }
-      DESCRIPTION = Proc.new { 'data object api description' + '</p><p>' + 'image objects will contain two mediaurl elements' }
+      BRIEF_DESCRIPTION = Proc.new {"returns all metadata about a particular data object"}
+      DESCRIPTION = Proc.new {'data object api description' + '</p><p>' + 'image objects will contain two mediaurl elements'}
       TEMPLATE = '/api/pages_0_0'
       PARAMETERS = Proc.new {
         [
           Api::DocumentationParameter.new(
-          :name => 'id',
-          :type => String,
-          :required => true,
-          :test_value => (Medium.find_by_guid('3e2749d04f955628be390d9c9e0dc0a4') || Medium.last).guid,
-          :notes =>  'guid of data object'),
+            name: 'id',
+            type: String,
+            required: true,
+            test_value: (Medium.find_by_guid('3e2749d04f955628be390d9c9e0dc0a4') || Medium.last).guid,
+            notes: 'guid of data object'),
+
           Api::DocumentationParameter.new(
-          :name => 'taxonomy',
-          :type => 'Boolean',
-          :default => true,
-          :test_value => true,
-          :notes =>  'return any taxonomy details from different hierarchy providers'),
+            name: 'taxonomy',
+            type: 'Boolean',
+            default: true,
+            test_value: true,
+            notes: 'return any taxonomy details from different hierarchy providers'),
+
           Api::DocumentationParameter.new(
-          :name => 'cache_ttl',
-          :type => Integer,
-          :notes =>  'api cache time to live parameter'),
+            name: 'cache_ttl',
+            type: Integer,
+            notes: 'api cache time to live parameter'),
+
           Api::DocumentationParameter.new(
-          :name => "language",
-          :type => String,
-          :values => ["en", "fr"] ,
-          :default => "en",
-          :notes => "choose language")
-        ] }
-        
+          name: "language",
+          type: String,
+          values: ["en", "fr"] ,
+          default: "en",
+          notes: "choose language")
+        ]}
+
       def self.call(params={})
         # Medium.reindex
         validate_and_normalize_input_parameters(params)
@@ -38,15 +41,20 @@ module Api
         params[:details] = true
         data_object = Medium.find_by_guid(params[:id]) || Article.find_by_guid(params[:id]) || Link.find_by_guid(params[:id])
         raise ActiveRecord::RecordNotFound.new("Unknown data_object id \"#{params[:id]}\"") if data_object.blank?
-        
-        page_content = PageContent.where("content_id = ? and content_type = ? ", data_object.id, "Medium").first || PageContent.where("content_id = ? and content_type = ? ", data_object.id, "Article").first || PageContent.where("content_id = ? and content_type = ? ", data_object.id, "Link").first
+
+        page_content = PageContent.where("content_id = ? and content_type = ? ", 
+          data_object.id, "Medium").first || PageContent.where("content_id = ? and content_type = ? ", 
+          data_object.id, "Article").first || PageContent.where("content_id = ? and content_type = ? ", 
+          data_object.id, "Link").first
+
         page_object = Page.search(page_content.page_id, fields:[{id: :exact}]).results.first
-        Api::Pages::V0_0.prepare_hash(page_object, params.merge({ :data_object => data_object, :details => true }))
+        Api::Pages::V0_0.prepare_hash(page_object, params.merge({data_object: data_object, details: true}))
       end
-      
+
       def self.prepare_hash(data_object, params, page)
         return_hash = {}
-        content_object = PageContent.where("page_id = ? and content_id = ? and content_type = ? ", page.id, data_object.id, data_object.class.name).first
+        content_object = PageContent.where("page_id = ? and content_id = ? and content_type = ? ", 
+          page.id, data_object.id, data_object.class.name).first
         
         return_hash['identifier'] = data_object.guid
         return_hash['dataObjectVersionID'] = nil
@@ -109,7 +117,8 @@ module Api
         return_hash['mediaURL'] = data_object.source_url unless data_object.source_url.blank?
         
         # return_hash['eolMediaURL'] = data_object. unless data_object.object_cache_url.blank?
-        # return_hash['eolThumbnailURL'] = data_object.image_cache_path(data_object.object_cache_url, '98_68', :specified_content_host => Rails.configuration.asset_host) unless data_object.object_cache_url.blank?
+        # return_hash['eolThumbnailURL'] = data_object.image_cache_path(data_object.object_cache_url,
+        # '98_68', :specified_content_host => Rails.configuration.asset_host) unless data_object.object_cache_url.blank?
         unless (data_object.kind_of? Link) || (data_object.location_id.nil?)
           return_hash['location'] = data_object.location.location
           unless data_object.location.latitude == 0 && data_object.location.longitude == 0 && data_object.location.altitude == 0
@@ -125,13 +134,13 @@ module Api
         if (data_object.kind_of? Medium) || (data_object.kind_of? Article)
           data_object.attributions.each do |attribution|
             return_hash['agents'] << {
-              'full_name' => attribution.value, #value ?
-              'homepage'  => attribution.url,  #url ?
-              'role'      => (attribution.role.name.downcase rescue nil)
+              'full_name': attribution.value, #value ?
+              'homepage': attribution.url,  #url ?
+              'role': (attribution.role.name.downcase rescue nil)
             }
           end
         end
-        
+
           # if data_object.content_partner
             # return_hash['agents'] << {
               # 'full_name' => data_object.content_partner.name,
@@ -148,7 +157,6 @@ module Api
         end
         return return_hash
       end
-
     end
   end
 end

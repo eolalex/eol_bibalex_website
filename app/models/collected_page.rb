@@ -1,22 +1,22 @@
 class CollectedPage < ActiveRecord::Base
-
-  searchkick word_start: [:scientific_name_string]
-
-  belongs_to :page, inverse_of: :collected_pages
-  belongs_to :collection, inverse_of: :collected_pages
   require 'acts_as_list'
-  validates_presence_of :collection
-  validates_presence_of :page
-  validates_uniqueness_of :page_id, scope: :collection_id
 
   has_many :collected_pages_media, inverse_of: :collected_page
   has_many :media, through: :collected_pages_media
   has_and_belongs_to_many :articles
   has_and_belongs_to_many :links
 
+  belongs_to :page, inverse_of: :collected_pages
+  belongs_to :collection, inverse_of: :collected_pages
+
+  validates_presence_of :collection
+  validates_presence_of :page
+  validates_uniqueness_of :page_id, scope: :collection_id
+
   acts_as_list scope: :collection
   counter_culture :collection, column_name: :collected_pages_count, touch: true
 
+  searchkick word_start: [:scientific_name_string]
   def search_data
     {
        type: "collected_page",
@@ -67,3 +67,4 @@ class CollectedPage < ActiveRecord::Base
     medium.try(:small_icon_url) or page.medium.try(:small_icon_url)
   end
 end
+

@@ -1,12 +1,7 @@
 module Api
   class DocumentationParameter
-    attr_accessor :name
-    attr_accessor :type
-    attr_accessor :required
-    attr_accessor :values
-    attr_accessor :default
-    attr_accessor :notes
-    attr_accessor :test_value
+    attr_accessor :name, :type, :required, :values, :default, :notes, :test_value
+
     def initialize(options={})
       @name = options[:name]
       @type = options[:type] || String
@@ -41,6 +36,5 @@ module Api
     def required?
       @required == true
     end
-
   end
 end

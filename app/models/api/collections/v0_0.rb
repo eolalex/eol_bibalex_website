@@ -2,51 +2,51 @@ module Api
   module Collections
     class V0_0 < Api::Methods
       VERSION = '0.0'
-      BRIEF_DESCRIPTION= Proc.new {"brief description" }
-      DESCRIPTION= Proc.new {"API Collections" }
+      BRIEF_DESCRIPTION = Proc.new {"brief description"}
+      DESCRIPTION = Proc.new {"API Collections"}
       PARAMETERS = Proc.new {
         [
           Api::DocumentationParameter.new(
-            :name => 'id',
-            :type => Integer,
-            :required => true,
-            :test_value => 1),
+            name: 'id',
+            type: Integer,
+            required: true,
+            test_value: 1),
           Api::DocumentationParameter.new(
-            :name => 'page',
-            :type => Integer,
-            :default => 1 ),
+            name: 'page',
+            type: Integer,
+            default: 1 ),
           Api::DocumentationParameter.new(
-            :name => 'per_page',
-            :type => Integer,
-            :values => (0..500),
-            :default => 50 ),
+            name: 'per_page',
+            type: Integer,
+            values: (0..500),
+            default: 50 ),
           Api::DocumentationParameter.new(
-            :name => 'filter',
-            :type => String,
-            :values => [ 'articles', 'collections', 'images', 'sounds', 'taxa', 'users', 'video' ] ),
+            name: 'filter',
+            type: String,
+            values: [ 'articles', 'collections', 'images', 'sounds', 'taxa', 'users', 'video' ] ),
           Api::DocumentationParameter.new(
-            :name => 'sort_by',
-            :type => String,
-            :values => ['recently_added', 'oldest', 'alphabetical', 'reverse_alphabetical', 'richness', 'rating',
+            name: 'sort_by',
+            type: String,
+            values: ['recently_added', 'oldest', 'alphabetical', 'reverse_alphabetical', 'richness', 'rating',
               'sort_field', 'reverse_sort_field'],
-            :default => "sort_field"),
+            default: "sort_field"),
           Api::DocumentationParameter.new(
-            :name => 'sort_field',
-            :type => String,
-            :notes => "sort field"),
+            name: 'sort_field',
+            type: String,
+            notes: "sort field"),
           Api::DocumentationParameter.new(
-            :name => 'cache_ttl',
-            :type => Integer,
-            :notes => "api cache time to live"),
+            name: 'cache_ttl',
+            type: Integer,
+            notes: "api cache time to live"),
           Api::DocumentationParameter.new(
-            :name => "language",
-            :type => String,
-            :values => ["en", "fr"] ,
-            :default => "en",
-            :notes => "choose language")
+            name: "language",
+            type: String,
+            values: ["en", "fr"] ,
+            default: "en",
+            notes: "choose language")
         ] }
 
-      def self.call(params={})
+      def self.call(params = {})
         # Collection.reindex
         validate_and_normalize_input_parameters(params)
           I18n.locale = params[:language] unless params[:language].blank?
@@ -70,7 +70,7 @@ module Api
         return_hash['created'] = collection.created_at
         return_hash['modified'] = collection.updated_at
 
-        counts ={}
+        counts = {}
         @articles, @video, @images, @sounds, @taxa, @users, @collections, @total_items = [], [], [], [], [], [], [], [] 
         collected_pages = collection.collected_pages
 
@@ -110,31 +110,31 @@ module Api
           @total_items += @collected_page_items
 
         end
-        counts['taxa'] =  collection.collected_pages.count
-        counts['users'] =  collection.users.count
+        counts['taxa'] = collection.collected_pages.count
+        counts['users'] = collection.users.count
 
         @taxa += collection.pages
         @users += collection.users
-        return_hash['total_items'] =  adjust_total_items_count(params, counts)
+        return_hash['total_items'] = adjust_total_items_count(params, counts)
 
         return_hash['item_types'] = []
-        return_hash['item_types'] << { 'item_type' => "TaxonConcept", 'item_count' => counts['taxa']}
-        return_hash['item_types'] << { 'item_type' => "Text", 'item_count' => counts['articles'] }
-        return_hash['item_types'] << { 'item_type' => "Video", 'item_count' => counts['video'] }
-        return_hash['item_types'] << { 'item_type' => "Image", 'item_count' => counts['images'] }
-        return_hash['item_types'] << { 'item_type' => "Sound", 'item_count' => counts['sounds'] }
-        return_hash['item_types'] << { 'item_type' => "User", 'item_count' => counts['users'] }
-        return_hash['item_types'] << { 'item_type' => "Collection", 'item_count' => counts['collections'] }
+        return_hash['item_types'] << {'item_type': "TaxonConcept", 'item_count': counts['taxa']}
+        return_hash['item_types'] << {'item_type': "Text", 'item_count': counts['articles']}
+        return_hash['item_types'] << {'item_type': "Video", 'item_count': counts['video']}
+        return_hash['item_types'] << {'item_type': "Image", 'item_count': counts['images']}
+        return_hash['item_types'] << {'item_type': "Sound", 'item_count': counts['sounds']}
+        return_hash['item_types'] << {'item_type': "User", 'item_count': counts['users']}
+        return_hash['item_types'] << {'item_type': "Collection", 'item_count': counts['collections'] }
         @items = adjust_requseted_items(params, @articles, @video, @images, @sounds, @taxa, @users, @collections, @total_items)
         @items = @items.uniq
         return_hash['collection_items'] = []
         @items.each do |item|
           item_hash = {
-            'name' => item.try(:name) || item.try(:scientific_name) || item.try(:username),
-            'object_type' => item.class.name,
-            'object_id' => item.id,
-            'created' => item.created_at,
-            'updated' => item.updated_at
+            'name': item.try(:name) || item.try(:scientific_name) || item.try(:username),
+            'object_type': item.class.name,
+            'object_id': item.id,
+            'created': item.created_at,
+            'updated': item.updated_at
           }
 
           if item.kind_of? Page
@@ -173,7 +173,7 @@ module Api
         elsif params[:filter].eql? "users"
           @items = users
         else
-          @items = total_items+taxa+users+collections
+          @items = total_items + taxa + users + collections
         end
 
         return sort_items(params, @items)
@@ -193,7 +193,7 @@ module Api
         params[:per_page] = 40 if params[:per_page] == 0
 
         offset = (params[:page]-1)*params[:per_page]
-        return items[offset..offset+params[:per_page]-1]
+        return items[offset..(offset + params[:per_page] - 1)]
       end
     end
   end

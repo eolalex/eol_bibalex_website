@@ -1,5 +1,4 @@
 class Article < ApplicationRecord
-  searchkick
   belongs_to :langauge, optional: true
   belongs_to :license, optional: true
   belongs_to :location, optional: true
@@ -12,13 +11,14 @@ class Article < ApplicationRecord
 
   validates_uniqueness_of :id
 
+  searchkick
   def search_data
     {
       id: id,
       ancestry_ids: ancestry_ids 
     }
   end
-  
+
   def ancestry_ids
     page_contents.pluck(:pages_id)
   end

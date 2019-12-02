@@ -13,6 +13,6 @@ class Link < ApplicationRecord
   end
 
   def ancestry_ids
-      page_contents.pluck(:pages_id)
+    page_contents.pluck(:pages_id)
   end
 end
