@@ -52,7 +52,8 @@ ENV['PER_PAGE_RESOURCES'] = '10'
 ENV['RESOURCE_BATCH_SIZE'] = '100'
 
 # --------- S -----------
-ENV['SCHEDULER_IP'] = 'http://localhost:8084/scheduler'
+# ENV['SCHEDULER_IP'] = 'http://localhost:8084/scheduler'
+ENV['SCHEDULER_IP'] = 'http://172.16.0.161:80/scheduler'
 ENV['STORAGE_IP'] = 'http://172.16.0.99:80/eol/archiver'
 
 # --------- T -----------
