@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_action_mailer_default_url
-   ActionMailer::Base.default_url_options = { host: request.host_with_port}
+   ActionMailer::Base.default_url_options = {host: request.host_with_port}
   end
 
   def allow_cross_domain_ajax
@@ -29,7 +29,6 @@ class ApplicationController < ActionController::Base
   protected
 
     def configure_permitted_params
-      # debugger
       devise_parameter_sanitizer.permit(:sign_up) do |user|
         user.permit(:username, :email, :password, :password_confirmation, :recaptcha, :failed_attempts)
       end

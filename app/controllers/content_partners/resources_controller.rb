@@ -53,7 +53,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
     if @resource.valid?
       result = ResourceApi.add_resource?(resource_params, params[:content_partner_id])
       if result.nil?
-        flash.now[:notice] = I18n.t( :error_in_connection)
+        flash.now[:notice] = I18n.t(:error_in_connection)
         render action: 'new'
       else
         $updated_at = DateTime.now().strftime("%Q")
@@ -97,7 +97,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
       )
     else
       flash[:notice]=I18n.t(:edit_resource)
-      redirect_to content_partner_resource_path(content_partner_id: params[:content_partner_id],id: params[:id])
+      redirect_to content_partner_resource_path(content_partner_id: params[:content_partner_id], id: params[:id])
     end
   end
 
@@ -257,3 +257,4 @@ class ContentPartners::ResourcesController < ContentPartnersController
     end
   end
 end
+

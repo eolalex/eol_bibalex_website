@@ -5,7 +5,7 @@ class ArticlesController < ApplicationController
   def show
     @article = Article.where(id: params[:id]).first
     @license = @article.license
-    @page_id = PageContent.where(content_id:params[:id], content_type: "Article").first.page_id
+    @page_id = PageContent.where(content_id: params[:id], content_type: "Article").first.page_id
     @content_partner_id = ContentPartnerApi.get_content_partner_resource_id(@article.resource_id)
     @result = ResourceApi.get_resource(@content_partner_id["id"], @article.resource_id)
     @resource = Resource.new(
@@ -33,7 +33,7 @@ class ArticlesController < ApplicationController
       default_language_id: @result["default_language_id"]
     )
 
-    attributions = @article.attributions.sort_by{ |hsh| hsh[:role_name] }
-    @attributions = attributions.group_by { |t| t[:role_name] }
+    attributions = @article.attributions.sort_by{|hsh| hsh[:role_name]}
+    @attributions = attributions.group_by {|t| t[:role_name]}
   end
 end

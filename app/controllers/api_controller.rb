@@ -57,10 +57,10 @@ class ApiController < ApplicationController
   def render_error(error_message, status_code = 500)
     # default response for all API errors, with XML or JSON repsonses
     respond_to do |format|
-      format.xml { render(partial: 'error', locals: { error: error_message }, status: status_code) }
-      format.json { render(json: [ error: error_message ], callback: params[:callback], status: status_code ) }
+      format.xml {render(partial: 'error', locals: {error: error_message}, status: status_code)}
+      format.json {render(json: [error: error_message], callback: params[:callback], status: status_code)}
       # API docs might have an error too, but in that case raise to get the default HTML error handling
-      format.html { raise }
+      format.html {raise}
     end
   end
 

@@ -9,7 +9,6 @@ class SearchController < ApplicationController
 
   def search
     @page_title = params[:query] == "*" ? t(:see_more) : params[:query]+ "| " + t(:search_results)
-    # debugger
     regex = ".*\"" + params[:query].downcase + "\".*"
     page_result = Page.search params[:query] do |body|
       body[:query] = {
@@ -34,3 +33,4 @@ class SearchController < ApplicationController
     end
   end
 end
+

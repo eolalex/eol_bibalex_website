@@ -127,3 +127,4 @@ class ContentPartnersController < ApplicationController
     )
   end
 end
+

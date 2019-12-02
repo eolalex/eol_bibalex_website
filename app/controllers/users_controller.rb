@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   include ApplicationHelper
-  helper_method :url_without_locale_params
 
   def show
     @user = User.find(params[:id])
