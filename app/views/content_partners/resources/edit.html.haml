@@ -90,5 +90,5 @@
               .col-xs-12
                 = resource_error_messages(@resource)
                 %input.btn.btn-primary{ tabindex: "5", type: "submit", value: "#{t(:update_button)}"}
-                = link_to "#{t(:back)}", content_partner_path( id: params[:content_partner_id]), class: "btn btn-primary"
+                = link_to "#{t(:back)}", content_partner_resource_path(params[:content_partner_id], params[:id]), class: "btn btn-primary"
 

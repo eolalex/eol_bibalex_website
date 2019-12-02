@@ -5,13 +5,14 @@
         %img{src: "/assets/download.png"}/
         = @resource.name
         %span.pull-right
-          -if(current_user == @content_partner.user)
-            %a.btn.btn-primary{ href: "#{edit_content_partner_resource_path(content_partner_id: @content_partner.id,id: params["id"])}", :role => "button"}
-              #{t(:edit_button)}
-        %span.pull-right
           - if(!(current_user.nil?) || current_user.admin)
             %a.btn.btn-primary{ href: "/resources/#{params[:id]}/info", role: "button"}
               #{t(:resource_statistics)}
+
+          -if(current_user == @content_partner.user)
+            %a.btn.btn-primary{ href: "#{edit_content_partner_resource_path(content_partner_id: @content_partner.id,id: params["id"])}", :role => "button"}
+              #{t(:edit_button)}
+
     .col-md-8
       .part
         .subtitle
