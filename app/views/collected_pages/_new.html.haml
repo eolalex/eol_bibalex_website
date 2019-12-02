@@ -24,8 +24,8 @@
           = f.radio_button(:collection_id, collection.id, class: "uk-radio", checked: count == 1 ? "checked" : false)
           = f.label(:collection_id, collection.name)
         - count += 1
-        .modal-footer{style: "padding-bottom:0; margin-top:0;"}
-          = f.button("#{t(:add_button)}", class: "btn btn-primary")
+      .modal-footer{style: "padding-bottom:0; margin-top:0;"}
+        = f.button("#{t(:add_button)}", class: "btn btn-primary")
   .row
     .col-md-12
       %h3.login-or
