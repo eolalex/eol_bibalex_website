@@ -24,7 +24,6 @@ class ContentPartnerApi
           multipart: true
         }
       )
-
       response = request.execute
       content_partner_id = response.body
       ContentPartnerUser.create(
@@ -79,6 +78,7 @@ class ContentPartnerApi
   def self.update_content_partner?(content_partner_id, params)
     if params[:logo].nil?
       returned_content_partner = get_content_partner_without_resources(content_partner_id)
+
       @content_partner_data = ContentPartner.new(
         name: returned_content_partner["name"],
         abbreviation: returned_content_partner["abbreviation"],
@@ -86,6 +86,7 @@ class ContentPartnerApi
         description: returned_content_partner["description"],
         logo: returned_content_partner["logoPath"]
       )
+
       logo_path = @content_partner_data.logo
     else
       input_logo = params[:logo].tempfile
@@ -95,6 +96,7 @@ class ContentPartnerApi
       logo_path_array = logo.path.split("/")
       logo_name = logo_path_array.last
       logo_path = "#{@logo_ip}/eol_workspace/contentPartners/#{content_partner_id}/#{logo_name}"
+
       begin
         logo.open
         logo.seek 0
@@ -105,6 +107,7 @@ class ContentPartnerApi
             logo: logo
           }
         )
+
         logo_response = logo_request.execute
         content_partner_id
       rescue => e
@@ -113,9 +116,10 @@ class ContentPartnerApi
     end
 
     begin
-      response = RestClient.post(
-        "#{@scheduler_uri}/contentPartners/#{content_partner_id}",
-        {
+      response = RestClient::Request.new(
+        method: :post,
+        url: "#{@scheduler_uri}/contentPartners/#{content_partner_id}",
+        payload: {
           name: params[:name],
           description: params[:description],
           url: params[:url],

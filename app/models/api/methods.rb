@@ -65,7 +65,6 @@
             end
 
             if parameter.required? && input_params[parameter.name.to_sym] == nil
-              #raise EOL::Exceptions::ApiException.new("Required parameter \"#{documented_parameter.name}\" was not included")
               raise Error.new("Required parameter \"#{documented_parameter.name}\" was not included")
             end
            end
@@ -88,3 +87,4 @@
       end
     end
   end
+

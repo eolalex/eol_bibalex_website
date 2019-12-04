@@ -12,26 +12,30 @@ module Api
             type: String,
             required: true,
             test_value: (Medium.find_by_guid('3e2749d04f955628be390d9c9e0dc0a4') || Medium.last).guid,
-            notes: 'guid of data object'),
+            notes: 'guid of data object'
+          ),
 
           Api::DocumentationParameter.new(
             name: 'taxonomy',
             type: 'Boolean',
             default: true,
             test_value: true,
-            notes: 'return any taxonomy details from different hierarchy providers'),
+            notes: 'return any taxonomy details from different hierarchy providers'
+          ),
 
           Api::DocumentationParameter.new(
             name: 'cache_ttl',
             type: Integer,
-            notes: 'api cache time to live parameter'),
+            notes: 'api cache time to live parameter'
+          ),
 
           Api::DocumentationParameter.new(
-          name: "language",
-          type: String,
-          values: ["en", "fr"] ,
-          default: "en",
-          notes: "choose language")
+            name: "language",
+            type: String,
+            values: ["en", "fr"],
+            default: "en",
+            notes: "choose language"
+          )
         ]}
 
       def self.call(params={})
@@ -53,13 +57,14 @@ module Api
 
       def self.prepare_hash(data_object, params, page)
         return_hash = {}
-        content_object = PageContent.where("page_id = ? and content_id = ? and content_type = ? ", 
+        content_object = PageContent.where("page_id = ? and content_id = ? and content_type = ? ",
           page.id, data_object.id, data_object.class.name).first
-        
+
         return_hash['identifier'] = data_object.guid
         return_hash['dataObjectVersionID'] = nil
         datatype = ''
         datasubtype = ''
+
         if data_object.class == Medium
           if data_object.map?
             datatype = 'Image'
@@ -75,6 +80,7 @@ module Api
           datatype = data_object.class
           datasubtype = ''
         end
+
         return_hash['dataType'] = datatype
         return_hash['dataSubtype'] = datasubtype
         return_hash['vettedStatus'] = content_object.trust
@@ -84,6 +90,7 @@ module Api
         if data_object.kind_of? Article
           return_hash['subject'] = data_object.sections.first.name
         end
+
         return return_hash unless params[:details] == true
         if data_object && (data_object.kind_of? Medium) && data_object.is_image?
           if (info = ImageInfo.where("image_id = ?", data_object.id).first)
@@ -109,16 +116,11 @@ module Api
         return_hash['title'] = data_object.name unless data_object.name.blank?
         return_hash['language'] = data_object.language.group unless data_object.language.blank?
         return_hash['rights'] = data_object.rights_statement unless data_object.rights_statement.blank?
-        
         return_hash['audience'] = []
-         
         #duplicate source_url
         return_hash['source'] = data_object.source_url unless data_object.source_url.blank?
         return_hash['mediaURL'] = data_object.source_url unless data_object.source_url.blank?
-        
-        # return_hash['eolMediaURL'] = data_object. unless data_object.object_cache_url.blank?
-        # return_hash['eolThumbnailURL'] = data_object.image_cache_path(data_object.object_cache_url,
-        # '98_68', :specified_content_host => Rails.configuration.asset_host) unless data_object.object_cache_url.blank?
+
         unless (data_object.kind_of? Link) || (data_object.location_id.nil?)
           return_hash['location'] = data_object.location.location
           unless data_object.location.latitude == 0 && data_object.location.longitude == 0 && data_object.location.altitude == 0
@@ -129,7 +131,7 @@ module Api
         end
         
         return_hash['agents'] = []
-        
+
         # links don't have attributions
         if (data_object.kind_of? Medium) || (data_object.kind_of? Article)
           data_object.attributions.each do |attribution|
@@ -141,13 +143,6 @@ module Api
           end
         end
 
-          # if data_object.content_partner
-            # return_hash['agents'] << {
-              # 'full_name' => data_object.content_partner.name,
-              # 'homepage'  => data_object.content_partner.homepage,
-              # 'role'      => (AgentRole.provider.label.downcase rescue nil)
-            # }
-          # end
         return_hash['references'] = []
         data_object.references.each do |ref|
           ref.referents.each do |r|

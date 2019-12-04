@@ -10,44 +10,58 @@ module Api
             name: 'id',
             type: Integer,
             required: true,
-            test_value: 1),
+            test_value: 1
+          ),
+
           Api::DocumentationParameter.new(
             name: 'page',
             type: Integer,
-            default: 1 ),
+            default: 1
+          ),
+
           Api::DocumentationParameter.new(
             name: 'per_page',
             type: Integer,
             values: (0..500),
-            default: 50 ),
+            default: 50
+          ),
+
           Api::DocumentationParameter.new(
             name: 'filter',
             type: String,
-            values: [ 'articles', 'collections', 'images', 'sounds', 'taxa', 'users', 'video' ] ),
+            values: ['articles', 'collections', 'images', 'sounds', 'taxa', 'users', 'video']
+            ),
+
           Api::DocumentationParameter.new(
             name: 'sort_by',
             type: String,
-            values: ['recently_added', 'oldest', 'alphabetical', 'reverse_alphabetical', 'richness', 'rating',
-              'sort_field', 'reverse_sort_field'],
-            default: "sort_field"),
+            values: ['recently_added', 'oldest', 'alphabetical', 'reverse_alphabetical', 'richness',
+              'rating', 'sort_field', 'reverse_sort_field'],
+            default: "sort_field"
+          ),
+
           Api::DocumentationParameter.new(
             name: 'sort_field',
             type: String,
-            notes: "sort field"),
+            notes: "sort field"
+          ),
+
           Api::DocumentationParameter.new(
             name: 'cache_ttl',
             type: Integer,
-            notes: "api cache time to live"),
+            notes: "api cache time to live"
+          ),
+
           Api::DocumentationParameter.new(
             name: "language",
             type: String,
             values: ["en", "fr"] ,
             default: "en",
-            notes: "choose language")
-        ] }
+            notes: "choose language"
+          )
+        ]}
 
       def self.call(params = {})
-        # Collection.reindex
         validate_and_normalize_input_parameters(params)
           I18n.locale = params[:language] unless params[:language].blank?
         if params[:sort_by].class != String
@@ -71,7 +85,7 @@ module Api
         return_hash['modified'] = collection.updated_at
 
         counts = {}
-        @articles, @video, @images, @sounds, @taxa, @users, @collections, @total_items = [], [], [], [], [], [], [], [] 
+        @articles, @video, @images, @sounds, @taxa, @users, @collections, @total_items = [], [], [], [], [], [], [], []
         collected_pages = collection.collected_pages
 
         if params[:sort_by].eql? "richness"
@@ -124,9 +138,11 @@ module Api
         return_hash['item_types'] << {'item_type': "Image", 'item_count': counts['images']}
         return_hash['item_types'] << {'item_type': "Sound", 'item_count': counts['sounds']}
         return_hash['item_types'] << {'item_type': "User", 'item_count': counts['users']}
-        return_hash['item_types'] << {'item_type': "Collection", 'item_count': counts['collections'] }
+        return_hash['item_types'] << {'item_type': "Collection", 'item_count': counts['collections']}
+
         @items = adjust_requseted_items(params, @articles, @video, @images, @sounds, @taxa, @users, @collections, @total_items)
         @items = @items.uniq
+
         return_hash['collection_items'] = []
         @items.each do |item|
           item_hash = {
@@ -192,9 +208,10 @@ module Api
         params[:per_page] ||= 40
         params[:per_page] = 40 if params[:per_page] == 0
 
-        offset = (params[:page]-1)*params[:per_page]
+        offset = (params[:page] - 1) * params[:per_page]
         return items[offset..(offset + params[:per_page] - 1)]
       end
     end
   end
 end
+

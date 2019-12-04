@@ -13,6 +13,7 @@ class PageContent < ApplicationRecord
       "page_contents.content_id AND media.subclass = "\
       "'#{Medium.subclasses[subclass]}')").
     where(content_type: "Medium").pluck(:content_id))}
+
   scope :images, -> {media_by_subclass(:image)}
   scope :sounds, -> {media_by_subclass(:sound)}
   scope :videos, -> {media_by_subclass(:video)}

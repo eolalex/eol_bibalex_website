@@ -10,8 +10,8 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable,
-         :lockable, :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
+     :recoverable, :rememberable, :trackable, :validatable, :confirmable,
+     :lockable, :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
 
   def password_complexity
     if password.present? and not password.match (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)./)

@@ -13,13 +13,15 @@ module Api
             type: 'Boolean',
             default: false,
             test_value: false,
-            notes: "need batch or not"),
+            notes: "need batch or not"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'id',
             type: String,
             required: true,
-            test_value: (Page.find_by_id(328598) || Page.last).id),
+            test_value: (Page.find_by_id(328598) || Page.last).id
+          ),
 
           Api::DocumentationParameter.new(
             name: 'images_per_page',
@@ -27,108 +29,124 @@ module Api
             values: (0..75),
             default: 1,
             test_value: 1,
-            notes: "number of images per page"),
+            notes: "number of images per page"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'images_page',
             type: Integer,
             default: 1,
             test_value: 1,
-            notes: "select specified page for images"),
+            notes: "select specified page for images"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'videos_per_page',
             type: Integer,
             values: (0..75),
             test_value: 1,
-            notes: "number of videos per page"),
+            notes: "number of videos per page"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'videos_page',
             type: Integer,
             default: 1,
             test_value: 1,
-            notes: "select specified page for videos"),
+            notes: "select specified page for videos"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'sounds_per_page',
             type: Integer,
             values: (0..75),
             test_value: 1,
-            notes: "number of sounds per page"),
+            notes: "number of sounds per page"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'sounds_page',
             type: Integer,
             default: 1,
             test_value: 1,
-            notes: "select specified page for sounds"),
+            notes: "select specified page for sounds"
+          ),
 
           Api::DocumentationParameter.new(
           name: 'maps_per_page',
             type: Integer,
             values: (0..75),
             test_value: 1,
-            notes: "number of maps per page"),
+            notes: "number of maps per page"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'maps_page',
             type: Integer,
             default: 1,
             test_value: 1,
-            notes: "select specified page for maps"),
+            notes: "select specified page for maps"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'texts_per_page',
             type: Integer,
             values: (0..75),
             test_value: 2,
-            notes: "number of texts per page"),
+            notes: "number of texts per page"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'texts_page',
             type: Integer,
             default: 1,
             test_value: 1,
-            notes: "select specified page for texts"),
+            notes: "select specified page for texts"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'subjects',
             type: String,
             values: "see notes",
             default: 'overview',
-            notes: "notes on subject"),
+            notes: "notes on subject"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'licenses',
             type: String,
             values: 'cc-by, cc-by-nc, cc-by-sa, cc-by-nc-sa, pd [public domain], na [not applicable], all',
             default: 'all',
-            notes: "notes on licenses"),
+            notes: "notes on licenses"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'details',
             type: 'Boolean',
             test_value: true,
-            notes: "include all meta data"),
+            notes: "include all meta data"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'common_names',
             type: 'Boolean',
             test_value: true,
-            notes: "return common names"),
+            notes: "return common names"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'synonyms',
             type: 'Boolean',
             test_value: true,
-            notes: "return synonyms"),
+            notes: "return synonyms"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'references',
             type: 'Boolean',
             test_value: true,
-            notes: "return references"),
+            notes: "return references"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'taxonomy',
@@ -136,26 +154,30 @@ module Api
             default: true,
             test_value: true,
             default: true,
-            notes: "return clasifications"),
+            notes: "return clasifications"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'vetted',
             type: Integer,
             values: [0, 1, 2, 3, 4],
             default: 0,
-            notes: "return content by vettedness"),
+            notes: "return content by vettedness"
+          ),
 
           Api::DocumentationParameter.new(
             name: 'cache_ttl',
             type: Integer,
-            notes: "api cache time to live"),
+            notes: "api cache time to live"
+          ),
 
           Api::DocumentationParameter.new(
             name: "language",
             type: String,
             values: ["en", "fr"],
             default: "en",
-            notes: "choose language")
+            notes: "choose language"
+          )
         ]}
 
       def self.call(params)
@@ -166,12 +188,12 @@ module Api
           {id: page_id, page: page_request}
         end.compact
 
-        if (params[:batch] )
+        if (params[:batch])
           batch_pages = {}
           page_requests.each do |page_request|
-            pr = page_request[:page]
-            raise ActiveRecord::RecordNotFound.new("Unknown page id \"#{params[:id]}\"") unless pr
-            batch_pages[page_request.id] = prepare_hash(pr, params.merge(batch: true))
+            page_req = page_request[:page]
+            raise ActiveRecord::RecordNotFound.new("Unknown page id \"#{params[:id]}\"") unless page_req
+            batch_pages[page_request.id] = prepare_hash(page_req, params.merge(batch: true))
           end
         batch_pages
         else
@@ -181,7 +203,7 @@ module Api
         end
       end
 
-      def self.adjust_sounds_images_videos_texts (params)
+      def self.adjust_sounds_images_videos_texts(params)
         params[:images_per_page] = adjust_param(params[:images_per_page], params[:images])
         params[:sounds_per_page] = adjust_param(params[:sounds_per_page], params[:sounds])
         params[:videos_per_page] = adjust_param(params[:videos_per_page], params[:videos])
@@ -206,22 +228,21 @@ module Api
 
           if params[:synonyms]
             return_hash["synonyms"] =
-            page.synonyms.map do |syn_object|
-              relation = syn_object.taxonomic_status.try(:name) || ""
-              # resource_title = syn_object.node.try(:resource).try(:name) || ""
-              {"synonym": syn_object.italicized, "relationship": relation, "resource": resource_title}
-            end.sort {|a,b| a["synonym"] <=> b["synonym"]}.uniq
+            page.synonyms.map do |synonym_object|
+              relation = synonym_object.taxonomic_status.try(:name) || ""
+              {"synonym": synonym_object.italicized, "relationship": relation, "resource": resource_title}
+            end.sort {|synonym_1, synonym_2| synonym_1["synonym"] <=> synonym_2["synonym"]}.uniq
           end
-# 
+
           if params[:common_names]
             return_hash['vernacularNames'] = []
-            Vernacular.where("page_id = ? ", page.id).each do |ver|
-              lang = ver.language.group
+            Vernacular.where("page_id = ?", page.id).each do |vernacular|
+              language = vernacular.language.group
               common_name_hash = {
                 'vernacularName': ver.string,
-                'language': lang
+                'language': language
               }
-              preferred = (ver.is_preferred_by_resource) ? true : nil
+              preferred = (vernacular.is_preferred_by_resource) ? true : nil
               common_name_hash['eol_preferred'] = preferred unless preferred.blank?
               return_hash['vernacularNames'] << common_name_hash
             end
@@ -229,8 +250,8 @@ module Api
 
           if params[:references]
             return_hash['references'] = []
-            Referent.where('pages', page.id).each do |r|
-              return_hash['references'] << r.body
+            Referent.where('pages', page.id).each do |referent|
+              return_hash['references'] << referent.body
             end
             return_hash['references'].uniq!
           end
@@ -241,8 +262,7 @@ module Api
               node = Node.find(page_node.node_id)
               node_hash = {
                 'identifier': node.id,
-                'scientificName': node.scientific_name ,
-                # 'nameAccordingTo': node.resource.name,
+                'scientificName': node.scientific_name,
                 'canonicalForm': node.canonical_form
               }
               node_hash['sourceIdentifier'] = node.resource_pk unless node.resource_pk.blank?
@@ -259,15 +279,12 @@ module Api
               return_hash['dataObjects'] << Api::DataObjects::V0_0.prepare_hash(data_object, params, page)
               end
           end
-
         end
-
         return return_hash
-
       end
 
       def self.no_objects_required?(params)
-        return (
+        return(
           params[:action] == "pages" &&
           params[:texts_per_page] == 0 &&
           params[:images_per_page] == 0 &&
@@ -276,14 +293,14 @@ module Api
           params[:sounds_per_page] == 0
         )
       end
-      
+
       def self.get_data_objects(page, params)
         params[:licenses] = nil if params[:licenses] && params[:licenses].include?('all')
         process_license_options!(params)
         process_subject_options!(params)
         adjust_vetted_options!(params)
 
-        media = Medium.search(page.id, fields:[{ancestry_ids: :exact}],execute: false)
+        media = Medium.search(page.id, fields:[{ancestry_ids: :exact}], execute: false)
         articles = Article.search(page.id, fields:[{ancestry_ids: :exact}], execute: false)
         links = Link.search(page.id, fields:[{ancestry_ids: :exact}], execute: false)
         Searchkick.multi_search([media])
@@ -292,7 +309,6 @@ module Api
         articles_objects = load_articles(articles, params, page)
         links_objects = load_links(links, params, page)
         all_data_objects = [ media_objects ].flatten.compact
-
         return all_data_objects
       end
 
@@ -314,7 +330,7 @@ module Api
 
       def self.load_images(media_ids, license_ids, params, page)
         if params_found_and_greater_than_zero(params[:images_page], params[:images_per_page])
-          offset = (params[:images_page] - 1)*params[:images_per_page]
+          offset = (params[:images_page] - 1) * params[:images_per_page]
           image_objects = PageContent.images.where("id in (?) and license_id in (?)", media_ids, license_ids)
           exemplar_image = page.media.first
           promote_exemplar!(exemplar_image, image_objects, params, license_ids, page, "Medium")
@@ -324,17 +340,17 @@ module Api
 
       def self.load_videos(media_ids, license_ids, params, page)
         if params_found_and_greater_than_zero(params[:videos_page], params[:videos_per_page])
-          offset = (params[:videos_page] - 1)*params[:videos_per_page]
+          offset = (params[:videos_page] - 1) * params[:videos_per_page]
           video_objects = PageContent.videos.where("id in (?) and license_id in (?)", media_ids, license_ids)
-          return video_objects[offset..offset+params[:videos_per_page]-1]
+          return video_objects[offset..offset+params[:videos_per_page] - 1]
         end
       end
 
       def self.load_sounds(media_ids, license_ids, params, page)
         if params_found_and_greater_than_zero(params[:sounds_page], params[:sounds_per_page])
-          offset = (params[:sounds_page] - 1)*params[:sounds_per_page]
+          offset = (params[:sounds_page] - 1) * params[:sounds_per_page]
           sound_objects = PageContent.sounds.where("id in (?) and license_id in (?)", media_ids, license_ids)
-          return sound_objects[offset..offset+params[:sounds_per_page]-1]
+          return sound_objects[offset..offset + params[:sounds_per_page] - 1]
         end
       end
 
@@ -343,7 +359,7 @@ module Api
           offset = (params[:sounds_page] - 1)*params[:sounds_per_page]
           page_object = Page.find_by_id(page.id)
           map_objects = page_object.maps.where("license_id in (?)", license_ids)
-          return map_objects[offset..offset+params[:maps_per_page]-1]
+          return map_objects[offset..offset + params[:maps_per_page] - 1]
         end
       end
 
@@ -354,9 +370,9 @@ module Api
             "and is_incorrect = ? and is_misidentified = ? and is_hidden = ? and is_duplicate = ?",
             page.id, articles_ids, "Article", params[:vetted_types], false, false, false, false).map(&:content_id)
           articles_ids = articles_ids & content_ids
-          offset = (params[:texts_page]-1)*params[:texts_per_page]
+          offset = (params[:texts_page]-1) * params[:texts_per_page]
           if params[:toc_items].nil? 
-            article_objects= Article.where("id in (?) and license_id in (?)", articles_ids, params[:licenses]) 
+            article_objects= Article.where("id in (?) and license_id in (?)", articles_ids, params[:licenses])
           else
             content_sections= ContentSection.where("section_id in (?) and content_id in (?) and content_type = ?",
               params[:toc_items], articles_ids, "Article").map(&:content_id)
@@ -375,7 +391,7 @@ module Api
             page.id, links_ids, "Link", params[:vetted_types], false, false, false, false).map(&:content_id)
           links_ids &= content_ids
 
-          offset = (params[:texts_page]-1)*params[:texts_per_page]
+          offset = (params[:texts_page] - 1) * params[:texts_per_page]
 
           link_objects = Link.where("id in (?)", params[:licenses])
           return link_objects[offset..(offset + params[:texts_per_page] - 1)]
@@ -384,9 +400,9 @@ module Api
 
       def self.process_license_options!(options)
         if options[:licenses]
-          options[:licenses] = options[:licenses].split("|").flat_map do |l|
-            l = 'public domain' if l == 'pd'
-            License.where("name REGEXP '^#{l}([^-]|$)'")
+          options[:licenses] = options[:licenses].split("|").flat_map do |license|
+            license = 'public domain' if license == 'pd'
+            License.where("name REGEXP '^#{license}([^-]|$)'")
           end.compact.map(&:id)
         else
           options[:licenses] = License.ids
@@ -400,8 +416,8 @@ module Api
         if options[:subjects].blank? || options[:text_subjects].include?('overview') || options[:text_subjects].include?('all')
           options[:text_subjects] = nil
         else
-          options[:text_subjects] = options[:text_subjects].flat_map do |l|
-            Section.where("name = ?", l.gsub(' ','_'))
+          options[:text_subjects] = options[:text_subjects].flat_map do |text_subject|
+            Section.where("name = ?", text_subject.gsub(' ','_'))
           end.compact
           options[:toc_items] = options[:text_subjects].map(&:id)
           raise ActiveRecord::RecordNotFound.new("subject not found") if options[:toc_items].empty?
@@ -441,7 +457,7 @@ module Api
         # now add in the exemplar, and remove one if the array is now too large
         original_length = existing_objects_of_same_type.length
         # remove the exemplar if it is already in the list
-        existing_objects_of_same_type.delete_if {|d| d.guid == exemplar_object.guid}
+        existing_objects_of_same_type.delete_if {|duplicate_object| duplicate_object.guid == exemplar_object.guid}
         # prepend the exemplar
         existing_objects_of_same_type.unshift(exemplar_object)
         # if the exemplar increased the size of our image array, remove the last one

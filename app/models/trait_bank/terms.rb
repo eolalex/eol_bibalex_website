@@ -29,10 +29,10 @@ class TraitBank
         key = "trait_bank/full_glossary/#{page}"
         key << "/include_hidden" if hidden
         Rails.cache.fetch(key, expires_in: CACHE_EXPIRATION_TIME) do
-          q = "MATCH (term:Term#{hidden ? '' : ' { is_hidden_from_glossary: false }'}) "\
+          query_string = "MATCH (term:Term#{hidden ? '' : ' { is_hidden_from_glossary: false }'}) "\
             "RETURN DISTINCT(term) ORDER BY LOWER(term.name), LOWER(term.uri)"
-          q << limit_and_skip_clause(page, per_page)
-          result = query(q)
+          query_string << limit_and_skip_clause(page, per_page)
+          result = query(query_string)
           result["data"] ? result["data"].map {|term| term.first["data"].symbolize_keys} : false
         end
       end
@@ -46,24 +46,24 @@ class TraitBank
           "#{count ? :count : "#{page}/#{per}"}/#{qterm ? qterm : :full}"
         Rails.logger.info("KK TraitBank key: #{key}")
         Rails.cache.fetch(key, expires_in: CACHE_EXPIRATION_TIME) do
-          q = "MATCH (term:Term"
-          q << " { is_hidden_from_glossary: false }" unless qterm
-          q << ")<-[:#{type}]-(n) "
-          q << "WHERE LOWER(term.name) CONTAINS \"#{qterm.gsub(/"/, '').downcase}\" " if qterm
+          query_string = "MATCH (term:Term"
+          query_string << " { is_hidden_from_glossary: false }" unless qterm
+          query_string << ")<-[:#{type}]-(n) "
+          query_string << "WHERE LOWER(term.name) CONTAINS \"#{qterm.gsub(/"/, '').downcase}\" " if qterm
           if count
-            q << "WITH COUNT(DISTINCT(term.uri)) AS count RETURN count"
+            query_string << "WITH COUNT(DISTINCT(term.uri)) AS count RETURN count"
           else
-            q << "RETURN DISTINCT(term) ORDER BY LOWER(term.name), LOWER(term.uri)"
-            q << limit_and_skip_clause(page, per_page)
+            query_string << "RETURN DISTINCT(term) ORDER BY LOWER(term.name), LOWER(term.uri)"
+            query_string << limit_and_skip_clause(page, per_page)
           end
-          result = query(q)
+          result = query(query_string)
           if result["data"]
             if count
               result["data"].first.first
             else
-              all = result["data"].map {|term| term.first["data"].symbolize_keys }
-              all.map! {|h| {name: h[:name], uri: h[:uri]}} if qterm
-              all
+              all_results = result["data"].map {|term| term.first["data"].symbolize_keys}
+              all_results.map! {|result_hash| {name: result_hash[:name], uri: result_hash[:uri]}} if qterm
+              all_results
             end
           else
             false
@@ -78,18 +78,16 @@ class TraitBank
       def name_for_pred_uri(uri)
         key = "trait_bank/predicate_uris_to_names"
         map = Rails.cache.fetch(key, expires_in: CACHE_EXPIRATION_TIME) do
-          predicate_glossary.map {|item| [item[:uri], item[:name]] }.to_h
+          predicate_glossary.map {|item| [item[:uri], item[:name]]}.to_h
         end
-
         map[uri]
       end
 
       def name_for_obj_uri(uri)
         key = "trait_bank/object_uris_to_names"
-        map = Rails.cache.fetch(key, :expires_in => CACHE_EXPIRATION_TIME) do
-          object_term_glossary.map { |item| [item[:uri], item[:name]] }.to_h
+        map = Rails.cache.fetch(key, expires_in: CACHE_EXPIRATION_TIME) do
+          object_term_glossary.map {|item| [item[:uri], item[:name]]}.to_h
         end
-
         map[uri]
       end
 
@@ -123,16 +121,16 @@ class TraitBank
 
       # NOTE: I removed the units from this query after ea27411f8110b74 (q.v.)
       def page_glossary(page_id)
-        q = "MATCH (page:Page { page_id: #{page_id} })-[:trait]->(trait:Trait) "\
+        query_string = "MATCH (page:Page { page_id: #{page_id} })-[:trait]->(trait:Trait) "\
           "MATCH (trait:Trait)-[:predicate]->(predicate:Term) "\
           "OPTIONAL MATCH (trait)-[:object_term]->(object_term:Term) "\
           "RETURN predicate, object_term"
-        res = query(q)
+        result = query(query_string)
         uris = {}
-        res["data"].each do |row|
-          row.each do |col|
-            uris[col["data"]["uri"]] ||= col["data"].symbolize_keys if
-              col && col["data"] && col["data"]["uri"]
+        result["data"].each do |row|
+          row.each do |column|
+            uris[column["data"]["uri"]] ||= column["data"].symbolize_keys if
+              column && column["data"] && column["data"]["uri"]
           end
         end
         uris
@@ -141,15 +139,15 @@ class TraitBank
       def obj_terms_for_pred(pred_uri, qterm = nil)
         key = "trait_bank/obj_terms_for_pred/#{pred_uri}"
         Rails.cache.fetch(key, expires_in: CACHE_EXPIRATION_TIME) do
-          q = "MATCH (predicate:Term { uri: \"#{pred_uri}\" })<-[:predicate|:parent_term*0..#{CHILD_TERM_DEPTH}]-"\
+          query_string = "MATCH (predicate:Term { uri: \"#{pred_uri}\" })<-[:predicate|:parent_term*0..#{CHILD_TERM_DEPTH}]-"\
             "(trait:Trait)"\
             "-[:object_term|parent_term*0..#{CHILD_TERM_DEPTH}]->(object:Term) "
-          q << "WHERE LOWER(object.name) CONTAINS \"#{qterm.gsub(/"/, '').downcase}\" " if qterm
-          q <<  "RETURN DISTINCT(object) "\
+          query_string << "WHERE LOWER(object.name) CONTAINS \"#{qterm.gsub(/"/, '').downcase}\" " if qterm
+          query_string <<  "RETURN DISTINCT(object) "\
             "ORDER BY LOWER(object.name), LOWER(object.uri)"
 
-          res = query(q)
-          res["data"] ? res["data"].map { |t| t.first["data"].symbolize_keys } : []
+          result = query(query_string)
+          result["data"] ? result["data"].map {|term| term.first["data"].symbolize_keys} : []
         end
       end
 
@@ -158,27 +156,25 @@ class TraitBank
         key = "trait_bank/normal_unit_for_pred/#{pred_uri}"
 
         Rails.cache.fetch(key, expires_in: CACHE_EXPIRATION_TIME) do
-          res = query(
-            "MATCH (predicate:Term { uri: \"#{pred_uri}\" })<-[:predicate|:parent_term*0..#{CHILD_TERM_DEPTH}]-"\
+          query_string = "MATCH (predicate:Term { uri: \"#{pred_uri}\" })<-[:predicate|:parent_term*0..#{CHILD_TERM_DEPTH}]-"\
             "(trait:Trait)"\
             "-[:units_term]->(units_term:Term) "\
             "OPTIONAL MATCH (trait)-[:normal_units_term]->(normal_units_term:Term) "\
             "RETURN units_term.name, units_term.uri, normal_units_term.name, normal_units_term.uri "\
             "LIMIT 1"
-          )
+          results = query(query_string)
 
-          result = res["data"]&.first || nil
-
+          result = results["data"]&.first || nil
           result = {
             units_name: result[0],
             units_uri: result[1],
             normal_units_name: result[2],
             normal_units_uri: result[3]
           } if result
-
           result
         end
       end
     end
   end
 end
+

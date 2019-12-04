@@ -2,7 +2,7 @@ module Api
   class DocumentationParameter
     attr_accessor :name, :type, :required, :values, :default, :notes, :test_value
 
-    def initialize(options={})
+    def initialize(options = {})
       @name = options[:name]
       @type = options[:type] || String
       @required = options[:required] || false
@@ -10,7 +10,7 @@ module Api
       @default = options[:default]
       @notes = options[:notes]
       @test_value = options[:test_value]
-      @default = false if boolean? && @default === nil
+      @default = false if boolean? && @default == nil
     end
 
     def integer?

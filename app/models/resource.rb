@@ -2,10 +2,10 @@ class Resource
   include ActiveModel::Model
   
   attr_accessor :id, :name, :origin_url, :resource_data_set, :description,:type, :uploaded_url,:path, :last_harvested_at,
-                :harvest_frequency, :day_of_month, :nodes_count, :position, :is_paused, :is_approved, :is_trusted,
-                :is_autopublished, :is_forced, :dataset_license, :is_harvest_inprogress, :forced_internally,
-                :dataset_rights_statement, :dataset_rights_holder, :default_license_string, :default_rights_statement,
-                :default_rights_holder, :default_language_id, :harvests, :created_at, :updated_at, :flag
+    :harvest_frequency, :day_of_month, :nodes_count, :position, :is_paused, :is_approved, :is_trusted,
+    :is_autopublished, :is_forced, :dataset_license, :is_harvest_inprogress, :forced_internally,
+    :dataset_rights_statement, :dataset_rights_holder, :default_license_string, :default_rights_statement,
+    :default_rights_holder, :default_language_id, :harvests, :created_at, :updated_at, :flag
 
   validates_presence_of :name, :type 
   validates_presence_of :uploaded_url, if: :is_url?
@@ -29,13 +29,13 @@ class Resource
   class << self
     def native
       Rails.cache.fetch('resources/native') do
-        Resource.where(abbr: 'DWH').first_or_create do |r|
-          r.name = 'EOL Dynamic Hierarchy'
-          r.partner = Partner.native
-          r.description = 'TBD'
-          r.abbr = 'DWH'
-          r.is_browsable = true
-          r.has_duplicate_nodes = false
+        Resource.where(abbr: 'DWH').first_or_create do |resource|
+          resource.name = 'EOL Dynamic Hierarchy'
+          resource.partner = Partner.native
+          resource.description = 'TBD'
+          resource.abbr = 'DWH'
+          resource.is_browsable = true
+          resource.has_duplicate_nodes = false
         end
       end
     end
@@ -43,13 +43,13 @@ class Resource
     # Required to read the IUCN status
     def iucn
       Rails.cache.fetch('resources/iucn') do
-        Resource.where(abbr: 'IUCN-SD').first_or_create do |r|
-          r.name = 'IUCN Structured Data'
-          r.partner = Partner.native
-          r.description = 'TBD'
-          r.abbr = 'IUCN-SD'
-          r.is_browsable = true
-          r.has_duplicate_nodes = false
+        Resource.where(abbr: 'IUCN-SD').first_or_create do |resource|
+          resource.name = 'IUCN Structured Data'
+          resource.partner = Partner.native
+          resource.description = 'TBD'
+          resource.abbr = 'IUCN-SD'
+          resource.is_browsable = true
+          resource.has_duplicate_nodes = false
         end
       end
     end
@@ -178,7 +178,7 @@ class Resource
 
   def fix_missing_page_contents(options = {})
     delete = options.key?(:delete) ? options[:delete] : false
-    [Medium, Article, Link].each { |type| fix_missing_page_contents_by_type(type, delete: delete) }
+    [Medium, Article, Link].each {|type| fix_missing_page_contents_by_type(type, delete: delete)}
   end
 
   def fix_missing_page_contents_by_type(type, options = {})
@@ -193,9 +193,9 @@ class Resource
     else
       PageContent
     end
-    contents.pluck(:page_id).each {|pid| page_counts[pid] ||= 0 ; page_counts[pid] += 1}
+    contents.pluck(:page_id).each {|pid| page_counts[pid] ||= 0; page_counts[pid] += 1}
     by_count = {}
-    page_counts.each {|pid, count| by_count[count] ||= [] ; by_count[count] << pid}
+    page_counts.each {|pid, count| by_count[count] ||= []; by_count[count] << pid}
     contents.delete_all if delete
     by_count.each do |count, pages|
       pages.in_groups_of(5_000, false) do |group|

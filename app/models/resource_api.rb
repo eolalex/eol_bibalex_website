@@ -24,6 +24,7 @@ class ResourceApi
       )
       response_scheduler = request.execute
       resource_id = response_scheduler.body
+
       if params[:type] == "file"
         begin
           resource_data_set_file.seek 0
