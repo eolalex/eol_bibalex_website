@@ -5,7 +5,7 @@ module DataHelper
   def build_associations(page)
     @associations =
       begin
-        ids = page.data.map { |t| t[:object_page_id] }.compact.sort.uniq
+        ids = page.data.map {|datum| datum[:object_page_id] }.compact.sort.uniq
         Page.where(id: ids)
       end
   end
@@ -56,7 +56,7 @@ module DataHelper
 
   def modifier_txt(data)
     # TODO: I am not confident enough to do this right now (demo tonight), but IO think this #reject should be #compact
-    modifiers = [ data[:sex_term], data[:lifestage_term], data[:statistical_method_term] ].reject { |x| x.nil? }
+    modifiers = [data[:sex_term], data[:lifestage_term], data[:statistical_method_term] ].reject {|datum| datum.nil? }
 
     if modifiers.any?
       separated_list(modifiers)
