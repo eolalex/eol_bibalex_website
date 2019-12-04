@@ -65,7 +65,7 @@ class TraitBank
         sleep(1)
         connection.execute_query(query_string, params)
       ensure
-        query_string.gsub!(/ +([A-Z ]+)/, "\n\\1") if query_string.size > 80 && q !~ /\n/
+        query_string.gsub!(/ +([A-Z ]+)/, "\n\\1") if query_string.size > 80 && query_string !~ /\n/
         Rails.logger.warn(">>TB TraitBank (#{stop ? stop - start : "F"}):\n#{query_string}")
       end
       results
@@ -78,7 +78,7 @@ class TraitBank
 
     def count
       result = query("MATCH (trait:Trait)<-[:trait]-(page:Page) WITH count(trait) as count RETURN count")
-      result["data"] ? res["data"].first.first : false
+      result["data"] ? result["data"].first.first : false
     end
 
     def count_by_resource(id)
@@ -203,7 +203,7 @@ class TraitBank
     end
 
     def by_page(page_id, page = 1, per_page = 100)
-      query_sring = "MATCH (page:Page {page_id: #{page_id}})-[:trait]->(trait:Trait)"\
+      query_string = "MATCH (page:Page {page_id: #{page_id}})-[:trait]->(trait:Trait)"\
           "-[:supplier]->(resource:Resource) "\
         "MATCH (trait:Trait)-[:predicate]->(predicate:Term) "\
         "OPTIONAL MATCH (trait)-[:object_term]->(object_term:Term) "\
@@ -565,7 +565,7 @@ class TraitBank
     def page_has_parent?(page, page_id)
       node = Neography::Node.load(page["metadata"]["id"], connection)
       return false unless node.rel?(:parent)
-      node.outgoing(:parent).map {|n| n[:page_id]}.include? page_id
+      node.outgoing(:parent).map {|n| n[:page_id]}.include?(page_id)
     end
 
     # Given a results array and the name of one of the returned columns to treat
@@ -658,7 +658,7 @@ class TraitBank
       hashes = results_to_hashes(results)
       data = []
       hashes.each do |hash|
-        has_trait = hash.keys.include? :trait
+        has_trait = hash.keys.include?(:trait)
         hash.merge!(hash[:trait]) if has_trait
         hash[:page_id] = hash[:page][:page_id] if hash[:page]
         hash[:resource_id] =
@@ -748,7 +748,7 @@ class TraitBank
       end
       page = options.delete(:page)
       supplier = options.delete(:supplier)
-      if !options[:predicate].nil? && !options[:predicate][:uri].nil? && terms.include? options[:predicate][:uri]
+      if !options[:predicate].nil? && !options[:predicate][:uri].nil? && terms.include?(options[:predicate][:uri])
         predicate = terms[options[:predicate][:uri]]
         options.delete(:predicate)
       else
@@ -756,7 +756,7 @@ class TraitBank
         terms[predicate["data"]["uri"]]= predicate if predicate
       end
 
-      if !options[:units].nil? && !options[:units][:uri].nil? && terms.include? options[:units][:uri]
+      if !options[:units].nil? && !options[:units][:uri].nil? && terms.include?(options[:units][:uri])
         units = terms[options[:units][:uri]]
         options.delete(:units)
       else
@@ -764,14 +764,14 @@ class TraitBank
         terms[units["data"]["uri"]]= units if units
       end
       # occurrence metadata
-      if !options[:lifestage_term].nil? && !options[:lifestage_term][:uri].nil? && terms.include? options[:lifestage_term][:uri]
+      if !options[:lifestage_term].nil? && !options[:lifestage_term][:uri].nil? && terms.include?(options[:lifestage_term][:uri])
         lifestage = terms[options[:lifestage_term][:uri]]
         options.delete(:lifestage_term)
       else
         lifestage = parse_term(options.delete(:lifestage_term))
         terms[lifestage["data"]["uri"]] = lifestage if lifestage
       end
-      if !options[:sex_term].nil? && !options[:sex_term][:uri].nil?) && (terms.include? options[:sex_term][:uri])
+      if !options[:sex_term].nil? && !options[:sex_term][:uri].nil? && terms.include?(options[:sex_term][:uri])
         sex = terms[options[:sex_term][:uri]]
         options.delete(:sex_term)
       else
@@ -779,8 +779,8 @@ class TraitBank
         terms[sex["data"]["uri"]]= sex if sex
       end
 
-      if !options[:statistical_method_term].nil? && !options[:statistical_method_term][:uri].nil?
-        && terms.include? options[:statistical_method_term][:uri]
+      if !options[:statistical_method_term].nil? && !options[:statistical_method_term][:uri].nil? &&
+        terms.include?(options[:statistical_method_term][:uri])
         statistical_method = terms[options[:statistical_method_term][:uri]]
         options.delete(:statistical_method_term)
       else
@@ -788,7 +788,7 @@ class TraitBank
         terms[statistical_method["data"]["uri"]] = statistical_method if statistical_method
       end
 
-      if !options[:object_term].nil? && !options[:object_term][:uri].nil? && terms.include? options[:object_term][:uri]
+      if !options[:object_term].nil? && !options[:object_term][:uri].nil? && terms.include?(options[:object_term][:uri])
         object_term = terms[options[:object_term][:uri]]
         options.delete(:object_term)
       else
@@ -876,7 +876,7 @@ class TraitBank
     end
 
     def add_metadata_to_trait(trait, options, terms)
-      if !options[:predicate].nil? && !options[:predicate][:uri].nil? && terms.include? options[:predicate][:uri]
+      if !options[:predicate].nil? && !options[:predicate][:uri].nil? && terms.include?(options[:predicate][:uri])
         predicate = terms[options[:predicate][:uri]]
         options.delete(:predicate)
       else
@@ -884,7 +884,7 @@ class TraitBank
         terms[predicate["data"]["uri"]]= predicate if predicate
       end
 
-      if !options[:units].nil? && !options[:units][:uri].nil? && terms.include? options[:units][:uri]
+      if !options[:units].nil? && !options[:units][:uri].nil? && terms.include?(options[:units][:uri])
         units = terms[options[:units][:uri]]
         options.delete(:units)
       else
@@ -892,7 +892,7 @@ class TraitBank
         terms[units["data"]["uri"]]= units if units
       end
 
-      if !options[:object_term].nil? && !options[:object_term][:uri].nil? && terms.include? options[:object_term][:uri]
+      if !options[:object_term].nil? && !options[:object_term][:uri].nil? && terms.include?(options[:object_term][:uri])
         object_term = terms[options[:object_term][:uri]]
         options.delete(:object_term)
       else
