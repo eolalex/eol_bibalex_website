@@ -1,5 +1,5 @@
 %body
   %header
     .wrapper.clearfix
-      = form_tag(collected_pages_path(),method: :get) do
+      = form_tag(collected_pages_path(), method: :get) do
         = hidden_field_tag('collection_id', @collection_id)

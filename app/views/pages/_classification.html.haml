@@ -22,16 +22,16 @@
         %li.parent_li
           - unless node.nil?
             %ul
-              - x = x + 5
+              - x += 5
               %li.parent_li
                 - if index == tree.size - 1
                   %b
-                    -unless node.pages.empty?
-                      %a{href:  "/pages/#{node.pages.first.id}"} 
+                    - unless node.pages.empty?
+                      %a{href: "/pages/#{node.pages.first.id}"}
                         = node.scientific_name
                     - else
-                      = node.scientific_name 
-                  #{t(:this_page)}
+                      = node.scientific_name
+                  = t(:this_page)
                 - elsif node.pages.empty?
                   = node.scientific_name
                 - else

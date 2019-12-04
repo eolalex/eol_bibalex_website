@@ -7,13 +7,13 @@
           = @resource_name
           %span.pull-right
             %a.btn.btn-primary{ href: content_partner_resource_path(@content_partner_id, @resource_id), role: "button"}
-              #{t(:show_resource_details)}
+              = t(:show_resource_details)
 
     .col-md-6
       .part
         .subtitle
           %strong
-            #{t(:resource_statistics)}
+            = t(:resource_statistics)
         - unless @statistics.empty?
           %p
             %strong #{t(:nodes)}:
@@ -44,7 +44,7 @@
       .part
         .subtitle
           %strong
-            #{t(:last_harvest_details)}
+            = t(:last_harvest_details)
         %p
           %strong #{t(:start_time)}:
           = @last_harvest["startTime"]
@@ -54,14 +54,14 @@
         %p
           %strong #{t(:harvested_in)}:
           = number_with_precision(@harvest_duration, precision: 2)
-          #{t(:hours)}
+          = t(:hours)
         %p
           %strong  #{t(:harvest_status)}:
           = @last_harvest["status"]
 
   .subtitle
     %strong
-      #{t(:harvest_history)}
+      = t(:harvest_history)
     .part
       %table.customTable
         %thead
@@ -79,8 +79,8 @@
               %td
                 = row["endTime"]
               %td
-                #{number_with_precision((DateTime.parse(row["endTime"]) - DateTime.parse(row["startTime"]))*24.to_f, precision: 2)}
-                #{t(:hours)}
+                = number_with_precision((DateTime.parse(row["endTime"]) - DateTime.parse(row["startTime"]))*24.to_f, precision: 2)
+                = t(:hours)
               %td
                 = row["status"]
       = will_paginate @harvest_logs, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer

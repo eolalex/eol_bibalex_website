@@ -1,6 +1,7 @@
 - if !@page.occurrence_map? && @maps.blank?
   .empty
-    %p= I18n.t("maps.empty")
+    %p
+      = I18n.t("maps.empty")
 - unless @maps.blank?
   = render ("media")
 - if @page.occurrence_map?

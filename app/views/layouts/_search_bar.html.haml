@@ -1,7 +1,0 @@
-= javascript_include_tag 'search'
-.searchBox
-  = form_tag(search_path, method: :get) do
-    .form-control
-      = text_field_tag(:query, params[:query], placeholder: "What you are looking for?")
-      %button.searchButton
-        %i.fa.fa-search{"aria-hidden" => "true"}

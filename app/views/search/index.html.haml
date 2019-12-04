@@ -9,9 +9,9 @@
           .row
             .col-lg-12
               %h2.mainTitle
-                #{t(:search_results)}
-              %br/
-          - @results.each do|result| 
+                = t(:search_results)
+              %br
+          - @results.each do|result|
             - if result.instance_of? Page
               %article.search-result.row
                 .col-xs-4.col-sm-2.col-md-2
@@ -23,7 +23,8 @@
                       %img.thumbnail{ src: "/assets/download.png" , width: "100", height: "100"}
                 .col-xs-8.col-sm-10.col-md-10
                   %h3.marginTop0
-                    %a{ href: page_path(result.id), title: ""} #{result.scientific_name}
+                    %a{href: page_path(result.id), title: ""}
+                      = result.scientific_name
                 %span.clearfix.borda
           = will_paginate @results, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
         .col-lg-3
@@ -32,8 +33,8 @@
               %h2.mainTitle #{t(:filter_by_type)}
               - unless @pages.size == 0
                 %label.form-check
-                  %input.form-check-input{ type: "checkbox", value: ""}/
+                  %input.form-check-input{type: "checkbox", value: ""}
                   %span.form-check-label
-                    #{t(:pages)}
+                    = t(:pages)
               %br  
               = submit_tag "#{t(:filter)}", id: "filter"

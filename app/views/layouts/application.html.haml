@@ -47,7 +47,7 @@
     = javascript_include_tag 'application'    
     = csrf_meta_tags
 
-    - cache_unless(controller_path == "pages", 
+    - cache_unless(controller_path == "pages",
     ["header", @is_root, @is_visitor, request.original_fullpath, locale.to_s], expires_in: 1.day) do
       %header#header
         %nav.navbar.navbar-inverse{role: "banner", "data-turbolinks": "true"}
@@ -63,7 +63,7 @@
                   %ul.topMenu
                     %li.dropdown
                       %a.dropdown-toggle{"data-toggle": "dropdown"}
-                        #{t(:language)}
+                        = t(:language)
                         %i.fa.fa-angle-down
                       %ul.dropdown-menu
                         %li
@@ -72,8 +72,8 @@
                           = link_to "العربية", request.params.merge(locale: 'ar')
                   %ul.topMenu
                     .mainMenu
-                      - unless ((current_page? "#{main_app.root_path}") || (current_page? "/"))
-                        %button.btn-search{ id: "0","data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
+                      - unless ((current_page? main_app.root_path) || (current_page? "/"))
+                        %button.btn-search{id: "search","data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
                           %i.fa.fa-search{"aria-hidden": "false"}
                       %button.navbar-toggle{"data-target": ".navbar-collapse", "data-toggle": "collapse", type: "button"}
                         %span.sr-only Toggle navigation
@@ -85,11 +85,11 @@
                     %li
                       %a{href: "/#{locale}/docs/about"}
                         %i.fa.fa-info-circle{"aria-hidden": "true"}
-                        #{t(:about_eol)}
+                        = t(:about_eol)
                     %li
                       %a{href: "/#{locale}/docs/about/what-is-new"}
                         %i.fa.fa-newspaper-o{"aria-hidden": "true"}
-                        #{t(:news)}
+                        = t(:news)
                     %li
                       %a{href: "https://discuss.eol.org/"}
                         %i.fa.fa-question-circle{"aria-hidden": "true"}
@@ -100,55 +100,44 @@
                     - unless user_signed_in?
                       %a.signIn{href: main_app.new_user_session_path}
                         %i.fa.fa-user-circle{"aria-hidden": "true"}
-                        #{t(:sign_in)}
+                        = t(:sign_in)
                     - else
                       %li.dropdown
                         %a.dropdown-toggle{"data-toggle": "dropdown", href: "#"}
                           %i.fa.fa-user-circle{"aria-hidden": "true"}
-                          - if (current_user.username.length>(ENV['MAX_NAME_LENGTH'].to_i+2))
+                          - if current_user.username.length > (ENV['MAX_NAME_LENGTH'].to_i + 2)
                             #{current_user.username[0..ENV['MAX_NAME_LENGTH'].to_i]}...
                           - else
-                            #{current_user.username}
+                            = current_user.username
                           %i.fa.fa-angle-down
                         %ul.dropdown-menu
                           %li
-                            %a{ href: main_app.user_path(current_user.id)} #{t(:show_user_profile)}
+                            %a{href: main_app.user_path(current_user.id)}
+                              = t(:show_user_profile)
                           - if current_user.admin?
                             %li
-                              %a{ href: refinery.admin_root_path} #{t(:view_admin_panel)}
+                              %a{href: refinery.admin_root_path}
+                                = t(:view_admin_panel)
                             %li
-                              %a{ href: main_app.resources_index_path} #{t(:view_all_resources)}
+                              %a{href: main_app.resources_index_path}
+                                = t(:view_all_resources)
                           %li
-                            %a.signIn{ href: main_app.destroy_user_session_path} #{t(:sign_out)}
+                            %a.signIn{href: main_app.destroy_user_session_path}
+                              = t(:sign_out)
                   %li.dropdown
                     %a.dropdown-toggle.NetworksLink{"data-toggle": "dropdown"}
-                      #{t(:networks)}
+                      = t(:networks)
                       %i.fa.fa-angle-down
                     %ul.dropdown-menu
                       %li
-                        %a{ href: "https://education.eol.org/", target: "_blank"} #{t(:learning_education)}
+                        %a{href: "https://education.eol.org/", target: "_blank"} #{t(:learning_education)}
                   %li
-                    %a.DonateBtn{ href: "https://eol.org/docs/what-is-eol/donate"} #{t(:donate_button)}
+                    %a.DonateBtn{href: "https://eol.org/docs/what-is-eol/donate"} #{t(:donate_button)}
                     
           - unless ((current_page? "#{main_app.root_path}") || (current_page? "/"))
-            .modal{ id: "popup_#{0}", "aria-labelledby": "popup_#{0}Label", role: "dialog", tabindex: "-1"}
-              .modal-dialog{ role: "document"}
-                .modal-content
-                  .modal-header
-                    .form-group.row.form-inline
-                      .col-md-10.col-sm-10.col-xs-10
-                        %h2.editLabel.modal-title #{t(:search_network)}
-                      .col-md-2.col-sm-2.col-xs-2
-                        %button{ id: "0", class: "close", tabindex: "1", onclick: 'hidePopup(this, event)', "data-dismiss": "modal"}x
-                  .modal-body
-                    .searchBox
-                      = form_tag(main_app.search_path, method: :get) do |f|
-                        = text_field_tag(:query, params[:query], placeholder: t(:search_placeholder),
-                         class: "modal-body searchBox", required: "true")
-                        %button.searchButton
-                          %i.fa.fa-search{"aria-hidden": "true", remote: true}
+            = render "layouts/search_box"
     %body
-      = render("layouts/flash")
+      = render "layouts/flash"
       .container-fluidd
         .content
           = yield

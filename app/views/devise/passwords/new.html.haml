@@ -1,11 +1,11 @@
 .container
   .col-md-30.col-sm-12.col-xs-12
-    = form_for(resource, as: resource_name, url: password_path(resource_name), html: {method: :post}) do |f|
+    = form_for(resource, as: resource_name, url: password_path(resource_name), html: {method: :post}) do |form|
       = devise_error_messages!
       .col-md-20.col-sm-12.col-xs-12
         %h2
           #{t(:forgot_pw)}
-          %br/
+          %br
         .form-group.row.form-inline
           %label.col-md-5.col-sm-3.col-xs-3.control-label
             %h3
@@ -16,4 +16,4 @@
              tabindex: "1", type: "text", required: true}
         .form-group.row.form-inline
           .col-md-5.col-sm-3.col-xs-3
-            = f.button("#{t(:resend_pw)}", class: "btn btn-primary")
+            = form.button("#{t(:resend_pw)}", class: "btn btn-primary")

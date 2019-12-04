@@ -3,6 +3,6 @@
   .modal-backdrop.fade.in
   - flash.each do |name, msg|
     - next if name == "recaptcha_error"
-    %p.eol-flash{ class: name, data: { text: Array(msg).join("; ") }, hidden: false}
+    %p.eol-flash{class: name, data: {text: Array(msg).join("; ")}, hidden: false}
       = Array(msg).join("; ")
       

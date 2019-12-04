@@ -9,11 +9,11 @@
           %li{"data-slide-to": "2", "data-target": "#main-slider"}
         .carousel-inner
           .item.active
-            =image_tag "banner02.jpg", class: 'img-responsive'
+            = image_tag "banner02.jpg", class: 'img-responsive'
           .item
-            =image_tag "banner05.jpg", class: 'img-responsive'
+            = image_tag "banner05.jpg", class: 'img-responsive'
           .item
-            =image_tag "banner01.jpg", class: 'img-responsive'
+            = image_tag "banner01.jpg", class: 'img-responsive'
       %a.prev.hide{"data-slide": "prev", href: "#main-slider"}
         %i.fa.fa-chevron-left
       %a.next.hide{"data-slide": "next", href: "#main-slider"}
@@ -67,16 +67,17 @@
     %section#Home_Statistics
       .container
         .center.wow.fadeInDown
-          %h2 #{t(:currently_in_eol)}
+          %h2
+            = t(:currently_in_eol)
           .row
-            .Home_statistics{"style":"pointer-events: none;"}
+            .Home_statistics{"style": "pointer-events: none;"}
               .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
                 .feature-wrap
                   %i.fa.fa-user{"aria-hidden": "true"}
                   .number
                     = @user_count
                   %span
-                    #{t(:members_like_you)}
+                    = t(:members_like_you)
               .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
                 .feature-wrap
                   %i.fa.fa-files-o{"aria-hidden": "true"}
@@ -90,7 +91,7 @@
                   .number
                     = @media_count
                   %span
-                    #{t(:media)}
+                    = t(:media)
               .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
                 .feature-wrap
                   %i.fa.fa-handshake-o{"aria-hidden": "true"}
@@ -98,21 +99,21 @@
                   .number{id: "cp"}
                     = @content_partners_count
                   %span
-                    #{t(:content_partners)}
+                    = t(:content_partners)
               .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
                 .feature-wrap
                   %i.fa.fa-bar-chart{"aria-hidden": "true"}
                   .number
                     = @traits_count
                   %span
-                    #{t(:traits_stats)}
+                    = t(:traits_stats)
               .col-md-2.col-sm-4.col-xs-4.wow.fadeInDown{"data-wow-delay": "600ms", "data-wow-duration": "1000ms"}
                 .feature-wrap
                   %i.fa.fa-bar-chart{"aria-hidden": "true"}
-                  .number{ id: "res"}
+                  .number{id: "res"}
                     = @resources_count
                   %span
-                    #{t(:resources)}
+                    = t(:resources)
     - cache("#sectionSponsors-#{locale}", skip_digest: true, expires_in: 1.week) do
       %section#Sponsors
         .container
@@ -140,8 +141,11 @@
       .Donation
         .container
           .get-started.center.wow.fadeInDown
-            %h2 #{t(:donate_online)}
-            %p.lead #{t(:donate)}
+            %h2 
+              = t(:donate_online)
+            %p.lead 
+              = t(:donate)
             .Donate_Btn
-              %a{href: "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_hl"} #{t(:donate_button)}
+              %a{href: "https://support.si.edu/site/SPageServer?pagename=api_eol_main\&s_src=web_eol_hl"}
+                = t(:donate_button)
 

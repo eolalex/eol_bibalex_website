@@ -1,7 +1,11 @@
-%p
-  Hello #{@resource.email}!
-%p Your account has been locked due to an excessive number of unsuccessful sign in attempts.
-%p Click the link below to unlock your account:
-%p
-  = link_to 'Unlock my account', unlock_url(@resource, unlock_token: @token)
-
+container
+  .row
+    .col-xs-12.col-sm-8.col-md-6
+      %h2
+        #{t(:hello)} #{@resource.email}!
+      %h3 
+        #{t(:account_locked)}
+      %h3
+        #{t(:unlock_account_from_link)} :
+      %h2
+        = link_to "#{t(:unlock_account)}", unlock_url(@resource, unlock_token: @token)

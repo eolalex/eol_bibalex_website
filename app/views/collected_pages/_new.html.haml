@@ -1,6 +1,7 @@
 - count = 1
 - exists_in_all_collections = true
 - user_collections = current_user.collections
+
 .modal-body{style: "padding-bottom:0;"}
   - if(user_collections.empty?)
     - exists_in_all_collections = false
@@ -9,7 +10,7 @@
   - else
     - user_collections.each do |collection|
       - unless CollectedPage.where(collection_id: collection.id, page_id: @page.id).exists?
-        - exists_in_all_collections = false    
+        - exists_in_all_collections = false
  
   - if (exists_in_all_collections)
     %h4
@@ -17,7 +18,7 @@
   - elsif(!user_collections.empty?)
     %h4
       #{t(:add_to_existing_collection)}
-    = form_for(CollectedPage.create, html: { class: "form" }) do |f|
+    = form_for(CollectedPage.create, html: {class: "form"}) do |f|
       - user_collections.each do |collection|
         %h4
           = f.hidden_field(:page_id, value: page_id)

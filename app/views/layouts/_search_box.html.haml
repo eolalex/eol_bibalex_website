@@ -1,0 +1,16 @@
+.modal{id: "popup_search", "aria-labelledby": "popup_searchLabel", role: "dialog", tabindex: "-1"}
+  .modal-dialog{ role: "document"}
+    .modal-content
+      .modal-header
+        .form-group.row.form-inline
+          .col-md-10.col-sm-10.col-xs-10
+            %h2.editLabel.modal-title #{t(:search_network)}
+          .col-md-2.col-sm-2.col-xs-2
+            %button{ id: "search", class: "close", tabindex: "1", onclick: 'hidePopup(this, event)', "data-dismiss": "modal"} x
+      .modal-body
+        .searchBox
+          = form_tag(main_app.search_path, method: :get) do |f|
+            = text_field_tag(:query, params[:query], placeholder: t(:search_placeholder),
+             class: "modal-body searchBox", required: "true")
+            %button.searchButton
+              %i.fa.fa-search{"aria-hidden": "true", remote: true}

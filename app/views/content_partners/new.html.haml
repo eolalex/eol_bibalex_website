@@ -3,48 +3,45 @@
 .container
   .row
     .col-xs-12.col-sm-8.col-md-6.col-sm-offset-2.col-md-offset-3
-      = simple_form_for @content_partner, url: content_partners_path , html: { class: "" }, 
-          html: {class: "", multipart: true},
-          defaults: {input_html: { class: 'uk-input'},
-          wrapper_html: {class: 'field'},
-          enctype: "multipart/form-data",
-          label_html: {class: 'uk-form-label'}} do |f|
+      = simple_form_for @content_partner, url: content_partners_path , html: { class: "" },
+          html: {class: "", multipart: true}, defaults: {input_html: { class: 'uk-input'},
+          wrapper_html: {class: 'field'}, enctype: "multipart/form-data",
+          label_html: {class: 'uk-form-label'}} do |form|
         %h2
-          #{t(:new_content_partner)}
+          = t(:new_content_partner)
         %div.form-horizontal.formStyle
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
-              %span{ style: "color: red"}> *
-              #{t(:name)}
+              %span{style: "color: red"}> *
+              = t(:name)
             .col-md-10.col-sm-9.col-xs-12
-              %input.form-control{ name: "content_partner[name]", tabindex: "1", type: "text"}
+              %input.form-control{name: "content_partner[name]", tabindex: "1", type: "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
-              #{t(:abbreviation)}
+              = t(:abbreviation)
             .col-md-10.col-sm-9.col-xs-12
-              %input.form-control{ name: "content_partner[abbreviation]", tabindex: "2", type: "text"}
+              %input.form-control{name: "content_partner[abbreviation]", tabindex: "2", type: "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
-              #{t(:url)}
+              = t(:url)
             .col-md-10.col-sm-9.col-xs-12
-              %input.form-control{ name: "content_partner[url]", tabindex: "3", type: "text"}
+              %input.form-control{name: "content_partner[url]", tabindex: "3", type: "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
-              %span{ style: "color: red"}> *
-              #{t(:description)}
+              %span{style: "color: red"}> *
+              = t(:description)
             .col-md-10.col-sm-9.col-xs-12
-              %input.form-control{ name: "content_partner[description]", tabindex: "3", type: "text"}
+              %input.form-control{name: "content_partner[description]", tabindex: "3", type: "text"}
           .form-group.row.form-inline
             %label.col-md-2.col-sm-3.col-xs-12.control-label
-              #{t(:logo)}
+              = t(:logo)
             .col-md-10.col-sm-9.col-xs-12
-              -#= f.file_field :logo
-              %label.custom-file-upload{ for: "file-upload"}
-                #{t(:browse)}
-              %input#file-upload{ type: "file", name: "content_partner[logo]", style: "display:none;", onchange: 'file_checked();'}
+              %label.custom-file-upload{for: "file-upload"}
+                = t(:browse)
+              %input#file-upload{type: "file", name: "content_partner[logo]", style: "display:none;", onchange: 'file_checked();'}
             %label.col-md-2.col-sm-3.hidden-xs.control-label
             %label#label_data.col-md-10.col-sm-9.col-xs-12.control-label.selectedFile
-              #{@logo_name}
+              = @logo_name
           .input-group
             %hr.colorgraph
               .row

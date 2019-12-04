@@ -3,6 +3,7 @@
     %h2
       - name = article.name
       - name ||= t("untitled")
-      %a{ href: article_path(id: article.id)} #{name}
+      %a{href: article_path(id: article.id)}
+        = name
     %hr/
 = will_paginate @articles, params: {controller: 'pages', action: 'articles'}, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer

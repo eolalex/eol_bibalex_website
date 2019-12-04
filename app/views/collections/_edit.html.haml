@@ -1,0 +1,29 @@
+= form_with(model: @collection, local: true) do |f|
+  = f.hidden_field :user_id
+  .modal{id: "popup_#{@collection.id}", "aria-labelledby": "popup_#{@collection.id}Label", role: "dialog", tabindex: "-1"}
+    .modal-dialog{role: "document"}
+      .modal-content
+        .modal-header
+          .form-group.row.form-inline
+            .col-md-10.col-sm-10.col-xs-10
+              %h4.editLabel.modal-title 
+                #{t(:edit_collection)} 
+            .col-md-2.col-sm-2.col-xs-2
+              %button{id: "#{@collection.id}", class: "close", tabindex: "1", onclick: 'hidePopup(this, event)'} x
+        .modal-body.editCollection
+          .form-group.row.form-inline
+            %label.col-md-2.col-sm-3.col-xs-3.control-label
+              #{t(:name)}
+            .col-md-10.col-sm-9.col-xs-9
+              %input.form-control.input-lg{name: "collection[name]", placeholder: @collection.name,
+               tabindex: "1", type: "text", value: @collection.name}
+          .form-group.row.form-inline
+            %label.col-md-2.col-sm-3.col-xs-3.control-label
+              #{t(:description)}
+            .col-md-10.col-sm-9.col-xs-9
+              %textarea.form-control.input-lg{name: "collection[description]", placeholder: @collection.description,
+               rows: "3", tabindex: "1", type: "text", value: @collection.description}
+        .modal-footer
+          .form-group.row.form-inline
+            .col-md-12.col-sm-12.col-xs-12
+              = f.button("#{t(:update_collection_button)}", class: "btn btn-primary")

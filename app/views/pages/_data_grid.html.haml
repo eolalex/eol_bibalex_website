@@ -2,63 +2,63 @@
 %table.customTable
   %thead
     %tr
-      %th{ scope:  "col"} #{t(:predicate)}
-      %th{ scope:  "col"} #{t(:object)}
-      %th{ scope:  "col"} #{t(:units)}
-      %th{ scope:  "col"} #{t(:resource)}
-      %th{ scope:  "col"} #{t(:further_info)}
-      %th{ scope:  "col"} #{t(:metadata)}
+      %th{ scope: "col"} #{t(:predicate)}
+      %th{ scope: "col"} #{t(:object)}
+      %th{ scope: "col"} #{t(:units)}
+      %th{ scope: "col"} #{t(:resource)}
+      %th{ scope: "col"} #{t(:further_info)}
+      %th{ scope: "col"} #{t(:metadata)}
   %tbody
     - counter1 = 0
     - @traits.each do |trait|
-      -counter1 += 1
+      - counter1 += 1
       - predicate = trait[:predicate]
       - uri = predicate[:uri].dup
       - uri.sub! '/', '_'
       - p_title = "#{t(:uri)}:  #{uri}"
-      -if !(predicate[:definition].nil?) 
+      - unless predicate[:definition].nil?
         - p_title << "\n#{t(:definition)}: #{predicate[:definition]}"
       %tr
         %td{"data-label": "#{t(:predicate)}"}
-          %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{p_title}", type: "button"}
-            #{predicate[:name]}
+          %a{"data-placement": "bottom", "data-toggle": "tooltip", title: "#{p_title}", type: "button"}
+            = predicate[:name]
           - if trait[:normal_measurement] && (trait[:normal_measurement] != trait[:measurement])
             %h6
-              #t(:normalized_value)
+              = t(:normalized_value)
           - if trait[:object_term]
             - object_term = trait[:object_term]
             - uri = object_term[:uri].dup
             - uri.sub! '/', '_'
             - o_title = "#{t(:uri)}: #{uri}"
-            -if !(object_term[:definition].nil?) 
+            -unless object_term[:definition].nil?
               - o_title << "\n#{t(:definition)}: #{object_term[:definition]}"
             %td{"data-label": "#{t(:object)}"}
               %a{"data-placement": "bottom", "data-toggle": "tooltip", title: "#{o_title}", type: "button"}
-                #{trait[:object_term][:name]}
+                = trait[:object_term][:name]
           - elsif trait[:measurement]
             %td{"data-label": "#{t(:object)}"}
-              %a{ "data-placement": "bottom", "data-toggle": "tooltip", type: "button"}
-                #{trait[:measurement]}
+              %a{"data-placement": "bottom", "data-toggle": "tooltip", type: "button"}
+                = trait[:measurement]
               - if trait[:normal_measurement] && (trait[:normal_measurement] != trait[:measurement])
                 %h6
-                  #{trait[:normal_measurement]}
+                  = trait[:normal_measurement]
           - else
             %td{"data-label": "#{t(:object)}"}
-          -if trait[:units]
+          - if trait[:units]
             - units = trait[:units]
             - uri = units[:uri].dup
             - uri.sub! '/', '_'
             - u_title = "#{t(:uri)}:  #{uri}"
-            -if !(units[:definition].nil?)
-              - u_title << "\n#{t(:definition)}: #{units[:definition]} "
+            - unless units[:definition].nil?
+              - u_title << "\n#{t(:definition)}: #{units[:definition]}"
             %td{"data-label": "#{t(:units)}"}
-              %a{ "data-placement": "bottom", "data-toggle": "tooltip", title: "#{u_title}", type: "button"}
-                #{trait[:units][:name]}
+              %a{"data-placement": "bottom", "data-toggle": "tooltip", title: "#{u_title}", type: "button"}
+                = trait[:units][:name]
               - if trait[:normal_measurement] && (trait[:normal_measurement] != trait[:measurement])
                 - term = Term.where('binary uri = ?', trait[:normal_units])
                 - if term.count > 0
                   %h6
-                    #{term.first.name}
+                    = term.first.name
           - else
             %td{"data-label": "#{t(:units)}"}
           - resource_content_partner = @resources_content_partners[trait[:resource][:resource_id]]
@@ -66,9 +66,9 @@
             = link_to(resource_content_partner[0]["name"],
              content_partner_resource_path(resource_content_partner[1]["id"], resource_content_partner[0]["id"]))
         %td{"data-label": "#{t(:further_info)}"}
-          %a{ id: "#{counter1}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit",
+          %a{id: "#{counter1}", "aria-expanded": "true", "aria-haspopup": "true", "data-target": "#edit",
           "data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
-            #{t(:see_more)}
+            = t(:see_more)
 
           - if(TraitBank.has_meta?(trait[:id]))
             %td{"data-label": "#{t(:metadata)}"}
@@ -77,26 +77,28 @@
                 "data-target": "#edit", "data-toggle": "modal", onclick: "showPopup_meta(this)", role: "button"}
                   %i.fa.fa-angle-down.fa-2x.meta-items-arw.js-load-arw
             .modal{ id: "popup_#{counter1}T", "aria-labelledby": "popup_#{counter1}TLabel", role: "dialog", tabindex: "-1"}
-              .modal-dialog.modal-med{ role: "document"}
+              .modal-dialog.modal-med{role: "document"}
                 .modal-content
                   .modal-header
                     .form-group.row.form-inline
                       .col-md-10.col-sm-10.col-xs-10
-                        %h2.editLabel.modal-title #{t(:metadata)}
+                        %h2.editLabel.modal-title
+                          = t(:metadata)
                       .col-md-2.col-sm-2.col-xs-2
-                        %button{ id:"#{counter1}T", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'}x
+                        %button{id:"#{counter1}T", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'} x
                   .modal-body.editCollection
-                    %trait.js-data-row{ data: { 'show-path': datum_path( id: trait[:id], show_taxon: false),
-                     id: trait[:id] }, id: "#{counter1}TT"}
+                    %trait.js-data-row{data: {'show-path': datum_path(id: trait[:id], show_taxon: false),
+                     id: trait[:id]}, id: "#{counter1}TT"}
           - else
             %td
-        .modal{ id: "popup_#{counter1}", "aria-labelledby": "popup_#{counter1}Label", role: "dialog", tabindex: "-1"}
+        .modal{id: "popup_#{counter1}", "aria-labelledby": "popup_#{counter1}Label", role: "dialog", tabindex: "-1"}
           .modal-dialog.modal-med{ role: "document"}
             .modal-content
               .modal-header
                 .form-group.row.form-inline
                   .col-md-10.col-sm-10.col-xs-10
-                    %h2.editLabel.modal-title #{t(:further_info)}
+                    %h2.editLabel.modal-title
+                       = t(:further_info)}
                   .col-md-2.col-sm-2.col-xs-2
                     %button{ id: "#{counter1}", class: "btn btn-primary pull-right", tabindex: "1", onclick: 'hidePopup(this, event)'} x
               .modal-body.editCollection
@@ -104,66 +106,77 @@
                 %nbsp #{@page.scientific_name}
                 %br
                 - if trait[:lifestage_term]
-                  %strong #{t(:lifestage_term)}
+                  %strong 
+                    = t(:lifestage_term)
                   %nbsp
-                    %a{ "data-placement": "bottom", "data-toggle": "tooltip",
+                    %a{"data-placement": "bottom", "data-toggle": "tooltip",
                      title: "#{t(:uri)}: #{trait[:lifestage_term][:uri]}\n#{t(:definition)}: #{trait[:lifestage_term][:definition]}",
                       type: "button"}
-                      #{trait[:lifestage_term][:name]}
+                      = trait[:lifestage_term][:name]
                   %br
                 - if trait[:sex_term]
-                  %strong #{t(:sex_term)}
+                  %strong 
+                    = t(:sex_term)
                   %nbsp
-                    %a{ "data-placement": "bottom", "data-toggle": "tooltip", 
-                    title: "#{t(:uri)}: #{trait[:sex_term][:uri]}\n#{t(:definition)}: #{trait[:sex_term][:definition]} ",
+                    %a{"data-placement": "bottom", "data-toggle": "tooltip",
+                    title: "#{t(:uri)}: #{trait[:sex_term][:uri]}\n#{t(:definition)}: #{trait[:sex_term][:definition]}",
                      type: "button"}
-                      #{trait[:sex_term][:name]}
+                      = trait[:sex_term][:name]
                   %br
                 - if trait[:statistical_method_term]
-                  %strong #{t(:statistical_method)}
+                  %strong
+                    = t(:statistical_method)
                   %nbsp
-                    %a{ "data-placement": "bottom", "data-toggle": "tooltip", 
+                    %a{"data-placement": "bottom", "data-toggle": "tooltip",
                     title: "#{t(:uri)}: #{trait[:statistical_method_term][:uri]}\n#{t(:definition)}: #{trait[:statistical_method_term]"/
                     "[:definition]} ", type: "button"}
-                      #{trait[:statistical_method_term][:name]}
+                      = trait[:statistical_method_term][:name]
                     %br
                 - if trait[:citation]
-                  %strong #{t(:citation)}
+                  %strong
+                    = t(:citation)
                   %nbsp
-                    #{trait[:citation]}
+                    = trait[:citation]
                   %br
                 - if trait[:measurementMethod]
-                  %strong #{t(:measurementMethod)}
+                  %strong
+                    = t(:measurementMethod)
                   %nbsp
-                    #{trait[:measurementMethod]}
+                    = trait[:measurementMethod]
                   %br
                 - if trait[:contributer]
-                  %strong #{t(:contributer)}
+                  %strong
+                    = t(:contributer)
                   %nbsp
-                    #{trait[:contributer]}
+                    = trait[:contributer]
                   %br
                 - if trait[:event_date]
-                  %strong #{t(:event_date)}
+                  %strong 
+                    = t(:event_date)
                   %nbsp
-                    #{trait[:event_date]}
+                    = trait[:event_date]
                   %br
                 - if trait[:longitude]
-                  %strong #{t("content_attributions_labels.longitude")}
+                  %strong
+                    = t("content_attributions_labels.longitude")
                   %nbsp
-                    #{trait[:longitude]}
+                    = trait[:longitude]
                   %br
                 - if trait[:latitude]
-                  %strong #{t("content_attributions_labels.latitude")}
+                  %strong 
+                    = t("content_attributions_labels.latitude")}
                   %nbsp
-                    #{trait[:latitude]}
+                    = trait[:latitude]
                   %br
                 - if trait[:elevation]
-                  %strong #{t(:elevation)}
+                  %strong
+                    = t(:elevation)
                   %nbsp
-                    #{trait[:elevation]}
+                    = trait[:elevation]
                   %br
                 - if trait[:source]
-                  %strong #{t(:source)}:
+                  %strong
+                    = t(:source)} :
                   %nbsp
                     = link_to "#{trait[:source]}"
                   %br

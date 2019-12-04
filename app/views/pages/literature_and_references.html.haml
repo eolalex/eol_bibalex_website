@@ -1,16 +1,17 @@
 .container
   %h2.mainTitle
-    %span{ style: "padding-bottom: 10px; display: inline-block"}
+    %span{style: "padding-bottom: 10px; display: inline-block"}
       = @page.scientific_name
     .pull-right
-      = render("tabs")
+      = render "tabs"
     .clearfix
   .col-md-8
-    %h2.smallTitle #{t(:literature_and_references_header)}  
+    %h2.smallTitle
+      = t(:literature_and_references_header)
     .col-lg-12
-      %p.alert.alert-secondary{ role: "alert"}
+      %p.alert.alert-secondary{role: "alert"}
         %i.fa.fa-info-circle{"aria-hidden": "true"}
-        #{t(:lit_alert)}
+        = t(:lit_alert)
       %ul.mrgnTopBtm10
         = render_async literature_and_references_tab_path(page_id: @page.id) do
           = image_tag "loading.gif", alt: ""

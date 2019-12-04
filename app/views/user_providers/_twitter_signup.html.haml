@@ -1,0 +1,19 @@
+= javascript_include_tag "user_providers_registration_modal"
+.modal{id: "popup_twitter", "aria-labelledby": "popup_twitterLabel", role: "dialog", tabindex: "-1"}
+  .modal-dialog{ role: "document"}
+    .modal-content
+      .modal-header
+        .form-group.row.form-inline
+          .col-md-10.col-sm-10.col-xs-10
+            %h2.editLabel.modal-title
+            = t(:complete_registration)
+          .col-md-2.col-sm-2.col-xs-2
+            %button{ id: "twitter", class: "close", tabindex: "1", onclick: 'hidePopup(this, event)'} x
+      .modal-body{style: "padding-bottom: 0;"}
+        = form_for(@user, url: user_providers_path, method: :post) do |form|
+          = hidden_field_tag('provider', params[:provider])
+          = hidden_field_tag('uid', params[:uid])
+          = hidden_field_tag('username', params[:username])
+          %input.form-control{name: "user[email]", placeholder: "#{t(:enter_email)}", tabindex: "1", type: "text", required: true}
+          .modal-footer{style: "padding-bottom: 0; margin-top: 0;"}
+            = form.button("#{t(:create_account)}", class: "btn btn-primary")

@@ -35,12 +35,14 @@
           - unless @article.attributions.empty?
             - @attributions.each do |key, values|
               %br/
-              %b = key
-              %b =":"
+              %b
+                = key
+              %b
+                = ":"
               - values.each_with_index do |value, index|
                 = value.value
                 - if index != values.size-1
-                  =", "
+                  = ", "
           %br/
           %b #{t(:resource_label)}:
           - if @resource.nil?

@@ -1,11 +1,10 @@
-#collected_pages_search.uk-margin-top.uk-margin-left-small
-  = form_tag collection_collected_pages_path(@collection), method: "get", 
-  data: { remote: true }, class: "collection_search uk-form-small uk-form-width-large" do |f|
-    .uk-grid-small{ uk: { grid: true } }
-      .uk-width-3-4
-        .uk-fieldset
-          = text_field_tag(:q, "", placeholder: t("collection.search.placeholder"), class: "uk-input")
-        #clear_clade_filter.uk-hidden.uk-margin-small-top
-          = link_to("clear search", collection_collected_pages_path(@collection), remote: true)
-      .uk-width-1-4
-        = submit_tag(t("collection.search.submit"), class: "btn btn-danger")
+.SearchCollection.searchBox
+  %h2
+    #{t(:search_collection)}
+  .searchBox
+    = form_tag(collection_collected_pages_path(@collection), method: "get") do |form|
+      %button.searchButton
+        %i.fa.fa-search{"aria-hidden": "false"}
+      = text_field_tag(:cp_query, params[:cp_query], class: "form-control",
+        placeholder: "#{t(:search_placeholder)}", required: "true")
+      = hidden_field_tag('collection_id', @collection.id)

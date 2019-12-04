@@ -8,7 +8,7 @@
             - content_partner_id = PagesController.get_reference_content_partner(reference)
             - result = ResourceApi.get_resource(content_partner_id["id"], reference.parent.resource_id)
             - resource = PagesController.get_reference_resource(result)
-            - t(:reference_compiled_from_article, source: link_to(resource.name, 
+            - t(:reference_compiled_from_article, source: link_to(resource.name,
             content_partner_resource_path(content_partner_id["id"], result["id"])), name: reference.parent.name)
 
           - when "Medium"

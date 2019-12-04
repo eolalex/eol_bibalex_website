@@ -4,35 +4,37 @@
     .row
       .col-xs-12.col-sm-8.col-md-6
         = form_for(resource, as: resource_name, url: user_session_path, validate: true,
-         html: { class: "eol-userform recaptchad uk-form-stacked" },
-          defaults: { input_html: { class: 'uk-input' },
-          wrapper_html: { class: 'field' },
-          label_html: { class: 'uk-form-label' } }) do |f| 
-          %h2 #{t(:sign_in)}
-          %hr.colorgraph/
+         html: {class: "eol-userform recaptchad uk-form-stacked"},
+          defaults: {input_html: {class: 'uk-input'},
+          wrapper_html: {class: 'field'}, label_html: {class: 'uk-form-label'}}) do |form|
+
+          %h2
+            = t(:sign_in)
+          %hr.colorgraph
           .row
             .col-md-6.form-group
-              %input.form-control.input-lg{name: "user[email]", placeholder: "#{t(:email)}", 
-              tabindex: "1", type: "text", required: true}/
+              %input.form-control.input-lg{name: "user[email]", placeholder: "#{t(:email)}",
+              tabindex: "1", type: "text", required: true}
             .col-md-6.form-group
-              %input.form-control.input-lg{name: "user[password]", placeholder: "#{t(:password)}", 
-              tabindex: "2", type: "password", required: true}/
+              %input.form-control.input-lg{name: "user[password]", placeholder: "#{t(:password)}",
+              tabindex: "2", type: "password", required: true}
           .row
             .col-md-12.form-group
               .checkbox
                 %label
-                  %input#login-remember{ name: "user[remember]", type: "checkbox"}/
-                #{t(:remember_me)}
+                  %input#login-remember{ name: "user[remember]", type: "checkbox"}
+                = t(:remember_me)
                 .pull-right.text-right
-                  %a{id: "PW","data-toggle": "modal", onclick: "showPopup(this)", role: "button"} #{t(:forgot_your_password)}
+                  %a{id: "forgotPassword","data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
+                    = t(:forgot_your_password)
             - unless params[:user].nil?
               - user = User.where("email = ? ", params[:user][:email]).first
-              - if (!user.nil?) && (user.failed_attempts>=2)
+              - if !user.nil? && user.failed_attempts >= 2
                 .row
                   .col-md-12.form-group
-                    = f.label I18n.t(:recaptcha), required: true
+                    = form.label I18n.t(:recaptcha), required: true
                     = recaptcha_tags(theme: 'clean', callback: 'recaptchaCallback')
-                    - if flash.any? { |name, msg| name == "recaptcha_error" }
+                    - if flash.any? {|name, msg| name == "recaptcha_error"}
                       %span.error
                         = I18n.t('recaptcha_error')
           .row
@@ -41,8 +43,9 @@
           .row
             .col-md-12
               .login-or
-                %hr.hr-or/
-                %span.span-or #{t(:or)}
+                %hr.hr-or
+                %span.span-or
+                  = t(:or)
           .row
             - if devise_mapping.omniauthable?
               - action = controller_name == 'registrations' ? "sign_up" : "sign_in"
@@ -58,41 +61,20 @@
             .col-md-12
               .login-or
                 %hr.hr-or/
-                %span.span-or #{t(:or)}
+                %span.span-or
+                  = t(:or)
               %a.btn.btn-default.btn-lg.btn-block{href: new_user_registration_path,
-               style: "color: #157715; border-color: #157715; background-color: transparent;"} #{t(:sign_up)}
+               style: "color: #157715; border-color: #157715; background-color: transparent;"}
+                = t(:sign_up)
               %br
             .row
               .col-md-12
                 %p
-                  %a{ id: "CONF","data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
-                     #{t(:no_confirmation_instructions)}
+                  %a{id: "confirmEmail","data-toggle": "modal", onclick: "showPopup(this)", role: "button"}
+                    = t(:no_confirmation_instructions)
 
-.modal{ id: "popup_PW", "aria-labelledby": "popup_PW_Label", role: "dialog", tabindex: "-1"}
-  .modal-dialog{ role: "document"}
-    .modal-content
-      .modal-header
-        %button{ id: "PW", class: "close", "data-dismiss": "modal", "aria-label": "close" ,
-         tabindex: "1", onclick: 'hidePopup(this, event)'}x
-        %h4.modal-title #{t(:resend_pw)}
-      = form_for(resource, as: resource_name, url: password_path(resource_name), html: {method: :post}) do |f|
-        .modal-body{style: "padding-bottom:0;"}
-          .form-group
-            %input.form-control.input-md{ name: "user[email]", placeholder: "#{t(:enter_email)}",
-             tabindex: "1", type: "text", required: true}
-        .modal-footer{style: "padding-bottom:0; margin-top:0;"}
-          = f.button("#{t(:send)}", class: "btn btn-primary")
+.modal{id: "popup_forgotPassword", "aria-labelledby": "popup_forgotPasswordLabel", role: "dialog", tabindex: "-1"}
+  = render "forgot_password"
 
-.modal{ id: "popup_CONF", "aria-labelledby": "popup_CONF_Label", role: "dialog", tabindex: "-1"}
-  .modal-dialog{ role: "document"}
-    .modal-content
-      .modal-header
-        %button{id: "CONF", class: "close", tabindex: "1", "data-dismiss": "modal", onclick: 'hidePopup(this, event)'} x
-        %h4.modal-title #{t(:resend_confirmation_instructions)}
-      = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: {method: :post}) do |f|
-        .modal-body{style: "padding-bottom:0;"}
-          .form-group
-            %input.form-control.input-lg{ name: "user[email]", placeholder: "#{t(:enter_email)}",
-             tabindex: "1", type: "text", required: true}
-        .modal-footer{style: "padding-bottom:0; margin-top:0;"}
-          = f.button("#{t(:send)}", class: "btn btn-primary")
+.modal{id: "popup_confirmEmail", "aria-labelledby": "popup_confirmEmailLabel", role: "dialog", tabindex: "-1"}
+  = render "resend_confirmation"

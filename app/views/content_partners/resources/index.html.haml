@@ -11,7 +11,7 @@
         - resource_id = row["resourceID"].to_i
         %tr
           %td
-            %a{ href: "/resources/#{resource_id}/info","data-placement": "bottom"}
+            %a{href: "/resources/#{resource_id}/info","data-placement": "bottom"}
               = row["resourceName"]
           %td
             %a{href: content_partner_path(content_partner_id), "data-placement": "bottom"}

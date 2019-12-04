@@ -20,7 +20,7 @@
               - if page_content.name.length > 31
                 #{page_content.name[0...30]}...
               - else
-                #{page_content.name}
+                = page_content.name
       - medium = Medium.find(page_content.content_id)
       .modal{id: "popup_#{medium.id}", tabindex: "-1", role: "dialog", "aria-labelledby": "popup_#{page_content.content_id}Label"}
         .modal-dialog.modal-lg.extra_large{role: "document"}
@@ -45,28 +45,28 @@
                         %span.btn.btn-success.btn-xs.btn-trusted.btn-trusted #{t(:trusted)}
                         %br/
                         %small
-                          #{t(:in_this_image)}
-                          %a{ href: page_path(@page)}
+                          = t(:in_this_image)
+                          %a{href: page_path(@page)}
                             = @page.scientific_name
                       .small_title
-                        #{t(:source)}
+                        = t(:source)
                       .greyBox
                         %p
-                          %img{ src: "/assets/creative_common.png"}/
+                          %img{src: "/assets/creative_common.png"}/
                           %small
                             %br/
                             - unless medium.source_url.nil?
-                              %b 
-                                #{t(:source_url)}
+                              %b
+                                = t(:source_url)
                                 = medium.source_url |
-                            %br/
+                            %br
                             - unless (medium.owner.nil? || medium.owner == "null")
-                              %b 
-                                #{t(:owner)}
+                              %b
+                                = t(:owner)
                                 = medium.owner
                       - unless medium.description.nil?
                         .small_title
-                          #{t(:description)}
+                          = t(:description)
                         .greyBox
                           %p
                             = medium.description.html_safe

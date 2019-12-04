@@ -5,28 +5,29 @@
   .container
     .row
       .col-xs-12.col-sm-8.col-md-6
-        = form_for(@user, url: user_registration_path, method: :post) do |f|
+        = form_for(@user, url: user_registration_path, method: :post) do |form|
           .input-group
           %hr.colorgraph
             .row
               .col-xs-12
                 - errors = resource_error_messages(@user)
-                - if errors != ""
+                - unless errors == ""
                   = errors
                   = javascript_tag("reset_recaptcha()")
           %h2
-            #{t(:sign_up)}
-            %small #{t(:always_free)}
-          %hr.colorgraph/
+            = t(:sign_up)
+            %small 
+              = t(:always_free)
+          %hr.colorgraph
           .row
             .col-xs-12
               .form-group
-                %input.form-control.input-lg{name: "user[username]", placeholder: "#{t(:username)}", 
+                %input.form-control.input-lg{name: "user[username]", placeholder: "#{t(:username)}",
                 tabindex: "1", type: "text", required: true}
           .row
             .col-xs-12
               .form-group
-                %input.form-control.input-lg{name: "user[email]", placeholder: "#{t(:email)}", 
+                %input.form-control.input-lg{name: "user[email]", placeholder: "#{t(:email)}",
                 tabindex: "2", type: "email", required: true}
           .row
             .col-xs-12.col-sm-6.col-md-6
@@ -35,35 +36,37 @@
                  tabindex: "3", type: "password", required: true}
             .col-xs-12.col-sm-6.col-md-6
               .form-group
-                %input#password_confirmation.form-control.input-lg{name: "user[password_confirmation]", placeholder: "#{t(:password_confirmation)}", tabindex: "4", type: "password", required: true}/
+                %input#password_confirmation.form-control.input-lg{name: "user[password_confirmation]",
+                placeholder: "#{t(:password_confirmation)}", tabindex: "4", type: "password", required: true}
           .row
             .col-xs-12.col-sm-6.col-md-6
               .form-group
-                = f.label "Recaptcha"
+                = form.label "Recaptcha"
                 = recaptcha_tags(theme: 'clean', callback: 'recaptchaCallback', required: true)
                 - if flash.any? {|name, msg| name == "recaptcha_error"}
                   %span.error
                     = I18n.t('recaptcha_error')
           .row
             .col-xs-12
-              %input.btn.btn-success.btn-lg.btn-block{ type: "submit", value: "#{t(:sign_up)}", 
+              %input.btn.btn-success.btn-lg.btn-block{ type: "submit", value: "#{t(:sign_up)}",
               onclick: "return ValidateForm()", remote: true}
           .row
             .col-md-12
               .login-or
                 %hr.hr-or/
-                %span.span-or.BGwhite #{t(:or)}
+                %span.span-or.BGwhite
+                  = t(:or)
           .row
             .col-md-12.text-center
               %p
-                #{t(:sign_up_with_social_network)}
+                = t(:sign_up_with_social_network)
             .col-sm-4.form-group
               %a.btn.btn-primary.btn-block{href: "/users/auth/facebook?intent=sign_up&locale=#{params[:locale]}"}
                 %i.fa.fa-facebook
             .col-sm-4.form-group
-              %a.btn.btn-primary.btn-block{ href: "/users/auth/google_oauth2?intent=sign_up&locale=#{params[:locale]}"}
+              %a.btn.btn-primary.btn-block{href: "/users/auth/google_oauth2?intent=sign_up&locale=#{params[:locale]}"}
                 %i.fa.fa-google-plus
             .col-sm-4.form-group
-              %a.btn.btn-primary.btn-block{ href: "/users/auth/twitter?intent=sign_up&locale=#{params[:locale]}"}
+              %a.btn.btn-primary.btn-block{href: "/users/auth/twitter?intent=sign_up&locale=#{params[:locale]}"}
                 %i.fa.fa-twitter
 

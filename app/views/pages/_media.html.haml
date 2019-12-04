@@ -8,22 +8,25 @@
       = render("tabs")
     .clearfix
   .col-md-8
-    -if @maps
-      %h2.smallTitle #{t(:maps)}
-    -else
-      %h2.smallTitle #{t(:media)}
+    - if @maps
+      %h2.smallTitle
+        = t(:maps)}
+    - else
+      %h2.smallTitle
+        = t(:media)
     = render_async media_grid_path( page_id: @page.id, page: params[:page], maps: !@maps.nil?) do
       .col-md-offset-4
         = image_tag "loading.gif", alt: ""
   .col-md-4
     %aside
       .widget.categories
-        %h3 #{t(:taxon_card)}
+        %h3
+          = t(:taxon_card)
         .row
           .col-sm-12
             .single_comments
               .col-lg-2.col-md-3.col-sm-1.col-xs-3.collectionImage.no-padding
                 = image_tag "download.png", width: "64", height: "64"
               .col-lg-10.col-md-9.col-sm-11.col-xs-9
-                %b 
-                  #{@page.scientific_name}
+                %b
+                  = @page.scientific_name

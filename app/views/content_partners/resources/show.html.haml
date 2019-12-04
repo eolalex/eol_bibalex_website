@@ -8,20 +8,21 @@
           - if current_user == @content_partner.user
             %a.btn.btn-primary{ href: "#{edit_content_partner_resource_path(content_partner_id: @content_partner.id,id: params["id"])}",
              role: "button"}
-              #{t(:edit_button)}
+              = t(:edit_button)
         %span.pull-right
-          - if(!(current_user.nil?) || current_user.admin)
+          - if !current_user.nil? || current_user.admin
             %a.btn.btn-primary{ href: "/resources/#{params[:id]}/info", role: "button"}
-              #{t(:resource_statistics)}
+              = t(:resource_statistics)
     .col-md-8
       .part
         .subtitle
-          #{t(:about_resource)}
+          = t(:about_resource)
         %p
           = @resource.description
         %p
           %strong #{t(:web)}
-          %a{ href: content_partner_resource_path(@content_partner.id, params["id"]), target: "_blank"} #{@resource.name}
+          %a{href: content_partner_resource_path(@content_partner.id, params["id"]), target: "_blank"}
+            = @resource.name
       .part
         .subtitle
           #{t(:dataset)}
@@ -29,56 +30,56 @@
           %strong
             #{t(:type)}
           = @resource.type
-        - if @resource.type.eql?("url")
+        - if @resource.type == "url"
           %p
             %strong
-              #{t(:uploaded_url)}
-            #{ @resource.uploaded_url }
-        - if @resource.type.eql?("file")
+              = t(:uploaded_url)
+            = @resource.uploaded_url
+        - if @resource.type == "file"
           %p
             %strong
-              #{t(:file_path)}
+              = t(:file_path)
             = @resource.path
         %p
           %strong
-            #{t(:default_language)}
+            = t(:default_language)
           = Language.find(@resource.default_language_id).code
       .part
         .subtitle
-          #{t(:rights_attribution)}
+          = t(:rights_attribution)
         %strong
-          #{t(:dataset_license)}
+          = t(:dataset_license)
         %p
           = License.find(@resource.dataset_license).name
         %strong
-          #{t(:dataset_rights_holder)}
+          = t(:dataset_rights_holder)
         %p
           = @resource.dataset_rights_holder
         %strong
-          #{t(:dataset_rights_statement)}
+          = t(:dataset_rights_statement)
         %p
           = @resource.dataset_rights_statement
         %strong
-          #{t(:default_rights_holder)}
+          = t(:default_rights_holder)
         %p
           = @resource.default_rights_holder
         %strong
-          #{t(:default_rights_statement)}
+          = t(:default_rights_statement)
         %p
           = @resource.default_rights_statement
         %strong
-          #{t(:default_license_string)}
+          = t(:default_license_string)
         %p
           = License.find(@resource.default_license_string).name
       .part
         .subtitle
-          #{t(:processing_status_and_settings)}
+          = t(:processing_status_and_settings)
         %strong
-          #{t(:harvest_frequency)}
+          = t(:harvest_frequency)
         %p
           = @resource.harvest_frequency
         %strong
-          #{t(:auto_published)}
+          = t(:auto_published)
         %p
           = @resource.is_autopublished
       .part
@@ -93,13 +94,14 @@
       %aside
         .widget.categories.contentManger
           %span
-            %b #{t(:managed_by)}
+            %b 
+              = t(:managed_by)
           .row
             .col-sm-12
               .single_comments
                 %img{ alt: "", src: "/assets/avatar3.png"}
-                %p{ style: ""}
-                  %a{ href: user_path(id: @content_partner.user.id)}
+                %p{style: ""}
+                  %a{href: user_path(id: @content_partner.user.id)}
                     = @content_partner.user.username
     .col-md-4
       %aside
@@ -109,7 +111,7 @@
           .row
             .col-sm-12
               .single_comments
-                %img{ alt: "", src: "/assets/avatar3.png"}/
-                %p{ style: ""}
-                  %a{ href: content_partner_path(id: @content_partner.id)}
+                %img{alt: "", src: "/assets/avatar3.png"}
+                %p{style: ""}
+                  %a{href: content_partner_path(id: @content_partner.id)}
                     = @content_partner.name

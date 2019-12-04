@@ -1,0 +1,12 @@
+.modal-dialog{role: "document"}
+  .modal-content
+    .modal-header
+      %button{id: "confirmEmail", class: "close", tabindex: "1", "data-dismiss": "modal", onclick: 'hidePopup(this, event)'} x
+      %h4.modal-title #{t(:resend_confirmation_instructions)}
+    = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: {method: :post}) do |form|
+      .modal-body{style: "padding-bottom:0;"}
+        .form-group
+          %input.form-control.input-lg{name: "user[email]", placeholder: "#{t(:enter_email)}",
+           tabindex: "1", type: "text", required: true}
+      .modal-footer{style: "padding-bottom:0; margin-top:0;"}
+        = form.button("#{t(:send)}", class: "btn btn-primary")

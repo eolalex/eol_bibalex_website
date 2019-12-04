@@ -1,11 +1,17 @@
-= form_with model: @collection, method: :post, local: true do |form|
-  .form-group
-    = form.label :name
-    = form.text_field :name, required: true
-    %br
-  .form-group
-    = form.label :description
-    = form.text_field :description
-    %br
-  .actions
-    = form.submit
+.col-md-9.col-sm-12.col-xs-12
+  .row
+    .col-xs-12
+      - @collection.collected_pages.each do |collected_page|
+        .col-lg-3.col-md-4.col-sm-4.col-xs-12
+          .collectionItem
+            = link_to 'x', collected_page_path(id: collected_page.id), method: :delete,
+             data: {confirm: "#{t(:confirm_message)}"}, class: "close"
+            .collectionImage
+              - if CollectionsController.image_found(collected_page)
+                = image_tag Page.find_by_id(collected_page.page_id).try(:media).first.base_url
+              - else
+                = image_tag "download.png", style: "height: 100; width: 100"
+            .collectionName
+              - unless collected_page.page.scientific_name.nil?
+                %a{href: page_path(collected_page.page_id)}
+                  #{collected_page.page.scientific_name}
