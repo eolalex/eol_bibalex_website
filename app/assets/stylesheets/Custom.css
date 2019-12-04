@@ -3023,3 +3023,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .content .dropdown ul li:last-child a{
     border-bottom: none;
 }
+.contentPartner-pagination
+	.pagination > li:first-child > a, .pagination > li:last-child > a, .pagination > .active > a, .pagination > li:nth-child(2) > a,
+	 .pagination > li:nth-last-child(2) > a {
+		display: inline;
+	}
+	.pagination > li > a, ul.pagination > li > a {
+		display: none;
+	}

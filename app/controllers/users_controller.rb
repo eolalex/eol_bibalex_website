@@ -11,6 +11,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @content_partner_ids = ContentPartnerUser.where("user_id = ?", params[:id]).pluck(:content_partner_id)
+    @content_partner_ids = @content_partner_ids.paginate(page: params[:page_cp], per_page: ENV['per_page_user']
     @collections = @user.collections
+    @collections = @collections.paginate(page: params[:page_collection], per_page: ENV['per_page_user'].to_i)
   end
 end

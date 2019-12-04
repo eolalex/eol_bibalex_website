@@ -48,6 +48,7 @@
                         %small
                           #{collection.collected_pages_count} #{t(:items)}; #{t(:last_updated_at)} #{time_ago_in_words(collection.updated_at)} #{t(:ago)}
                     .clearfix
+                = will_paginate @collections, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer, param_name: :page_collection
     .col-md-4
       %aside
         .widget.categories.collectionBox
@@ -79,3 +80,5 @@
                         =result["name"]
                       .clearfix
                     .clearfix
+                  .contentPartner-pagination
+                    = will_paginate @content_partner_ids, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer, param_name: :page_cp
