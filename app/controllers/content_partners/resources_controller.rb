@@ -32,7 +32,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
 
     @resource = Resource.new(resource_params)
 
-    @resource.flag = params[:resource][:type].eql?("file") ? true : false
+    @resource.flag = params[:resource][:type] == "file" ? true : false
 
     resource_params = {
       name: params[:resource][:name],
@@ -96,7 +96,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
         is_harvest_inprogress: result["isHarvestInprogress"]
       )
     else
-      flash[:notice]=I18n.t(:edit_resource)
+      flash[:notice] = I18n.t(:edit_resource)
       redirect_to content_partner_resource_path(content_partner_id: params[:content_partner_id], id: params[:id])
     end
   end
@@ -157,7 +157,6 @@ class ContentPartners::ResourcesController < ContentPartnersController
 
   def show
     returned_content_partner = ContentPartnerApi.get_content_partner_without_resources(params[:content_partner_id])
-    # result_partner = ContentPartnerApi.get_content_partner(params[:content_partner_id])
 
     content_partner_user = User.find(ContentPartnerUser.find_by_content_partner_id(returned_content_partner["id"].to_i).user_id)
     
@@ -236,7 +235,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
   def show_last_harvest_log(resource_id)
     @last_harvest = ResourceApi.get_last_harvest_log(resource_id)
     if @last_harvest.present?
-      @harvest_duration = ((DateTime.parse(@last_harvest["endTime"]) - DateTime.parse(@last_harvest["startTime"]))*24.to_f)
+      @harvest_duration = ((DateTime.parse(@last_harvest["endTime"]) - DateTime.parse(@last_harvest["startTime"])) * 24.to_f)
     end
   end
 

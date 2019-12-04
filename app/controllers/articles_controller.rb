@@ -33,7 +33,7 @@ class ArticlesController < ApplicationController
       default_language_id: @result["default_language_id"]
     )
 
-    attributions = @article.attributions.sort_by{|hsh| hsh[:role_name]}
-    @attributions = attributions.group_by {|t| t[:role_name]}
+    attributions = @article.attributions.sort_by{|attribution| attribution[:role_name]}
+    @attributions = attributions.group_by {|attribution| attribution[:role_name]}
   end
 end

@@ -21,7 +21,6 @@ module Refinery
       render_with_templates?
     end
 
-
   protected
     def requested_friendly_id
       if ::Refinery::Pages.scope_slug_by_parent

@@ -1,8 +1,8 @@
 class ErrorsController < ApplicationController
   def not_found
     respond_to do |format|
-      format.html{render status: 404}
-      format.json{render json: {error: "Page not Found"}, status: 404}
+      format.html {render status: 404}
+      format.json {render json: {error: "Page not Found"}, status: 404}
     end
   end
 

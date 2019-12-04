@@ -19,7 +19,7 @@ class CollectionsController < ApplicationController
       @collected_page = CollectedPage.new(page_id: @page_id, collection_id: @collection.id)
       if @collected_page.save
         redirect_to @collected_page.page
-        flash[:notice] = "#{@collected_page.scientific_name_string }: " + t(:page_added_to_collection) + ": #{@collected_page.collection.name}"
+        flash[:notice] = "#{@collected_page.scientific_name_string }: #{t(:page_added_to_collection)}: #{@collected_page.collection.name}"
       end
     end
   end

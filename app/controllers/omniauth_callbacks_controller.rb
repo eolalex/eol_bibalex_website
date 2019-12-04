@@ -34,7 +34,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       #sign_in
       if user.blank?
         redirect_to new_user_session_path
-        set_flash_message :error,  :failure, kind: provider,
+        set_flash_message :error, :failure, kind: provider,
           reason: I18n.t(:account_not_linked)
       else
         sign_in_and_redirect user, event: :authentication

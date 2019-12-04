@@ -26,7 +26,7 @@ class CollectedPagesController < ApplicationController
           format.html {}
           format.js {}
         end
-        flash[:notice] = "#{@collected_page.scientific_name_string }: " + t(:page_added_to_collection) + ": #{@collected_page.collection.name}"
+        flash[:notice] = "#{@collected_page.scientific_name_string }: #{t(:page_added_to_collection)}: #{@collected_page.collection.name}"
       else
         flash[:notice] = t(:page_exists)
       end
@@ -54,8 +54,8 @@ class CollectedPagesController < ApplicationController
   def index
     @collection_id = params[:collection_id]
     @collected_pages = CollectedPage.where(collection_id: @collection_id)
-    @page_title = params[:cp_query] + "| " + t(:search_results)
-    regex = ".*" + params[:cp_query].downcase + ".*"
+    @page_title = "#{params[:cp_query]}| #{t(:search_results)}"
+    regex = ".*#{params[:cp_query].downcase}.*"
 
     page_results = CollectedPage.search params[:cp_query] do |body|
       body[:query] = {
