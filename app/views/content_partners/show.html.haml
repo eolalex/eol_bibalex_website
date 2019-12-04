@@ -52,8 +52,8 @@
                     %span.pull-right  +
               %hr/
               %ul
-                - @content_partner.resources.each do |resource|
+                - @resources.each do |resource|
                   %li
                     %a{ href: "#{content_partner_resource_path(@content_partner.id, resource.id)}"} 
                       = resource.name
-                  
+                = will_paginate @resources, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer

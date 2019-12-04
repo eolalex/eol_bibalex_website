@@ -79,7 +79,7 @@ class ContentPartnersController < ApplicationController
                                   default_rights_holder: resource["default_rights_holder"], default_language_id: resource["default_language_id"],
                                   harvests: resource["harvests"])
       end
-
+      @resources = resources.paginate(page: params[:page], per_page: ENV['per_page_resources'])
       #TODO check if user of the content partner is the manager or not
       content_partner_user = User.find(ContentPartnerUser.find_by_content_partner_id(returned_content_partner["id"].to_i).user_id)
       # content_partner_user = nil
