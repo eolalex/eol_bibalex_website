@@ -1,6 +1,0 @@
-- data = [] unless local_assigns.has_key?(:data)
-- pages = [] unless local_assigns.has_key?(:pages)
-= paginate data unless data.empty?
-%ul.traits.traits-term-search
-     = render partial: "terms/data_row", locals: { pages: pages, trait: trait, show_taxon: true }
-  = paginate data unless data.empty?

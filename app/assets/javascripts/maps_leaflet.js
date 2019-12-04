@@ -74,33 +74,6 @@
     }
     map.addLayer( markerClusters );
 
-    //----------------------------------------------------------------------------------------------------------------//for Cluster On/Off
-    /* working but not perfect. Had a hard time changing the button icon programmatically
-    var toggle = L.easyButton({
-      id: 'eli',
-      states: [{
-        stateName: 'add-markers',
-        icon: 'fa-map-marker',
-        // icon: '<span class="star">&diamond;</span>',
-        title: 'Cluster On',
-        onClick: function(control) {
-            disable();
-            control.state('remove-markers');
-        }
-      }, {
-        stateName: 'remove-markers',
-        icon: 'fa-undo',
-        // icon: '<span class="star">&olarr;</span>',
-        title: 'Cluster Off',
-        onClick: function(control) {
-            enable();
-            control.state('add-markers');
-        }
-      }]
-    });
-    toggle.addTo(map);
-    */
-    //----------------------------------------------------------------------------------------------------------------
     //for enable disable cluster
     function enable() {
         markerClusters.enableClustering();
@@ -126,13 +99,9 @@
           }
         }
       });
-      /* working OK - good debug
-      alert("total latlongs = "+i);                 //total coordinates, lat longs
-      alert("total markers = "+features.length);    //total no of markers e.g. dot icon + cluster icon
-      */
       return i; //total coordinates (points) in current view
     }
-    //---------------------------------------------------------------------------------------------------------------- from: http://webdevzoom.com/get-center-of-polygon-triangle-and-area-using-javascript-and-php/
+    
     function getCentroid(coord)
     {
         var center = coord.reduce(function (x,y) {
@@ -140,7 +109,6 @@
         }, [0,0])
         return center;
     }
-    //----------------------------------------------------------------------------------------------------------------
     function get_all_latlongs(markers)
     {
         var latlng = [];
@@ -168,11 +136,10 @@
   }
 
   $(function() {
-    var $map = $('#map')
-      , iconPath = $map.data('iconPath')
-      , iconRetinaPath = $map.data('iconRetinaPath')
-      , dataPath = $map.data('mapDataPath')
-      ;
+    var $map = $('#map'),
+      iconPath = $map.data('iconPath'),
+      iconRetinaPath = $map.data('iconRetinaPath'),
+      dataPath = $map.data('mapDataPath');
 
     $.getJSON(dataPath, function(data) {
       createMap(data, iconPath, iconRetinaPath);

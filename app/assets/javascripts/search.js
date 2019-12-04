@@ -18,9 +18,6 @@ function initialize(locale) {
 		}
 
 		var filters = "";
-		// if ($("#scientific_names").prop('checked')) {
-		// filters += "&scientific_names=true";
-		// }
 		if ($("#pages").prop('checked')) {
 			filters += "&pages=true";
 		}
@@ -45,8 +42,6 @@ function initialize(locale) {
 			minLength : 1
 		}).bind('typeahead:selected', function(evt, datum, name) {
 			console.log(datum);
-			// if(datum._type == "scientific_name")
-			// window.location.href = Routes.page_path(datum.id);
 			if (datum.type == "page") {
 				window.location.href = Routes.page_path(locale, datum.id);
 			}
@@ -62,7 +57,4 @@ function include(filename) {
 	script.type = 'text/javascript';
 	head.appendChild(script);
 }
-
-//});
 $(document).ready(initialize);
-//$(document).on('turbolinks:load', initialize);

@@ -1,9 +1,0 @@
--# %div{:'uk-dropdown' => "mode: click"}
-%ul.desc-meta
-  %li= t("terms.uri_field_html")+link_to(term[:uri], term[:uri]).html_safe
-  - if !term[:definition].blank?
-    %li=  t("terms.definition_field_html")+term[:definition].html_safe
-  - if !term[:comment].blank?
-    %li= t("terms.comment_field_html")+term[:comment].html_safe
-  - if !term[:attribution].blank?
-    %li= t("terms.attribution_field_html")+term[:attribution].html_safe
