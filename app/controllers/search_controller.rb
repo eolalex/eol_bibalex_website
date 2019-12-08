@@ -9,13 +9,18 @@ class SearchController < ApplicationController
 
   def search
     @page_title = params[:query] == "*" ? t(:see_more) : params[:query]+ "| " + t(:search_results)
-    regex = ".*\"" + params[:query].downcase + "\".*"
-    page_result = Page.search params[:query] do |body|
-      body[:query] = {
-        regexp:{
-          scientific_name: regex
+    regex = params[:query] == "*" ? params[:query] :  ".*\"#{params[:query].downcase}\".*"
+    
+    if params[:query] == "*" 
+      page_result = Page.search("*")
+    else
+      page_result = Page.search params[:query] do |body|
+        body[:query] = {
+          regexp:{
+            scientific_name: regex
+          }
         }
-      }
+      end
     end
 
     @pages = page_result.results

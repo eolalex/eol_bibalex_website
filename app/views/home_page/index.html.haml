@@ -59,7 +59,7 @@
                       = image_tag "download.png", style: 'height:25%;width:100%;'
         .center.wow.fadeInDown
           %h2{style: "font-size: 20;"}
-            %a{href: main_app.search_path(query:"a")} #{t(:see_more)}
+            %a{href: main_app.search_path(query: "*")} #{t(:see_more)}
 
   - cache("#Home_Statistics-#{locale}-#{$updated_at}", skip_digest: true, expires_in: 1.day) do  
     .container

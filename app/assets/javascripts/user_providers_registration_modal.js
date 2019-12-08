@@ -1,4 +1,4 @@
 $(document).ready(function() {
-	$('#popup_OMNI_100').show();
+	$('#popup_twitter').show();
 }); 
 
