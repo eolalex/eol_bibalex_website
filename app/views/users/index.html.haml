@@ -1,0 +1,7 @@
+.container
+  - @users.each do |user|
+    .row
+      %h3
+        %strong
+          = user.username
+  = will_paginate @users

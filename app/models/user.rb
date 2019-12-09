@@ -17,7 +17,9 @@ class User < ApplicationRecord
     # return unless username =~ /\s/
     # errors.add :username, 'Invalid Username Format: Username should not contain any blank spaces.'
   # end
-
+  acts_as_authorization_subject association_name: :roles
+  acts_as_authorization_object
+  
   def password_complexity
     if password.present? and not password.match (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)./)
       errors.add :password, 'Complexity requirement not met. Password should be at least 6 characters long and include: 1 Upper case, 1 lower case, and 1 digit'

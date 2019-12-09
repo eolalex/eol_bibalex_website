@@ -81,6 +81,7 @@ gem 'bulk_insert'
 gem "geo_coord"
 gem 'render_async'
 gem 'whenever', require: false
+gem 'acl9', '~> 3.1.0'
 # gem 'ar-extensions'
  
 

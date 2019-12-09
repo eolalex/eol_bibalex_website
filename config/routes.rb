@@ -28,7 +28,7 @@ Rails.application.routes.draw do
 
     #media
     resources :media, only: [:show]
-    resources :users, only: [:show]
+    resources :users, only: [:show, :index]
     resources :articles, only: [:show]
     root 'home_page#index'
     resources :pages do
