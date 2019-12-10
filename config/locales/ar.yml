@@ -285,3 +285,8 @@ ar:
   back_to_home: "العودة إلى الصفحة الرئيسية"
   names_and_classification: "التسميات والتصنيفات"
   sign_in_first: "يرجى تسجيل الدخول أو إنشاء حساب جديد أولاً قبل المتابعة"
+  successfully_created: "تم إنشاء مستخدم جديد بنجاح"  
+  succesfully_updated: "تم تحديث ملف تعريف المستخدم بنجاح"
+  something_went_wrong: "نأسف لذلك. يبدو أن هناك خطأ ما."
+  users: "عرض جميع المستخدمين"
+  add_new_user: "إضافة مستخدم جديد"

@@ -8,8 +8,10 @@
         %h3
           #{t(:user_info)}
           %span.pull-right
-            -if @user.id == current_user.id
+            - if @user.id == current_user.id
               %a{href: edit_user_registration_path} #{t(:edit_button)}
+            - elsif current_user.has_role?(:administrator)
+              %a{href: edit_user_registration_admin_path(id: @user.id)} #{t(:edit_button)}
         %hr/
         .row
           .col-lg-2.col-md-2.col-sm-2

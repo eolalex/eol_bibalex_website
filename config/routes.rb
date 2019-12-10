@@ -29,6 +29,11 @@ Rails.application.routes.draw do
     #media
     resources :media, only: [:show]
     resources :users, only: [:show, :index]
+    get 'admin/users/edit/:id(.:format)' => "users#edit", as: :edit_user_registration_admin
+    put 'admin/users/edit/:id(.:format)' => "users#update", as: :user_registration_admin
+    get 'admin/users/new(.:format)' => 'users#new', as: :new_user_admin_registration
+    post 'admin/users/new(.:format)' => 'users#create', as: :user_admin_registration
+
     resources :articles, only: [:show]
     root 'home_page#index'
     resources :pages do
@@ -65,6 +70,8 @@ Rails.application.routes.draw do
       delete '/collected_pages/:id'=>'collected_pages#destroy'
 
     end
+    
+    
     #tabs
 
     get :media_grid, :controller => :pages

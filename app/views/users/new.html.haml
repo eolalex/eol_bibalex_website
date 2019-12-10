@@ -1,0 +1,38 @@
+%content#Content1{contentplaceholderid: "head", runat: "Server"}
+%content#Content2{contentplaceholderid: "ContentPlaceHolder1", runat: "Server"}
+  = javascript_include_tag "admin_signup"
+  .container
+    .row
+      .col-xs-12.col-sm-8.col-md-6
+        = form_for(@user, url: user_admin_registration_path, method: :post) do |f|
+          .input-group
+          %hr.colorgraph
+            .row
+              .col-xs-12
+                - errors = resource_error_messages(@user)
+                - unless errors == ""
+                  = errors
+                  = javascript_tag("reset_recaptcha()")
+          %h2
+            #{t(:add_new_user)}
+          %hr.colorgraph
+          .row
+            .col-xs-12
+              .form-group
+                %input.form-control.input-lg{ name: "user[username]", placeholder: "#{t(:username)}", tabindex: "1", type: "text", required: true}
+          .row
+            .col-xs-12
+              .form-group
+                %input.form-control.input-lg{ name: "user[email]", placeholder: "#{t(:email)}", tabindex: "2", type: "email", required: true}
+          .row
+            .col-xs-12.col-sm-6.col-md-6
+              .form-group
+                %input.form-control.input-lg{ name: "user[password]", placeholder: "#{t(:password)}", tabindex: "3", type: "password", required: true}
+            .col-xs-12.col-sm-6.col-md-6
+              .form-group
+                %input#password_confirmation.form-control.input-lg{ name: "user[password_confirmation]", placeholder: "#{t(:password_confirmation)}", tabindex: "4", type: "password", required: true}
+
+          .row
+            .col-xs-12
+              %input.btn.btn-success.btn{ type: "submit", value: "#{t(:create_button)}", onClick: "return ValidateForm()", remote: true}
+              = link_to "#{t(:back)}", users_path, class: "btn btn-primary"

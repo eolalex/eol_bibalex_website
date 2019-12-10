@@ -327,3 +327,9 @@ en:
   back_to_home: "Go Back to Home Page "
   names_and_classification: "Names and Classifications"
   sign_in_first: "You need to sign in or sign up first to continue"
+  successfully_created: "Successfully created new user"  
+  succesfully_updated: "Successfully updated user profile"
+  something_went_wrong: "We're sorry, something went wrong"
+  users: "Users"
+  add_new_user: "Add New User"
+  
