@@ -19,7 +19,17 @@ class User < ApplicationRecord
   # end
   acts_as_authorization_subject association_name: :roles
   acts_as_authorization_object
+
+  searchkick word_start: [:username]
   
+  def search_data
+    {
+      type: "user",
+      id: id,
+      name: username.downcase
+    }
+  end
+
   def password_complexity
     if password.present? and not password.match (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)./)
       errors.add :password, 'Complexity requirement not met. Password should be at least 6 characters long and include: 1 Upper case, 1 lower case, and 1 digit'

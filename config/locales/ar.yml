@@ -290,3 +290,7 @@ ar:
   something_went_wrong: "نأسف لذلك. يبدو أن هناك خطأ ما."
   users: "عرض جميع المستخدمين"
   add_new_user: "إضافة مستخدم جديد"
+  sort: "ترتيب"
+  clear_sort: "إزالة الترتيب"
+  alphabetically_asc: "ترتيب أبجدي تصاعدي"
+  alphabetically_desc: "ترتيب أبجدي تنازلي"

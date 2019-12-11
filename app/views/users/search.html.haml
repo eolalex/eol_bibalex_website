@@ -1,0 +1,54 @@
+= javascript_include_tag "search_users"
+.container
+  .col-lg-9
+    .row
+      .col-lg-12
+        %h2.mainTitle
+          #{t(:search_results)}
+        %br
+  .clearfix
+  .col-lg-9
+    - @results.each do |user|
+      .row
+        %a{href: user_path(user.id)}
+          .col-xs-4.col-sm-2.col-md-2
+            %img.thumbnail{src: "/assets/avatar3.png", width: "100", height: "100"}
+        %h3
+          %strong
+            .col-xs-8.col-sm-10.col-md-10
+              %a{href: user_path(user.id)}
+                = user.username
+        .pull-right
+          %span.dropdown
+            %a.btn.btn-primary{href: edit_user_registration_admin_path(id: user.id), style: "width: 100"}
+              = t(:edit_button)
+  = will_paginate @results
+  - if @results.size > 1
+    = form_tag(users_search_path, method: :get, remote: true) do
+      .col-lg-3
+        %article.card-group-item.well
+          %header.card-header
+            %h2.mainTitle
+              = t(:sort)
+            .row
+              %label.form-check
+                %input{type: "radio", name: "direction", value: "asc", class: "uk-radio",
+                checked: params[:direction] == "asc" ? "checked" : false, id: "sortAscending", onClick: "enableSortButton()"}
+                %span.form-check-label
+                  = t(:alphabetically_asc)
+            .row
+              %label.form-check
+                %input{type: "radio", name: "direction", value: "desc", class: "uk-radio",
+                checked: params[:direction] == "desc" ? "checked" : false, id: "sortDescending", onClick: "enableSortButton()"}
+                %span.form-check-label
+                  = t(:alphabetically_desc)
+              %br
+          .clearfix
+          %h2.mainTitle
+          .row
+            = submit_tag "#{t(:sort)}", id: "sortSubmitTag", onClick: "sortResults(\"#{params[:users_query]}\")", class: "btn btn-primary",
+            style: "background: #c52d2f !important"
+            %p
+          .row
+            %input.btn{type: "button", id: "clearSortButton", class: "btn btn-primary", value: "#{t(:clear_sort)}",
+            style: "background: #c52d2f !important", onClick: "clearSort(\"#{params[:users_query]}\")"}
