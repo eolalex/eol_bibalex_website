@@ -18,7 +18,12 @@
           %a{href: user_path(user.id)}
             = user.username
     .pull-right
+      - if user.confirmed_at.nil?
+        %span.dropdown
+          = form_for(user, url: confirm_user_path(user.id), method: :post) do |f|
+            %input.btn.btn-success.btn{ type: "submit", value: "#{t(:activate_button)}"}
       %span.dropdown
         %a.dropdown-toggle.btn.btn-primary{href: edit_user_registration_admin_path(id: user.id), style: "width: 100"}
           = t(:edit_button)
+
 = will_paginate @users

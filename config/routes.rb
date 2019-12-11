@@ -33,6 +33,8 @@ Rails.application.routes.draw do
     put 'admin/users/edit/:id(.:format)' => "users#update", as: :user_registration_admin
     get 'admin/users/new(.:format)' => 'users#new', as: :new_user_admin_registration
     post 'admin/users/new(.:format)' => 'users#create', as: :user_admin_registration
+    get 'admin/users/:id/activate(.:format)' => 'users#confirm', as: :confirm_user
+    post 'admin/users/:id/activate(.:format)' => 'users#activate', as: :activate_user
     get 'admin/users/search' => "users#search", as: :users_search
 
     resources :articles, only: [:show]

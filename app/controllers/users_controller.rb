@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_action :configure_permitted_params, only: :create
   access_control do
     allow logged_in, only: :show
-    allow :administrator, only: [:index, :edit, :update, :new, :create, :search]
+    allow :administrator, only: [:index, :edit, :update, :new, :create, :search, :activate, :confirm]
   end
 
   def show
@@ -55,8 +55,24 @@ class UsersController < ApplicationController
     end
   end
 
+  def confirm
+    @user = User.find(params[:id])
+  end
+
+  def activate
+    @user = User.find(params[:id])
+    @user.update(confirmed_at: Time.now)
+    if @user.save
+      flash[:notice] = t(:successfully_activated)
+      redirect_to users_path
+    else
+      flash[:notice] = t(:something_went_wrong)
+      redirect_back fallback_location: root_path
+    end
+  end
+
   def configure_permitted_params
-    params.require(:user).permit(:username, :email, :password, :password_confirmation)
+    params.require(:user).permit(:username, :email, :password, :password_confirmation, :confirmed_at)
   end
 
   def user_parameters
