@@ -6,7 +6,21 @@
         %h2.mainTitle
           #{t(:search_results)}
         %br
+  %span.pull-right
+    %a.btn.btn-primary{id: "exportUsers", "data-toggle": "tooltip", "data-placament": "bottom",
+     "title": "#{t(:export_to_csv)}", role: "button", href: users_export_path}
+      %i.fa.fa-download{"aria-hidden": "false"}
+
+    %a.btn.btn-primary{id: "searchUsers", "data-toggle": "tooltip", "data-placement": "bottom",
+    "title": "#{t(:search_users)}", role: "button", onClick: "showPopup(this)"}
+      %i.fa.fa-search{"aria-hidden": "false"}
+
+    %a.btn.btn-primary{href: new_user_admin_registration_path, "data-toggle": "tooltip",
+     "data-placement": "bottom", "title": "#{t(:add_new_user)}"}
+      %i.fa.fa-plus{"aria-hidden": "false"}
+
   .clearfix
+
   .col-lg-9
     - @results.each do |user|
       .row
@@ -23,9 +37,9 @@
             %a.btn.btn-primary{href: edit_user_registration_admin_path(id: user.id), style: "width: 100"}
               = t(:edit_button)
   = will_paginate @results
-  - if @results.size > 1
-    = form_tag(users_search_path, method: :get, remote: true) do
-      .col-lg-3
+  .pull-right
+    - if @results.size > 1
+      = form_tag(users_search_path, method: :get, remote: true) do
         %article.card-group-item.well
           %header.card-header
             %h2.mainTitle
@@ -47,8 +61,9 @@
           %h2.mainTitle
           .row
             = submit_tag "#{t(:sort)}", id: "sortSubmitTag", onClick: "sortResults(\"#{params[:users_query]}\")", class: "btn btn-primary",
-            style: "background: #c52d2f !important"
+            style: "background: #c52d2f !important; width: 100%"
             %p
           .row
             %input.btn{type: "button", id: "clearSortButton", class: "btn btn-primary", value: "#{t(:clear_sort)}",
             style: "background: #c52d2f !important", onClick: "clearSort(\"#{params[:users_query]}\")"}
+= render "search_users"

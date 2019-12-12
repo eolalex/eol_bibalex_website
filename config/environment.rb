@@ -12,8 +12,8 @@ ENV["GOOGLE_CLIENT_SECRET"]="rNEjKnDzSQ-Py3TfUZvJ7b6K"
 # ENV["GOOGLE_CLIENT_SECRET"] = "ELxgyVOD8wDq5-eXDEglALfN"
 ENV["TWITTER_API_KEY"]= "nEfe27C3l8zIEovBQsyBpw67O"
 ENV["TWITTER_API_SECRET"] = "4KOIPSxUgj5aC5eVVWT3Y2nAGEUwWO074MG4Q4zfaOr2AyYaTB"
-ENV['schedular_ip'] = 'http://172.16.0.161:80/scheduler'
-# ENV['schedular_ip'] = 'http://localhost:8084/scheduler'
+#ENV['schedular_ip'] = 'http://172.16.0.161:80/scheduler'
+ENV['schedular_ip'] = 'http://localhost:8084/scheduler'
 ENV['storage_ip'] = 'http://172.16.0.99:80/eol/archiver'
 ENV['SCHEDULER_IP'] = "172.16.0.161"
 ENV['SCHEDULER_PORT'] = "80"
@@ -26,7 +26,7 @@ ENV['get_resource_boundaries'] = 'getResourceBoundaries'
 ENV['per_page_resources'] = '10'
 ENV['per_page_harvest'] = '2'
 ENV['resource_batch_size'] = '100'
-
+ENV['USER_LIST_FILENAME'] = 'EncyclopediaOfLife-UserList.csv'
 
 #require 'ntlm/smtp'
 # Initialize the Rails application.

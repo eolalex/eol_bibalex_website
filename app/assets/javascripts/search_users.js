@@ -23,9 +23,9 @@ function search(query, sortDirection) {
 	var locale = "/" + document.getElementsByName("locale")[0].value,
 	    url = locale + "/admin/users/search";
 	$.ajax({
-		type : 'GET',
-		url : url,
-		data : {
+		type: 'GET',
+		url: url,
+		data: {
 			users_query: query,
 			direction: sortDirection
 		},

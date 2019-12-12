@@ -1,11 +1,16 @@
 class UsersController < ApplicationController
-  rescue_from 'Acl9::AccessDenied', with: :access_denied
+  require 'csv'
+  require 'json'
 
   include ApplicationHelper
+
+  rescue_from 'Acl9::AccessDenied', with: :access_denied
+
   before_action :configure_permitted_params, only: :create
   access_control do
     allow logged_in, only: :show
-    allow :administrator, only: [:index, :edit, :update, :new, :create, :search, :activate, :confirm]
+    allow :administrator, only: [:index, :edit, :update, :new, :create, :search,
+      :activate, :confirm, :export]
   end
 
   def show
@@ -16,6 +21,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all.paginate(page: params[:page], per_page: ENV["per_page"].to_i)
+    $user_list = @users.as_json
   end
 
   def new
@@ -71,14 +77,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def configure_permitted_params
-    params.require(:user).permit(:username, :email, :password, :password_confirmation, :confirmed_at)
-  end
-
-  def user_parameters
-    params.require(:user).permit(:id, :username)
-  end
-
   def search
     user_regex = ".*#{params[:users_query].downcase}.*"
     users = User.search params[:users_query] do |body|
@@ -92,15 +90,35 @@ class UsersController < ApplicationController
     if @results.empty?
       flash[:notice] = "#{t(:no_results)} #{params[:users_query]}"
       redirect_back fallback_location: root_path
-    elsif params[:direction].present?
-      @results = @results.sort do |user_1, user_2|
-        user_1.username.downcase <=> user_2.username.downcase
-      end
-      @results = @results.reverse if params[:direction] == "desc"
-      @results = @results.paginate(page: params[:page], per_page: ENV["per_page"].to_i)
     else
-      @results = @results.paginate(page: params[:page], per_page: ENV["per_page"].to_i)
+      if params[:direction].present?
+        @results = @results.sort do |user_1, user_2|
+          user_1.username.downcase <=> user_2.username.downcase
+        end
+        @results = @results.reverse if params[:direction] == "desc"
+        @results = @results.paginate(page: params[:page], per_page: ENV["per_page"].to_i)
+      else
+        @results = @results.paginate(page: params[:page], per_page: ENV["per_page"].to_i)
+      end
+      $user_list = @results.as_json
     end
+  end
+
+  def export
+    csv = ""
+    csv << $user_list.first.keys.to_csv
+    $user_list.each do |user| #open json to parse
+      csv << user.values.to_csv
+    end
+    send_data(csv, type: 'text/csv', filename: ENV['USER_LIST_FILENAME'])
+  end
+
+  def configure_permitted_params
+    params.require(:user).permit(:username, :email, :password, :password_confirmation, :confirmed_at)
+  end
+
+  def user_parameters
+    params.require(:user).permit(:id, :username)
   end
 
   protected

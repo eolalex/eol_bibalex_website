@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     get 'admin/users/:id/activate(.:format)' => 'users#confirm', as: :confirm_user
     post 'admin/users/:id/activate(.:format)' => 'users#activate', as: :activate_user
     get 'admin/users/search' => "users#search", as: :users_search
+    get 'admin/users/expor' => "users#export", as: :users_export
 
     resources :articles, only: [:show]
     root 'home_page#index'
