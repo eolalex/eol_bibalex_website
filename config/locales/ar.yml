@@ -297,3 +297,4 @@ ar:
   alphabetically_desc: "ترتيب أبجدي تنازلي"
   activate_button: "تفعيل حساب المستخدم"
   successfully_activated: "تم تفعيل حساب المستخدم بنجاح"
+  export_to_csv: "حفظ القائمة كملف CSV"

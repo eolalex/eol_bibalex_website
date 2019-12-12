@@ -339,3 +339,4 @@ en:
   alphabetically_desc: "From Z to A"
   activate_button: "Activate User"
   successfully_activated: "Successfully Activated User"
+  export_to_csv: "Export List to CSV File"
