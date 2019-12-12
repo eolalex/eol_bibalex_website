@@ -1,0 +1,14 @@
+%span.pull-right
+  %a.btn.btn-primary{id: "exportUsers", "data-toggle": "tooltip", "data-placament": "bottom",
+   "title": "#{t(:export_to_csv)}", role: "button", href: users_export_path}
+    %i.fa.fa-download{"aria-hidden": "false"}
+
+  %a.btn.btn-primary{id: "searchUsers", "data-toggle": "tooltip", "data-placement": "bottom",
+   "title": "#{t(:search_users)}", role: "button", onClick: "showPopup(this)"}
+    %i.fa.fa-search{"aria-hidden": "false"}
+
+  %a.btn.btn-primary{href: new_user_admin_registration_path, "data-toggle": "tooltip",
+   "data-placement": "bottom", "title": "#{t(:add_new_user)}"}
+    %i.fa.fa-plus{"aria-hidden": "false"}
+
+.clearfix

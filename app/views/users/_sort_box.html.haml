@@ -1,0 +1,29 @@
+.pull-right
+  - if @users.size > 1
+    = form_tag(users_search_path, method: :get, remote: true) do
+      %article.card-group-item.well
+        %header.card-header
+          %h2.mainTitle
+            = t(:sort)
+          .row
+            %label.form-check
+              %input{type: "radio", name: "direction", value: "asc", class: "uk-radio",
+              checked: params[:direction] == "asc" ? "checked" : false, id: "sortAscending", onClick: "enableSortButton()"}
+              %span.form-check-label
+                = t(:alphabetically_asc)
+          .row
+            %label.form-check
+              %input{type: "radio", name: "direction", value: "desc", class: "uk-radio",
+              checked: params[:direction] == "desc" ? "checked" : false, id: "sortDescending", onClick: "enableSortButton()"}
+              %span.form-check-label
+                = t(:alphabetically_desc)
+            %br
+        .clearfix
+        %h2.mainTitle
+        .row
+          = submit_tag "#{t(:sort)}", id: "sortSubmitTag", onClick: "sortResults(\"#{params[:users_query]}\")", class: "btn btn-primary",
+          style: "background: #c52d2f !important; width: 100%"
+          %p
+        .row
+          %input.btn{type: "button", id: "clearSortButton", class: "btn btn-primary", value: "#{t(:clear_sort)}",
+          style: "background: #c52d2f !important; width: 100%", onClick: "clearSort(\"#{params[:users_query]}\")"}

@@ -86,21 +86,21 @@ class UsersController < ApplicationController
         }
       }
     end
-    @results = users.results
-    if @results.empty?
+    @users = users.results
+    if @users.empty?
       flash[:notice] = "#{t(:no_results)} #{params[:users_query]}"
       redirect_back fallback_location: root_path
     else
       if params[:direction].present?
-        @results = @results.sort do |user_1, user_2|
+        @users = @users.sort do |user_1, user_2|
           user_1.username.downcase <=> user_2.username.downcase
         end
-        @results = @results.reverse if params[:direction] == "desc"
-        @results = @results.paginate(page: params[:page], per_page: ENV["per_page"].to_i)
+        @users = @users.reverse if params[:direction] == "desc"
+        @users = @users.paginate(page: params[:page], per_page: ENV["per_page"].to_i)
       else
-        @results = @results.paginate(page: params[:page], per_page: ENV["per_page"].to_i)
+        @users = @users.paginate(page: params[:page], per_page: ENV["per_page"].to_i)
       end
-      $user_list = @results.as_json
+      $user_list = @users.as_json
     end
   end
 
