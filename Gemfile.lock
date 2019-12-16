@@ -63,6 +63,8 @@ GEM
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
+    bootstrap-will_paginate (1.0.0)
+      will_paginate
     buftok (0.2.0)
     builder (3.2.3)
     bulk_insert (1.7.0)
@@ -133,7 +135,7 @@ GEM
     equalizer (0.0.11)
     erubi (1.8.0)
     erubis (2.7.0)
-    excon (0.62.0)
+    excon (0.71.0)
     execjs (2.7.0)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
@@ -673,6 +675,7 @@ DEPENDENCIES
   active_record_bulk_insert
   acts_as_list
   bootstrap-sass (~> 3.3.7)
+  bootstrap-will_paginate
   bulk_insert
   byebug
   capybara (~> 2.13)
