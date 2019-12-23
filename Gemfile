@@ -81,6 +81,8 @@ gem 'bulk_insert'
 gem "geo_coord"
 gem 'render_async'
 gem 'whenever', require: false
+gem 'rails_admin'
+gem 'cancancan'
 # gem 'ar-extensions'
  
 

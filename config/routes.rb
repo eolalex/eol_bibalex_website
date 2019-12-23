@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  mount RailsAdmin::Engine, at: '/admin', as: 'rails_admin'
+  mount Refinery::Core::Engine, at: '/admin/cms'
   match '(:anything)' => 'application#nothing', via: [:options]
 
   devise_for :users, only: :omniauth_callbacks, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
@@ -92,5 +94,4 @@ Rails.application.routes.draw do
     get '/resources/:id/info', :to => 'content_partners/resources#info'
     
   end
-  mount Refinery::Core::Engine, at: '/'
 end

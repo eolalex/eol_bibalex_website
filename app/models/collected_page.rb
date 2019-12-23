@@ -62,9 +62,9 @@ class CollectedPage < ActiveRecord::Base
   end
 
   # NOTE: we could achieve this with delegation, but: meh. That's not as clear.
-  def name
-    page.name
-  end
+  # def name
+    # page.name
+  # end
 
   def scientific_name_string
     page.scientific_name
