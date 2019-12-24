@@ -2,14 +2,10 @@
 require_relative 'application'
 ENV['per_page']='30'
 ENV['MAX_NAME_LENGTH'] = '9'
-#ENV['FACEBOOK_APP_ID']="1070956589720890"
-#ENV['FACEBBOK_APP_SECRET']="4e880b866b921c067d9f0838e50b548f"
 ENV['FACEBOOK_APP_ID']="2050909461893269"
 ENV['FACEBOOK_APP_SECRET']="b864874aa3ebd95aba8024d1153a7572"
 ENV["GOOGLE_CLIENT_ID"]="594909260794-0h3auanun7gi6igvu7646nb8stv2t4hm.apps.googleusercontent.com" 
 ENV["GOOGLE_CLIENT_SECRET"]="rNEjKnDzSQ-Py3TfUZvJ7b6K"
-# ENV["GOOGLE_CLIENT_ID"] = "691815144799-je0m66k9c6enar9l986ms04phbft5e10.apps.googleusercontent.com"
-# ENV["GOOGLE_CLIENT_SECRET"] = "ELxgyVOD8wDq5-eXDEglALfN"
 ENV["TWITTER_API_KEY"]= "nEfe27C3l8zIEovBQsyBpw67O"
 ENV["TWITTER_API_SECRET"] = "4KOIPSxUgj5aC5eVVWT3Y2nAGEUwWO074MG4Q4zfaOr2AyYaTB"
 ENV['schedular_ip'] = 'http://172.16.0.161:80/scheduler'
@@ -18,15 +14,15 @@ ENV['storage_ip'] = 'http://172.16.0.99:80/eol/archiver'
 ENV['SCHEDULER_IP'] = "172.16.0.161"
 ENV['SCHEDULER_PORT'] = "80"
 ENV['logo_ip'] = "http://172.16.0.99"
-ENV['get_all_resources'] ="getAllResourcesWithFullData"
+ENV['GET_FULL_RESOURCES_DATA'] = "getAllResourcesWithFullData"
+ENV['GET_FULL_CPS_DATA'] = "contentPartners/getAllCPsWithFullData"
+ENV['SCHEDULER_LIMIT'] = '20'
+ENV['SCHEDULER_RESOURCES'] = "resources"
+ENV['GET_HARVEST_HISTORY_ACTION'] = 'getHarvestHistory'
+ENV['GET_LAST_HARVEST_LOG_ACTION'] = 'getLastHarvestLog'
+ENV['PER_PAGE_RESOURCES'] = '10'
+ENV['PER_PAGE_HARVEST'] = '2'
 ENV['get_resource_info'] = 'getResourceStatistics'
-ENV['get_harvest_history'] = 'getHarvestHistory'
-ENV['get_last_harvest_log'] = 'getLastHarvestLog'
-ENV['get_resource_boundaries'] = 'getResourceBoundaries'
-ENV['per_page_resources'] = '10'
-ENV['per_page_harvest'] = '2'
-ENV['resource_batch_size'] = '100'
-
 
 #require 'ntlm/smtp'
 # Initialize the Rails application.
@@ -50,3 +46,9 @@ CHECK_FOR_UPDATES = "readyResources"
 MYSQL_GET_END_TIME = "getEndTime"
 NEO4J_IMPORT_PATH = "/home/a-amorad/neo4j-community-3.4.1/import/"
 # NEO4J_IMPORT_PATH = "/home/ba/neo4j-community-3.4.0-alpha03/import/"
+# SCHEDULER_IP = 'http://172.16.0.161:80/scheduler'
+SCHEDULER_IP = 'http://localhost:8084/scheduler'
+GET_FULL_RESOURCES_DATA = "getAllResourcesWithFullData"
+GET_FULL_CPS_DATA = "contentPartners/getAllCPsWithFullData"
+SCHEDULER_LIMIT = '15'
+SCHEDULER_RESOURCES = "resources"

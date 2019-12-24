@@ -1,6 +1,4 @@
-//$(document).ready(function () {
 function initialize(locale) {
-	include("initializeConstants.js");
 	var locale = document.getElementsByName("locale")[0].value;
 	$("#filter").on('click', function() {
 
@@ -39,30 +37,26 @@ function initialize(locale) {
 		pages.initialize();
 		limit = getLimit();
 		$('#query').typeahead(null, {
-			displayKey : 'scientific_name',
+			displayKey : "name_string",
 			source : pages,
 			limit : limit,
 			minLength : 1
 		}).bind('typeahead:selected', function(evt, datum, name) {
 			console.log(datum);
-			// if(datum._type == "scientific_name")
-			// window.location.href = Routes.page_path(datum.id);
-			if (datum.type == "page") {
+			if (datum.type == "page")
 				window.location.href = Routes.page_path(locale, datum.id);
-			}
+			else if (datum.type == "vernacular")
+				window.location.href = Routes.page_path(locale, datum.page_id);
+				else if (datum.type == "collection")
+					window.location.href = Routes.collection_path(locale,datum.id);
+					else if (datum.type == "medium")
+						window.location.href = "#";
+						else if (datum.type == "resource")
+							window.location.href = Routes.content_partner_resource_path(locale,datum.content_partner_id, datum.id);
+								else if (datum.type == "content_partner")
+									window.location.href = Routes.content_partner_path(locale,datum.id);
 		});
 		;
 	});
 }
-
-function include(filename) {
-	var head = document.getElementsByTagName('head')[0];
-	var script = document.createElement('script');
-	script.src = filename;
-	script.type = 'text/javascript';
-	head.appendChild(script);
-}
-
-//});
 $(document).ready(initialize);
-//$(document).on('turbolinks:load', initialize);

@@ -1,63 +1,62 @@
-- if (@harvest_history.present?)
-  .container
-    .row
-      .col-lg-12
-        %h2.mainTitle.resurceTitle
-          %img{ alt: "", src: "/assets/collection.png"}/
-          = @resource_name
-          %span.pull-right
-            %a.btn.btn-primary{ href: content_partner_resource_path(@content_partner_id, @resource_id), role: "button"}
-              #{t(:show_resource_details)}
+.container
+  .row
+    .col-lg-12
+      %h2.mainTitle.resurceTitle
+        %img{ alt: "", src: "/assets/collection.png"}/
+        = @resource_name
+        %span.pull-right
+          %a.btn.btn-primary{ href: content_partner_resource_path(@content_partner_id, @resource_id), role: "button"}
+            #{t(:show_resource_details)}
 
-    .col-md-6
-      .part
-        .subtitle
-          %strong
-            #{t(:resource_statistics)}
-        - unless @statistics.empty?
-          %p
-            %strong #{t(:nodes)}:
-            = @statistics["nodes"]      
-          %p
-            %strong #{t(:scientific_names)}: 
-            = @statistics["scientificNames"]
-          %p
-            %strong #{t(:vernaculars)}: 
-            = @statistics["vernaculars"]
-          %p
-            %strong #{t(:media)}: 
-            = @statistics["media"]
-          %p
-            %strong #{t(:articles)}: 
-            = @statistics["articles"]
-          %p
-            %strong #{t(:occurrences)}: 
-            = @statistics["occurrences"]
-          %p
-            %strong #{t(:measurements_or_facts)}: 
-            = @statistics["measurementsOrFacts"]
-          %p
-            %strong #{t(:associations)}: 
-            = @statistics["associations"]
+  .col-md-6
+    .part
+      .subtitle
+        %strong
+          #{t(:resource_statistics)}
+      - if @statistics.present?
+        %p
+          %strong #{t(:nodes)}:
+          = @statistics["nodes"]      
+        %p
+          %strong #{t(:scientific_names)}: 
+          = @statistics["scientificNames"]
+        %p
+          %strong #{t(:vernaculars)}: 
+          = @statistics["vernaculars"]
+        %p
+          %strong #{t(:media)}: 
+          = @statistics["media"]
+        %p
+          %strong #{t(:articles)}: 
+          = @statistics["articles"]
+        %p
+          %strong #{t(:occurrences)}: 
+          = @statistics["occurrences"]
+        %p
+          %strong #{t(:measurements_or_facts)}: 
+          = @statistics["measurementsOrFacts"]
+        %p
+          %strong #{t(:associations)}: 
+          = @statistics["associations"]
 
-    .col-md-6
-      .part
-        .subtitle
-          %strong
-            #{t(:last_harvest_details)}
-        %p
-          %strong #{t(:start_time)}: 
-          = @last_harvest["startTime"]
-        %p
-          %strong #{t(:end_time)}: 
-          = @last_harvest["endTime"]
-        %p
-          %strong #{t(:harvested_in)}: 
-          = number_with_precision(@harvest_duration, precision: 2) 
-          #{t(:hours)}
-        %p
-          %strong  #{t(:harvest_status)}: 
-          = @last_harvest["status"]
+  .col-md-6
+    .part
+      .subtitle
+        %strong
+          #{t(:last_harvest_details)}
+      %p
+        %strong #{t(:start_time)}: 
+        = @last_harvest["startTime"]
+      %p
+        %strong #{t(:end_time)}: 
+        = @last_harvest["endTime"]
+      %p
+        %strong #{t(:harvested_in)}: 
+        = number_with_precision(@harvest_duration, precision: 2) 
+        #{t(:hours)}
+      %p
+        %strong  #{t(:harvest_status)}: 
+        = @last_harvest["status"]
           
   .subtitle
     %strong

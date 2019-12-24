@@ -54,7 +54,7 @@ Rails.application.config.assets.precompile += %w( shared/data_row.js )
 Rails.application.config.assets.precompile += %w( collected_pages_search.js )
 Rails.application.config.assets.precompile += %w( display_input.js )
 Rails.application.config.assets.precompile += %w( initializeConstants.js )
-
+Rails.application.config.assets.precompile += %w( search_filter.js )
 
 # Rails.application.config.assets.precompile += %w( typeahead.bundle.js)
 # Rails.application.config.assets.precompile += %w( typeahead.bundle.min.js)

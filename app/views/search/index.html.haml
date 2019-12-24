@@ -1,9 +1,10 @@
+= javascript_include_tag "search_filter"
 %body
   .container    
   %br
   %br
   .container    
-    - unless params[:query].nil? || params[:query].empty? 
+    - if params[:query].present? 
       .row
         .col-lg-9
           .row
@@ -24,16 +25,58 @@
                 .col-xs-8.col-sm-10.col-md-10
                   %h3.marginTop0
                     %a{ href: page_path(result.id), title: ""} #{result.scientific_name}
+            - elsif result.instance_of? Collection
+              %article.search-result.row
+                .col-xs-4.col-sm-4.col-md-2
+                  %img.thumbnail{ src: "/assets/download.png" , width: "100", height: "100"}/
+                .col-xs-8.col-sm-8.col-md-10
+                  %h3.marginTop0
+                    %a{ href: collection_path(result.id), title: ""} #{result.name}
+            - elsif result.instance_of? Medium
+              - @result = result
+              = render("media_results")
+              %span.clearfix.borda
+            - elsif result.class.to_s == "Resource"
+              %article.search-result.row
+                .col-xs-4.col-sm-4.col-md-2
+                  %img.thumbnail{ src: "/assets/download.png" , width: "100", height: "100"}/
+                .col-xs-8.col-sm-8.col-md-10
+                  %h3.marginTop0
+                    %a{ href: content_partner_resource_path(result.content_partner_id, result.id)} #{result.name}
                 %span.clearfix.borda
+            - if result.class.to_s == "ContentPartner"
+              - content_partner = ContentPartnerApi.get_content_partner_without_resources(result.id)
+              %article.search-result.row
+                .col-xs-4.col-sm-4.col-md-2
+                  - if content_partner["logoPath"] == "path"
+                    %img{ alt: "", src: "/assets/download.png"}/
+                  - else
+                    %img{ alt: "", src: content_partner["logoPath"]}/
+                .col-xs-8.col-sm-8.col-md-10
+                  %h3.marginTop0
+                    %a{ href: content_partner_path(result.id)} #{content_partner["name"]}
           = will_paginate @results, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
+
         .col-lg-3
           %article.card-group-item.well
             %header.card-header
               %h2.mainTitle #{t(:filter_by_type)}
-              - unless @pages.size == 0
-                %label.form-check
-                  %input.form-check-input{ type: "checkbox", value: ""}/
-                  %span.form-check-label
-                    #{t(:pages)}
-              %br  
-              = submit_tag "#{t(:filter)}", id: "filter"
+              = form_tag(main_app.search_path, method: :get, remote: true) do
+                .row
+                  %input#scientific_names{name: "scientific_names", type: "checkbox", onclick: "enableFilterButton()", checked: params[:scientific_names] == "true" ? "checked" : false}
+                  %label{for: "scientific_names"} #{t(:scientific_names)}
+                .row
+                  %input#vernaculars{ name: "vernaculars", type: "checkbox", onclick: "enableFilterButton()", checked: params[:vernaculars] == "true" ? "checked" : false}
+                  %label{for: "vernaculars"} #{t(:vernaculars)}
+                .row
+                  %input#collections{ name: "collections", type: "checkbox", onclick: "enableFilterButton()", checked: params[:collections] == "true" ? "checked" : false}
+                  %label{for: "collections"} #{t(:collections)}
+                .row
+                  %input#media{ name: "media", type: "checkbox", onclick: "enableFilterButton()", checked: params[:media] == "true" ? "checked" : false}
+                  %label{for: "media"} #{t(:media)}
+                %br
+                = submit_tag "#{t(:filter)}", id: "filterSubmitTag", onClick: "submitFilterForm(\"#{params[:query]}\")", class: "btn btn-primary", style: "background: #c52d2f !important"
+                %p
+                %input.btn{ type: "button", id: "clearFilter", class: "btn btn-primary", value: "#{t(:clear_filters)}", style: "background: #c52d2f !important", onClick: "clearFilters(\"#{params[:query]}\")"}
+                  
+
