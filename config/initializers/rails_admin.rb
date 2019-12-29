@@ -10,6 +10,22 @@ RailsAdmin.config do |config|
   end
   config.current_user_method(&:current_user)
 
+  config.model User do
+  update do
+    exclude_fields :password, :password_confirmation
+  end
+
+  create do
+    include_fields :username, :email, :password, :password_confirmation
+    field :confirmed_at do
+      def value
+        DateTime.now
+      end
+    end
+  end
+end
+  
+
   ## == CancanCan ==
   config.authorize_with :cancancan
 
