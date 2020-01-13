@@ -1,6 +1,6 @@
 RailsAdmin.config do |config|
   
-  config.included_models = %w[ User Vernacular PageContent]
+  config.included_models = %w[User]
 
   ### Popular gems integration
 

@@ -2,9 +2,10 @@
   %table.customTable
     %thead
       %tr
-        %th{ scope:  "col"} #{t(:res_name)}
-        %th{ scope:  "col"} #{t(:cp_name)}
-        %th{ scope:  "col"} #{t(:harvest_status)}
+        %th{ scope: "col"} #{t(:res_name)}
+        %th{ scope: "col"} #{t(:cp_name)}
+        %th{ scope: "col"} #{t(:harvest_status)}
+        %th{ scope: "col"} #{t(:further_info)}
 
     %tbody
       - @rows.each do |row|
@@ -16,8 +17,16 @@
               = row["resourceName"]
           %td
             %a{href: content_partner_path(content_partner_id), "data-placement": "bottom"}
-              = row["contentPartnerName"]     
-          
+              = row["contentPartnerName"]
           %td
-            = row["lastHarvestStatus"] 
+            = row["lastHarvestStatus"]
+          %td
+            - if row["approved"] == "true"
+              %a{href: toggle_resource_approval_path(resource_id)}
+                %span.btn.btn-trusted.btn-xs
+                  = t(:approved)
+            - else
+              %a{href: toggle_resource_approval_path(resource_id)}
+                %span.btn.btn-danger.btn-xs
+                  = t(:disapproved)
 = will_paginate @rows, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer

@@ -19,6 +19,7 @@
 //= require bloodhound
 
 //= require js-routes
+//= require sortable-rails
 //= require_tree .
 
 

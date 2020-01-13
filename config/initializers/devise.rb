@@ -28,12 +28,12 @@ Devise.setup do |config|
   config.mailer_sender = 'eol@bibalex.com'
   config.mailer.perform_deliveries = true
   config.mailer.delivery_method = :smtp
-  #config.mailer.default_url_options = {:host => 'eol.bibalex.org'}
+  # config.mailer.default_url_options = {:host => 'localhost', port: 1080}
   config.mailer.smtp_settings = {
-    domain:        'bibalex.com',
-    address:       '172.16.1.31',
-    port:          25,
-    enable_starttls_auto: true,
+   domain:        'bibalex.com',
+   address:       'localhost',
+   port:          1080,
+   enable_starttls_auto: true,
   }
   # Configure the class responsible to send e-mails.
   #config.mailer = 'Devise::Mailer'

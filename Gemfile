@@ -84,9 +84,8 @@ gem 'render_async'
 gem 'whenever', require: false
 gem 'rails_admin'
 gem 'cancancan'
+gem 'sortable-rails'
 # gem 'ar-extensions'
- 
-
 # gem  'geocoder'
 # gem 'gmaps4rails'
 # gem 'leaflet-rails'

@@ -12,7 +12,7 @@ module Refinery
         if current_user.nil?
           authenticate_user!
         else
-          unless current_user.admin?
+          unless current_user.role == 4
             flash[:notice] = "#{t(:admin_account_required)}"
             redirect_to root_path
           end

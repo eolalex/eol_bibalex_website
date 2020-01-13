@@ -1,15 +1,29 @@
+-# = stylesheet_link_tag 'application', media: 'all'
+-# = stylesheet_link_tag 'bootstrap.min.css'
+-# = stylesheet_link_tag 'font-awesome.css'
+-# = stylesheet_link_tag 'main.css'
+-# = stylesheet_link_tag 'prettyPhoto.css'
+-# = stylesheet_link_tag 'Suzan.css'
+-# = stylesheet_link_tag 'slider.css'
+-# = stylesheet_link_tag 'haml.css'
+-# = stylesheet_link_tag 'responsive.css'
+-# = stylesheet_link_tag 'animate.min.css'
+-# = stylesheet_link_tag 'Custom-en.css'
+-# = stylesheet_link_tag 'responsive-en.css'
+-# = stylesheet_link_tag 'Suzan-en.css'
+
 %html{lang: I18n.locale}
-  %head.rails_admin
-    = render "layouts/rails_admin/head"
-  %body.rails_admin
+  %head
+  = render "layouts/rails_admin/head"
+  %body
     #admin-js{:'data-i18n-options' => I18n.t("admin.js").to_json}
     #loading.label.label-warning{style: 'display:none; position:fixed; right:20px; bottom:20px; z-index:100000'}= t('admin.loading')
     %nav.navbar.navbar-default.navbar-fixed-top
       = render "layouts/rails_admin/navigation"
     .container-fluid
       .row
-        .col-sm-3.col-md-2.sidebar-nav{style: "margin-top: 60px"}
+        .col-sm-3.col-md-2.sidebar-nav
           = render "layouts/rails_admin/sidebar_navigation"
-        .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2{style: "margin-top: 60px"}
+        .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2{style: "margin-top: 35px"}
           .content{:'data-pjax-container' => true}
             = render template: 'layouts/rails_admin/pjax'

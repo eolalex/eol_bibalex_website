@@ -2,10 +2,10 @@
   .row
     .col-lg-12
       %h2.mainTitle.resurceTitle
-        %img{ alt: "", src: "/assets/collection.png"}/
+        %img{ alt: "", src: "/assets/collection.png"}
         = @resource_name
         %span.pull-right
-          %a.btn.btn-primary{ href: content_partner_resource_path(@content_partner_id, @resource_id), role: "button"}
+          %a.btn.btn-primary{href: content_partner_resource_path(@content_partner_id, @resource_id), role: "button"}
             #{t(:show_resource_details)}
 
   .col-md-6
@@ -13,30 +13,30 @@
       .subtitle
         %strong
           #{t(:resource_statistics)}
-      - if @statistics.present?
+      - unless @statistics.empty?
         %p
           %strong #{t(:nodes)}:
-          = @statistics["nodes"]      
+          = @statistics["nodes"]
         %p
-          %strong #{t(:scientific_names)}: 
+          %strong #{t(:scientific_names)}:
           = @statistics["scientificNames"]
         %p
-          %strong #{t(:vernaculars)}: 
+          %strong #{t(:vernaculars)}:
           = @statistics["vernaculars"]
         %p
-          %strong #{t(:media)}: 
+          %strong #{t(:media)}:
           = @statistics["media"]
         %p
-          %strong #{t(:articles)}: 
+          %strong #{t(:articles)}:
           = @statistics["articles"]
         %p
-          %strong #{t(:occurrences)}: 
+          %strong #{t(:occurrences)}:
           = @statistics["occurrences"]
         %p
-          %strong #{t(:measurements_or_facts)}: 
+          %strong #{t(:measurements_or_facts)}:
           = @statistics["measurementsOrFacts"]
         %p
-          %strong #{t(:associations)}: 
+          %strong #{t(:associations)}:
           = @statistics["associations"]
 
   .col-md-6
@@ -58,6 +58,7 @@
         %strong  #{t(:harvest_status)}: 
         = @last_harvest["status"]
           
+.container
   .subtitle
     %strong
       #{t(:harvest_history)}

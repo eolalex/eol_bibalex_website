@@ -3,8 +3,8 @@ require 'date'
 class ContentPartners::ResourcesController < ContentPartnersController
   
   before_action :authenticate_user!
-  before_action :check_if_admin, only: [:index, :info]
-  
+  before_action :validate_admin, only: [:index, :info]
+
   def new
     content_partner_user = User.find(ContentPartnerUser.find_by_content_partner_id(params[:content_partner_id]).user_id)
     if(content_partner_user==current_user)
@@ -14,7 +14,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
       redirect_to content_partner_path(params[:content_partner_id])
     end
   end
-  
+
   def create
       resource_params = { name: params[:resource][:name], origin_url: params[:resource][:origin_url],uploaded_url: params[:resource][:uploaded_url],
                           path: params[:resource][:path],type: params[:resource][:type],harvest_frequency: params[:resource][:harvest_frequency],
@@ -45,7 +45,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
         render action: 'new'
       end
   end
-  
+
   def edit
     content_partner_user = User.find(ContentPartnerUser.find_by_content_partner_id(params[:content_partner_id]).user_id)
     if(content_partner_user==current_user)
@@ -67,7 +67,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
       redirect_to content_partner_resource_path(content_partner_id: params[:content_partner_id],id: params[:id])
     end
   end
-  
+
   def update
     result= ResourceApi.get_resource(params[:content_partner_id], params[:id])
     resource_params = { name: params[:resource][:name], origin_url: params[:resource][:origin_url],uploaded_url: params[:resource][:uploaded_url],
@@ -99,7 +99,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
       render action: 'edit'
     end
   end
-  
+
   def show
     returned_content_partner = ContentPartnerApi.get_content_partner_without_resources(params[:content_partner_id])
     # result_partner = ContentPartnerApi.get_content_partner(params[:content_partner_id])
@@ -121,60 +121,69 @@ class ContentPartners::ResourcesController < ContentPartnersController
     # result.keys.each { |k| result[ mappings[k] ] = result.delete(k) if mappings[k] }
     #@resource = Resource.new(result)
   end
-  
+
   def index
     limit = (ENV['SCHEDULER_LIMIT']).to_i
     offset = 0
-    @rows = Array.new
-    loop do
-      resources = ResourceApi.get_all_resources_with_full_data(offset, limit)
-      unless resources.nil?
-        @rows = @rows + resources
-      end
-      offset += limit
+    resources = ResourceApi.get_all_resources_with_full_data(offset, limit)
+    if resources.present?
+      @rows = Array.new
+      loop do
+        @rows += resources
+        offset += limit
+        resources = ResourceApi.get_all_resources_with_full_data(offset, limit)
       break unless resources.present?
+      end
+      @rows = @rows.paginate(page: params[:page], per_page: ENV['PER_PAGE_RESOURCES'])
     end
-    @rows = @rows.paginate(page: params[:page], per_page: ENV['PER_PAGE_RESOURCES'])
   end
-  
+
   def info
     @resource_id = params[:id]
-    # show_statistics(@resource_id)
+    show_statistics(@resource_id)
     show_last_harvest_log(@resource_id)
     show_harvest_history(@resource_id)
   end
-  
+
   def show_statistics(resource_id)
     @statistics = ResourceApi.get_resource_statistics(resource_id)
   end
-  
+
   def show_last_harvest_log(resource_id)
     @last_harvest = ResourceApi.get_last_harvest_log(resource_id)
-    if (@last_harvest.present?)
-      @harvest_duration = ((DateTime.parse(@last_harvest["endTime"]) - DateTime.parse(@last_harvest["startTime"]))*24.to_f)  
+    if @last_harvest.present?
+      @harvest_duration = ((DateTime.parse(@last_harvest["endTime"]) - DateTime.parse(@last_harvest["startTime"]))*24.to_f)
     end
   end
-  
+
   def show_harvest_history(resource_id)
     limit = (ENV['SCHEDULER_LIMIT']).to_i
     offset = 0
-    harvest_logs = Array.new
-    loop do
-      full_harvest_history = ResourceApi.get_harvest_history(resource_id, offset, limit)
-      if full_harvest_history.present?
+    full_harvest_history = ResourceApi.get_harvest_history(resource_id, offset, limit)
+
+    if full_harvest_history.present?
+      harvest_logs = Array.new
+      loop do
         @resource_name = full_harvest_history["resourceName"]
         @content_partner_id = full_harvest_history["contentPartnerId"]
         harvest_history = JSON.parse(full_harvest_history["harvestHistory"])
-        harvest_logs = harvest_logs + harvest_history
+        harvest_logs += harvest_history
+        offset += limit
+        full_harvest_history = ResourceApi.get_harvest_history(resource_id, offset, limit)
+        break unless full_harvest_history.present?
       end
-      offset += limit
-      break unless full_harvest_history.present?
+      @harvest_logs = harvest_logs.paginate(page: params[:page], per_page: ENV['PER_PAGE_HARVEST'])
     end
-    @harvest_logs = harvest_logs.paginate(page: params[:page], per_page: ENV['PER_PAGE_HARVEST'])
   end
-  
-  def check_if_admin
-    unless current_user.admin?
+
+  def toggle_approval
+    ResourceApi.toggle_approval(params[:id])
+    flash[:notice] = "#t(:resource_approval_status_changed)"
+    redirect_to resources_index_path
+  end
+
+  def validate_admin
+    unless current_user.role == 4
       flash[:notice] = "#{t(:admin_account_required)}"
       redirect_back(fallback_location: root_path)
     end

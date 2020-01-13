@@ -1,0 +1,45 @@
+- pending_view = @rows.any? {|obj| obj.key?("resourcePosition")}
+.container
+  %table.customTable
+    %thead
+      %tr
+        %th{ scope: "col", style: "text-align: center"} #{t(:res_id)}
+        %th{ scope: "col", style: "text-align: center"} #{t(:res_name)}
+        %th{ scope: "col", style: "text-align: center"} #{t(:cp_id)}
+        %th{ scope: "col", style: "text-align: center"} #{t(:cp_name)}
+        %th{ scope: "col", style: "text-align: center"} #{t(:start_time)}
+        - if pending_view
+          %th{ scope: "col", style: "text-align: center"} #{t(:resource_position)}
+          - unless @rows.length == 1
+            %th{ scope: "col", style: "text-align: center", style: "width: 250px !important"} #{t(:change_position)}
+        - else
+          %th{ scope: "col", style: "text-align: center"} #{t(:end_time)}
+          %th{ scope: "col", style: "text-align: center"} #{t(:harvest_status)}
+
+    %tbody#sortableRows
+      - @rows.each_with_index do |row, index|
+        - content_partner_id = row["contentPartnerID"].to_i
+        - resource_id = row["resourceID"].to_i
+        %tr
+          %td{style: "text-align: center", id: "resourceID_#{index}"}
+            = row["resourceID"]
+          %td{style: "text-align: center"}
+            %a{href: "/resources/#{resource_id}/info", "data-placement": "bottom"}
+              = row["resourceName"]
+          %td{style: "text-align: center"}
+            = row["contentPartnerID"]
+          %td{style: "text-align: center"}
+            %a{href: content_partner_path(content_partner_id), "data-placement": "bottom"}
+              = row["contentPartnerName"]
+          %td{style: "text-align: center"}
+            = row["startTime"]
+          - if pending_view
+            - @row = row
+            - @index = index
+            = render "position_buttons"
+          - else
+            %td{style: "text-align: center"}
+              = row["endTime"]
+            %td{style: "text-align: center"}
+              = row["status"]
+= will_paginate @rows, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer

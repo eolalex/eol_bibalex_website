@@ -1,0 +1,44 @@
+.modal{id: "popup_currentHarvest", "aria-labelledby": "popup_currentHarvestLabel", role: "dialog", tabindex: "-1"}
+  .modal-dialog{ role: "document"}
+    .modal-content
+      .modal-header
+        .form-group.row.form-inline
+          .col-md-10.col-sm-10.col-xs-10
+            %h4.editLabel.modal-title #{t(:current_harvesting)}
+          .col-md-2.col-sm-2.col-xs-2
+            %button{ id: "currentHarvest", class: "close", tabindex: "1", onclick: 'hidePopup(this, event)', "data-dismiss": "modal"}x
+      .modal-body
+        - @row = HarvestingsController.current
+        - if @row.present?
+          .row
+            .col-md-10.col-sm-10.col-xs-10
+              %strong
+                #{t(:harvest_id)}:
+              = @row["harvestID"]
+          .row
+            .col-md-10.col-sm-10.col-xs-10
+              %strong
+                #{t(:resource_id)}:
+              = @row["resourceID"]
+          .row
+            .col-md-10.col-sm-10.col-xs-10
+              %strong
+                #{t(:resource_name)}:
+              = @row["resourceName"]
+          .row
+            .col-md-10.col-sm-10.col-xs-10
+              %strong
+                #{t(:content_partner_id)}:
+              = @row["contentPartnerID"]
+          .row
+            .col-md-10.col-sm-10.col-xs-10
+              %strong
+                #{t(:content_partner_name)}:
+              = @row["contentPartnerName"]
+          .row
+            .col-md-10.col-sm-10.col-xs-10
+              %strong
+                #{t(:start_time)}:
+              = @row["startTime"]
+        - else
+          = t(:no_running_harvests)

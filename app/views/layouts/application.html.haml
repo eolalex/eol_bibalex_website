@@ -4,7 +4,7 @@
 = javascript_include_tag 'search'
 
 - @is_root = ((current_page? main_app.root_path) || (current_page? "/")) ? 1 : 0
-- @is_visitor = current_user.nil? ? "visitor" : "#{current_user.username}_#{current_user.id}_#{current_user.admin}"
+- @is_visitor = current_user.nil? ? "visitor" : "#{current_user.username}_#{current_user.id}_#{current_user.role}"
 
 
 %html
@@ -137,11 +137,9 @@
                         %ul.dropdown-menu
                           %li
                             %a{ href: main_app.user_path(current_user.id)} #{t(:show_user_profile)}
-                          - if current_user.admin?
+                          - if current_user.role > 1
                             %li
-                              %a{ href: refinery.admin_root_path} #{t(:view_admin_panel)}
-                            %li
-                              %a{ href: main_app.resources_index_path} #{t(:view_all_resources)}
+                              %a{ href: rails_admin.dashboard_path} #{t(:view_admin_panel)}
                           %li
                             %a.signIn{ href: main_app.destroy_user_session_path} #{t(:sign_out)}
                   %li.dropdown

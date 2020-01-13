@@ -141,6 +141,18 @@ class ResourceApi
     end
   end
 
+  def self.toggle_approval(resource_id)
+    begin
+      request = RestClient::Request.new(
+        method: :get,
+        url: "#{ENV['schedular_ip']}/#{ENV['SCHEDULER_RESOURCES']}/#{resource_id}/#{ENV['TOGGLE_APPROVAL_ACTION']}"
+      )
+    response = JSON.parse(request.execute)
+    rescue => e
+      nil
+    end
+  end
+
   def self.get_harvest_history(resource_id, offset, limit)
     begin
       request = RestClient::Request.new(
@@ -175,7 +187,7 @@ class ResourceApi
     rescue => e
       nil
     end
-  end  
+  end
   
 end
 

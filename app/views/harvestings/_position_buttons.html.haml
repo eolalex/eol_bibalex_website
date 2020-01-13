@@ -1,0 +1,44 @@
+= javascript_include_tag "change_resource_position"
+- resource_id = @row["resourceID"]
+- rows_count = @rows.length
+%td{style: "text-align: center", id: "resourcePosition_#{@index}"}
+  = @row["resourcePosition"]
+- unless rows_count == 1
+  %td{style: "width: 250px !important"}
+    - if rows_count == 2
+      - if @index == 0
+        %a.btn.btn-primary{"data-toggle": "tooltip", "data-placament": "bottom", onClick: "moveToEnd(#{@index}, #{rows_count}, -1)",
+      "title": "#{t(:move_to_bottom)}", role: "button"}
+          %i.fa.fa-angle-double-down{"aria-hidden": "false"}
+      - else
+        %a.btn.btn-primary{"data-toggle": "tooltip", "data-placament": "bottom", onClick: "moveToEnd(#{@index}, #{rows_count}, 1)",
+      "title": "#{t(:move_to_top)}", role: "button"}
+          %i.fa.fa-angle-double-up{"aria-hidden": "false"}
+    - else
+      - if @index == 0
+        %a.btn.btn-primary{"data-toggle": "tooltip", "data-placament": "bottom", onClick: "moveOneStep(#{@index}, -1)",
+          "title": "#{t(:move_down)}", role: "button"}
+          %i.fa.fa-angle-down{"aria-hidden": "false"}
+        %a.btn.btn-primary{"data-toggle": "tooltip", "data-placament": "bottom", onClick: "moveToEnd(#{@index}, #{rows_count}, -1)",
+          "title": "#{t(:move_to_bottom)}", role: "button"}
+          %i.fa.fa-angle-double-down{"aria-hidden": "false"}
+      - elsif @index == @rows.length - 1
+        %a.btn.btn-primary{"data-toggle": "tooltip", "data-placament": "bottom", onClick: "moveOneStep(#{@index}, 1)",
+          "title": "#{t(:move_up)}", role: "button"}
+          %i.fa.fa-angle-up{"aria-hidden": "false"}
+        %a.btn.btn-primary{"data-toggle": "tooltip", "data-placament": "bottom", onClick: "moveToEnd(#{@index}, #{rows_count}, 1)",
+          "title": "#{t(:move_to_top)}", role: "button"}
+          %i.fa.fa-angle-double-up{"aria-hidden": "false"}
+      - else
+        %a.btn.btn-primary{"data-toggle": "tooltip", "data-placament": "bottom", onClick: "moveToEnd(#{@index}, #{rows_count}, 1)",
+          "title": "#{t(:move_to_top)}", role: "button"}
+          %i.fa.fa-angle-double-up{"aria-hidden": "false"}
+        %a.btn.btn-primary{"data-toggle": "tooltip", "data-placament": "bottom", onClick: "moveOneStep(#{@index}, 1)",
+          "title": "#{t(:move_up)}", role: "button"}
+          %i.fa.fa-angle-up{"aria-hidden": "false"}
+        %a.btn.btn-primary{"data-toggle": "tooltip", "data-placament": "bottom", onClick: "moveOneStep(#{@index}, -1)",
+          "title": "#{t(:move_down)}", role: "button"}
+          %i.fa.fa-angle-down{"aria-hidden": "false"}
+        %a.btn.btn-primary{id: "moveToBottom", "data-toggle": "tooltip", "data-placament": "bottom",
+          "title": "#{t(:move_to_bottom)}", role: "button", onClick: "moveToEnd(#{@index}, #{rows_count}, -1)"}
+          %i.fa.fa-angle-double-down{"aria-hidden": "false"}

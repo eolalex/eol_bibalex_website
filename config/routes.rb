@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   mount RailsAdmin::Engine, at: '/admin', as: 'rails_admin'
-  mount Refinery::Core::Engine, at: '/admin/cms'
+  mount Refinery::Core::Engine, at: '/refinery'
   match '(:anything)' => 'application#nothing', via: [:options]
 
   devise_for :users, only: :omniauth_callbacks, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
@@ -90,8 +90,13 @@ Rails.application.routes.draw do
     match 'api/:action/:version/:id' => 'api', :constraints => {version:  /\d\.\d/}, via: [:get, :post]
 
     #harvesterUI
-    get '/resources/index' => 'content_partners/resources#index'
+    get '/resources/index', :to => 'content_partners/resources#index'
     get '/resources/:id/info', :to => 'content_partners/resources#info'
-    
+    get '/resources/:id/toggle_approval', :to => 'content_partners/resources#toggle_approval', as: :toggle_resource_approval
+    get '/harvestings/index', :to => 'harvestings#index', as: :harvests_index
+    get '/harvestings/pending', :to => 'harvestings#pending', as: :pending_harvests
+    get '/harvestings/change_position', :to => 'harvestings#change_position'
+    get '/harvestings/swap', :to => 'harvestings#swap'
+    get '/harvestings/move_to_end', :to => 'harvestings#move_to_end'
   end
 end
