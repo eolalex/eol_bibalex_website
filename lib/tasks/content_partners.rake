@@ -24,7 +24,7 @@ def get_content_partners
     content_partners = get_full_content_partners_data(offset, limit)
     unless content_partners.nil?
       content_partners.each do |cp|
-        content_partner = {"name": cp["contentPartnerName"].downcase, "id": cp["contentPartnerID"]}
+        content_partner = {"name": cp["contentPartnerName"].downcase, "id": cp["contentPartnerID"], "logo_type": cp["logoType"], "logo": cp["logoPath"]}
         $content_partner_repository.save(content_partner)
       end
     end

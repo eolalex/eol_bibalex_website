@@ -5,7 +5,7 @@ class ContentPartnersController < ApplicationController
   def new
     @content_partner = ContentPartner.new
   end
-  
+
   def create
 #logoType attribute need to be used
     logo = params[:content_partner][:logo].nil? ? nil : params[:content_partner][:logo]
@@ -89,15 +89,18 @@ class ContentPartnersController < ApplicationController
                                             abbreviation: returned_content_partner["abbreviation"],url: returned_content_partner["url"],
                                             description: returned_content_partner["description"],logo: returned_content_partner["logoPath"],
                                             created_at: returned_content_partner["returned_content_partner"], resources: resources, user: content_partner_user)
-
-
   end
-  
+
+  def index
+    content_partners = $content_partner_repository.search(query: {match_all: {}}, size: ENV["ES_RESULT_SIZE"]).results
+    @content_partners = content_partners.paginate(page: params[:page], per_page: ENV["per_page"])
+  end
+
   def add_content_partner_to_repository(name, id)
     @content_partner_result = {"name": name.downcase, "id": id}
     $content_partner_repository.save(@content_partner_result)
   end
-  
+
   def update_content_partner_in_repository(name, id)
     @update_result = {"name": name.downcase, "id": id}
     $content_partner_repository.update(@update_result)

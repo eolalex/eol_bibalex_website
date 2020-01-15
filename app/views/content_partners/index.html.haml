@@ -1,0 +1,20 @@
+.container
+  .row
+    .col-lg-9
+      .row
+        .col-lg-12
+          %h2.mainTitle
+            #{t(:content_partners)}
+          %br
+      - @content_partners.each do |content_partner|
+        %article.search-result.row
+          .col-xs-4.col-sm-4.col-md-2
+            - if content_partner.logo == "path"
+              %img.thumbnail{ alt: "", src: "/assets/download.png", width: 85, height: 85}
+            - else
+              %img.thumbnail{ alt: "", src: content_partner.logo, width: 85, height: 85}
+          .col-xs-8.col-sm-8.col-md-10
+            %h3.marginTop0
+              %a{ href: content_partner_path(content_partner.id)}
+                = content_partner.name
+    = will_paginate @results, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer
