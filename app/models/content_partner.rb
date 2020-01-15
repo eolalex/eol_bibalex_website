@@ -20,6 +20,8 @@ class ContentPartner
   def to_hash
     @name
     @id
+    @logo_type
+    @logo
   end
 
 end
