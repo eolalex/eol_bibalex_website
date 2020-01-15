@@ -1,6 +1,7 @@
 class ContentPartnersController < ApplicationController
   include ApplicationHelper
   before_action :authenticate_user!
+  before_action :validate_admin, only: :index
   require 'uri'
   def new
     @content_partner = ContentPartner.new
@@ -18,7 +19,7 @@ class ContentPartnersController < ApplicationController
       
       if !result.nil?
         $updated_at = DateTime.now().strftime("%Q")
-        add_content_partner_to_repository(content_partner_params[:name], result.to_i)
+        add_content_partner_to_repository(result.to_i)
         flash[:notice] = I18n.t(:successfuly_created_content_partner)
         redirect_to controller: 'content_partners', action: 'show', id: result
       else
@@ -54,7 +55,7 @@ class ContentPartnersController < ApplicationController
     if @content_partner.valid?
       result = ContentPartnerApi.update_content_partner?(params[:id], content_partner_params)
       if result
-        update_content_partner_in_repository(content_partner_params[:name], result.to_i)
+        update_content_partner_in_repository(result.to_i)
         flash[:notice] = I18n.t(:Successfully_updated_content_partner)
         redirect_to controller: 'content_partners', action: 'show', id: result
       else
@@ -96,14 +97,35 @@ class ContentPartnersController < ApplicationController
     @content_partners = content_partners.paginate(page: params[:page], per_page: ENV["per_page"])
   end
 
-  def add_content_partner_to_repository(name, id)
-    @content_partner_result = {"name": name.downcase, "id": id}
-    $content_partner_repository.save(@content_partner_result)
+  def add_content_partner_to_repository(id)
+    content_partner = ContentPartnerApi.get_content_partner_without_resources(id)
+    unless content_partner.nil?
+      @content_partner_result = {
+        "name": content_partner["name"].downcase,
+        "id": id,
+        "logo": content_partner["logoPath"],
+        "logo_type": content_partner["logoType"]}
+      $content_partner_repository.save(@content_partner_result)
+    end
   end
 
-  def update_content_partner_in_repository(name, id)
-    @update_result = {"name": name.downcase, "id": id}
+  def update_content_partner_in_repository(id)
+    content_partner = ContentPartnerApi.get_content_partner_without_resources(id)
+    unless content_partner.nil?
+      @update_result = {
+        "name": content_partner["name"].downcase,
+        "id": id,
+        "logo": content_partner["logoPath"],
+        "logo_type": content_partner["logoType"]}
+    end
     $content_partner_repository.update(@update_result)
   end
-  
+
+  def validate_admin
+    unless current_user.role == 4
+      flash[:notice] = "#{t(:admin_account_required)}"
+      redirect_back(fallback_location: root_path)
+    end
+  end
+
 end
