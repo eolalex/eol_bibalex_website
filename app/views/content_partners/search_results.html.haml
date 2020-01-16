@@ -1,0 +1,37 @@
+.container
+  = render "header"
+  .row
+    .col-lg-9
+      .row
+        .col-lg-12
+          %h2.mainTitle
+            #{t(:search_results)}
+          %br
+          = render "index"
+    .col-lg-3
+      - if @content_partners.size > 1
+        = form_tag(content_partners_search_path, method: :get, remote: true) do
+          %article.card-group-item.well
+            %header.card-header
+              %h2.mainTitle
+                = t(:sort)
+              .row
+                %label.form-check
+                  %input{type: "radio", name: "direction", value: "asc", class: "uk-radio",
+                  checked: params[:direction] == "asc" ? "checked" : false, id: "sortAscending", onClick: "enableSortButton()"}
+                  %span.form-check-label
+                    = t(:alphabetically_asc)
+              .row
+                %label.form-check
+                  %input{type: "radio", name: "direction", value: "desc", class: "uk-radio",
+                  checked: params[:direction] == "desc" ? "checked" : false, id: "sortDescending", onClick: "enableSortButton()"}
+                  %span.form-check-label
+                    = t(:alphabetically_desc)
+                %br
+            .clearfix
+            %h2.mainTitle
+            .row
+              = submit_tag "#{t(:sort)}", id: "sortSubmitTag", onClick: "sortResults(\"#{params[:content_partners_query]}\")", class: "btn btn-primary",
+              style: "background: #c52d2f !important"
+
+  = javascript_include_tag "sort_content_partners_search"

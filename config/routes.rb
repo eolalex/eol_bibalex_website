@@ -98,5 +98,6 @@ Rails.application.routes.draw do
     get '/harvestings/change_position', :to => 'harvestings#change_position'
     get '/harvestings/swap', :to => 'harvestings#swap'
     get '/harvestings/move_to_end', :to => 'harvestings#move_to_end'
+    get '/content_partner/search', :to => 'content_partners#search_results', as: :content_partners_search
   end
 end

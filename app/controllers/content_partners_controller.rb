@@ -1,7 +1,7 @@
 class ContentPartnersController < ApplicationController
   include ApplicationHelper
   before_action :authenticate_user!
-  before_action :validate_admin, only: :index
+  before_action :validate_admin, only: [:index, :search_results]
   require 'uri'
   def new
     @content_partner = ContentPartner.new
@@ -95,6 +95,21 @@ class ContentPartnersController < ApplicationController
   def index
     content_partners = $content_partner_repository.search(query: {match_all: {}}, size: ENV["ES_RESULT_SIZE"]).results
     @content_partners = content_partners.paginate(page: params[:page], per_page: ENV["per_page"])
+  end
+
+  def search_results
+    content_partners = $content_partner_repository.search( query: { match_phrase_prefix: { name: params[:content_partners_query]}}).results
+    if content_partners.present?
+      if params[:direction] == "asc" || params[:direction].nil?
+        content_partners_sorted = content_partners.sort_by{|cp| cp.name}
+      elsif params[:direction] == "desc"
+        content_partners_sorted = content_partners.sort_by{|cp| cp.name}.reverse
+      end
+      @content_partners = content_partners_sorted.paginate(page: params[:page], per_page: ENV['per_page'])
+    elsif params[:direction].empty?
+      flash[:notice] = "#{t(:no_results)} #{params[:content_partners_query]}"
+      redirect_back fallback_location: root_path
+    end
   end
 
   def add_content_partner_to_repository(id)

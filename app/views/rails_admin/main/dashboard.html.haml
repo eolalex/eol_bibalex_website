@@ -62,8 +62,13 @@
     %span.span-or.BGwhite
   %h4
     %strong
-      %a{href: main_app.content_partners_path}
-        = t(:content_partner_management)
+      = t(:content_partner_management)
+  %table.table.table-condensed.table-striped
+    %tbody
+      %tr
+        %td
+          %a{href: main_app.content_partners_path}
+            = t(:show_all_content_partners)
   .login-or
     %hr.hr-or/
     %span.span-or.BGwhite

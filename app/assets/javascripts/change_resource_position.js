@@ -80,16 +80,18 @@ function moveToEnd(index, perPageCount, direction){
 
 function setSortable(){
 	var sortableElement = document.getElementById('sortableRows');
-	var sortable = Sortable.create(sortableElement, {onEnd: function (evt){
-		resourceID = document.getElementById('resourceID_' + evt.oldIndex).innerText;
-		initialPosition = document.getElementById('resourcePosition_' + evt.oldIndex).innerText;
-		finalPosition = document.getElementById('resourcePosition_' + evt.newIndex).innerText;
-		deltaIndex = evt.newIndex - evt.oldIndex;
-		if(deltaIndex > 0)
-			direction = 1;
-		else if(deltaIndex < 0)
-			direction = -1;
-		sendChangePositionRequest(resourceID, direction, finalPosition);
-	}});
+	if (sortableElement){
+		var sortable = Sortable.create(sortableElement, {onEnd: function (evt){
+			resourceID = document.getElementById('resourceID_' + evt.oldIndex).innerText;
+			initialPosition = document.getElementById('resourcePosition_' + evt.oldIndex).innerText;
+			finalPosition = document.getElementById('resourcePosition_' + evt.newIndex).innerText;
+			deltaIndex = evt.newIndex - evt.oldIndex;
+			if(deltaIndex > 0)
+				direction = 1;
+			else if(deltaIndex < 0)
+				direction = -1;
+			sendChangePositionRequest(resourceID, direction, finalPosition);
+		}});
+	}
 }
 $(document).ready(setSortable);

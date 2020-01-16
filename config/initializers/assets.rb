@@ -56,6 +56,7 @@ Rails.application.config.assets.precompile += %w( display_input.js )
 Rails.application.config.assets.precompile += %w( initializeConstants.js )
 Rails.application.config.assets.precompile += %w( search_filter.js )
 Rails.application.config.assets.precompile += %w( change_resource_position.js )
+Rails.application.config.assets.precompile += %w( sort_content_partners_search.js )
 
 # Rails.application.config.assets.precompile += %w( typeahead.bundle.js)
 # Rails.application.config.assets.precompile += %w( typeahead.bundle.min.js)

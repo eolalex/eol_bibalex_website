@@ -1,0 +1,27 @@
+%span.pull-right
+  - if current_page? content_partners_search_path
+    %a.btn.btn-primary{href: content_partners_path, "data-toggle": "tooltip", "data-placement": "bottom",
+   "title": "#{t(:back_content_partners)}"}
+      %i.fa.fa-arrow-left{"aria-hidden": "false"}
+  %a.btn.btn-primary{id: "searchCPs", "data-toggle": "tooltip", "data-placement": "bottom",
+   "title": "#{t(:search_content_partners)}", role: "button", onClick: "showPopup(this)"}
+    %i.fa.fa-search{"aria-hidden": "false"}
+
+.modal{id: "popup_searchCPs", "aria-labelledby": "popup_searchUsersLabel", role: "dialog", tabindex: "-1"}
+  .modal-dialog{ role: "document"}
+    .modal-content
+      .modal-header
+        .form-group.row.form-inline
+          .col-md-10.col-sm-10.col-xs-10
+            %h2.editLabel.modal-title
+              = t(:search_content_partners)
+          .col-md-2.col-sm-2.col-xs-2
+            %button{id: "searchCPs", class: "close", tabindex: "1", onclick: 'hidePopup(this, event)', "data-dismiss": "modal"}
+              x
+      .modal-body
+        .searchBox
+          = form_tag(content_partners_search_path, method: :get) do |form|
+            = text_field_tag(:content_partners_query, params[:content_partners_query], placeholder: t(:search_placeholder),
+             class: "modal-body searchBox", required: "true")
+            %button.searchButton
+              %i.fa.fa-search{"aria-hidden": "true", remote: true}
