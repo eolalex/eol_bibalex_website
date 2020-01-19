@@ -181,9 +181,11 @@ class ResourceApi
     begin
       request = RestClient::Request.new(
         method: :get,
-        url: "#{MYSQL_ADDRESS}/#{ENV['get_resource_info']}/#{resource_id}"
+        url: "#{MYSQL_ADDRESS}#{ENV['get_resource_info']}/#{resource_id}"
       )
+      debugger
       response = JSON.parse(request.execute)
+      # debugger
     rescue => e
       nil
     end

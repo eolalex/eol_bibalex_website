@@ -1,27 +1,28 @@
 .container
+  .row
+    .col-lg-9
+      .row
+        .col-lg-12
+          %h2.mainTitle
+            %strong
+              #{t(:resources)}
+    = render "header"
   %table.customTable
     %thead
       %tr
         %th{ scope: "col"} #{t(:res_name)}
-        %th{ scope: "col"} #{t(:cp_name)}
-        %th{ scope: "col"} #{t(:harvest_status)}
-        %th{ scope: "col"} #{t(:further_info)}
+        %th{ scope: "col"} #{t(:approval_status)}
 
     %tbody
       - @rows.each do |row|
-        - content_partner_id = row["contentPartnerID"].to_i
-        - resource_id = row["resourceID"].to_i
+        - content_partner_id = row.content_partner_id.to_i
+        - resource_id = row.id.to_i
         %tr
           %td
-            %a{ href: "/resources/#{resource_id}/info","data-placement": "bottom"}
-              = row["resourceName"]
+            %a{href: "/resources/#{resource_id}/info","data-placement": "bottom"}
+              = row.name
           %td
-            %a{href: content_partner_path(content_partner_id), "data-placement": "bottom"}
-              = row["contentPartnerName"]
-          %td
-            = row["lastHarvestStatus"]
-          %td
-            - if row["approved"] == "true"
+            - if row.is_approved == "true"
               %a{href: toggle_resource_approval_path(resource_id)}
                 %span.btn.btn-trusted.btn-xs
                   = t(:approved)

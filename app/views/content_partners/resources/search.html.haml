@@ -1,0 +1,16 @@
+.container
+  .row
+    .col-lg-9
+      .row
+        .col-lg-12
+          %h2.mainTitle
+            %strong
+              #{t(:search_results)}
+    = render "header"
+    - @resources.each do |resource|
+      %article.search-result.row
+        .col-xs-8.col-sm-8.col-md-10
+          %h3.marginTop0
+            %a{href: "/resources/#{resource.id}/info"}
+              = resource.name
+    = will_paginate @resources, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer

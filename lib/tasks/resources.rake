@@ -8,6 +8,7 @@ def get_full_resources_data(offset, limit)
       url: "#{$base_scheduler_uri}/#{$resources_mapping}/#{$get_all_resources_uri}/#{offset}/#{limit}"
     )
     response = JSON.parse(request.execute)
+    # debugger
   rescue => e
     nil
   end
@@ -25,8 +26,15 @@ def get_resources
     resources = get_full_resources_data(offset, limit)
     unless resources.nil?
       resources.each do |res|
-        resource = {"name": res["resourceName"].downcase, "id": res["resourceID"], "content_partner_id": res["contentPartnerID"]}
+        resource = {
+          "id": res["resourceID"],
+          "name": res["resourceName"].downcase,
+          "content_partner_id": res["contentPartnerID"],
+          # "content_partner_name": res["contentPartnerName"],
+          # "last_harvest_status": res["lastHarvestStatus"],
+          "is_approved": res["approved"]}
         $resource_repository.save(resource)
+        # debugger
       end
     end
     offset += limit

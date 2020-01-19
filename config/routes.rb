@@ -90,10 +90,11 @@ Rails.application.routes.draw do
     match 'api/:action/:version/:id' => 'api', :constraints => {version:  /\d\.\d/}, via: [:get, :post]
 
     #harvesterUI
-    get '/resources/index', :to => 'content_partners/resources#index'
+    get '/resources', :to => 'content_partners/resources#index'
     get '/resources/:id/info', :to => 'content_partners/resources#info'
     get '/resources/:id/toggle_approval', :to => 'content_partners/resources#toggle_approval', as: :toggle_resource_approval
-    get '/harvestings/index', :to => 'harvestings#index', as: :harvests_index
+    get '/resources/search', :to => 'content_partners/resources#search', as: :resources_search
+    get '/harvestings', :to => 'harvestings#index', as: :harvests_index
     get '/harvestings/pending', :to => 'harvestings#pending', as: :pending_harvests
     get '/harvestings/change_position', :to => 'harvestings#change_position'
     get '/harvestings/swap', :to => 'harvestings#swap'

@@ -3,7 +3,7 @@ require 'date'
 class ContentPartners::ResourcesController < ContentPartnersController
   
   before_action :authenticate_user!
-  before_action :validate_admin, only: [:index, :info]
+  before_action :validate_admin, only: [:index, :info, :search]
 
   def new
     content_partner_user = User.find(ContentPartnerUser.find_by_content_partner_id(params[:content_partner_id]).user_id)
@@ -34,6 +34,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
         result = ResourceApi.add_resource?(resource_params, params[:content_partner_id])
         if !result.nil?
           $updated_at = DateTime.now().strftime("%Q")
+          # debugger
           add_resource_to_repository(resource_params[:name], result.to_i, params[:content_partner_id])
           flash[:notice] = I18n.t(:successfuly_created_resource)
           redirect_to controller: 'resources', action: 'show', id: result
@@ -62,7 +63,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
       default_language_id: result["defaultLanguageId"],is_harvest_inprogress: result["isHarvestInprogress"])
       # @resource = Resource.new(result)
     else
-      update_resource_in_repository(resource_params[:name], result.to_i, params[:content_partner_id])
+      update_resource_in_repository(resource_params[:name], result.to_i, params[:content_partner_id], resource_params[:is_approved])
       flash[:notice]=I18n.t(:edit_resource)
       redirect_to content_partner_resource_path(content_partner_id: params[:content_partner_id],id: params[:id])
     end
@@ -123,19 +124,8 @@ class ContentPartners::ResourcesController < ContentPartnersController
   end
 
   def index
-    limit = (ENV['SCHEDULER_LIMIT']).to_i
-    offset = 0
-    resources = ResourceApi.get_all_resources_with_full_data(offset, limit)
-    if resources.present?
-      @rows = Array.new
-      loop do
-        @rows += resources
-        offset += limit
-        resources = ResourceApi.get_all_resources_with_full_data(offset, limit)
-      break unless resources.present?
-      end
-      @rows = @rows.paginate(page: params[:page], per_page: ENV['PER_PAGE_RESOURCES'])
-    end
+    resources = $resource_repository.search(query: {match_all: {}}, size: ENV["ES_RESULT_SIZE"]).results.sort_by{|res| res.id.to_i}
+    @rows = resources.paginate(page: params[:page], per_page: ENV['PER_PAGE_RESOURCES'])
   end
 
   def info
@@ -144,6 +134,7 @@ class ContentPartners::ResourcesController < ContentPartnersController
     show_last_harvest_log(@resource_id)
     show_harvest_history(@resource_id)
   end
+    # debugger
 
   def show_statistics(resource_id)
     @statistics = ResourceApi.get_resource_statistics(resource_id)
@@ -177,9 +168,21 @@ class ContentPartners::ResourcesController < ContentPartnersController
   end
 
   def toggle_approval
+    update_resource_in_repository(params[:id])
     ResourceApi.toggle_approval(params[:id])
-    flash[:notice] = "#t(:resource_approval_status_changed)"
-    redirect_to resources_index_path
+    flash[:notice] = "#{t(:resource_approval_status_changed)}"
+    redirect_to resources_path
+  end
+
+  def search
+    resources = $resource_repository.search( query: { match_phrase_prefix: { name: params[:resources_query]}}).results
+    if resources.present?
+      resources_sorted = resources.sort_by{|cp| cp.name}
+      @resources = resources_sorted.paginate(page: params[:page], per_page: ENV['per_page'])
+    else
+      flash[:notice] = "#{t(:no_results)} #{params[:resources_query]}"
+      redirect_back fallback_location: root_path
+    end
   end
 
   def validate_admin
@@ -190,14 +193,23 @@ class ContentPartners::ResourcesController < ContentPartnersController
   end
 
   def add_resource_to_repository(name, id, content_partner_id)
-    @resource_result = {"name": name.downcase, "id": id, "content_partner_id": content_partner_id}
+    @resource_result = {"name": name.downcase, "id": id, "content_partner_id": content_partner_id, "is_approved": "false"}
     $resource_repository.save(@resource_result)
   end
-  
-  def update_resource_in_repository(name, id, content_partner_id)
-    @update_result = {"name": name.downcase, "id": id, "content_partner_id": content_partner_id}
+
+  def update_resource_in_repository(name, id, content_partner_id, approval)
+    @update_result = {"name": name.downcase, "id": id, "content_partner_id": content_partner_id, "is_approved": approval}
     $resource_repository.update(@update_result)
+    $resource_repository.refresh_index!
+  end
+
+  def update_resource_in_repository(id)
+    updated_resource = $resource_repository.find(id)
+    current_approval = updated_resource.is_approved
+    toggled_approval = current_approval == "true" ? "false" : "true"
+    @update_result = {"id": id, "is_approved": toggled_approval}
+    $resource_repository.update(@update_result)
+    $resource_repository.refresh_index!
   end
 
 end
-
