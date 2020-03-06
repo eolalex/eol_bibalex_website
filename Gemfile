@@ -58,7 +58,7 @@ gem 'rest-client'
 gem "hash_to_hidden_fields"
 
 gem 'devise', '~> 4.1'
-gem 'bootstrap-sass', '~> 3.3.7' 
+gem 'bootstrap-sass', '~> 3.4.1' 
 gem 'tlsmail' 
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
 gem "recaptcha", require: "recaptcha/rails"
