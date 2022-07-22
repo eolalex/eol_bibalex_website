@@ -63,6 +63,8 @@ GEM
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
+    bootstrap-will_paginate (1.0.0)
+      will_paginate
     buftok (0.2.0)
     builder (3.2.3)
     bulk_insert (1.7.0)
@@ -639,7 +641,7 @@ GEM
       actionpack (>= 3.1)
       jquery-rails
       railties (>= 3.1)
-    tzinfo (1.2.5)
+    tzinfo (1.2.10)
       thread_safe (~> 0.1)
     uber (0.1.0)
     uglifier (4.1.20)
@@ -673,6 +675,7 @@ DEPENDENCIES
   active_record_bulk_insert
   acts_as_list
   bootstrap-sass (~> 3.3.7)
+  bootstrap-will_paginate
   bulk_insert
   byebug
   capybara (~> 2.13)
